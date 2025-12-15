@@ -1,1 +1,95 @@
-
+{
+  "id": "morning-mobility",
+  "name": "Morning Mobility",
+  "description": "10-minute routine to wake up joints and prepare body for the day. Perfect for stiff mornings.",
+  "category": "mobility",
+  "duration": 10,
+  "energyRequired": [1, 5],
+  "equipment": ["yoga_mat"],
+  "goals": ["mobility", "morning_routine", "joint_health", "flexibility", "desk_worker"],
+  "contraindications": [],
+  
+  "coach": {
+    "intro": "Your joints have been still all night. Let's oil them up with some gentle movement. Nothing forced, just inviting mobility back into your body.",
+    "motivation": "10 minutes now saves hours of stiffness later. Your body will thank you.",
+    "completion": "Feel the difference? Your joints are now ready for whatever the day brings."
+  },
+  
+  "structure": [
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/neck-rolls",
+      "duration": 45,
+      "notes": "Slow and gentle. Pause where you feel tightness."
+    },
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/shoulder-circles",
+      "duration": 45,
+      "notes": "Big circles, both directions"
+    },
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/wrist-circles",
+      "duration": 30,
+      "notes": "Especially important if you type"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/cat-cow",
+      "duration": 60,
+      "notes": "Wake up the whole spine"
+    },
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/thoracic-rotation",
+      "duration": 60,
+      "notes": "Open up that upper back"
+    },
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/hip-circles",
+      "duration": 60,
+      "notes": "Big circles, both directions, both legs"
+    },
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/hip-flexor-stretch",
+      "duration": 60,
+      "notes": "30 seconds each side. Counteracts sitting."
+    },
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/90-90-stretch",
+      "duration": 90,
+      "notes": "45 seconds each side. Deep hip work."
+    },
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/ankle-circles",
+      "duration": 30,
+      "notes": "Both directions, both ankles"
+    },
+    {
+      "type": "exercise",
+      "ref": "mobility-drills/calf-stretch",
+      "duration": 45,
+      "notes": "20 seconds each leg"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/standing-forward-fold",
+      "duration": 45,
+      "notes": "Let everything release"
+    },
+    {
+      "type": "instruction",
+      "text": "Slowly roll up to standing. Roll shoulders back. You're ready.",
+      "duration": 15
+    }
+  ],
+  
+  "totalExercises": 11,
+  "estimatedCalories": 35,
+  "credits": 60
+}
