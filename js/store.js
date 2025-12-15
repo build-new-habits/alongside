@@ -1,250 +1,321 @@
 /**
- * Alongside State Management Store
- * Handles all user data persistence via localStorage
+ * Alongside - State Management Store
+ * LocalStorage-backed reactive state
  */
 
 const STORAGE_KEY = 'alongside_data';
 
 // Default state structure
-const DEFAULT_STATE = {
-  onboarding: {
-    complete: false,
-    currentStep: 'welcome',
-    startedAt: null,
-    completedAt: null
-  },
-  
+const defaultState = {
+  // User profile
   profile: {
     name: '',
-    preferredName: '',
-    primaryGoal: null,
-    secondaryGoals: [],
-    motivation: '',
     conditions: [],
     equipment: [],
-    cycleTracking: false,
-    cycleLength: 28,
-    lastPeriodStart: null,
-    createdAt: null,
-    updatedAt: null
+    goals: [],
+    onboardingComplete: false
   },
   
-  checkIns: [],
-  workouts: [],
-  
-  session: {
-    todayCheckIn: null,
-    selectedOption: null,
-    currentWorkout: null
+  // Today's check-in
+  checkin: {
+    date: null,
+    energy: 5,
+    mood: 5,
+    completed: false
   },
   
-  settings: {
-    theme: 'dark',
-    reducedMotion: false,
-    notifications: false,
-    units: 'metric'
+  // Today's workout
+  workout: {
+    date: null,
+    exercises: [],
+    completedExercises: []
   },
   
-  access: {
-    tier: 'free',
-    foundingCode: null,
-    expiresAt: null
+  // Credits system
+  credits: {
+    balance: 0,
+    history: []
+  },
+  
+  // Stats
+  stats: {
+    totalWorkouts: 0,
+    totalCredits: 0,
+    currentStreak: 0,
+    longestStreak: 0
   }
 };
 
-function loadState() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      return deepMerge(DEFAULT_STATE, parsed);
+// In-memory state
+let state = {};
+
+// Subscribers for reactive updates
+const subscribers = new Set();
+
+/**
+ * Initialize the store
+ */
+function init() {
+  // Load from localStorage
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      state = deepMerge(defaultState, parsed);
+    } catch (e) {
+      console.warn('Failed to parse saved state, using defaults');
+      state = { ...defaultState };
     }
-  } catch (e) {
-    console.error('Failed to load state:', e);
+  } else {
+    state = { ...defaultState };
   }
-  return { ...DEFAULT_STATE };
+  
+  // Check if we need to reset daily data
+  checkDailyReset();
+  
+  console.log('Store initialized:', state);
+  return state;
 }
 
-function saveState(state) {
+/**
+ * Check if daily data needs to be reset
+ */
+function checkDailyReset() {
+  const today = new Date().toDateString();
+  
+  // Reset check-in if it's a new day
+  if (state.checkin.date !== today) {
+    state.checkin = {
+      ...defaultState.checkin,
+      date: null
+    };
+  }
+  
+  // Reset workout completed exercises if it's a new day
+  if (state.workout.date !== today) {
+    state.workout = {
+      date: null,
+      exercises: [],
+      completedExercises: []
+    };
+  }
+  
+  persist();
+}
+
+/**
+ * Get a value from the store
+ */
+function get(path) {
+  if (!path) return state;
+  
+  const keys = path.split('.');
+  let value = state;
+  
+  for (const key of keys) {
+    if (value === undefined || value === null) return undefined;
+    value = value[key];
+  }
+  
+  return value;
+}
+
+/**
+ * Set a value in the store
+ */
+function set(path, value) {
+  const keys = path.split('.');
+  const lastKey = keys.pop();
+  let target = state;
+  
+  for (const key of keys) {
+    if (target[key] === undefined) {
+      target[key] = {};
+    }
+    target = target[key];
+  }
+  
+  target[lastKey] = value;
+  persist();
+  notify();
+  
+  return value;
+}
+
+/**
+ * Update multiple values at once
+ */
+function update(updates) {
+  for (const [path, value] of Object.entries(updates)) {
+    const keys = path.split('.');
+    const lastKey = keys.pop();
+    let target = state;
+    
+    for (const key of keys) {
+      if (target[key] === undefined) {
+        target[key] = {};
+      }
+      target = target[key];
+    }
+    
+    target[lastKey] = value;
+  }
+  
+  persist();
+  notify();
+}
+
+/**
+ * Save state to localStorage
+ */
+function persist() {
   try {
-    const toSave = { ...state };
-    toSave.session = DEFAULT_STATE.session;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
-    return true;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch (e) {
-    console.error('Failed to save state:', e);
-    return false;
+    console.warn('Failed to persist state:', e);
   }
 }
 
+/**
+ * Notify all subscribers of state change
+ */
+function notify() {
+  subscribers.forEach(fn => fn(state));
+}
+
+/**
+ * Subscribe to state changes
+ */
+function subscribe(fn) {
+  subscribers.add(fn);
+  return () => subscribers.delete(fn);
+}
+
+/**
+ * Reset state to defaults
+ */
+function reset() {
+  state = { ...defaultState };
+  persist();
+  notify();
+}
+
+/**
+ * Deep merge two objects
+ */
 function deepMerge(target, source) {
   const result = { ...target };
-  for (const key in source) {
-    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-      result[key] = deepMerge(target[key] || {}, source[key]);
+  
+  for (const key of Object.keys(source)) {
+    if (source[key] instanceof Object && key in target) {
+      result[key] = deepMerge(target[key], source[key]);
     } else {
       result[key] = source[key];
     }
   }
+  
   return result;
 }
 
-let state = loadState();
-const listeners = new Set();
-
-function subscribe(callback) {
-  listeners.add(callback);
-  return () => listeners.delete(callback);
+/**
+ * Check if user has completed today's check-in
+ */
+function hasCheckedInToday() {
+  const today = new Date().toDateString();
+  return state.checkin.date === today && state.checkin.completed;
 }
 
-function notifyListeners(path, value) {
-  listeners.forEach(callback => callback(path, value, state));
+/**
+ * Save today's check-in
+ */
+function saveCheckin(energy, mood) {
+  const today = new Date().toDateString();
+  
+  state.checkin = {
+    date: today,
+    energy,
+    mood,
+    completed: true
+  };
+  
+  persist();
+  notify();
 }
 
-export const store = {
-  get(path) {
-    if (!path) return state;
-    
-    const parts = path.split('.');
-    let value = state;
-    
-    for (const part of parts) {
-      if (value === undefined || value === null) return undefined;
-      value = value[part];
-    }
-    
-    return value;
-  },
+/**
+ * Add credits to balance
+ */
+function addCredits(amount, reason = 'exercise') {
+  state.credits.balance += amount;
+  state.credits.history.push({
+    amount,
+    reason,
+    date: new Date().toISOString()
+  });
   
-  set(path, value) {
-    const parts = path.split('.');
-    let current = state;
-    
-    for (let i = 0; i < parts.length - 1; i++) {
-      if (!current[parts[i]]) {
-        current[parts[i]] = {};
-      }
-      current = current[parts[i]];
-    }
-    
-    current[parts[parts.length - 1]] = value;
-    saveState(state);
-    notifyListeners(path, value);
-    
-    return value;
-  },
+  state.stats.totalCredits += amount;
   
-  update(updates) {
-    for (const [path, value] of Object.entries(updates)) {
-      this.set(path, value);
-    }
-  },
+  persist();
+  notify();
   
-  push(path, item) {
-    const arr = this.get(path) || [];
-    arr.push(item);
-    this.set(path, arr);
-    return arr;
-  },
+  return state.credits.balance;
+}
+
+/**
+ * Mark an exercise as completed
+ */
+function completeExercise(exerciseId, credits) {
+  const today = new Date().toDateString();
   
-  remove(path, indexOrPredicate) {
-    const arr = this.get(path) || [];
-    let newArr;
-    
-    if (typeof indexOrPredicate === 'function') {
-      newArr = arr.filter((item, i) => !indexOrPredicate(item, i));
-    } else {
-      newArr = arr.filter((_, i) => i !== indexOrPredicate);
-    }
-    
-    this.set(path, newArr);
-    return newArr;
-  },
-  
-  subscribe,
-  
-  reset() {
-    state = { ...DEFAULT_STATE };
-    saveState(state);
-    notifyListeners('*', null);
-  },
-  
-  export() {
-    return JSON.stringify(state, null, 2);
-  },
-  
-  import(json) {
-    try {
-      const imported = JSON.parse(json);
-      state = deepMerge(DEFAULT_STATE, imported);
-      saveState(state);
-      notifyListeners('*', null);
-      return true;
-    } catch (e) {
-      console.error('Failed to import state:', e);
-      return false;
-    }
-  },
-  
-  isOnboarded() {
-    return this.get('onboarding.complete') === true;
-  },
-  
-  getUserName() {
-    return this.get('profile.preferredName') || this.get('profile.name') || 'there';
-  },
-  
-  getTodayCheckIn() {
-    const today = new Date().toISOString().split('T')[0];
-    const checkIns = this.get('checkIns') || [];
-    return checkIns.find(c => c.date === today);
-  },
-  
-  saveCheckIn(data) {
-    const today = new Date().toISOString().split('T')[0];
-    const checkIns = this.get('checkIns') || [];
-    
-    const filtered = checkIns.filter(c => c.date !== today);
-    
-    const checkIn = {
-      ...data,
+  // Ensure we have today's workout data
+  if (state.workout.date !== today) {
+    state.workout = {
       date: today,
-      timestamp: new Date().toISOString()
+      exercises: state.workout.exercises || [],
+      completedExercises: []
     };
-    
-    filtered.push(checkIn);
-    
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 90);
-    const recent = filtered.filter(c => new Date(c.date) >= cutoff);
-    
-    this.set('checkIns', recent);
-    this.set('session.todayCheckIn', checkIn);
-    
-    return checkIn;
-  },
-  
-  getRecentCheckIns(days = 7) {
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - days);
-    const checkIns = this.get('checkIns') || [];
-    return checkIns.filter(c => new Date(c.date) >= cutoff);
-  },
-  
-  getActiveConditions() {
-    const conditions = this.get('profile.conditions') || [];
-    const todayCheckIn = this.getTodayCheckIn();
-    
-    return conditions.map(condition => ({
-      ...condition,
-      todaySeverity: todayCheckIn?.conditions?.[condition.id] ?? condition.defaultSeverity ?? 5
-    }));
-  },
-  
-  isPremium() {
-    const tier = this.get('access.tier');
-    return tier === 'premium' || tier === 'founding';
   }
+  
+  // Check if already completed today
+  if (state.workout.completedExercises.includes(exerciseId)) {
+    console.log('Exercise already completed today');
+    return false;
+  }
+  
+  // Add to completed
+  state.workout.completedExercises.push(exerciseId);
+  
+  // Add credits
+  addCredits(credits, `Completed: ${exerciseId}`);
+  
+  persist();
+  notify();
+  
+  return true;
+}
+
+/**
+ * Check if an exercise is completed today
+ */
+function isExerciseCompletedToday(exerciseId) {
+  const today = new Date().toDateString();
+  return state.workout.date === today && 
+         state.workout.completedExercises.includes(exerciseId);
+}
+
+// Export store interface
+export const store = {
+  init,
+  get,
+  set,
+  update,
+  subscribe,
+  reset,
+  hasCheckedInToday,
+  saveCheckin,
+  addCredits,
+  completeExercise,
+  isExerciseCompletedToday
 };
 
 export default store;
