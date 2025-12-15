@@ -1,1 +1,102 @@
-
+{
+  "id": "quick-home-7min",
+  "name": "7-Minute Home Blast",
+  "description": "High-intensity circuit proven to boost fitness in minimal time. No equipment needed.",
+  "category": "workouts",
+  "duration": 7,
+  "energyRequired": [6, 10],
+  "equipment": [],
+  "goals": ["general_fitness", "weight_loss", "time_poor", "cardio"],
+  "contraindications": ["heart_condition", "back_severe", "knee_severe"],
+  "warmUpIncluded": false,
+  "coolDownIncluded": false,
+  
+  "coach": {
+    "intro": "This is a classic 7-minute workout based on scientific research. Each exercise is 30 seconds with 10 seconds rest. It's meant to be challenging — push yourself, but listen to your body.",
+    "motivation": "7 minutes. That's all. You've got this.",
+    "completion": "That's 7 minutes well spent. Your metabolism will be elevated for hours."
+  },
+  
+  "structure": [
+    {
+      "type": "exercise",
+      "ref": "bodyweight/jumping-jacks",
+      "duration": 30,
+      "notes": "Start strong, set the pace"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/wall-sit",
+      "duration": 30,
+      "notes": "Thighs parallel to floor if possible"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/push-up",
+      "duration": 30,
+      "notes": "Modify on knees if needed"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/bodyweight-squat",
+      "duration": 30,
+      "notes": "Depth over speed"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/tricep-dip",
+      "duration": 30,
+      "notes": "Use a sturdy chair or step"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/plank",
+      "duration": 30,
+      "notes": "Hold strong, breathe"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/high-knees",
+      "duration": 30,
+      "notes": "Drive those knees up"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/reverse-lunge",
+      "duration": 30,
+      "notes": "Alternate legs"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/push-up",
+      "duration": 30,
+      "notes": "With rotation — reach one arm to ceiling"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/side-plank",
+      "duration": 30,
+      "notes": "15 seconds each side"
+    },
+    { "type": "rest", "duration": 10 },
+    {
+      "type": "exercise",
+      "ref": "bodyweight/mountain-climbers",
+      "duration": 30,
+      "notes": "Fast feet, stable core"
+    }
+  ],
+  
+  "totalExercises": 11,
+  "estimatedCalories": 70,
+  "credits": 100
+}
