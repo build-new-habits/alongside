@@ -1,1 +1,128 @@
-
+{
+  "id": "breathing",
+  "name": "Breathing Exercises",
+  "description": "Breathwork for calm, focus, and recovery",
+  
+  "exercises": [
+    {
+      "id": "box-breathing",
+      "name": "Box Breathing",
+      "description": "4-4-4-4 breathing pattern for calm and focus",
+      "instructions": "Breathe in for 4 counts. Hold for 4 counts. Breathe out for 4 counts. Hold empty for 4 counts. Repeat. Focus entirely on the count.",
+      "duration": { "default": 180, "unit": "seconds", "range": [60, 600] },
+      "reps": { "default": 10, "range": [4, 20], "note": "cycles" },
+      "caloriesPerMinute": 1,
+      "muscleGroups": ["nervous_system", "diaphragm"],
+      "movementPattern": "recovery",
+      "equipment": [],
+      "energyRequired": [1, 3],
+      "contraindications": [],
+      "benefits": ["Reduces anxiety", "Improves focus", "Activates parasympathetic nervous system"],
+      "modifications": {
+        "easier": "3-3-3-3 count if 4 feels too long",
+        "harder": "5-5-5-5 or 6-6-6-6 count"
+      },
+      "videoSearch": "box breathing technique navy seal"
+    },
+    {
+      "id": "4-7-8-breathing",
+      "name": "4-7-8 Breathing",
+      "description": "Relaxation breath for sleep and anxiety",
+      "instructions": "Breathe in through nose for 4 counts. Hold for 7 counts. Exhale slowly through mouth for 8 counts, making a whoosh sound. Repeat cycle.",
+      "duration": { "default": 180, "unit": "seconds", "range": [60, 600] },
+      "reps": { "default": 4, "range": [3, 8], "note": "cycles" },
+      "caloriesPerMinute": 1,
+      "muscleGroups": ["nervous_system", "diaphragm"],
+      "movementPattern": "recovery",
+      "equipment": [],
+      "energyRequired": [1, 2],
+      "contraindications": [],
+      "benefits": ["Promotes sleep", "Reduces anxiety", "Natural tranquiliser for nervous system"],
+      "modifications": {
+        "easier": "Reduce counts proportionally: 2-3.5-4",
+        "harder": "Hold positions longer between breaths"
+      },
+      "videoSearch": "4-7-8 breathing technique andrew weil"
+    },
+    {
+      "id": "diaphragmatic-breathing",
+      "name": "Diaphragmatic Breathing",
+      "description": "Belly breathing for relaxation and core connection",
+      "instructions": "Place one hand on chest, one on belly. Breathe in through nose, expanding belly (not chest). Exhale slowly, feeling belly fall. Chest stays relatively still.",
+      "duration": { "default": 180, "unit": "seconds", "range": [60, 600] },
+      "caloriesPerMinute": 1,
+      "muscleGroups": ["diaphragm", "core", "nervous_system"],
+      "movementPattern": "recovery",
+      "equipment": [],
+      "energyRequired": [1, 2],
+      "contraindications": [],
+      "benefits": ["Reduces stress", "Improves core engagement", "Lowers blood pressure"],
+      "modifications": {
+        "easier": "Practice lying down first",
+        "harder": "Practice while standing or during gentle movement"
+      },
+      "videoSearch": "diaphragmatic belly breathing technique"
+    },
+    {
+      "id": "physiological-sigh",
+      "name": "Physiological Sigh",
+      "description": "Fastest way to calm down in real-time",
+      "instructions": "Take a deep breath in through nose. At the top, take a second short sip of air to fully expand lungs. Then exhale slowly and fully through mouth. Repeat 2-3 times.",
+      "duration": { "default": 60, "unit": "seconds" },
+      "reps": { "default": 3, "range": [2, 5], "note": "sighs" },
+      "caloriesPerMinute": 1,
+      "muscleGroups": ["nervous_system", "diaphragm"],
+      "movementPattern": "recovery",
+      "equipment": [],
+      "energyRequired": [1, 3],
+      "contraindications": [],
+      "benefits": ["Immediate stress relief", "Resets nervous system quickly", "Can use anywhere"],
+      "modifications": {
+        "easier": "Just one sigh when stressed",
+        "harder": "Extend the exhale even longer"
+      },
+      "videoSearch": "physiological sigh andrew huberman"
+    },
+    {
+      "id": "alternate-nostril",
+      "name": "Alternate Nostril Breathing",
+      "sanskrit": "Nadi Shodhana",
+      "description": "Balancing breath for calm and mental clarity",
+      "instructions": "Close right nostril with thumb, inhale through left. Close left nostril with ring finger, exhale through right. Inhale through right, close, exhale through left. That's one cycle.",
+      "duration": { "default": 300, "unit": "seconds", "range": [120, 600] },
+      "reps": { "default": 10, "range": [5, 20], "note": "cycles" },
+      "caloriesPerMinute": 1,
+      "muscleGroups": ["nervous_system"],
+      "movementPattern": "recovery",
+      "equipment": [],
+      "energyRequired": [1, 3],
+      "contraindications": ["nasal_congestion"],
+      "benefits": ["Balances left and right brain", "Calms mind", "Improves focus"],
+      "modifications": {
+        "easier": "Slower pace, shorter duration",
+        "harder": "Add breath retention between sides"
+      },
+      "videoSearch": "alternate nostril breathing nadi shodhana yoga"
+    },
+    {
+      "id": "energising-breath",
+      "name": "Energising Breath",
+      "description": "Quick breaths to boost energy and alertness",
+      "instructions": "Take 20-30 quick, sharp breaths through the nose, pumping the belly. Then take a deep breath in, hold for 10-15 seconds, exhale slowly. Repeat 2-3 rounds.",
+      "duration": { "default": 180, "unit": "seconds" },
+      "reps": { "default": 3, "range": [2, 4], "note": "rounds" },
+      "caloriesPerMinute": 2,
+      "muscleGroups": ["nervous_system", "core"],
+      "movementPattern": "recovery",
+      "equipment": [],
+      "energyRequired": [2, 5],
+      "contraindications": ["pregnancy", "epilepsy", "heart_condition", "blood_pressure_high"],
+      "benefits": ["Increases alertness", "Boosts energy", "Clears mind fog"],
+      "modifications": {
+        "easier": "Fewer breaths per round (15), shorter holds",
+        "harder": "More breaths per round, longer holds"
+      },
+      "videoSearch": "wim hof breathing technique beginner"
+    }
+  ]
+}
