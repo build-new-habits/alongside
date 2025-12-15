@@ -1,1 +1,78 @@
-
+{
+  "id": "gentle-stretch",
+  "name": "Gentle Stretch",
+  "description": "Restorative stretching for low energy days. No effort required, just release.",
+  "category": "recovery",
+  "duration": 12,
+  "energyRequired": [1, 3],
+  "equipment": ["yoga_mat"],
+  "goals": ["recovery", "flexibility", "stress_relief", "rest_day", "low_energy"],
+  "contraindications": [],
+  
+  "coach": {
+    "intro": "This is gentle. Really gentle. You're not trying to achieve anything — just letting your body release. Breathe slowly and deeply throughout.",
+    "motivation": "Rest is productive. Your body rebuilds and repairs during recovery. This isn't lazy — it's smart.",
+    "completion": "You've given your body exactly what it needed. Sometimes the best training is no training."
+  },
+  
+  "structure": [
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/childs-pose",
+      "duration": 90,
+      "notes": "Start here. Let everything go. Breathe into your back."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/cat-cow",
+      "duration": 60,
+      "notes": "Very slow. Move like honey. No rushing."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/downward-dog",
+      "duration": 45,
+      "notes": "Gentle version. Knees can bend. Just hang."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/pigeon-pose",
+      "duration": 90,
+      "notes": "Right side. Use props. Don't force depth."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/pigeon-pose",
+      "duration": 90,
+      "notes": "Left side. Breathe into any tightness."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/seated-forward-fold",
+      "duration": 60,
+      "notes": "Bend knees as much as you need. Just fold."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/bridge-pose",
+      "duration": 45,
+      "notes": "Supported version — can place block under sacrum"
+    },
+    {
+      "type": "exercise",
+      "ref": "breathing/diaphragmatic-breathing",
+      "duration": 60,
+      "notes": "Lying on back. Hand on belly. Slow breath."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/corpse-pose",
+      "duration": 180,
+      "notes": "Final rest. Let your body be heavy. Let your mind be quiet."
+    }
+  ],
+  
+  "totalExercises": 9,
+  "estimatedCalories": 25,
+  "credits": 40
+}
