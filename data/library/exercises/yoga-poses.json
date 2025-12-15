@@ -1,1 +1,237 @@
-
+{
+  "id": "yoga-poses",
+  "name": "Yoga Poses",
+  "description": "Foundational yoga postures",
+  
+  "exercises": [
+    {
+      "id": "childs-pose",
+      "name": "Child's Pose",
+      "sanskrit": "Balasana",
+      "description": "Resting pose for recovery and gentle back stretch",
+      "instructions": "Kneel on floor, sit back on heels. Fold forward, extending arms in front or resting by sides. Forehead towards floor. Breathe deeply into back body.",
+      "duration": { "default": 60, "unit": "seconds", "range": [30, 180] },
+      "caloriesPerMinute": 2,
+      "muscleGroups": ["back", "hips", "shoulders"],
+      "movementPattern": "recovery",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [1, 5],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "Place pillow under forehead or between heels and hips",
+        "harder": "Extend arms further, walk fingers forward"
+      },
+      "videoSearch": "childs pose yoga proper form"
+    },
+    {
+      "id": "downward-dog",
+      "name": "Downward Facing Dog",
+      "sanskrit": "Adho Mukha Svanasana",
+      "description": "Full body stretch, builds strength and flexibility",
+      "instructions": "Start on hands and knees. Lift hips up and back, forming inverted V. Hands shoulder-width, feet hip-width. Press heels towards floor, relax head between arms.",
+      "duration": { "default": 45, "unit": "seconds", "range": [20, 90] },
+      "caloriesPerMinute": 4,
+      "muscleGroups": ["hamstrings", "calves", "shoulders", "back"],
+      "movementPattern": "mobility",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [2, 7],
+      "contraindications": ["wrist_high", "shoulder_high"],
+      "modifications": {
+        "easier": "Bend knees, or use blocks under hands",
+        "harder": "Lift one leg to three-legged dog"
+      },
+      "videoSearch": "downward dog yoga proper form"
+    },
+    {
+      "id": "cat-cow",
+      "name": "Cat-Cow Stretch",
+      "sanskrit": "Marjaryasana-Bitilasana",
+      "description": "Spinal mobility and warm-up",
+      "instructions": "Start on hands and knees. Inhale: drop belly, lift chest and tailbone (cow). Exhale: round spine, tuck chin and tailbone (cat). Flow smoothly between positions.",
+      "duration": { "default": 60, "unit": "seconds" },
+      "reps": { "default": 10, "range": [6, 15], "note": "cycles" },
+      "caloriesPerMinute": 3,
+      "muscleGroups": ["spine", "core", "back"],
+      "movementPattern": "mobility",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [1, 5],
+      "contraindications": ["wrist_severe", "knee_severe"],
+      "modifications": {
+        "easier": "Make movements smaller, place padding under knees",
+        "harder": "Add holds at each position"
+      },
+      "videoSearch": "cat cow stretch yoga"
+    },
+    {
+      "id": "warrior-1",
+      "name": "Warrior I",
+      "sanskrit": "Virabhadrasana I",
+      "description": "Standing strength pose for legs and hip flexors",
+      "instructions": "Step one foot back, turning it out 45 degrees. Front knee bends over ankle. Square hips forward. Raise arms overhead, palms facing. Hold, then switch sides.",
+      "duration": { "default": 30, "unit": "seconds", "note": "per side" },
+      "caloriesPerMinute": 5,
+      "muscleGroups": ["quads", "hip_flexors", "shoulders", "core"],
+      "movementPattern": "stability",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [3, 8],
+      "contraindications": ["knee_high", "hip_high", "shoulder_high"],
+      "modifications": {
+        "easier": "Shorten stance, hands on hips",
+        "harder": "Deepen the lunge, look up at hands"
+      },
+      "videoSearch": "warrior 1 pose yoga proper form"
+    },
+    {
+      "id": "warrior-2",
+      "name": "Warrior II",
+      "sanskrit": "Virabhadrasana II",
+      "description": "Standing pose for leg strength and hip opening",
+      "instructions": "Stand with feet wide. Turn one foot out 90 degrees, other foot slightly in. Bend front knee over ankle. Extend arms parallel to floor, gaze over front hand.",
+      "duration": { "default": 30, "unit": "seconds", "note": "per side" },
+      "caloriesPerMinute": 5,
+      "muscleGroups": ["quads", "glutes", "hips", "shoulders"],
+      "movementPattern": "stability",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [3, 8],
+      "contraindications": ["knee_high", "hip_high"],
+      "modifications": {
+        "easier": "Shorten stance, don't bend knee as deep",
+        "harder": "Sink lower, hold longer"
+      },
+      "videoSearch": "warrior 2 pose yoga proper form"
+    },
+    {
+      "id": "tree-pose",
+      "name": "Tree Pose",
+      "sanskrit": "Vrksasana",
+      "description": "Balance and focus",
+      "instructions": "Stand on one leg. Place other foot on inner calf or thigh (not knee). Bring hands to heart centre or extend overhead. Find a focal point. Hold, then switch.",
+      "duration": { "default": 30, "unit": "seconds", "note": "per side" },
+      "caloriesPerMinute": 3,
+      "muscleGroups": ["balance", "core", "ankles", "legs"],
+      "movementPattern": "stability",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [2, 6],
+      "contraindications": ["ankle_high", "balance_issues"],
+      "modifications": {
+        "easier": "Toe on floor for support, hand on wall",
+        "harder": "Close eyes, or extend arms overhead"
+      },
+      "videoSearch": "tree pose yoga balance"
+    },
+    {
+      "id": "cobra",
+      "name": "Cobra Pose",
+      "sanskrit": "Bhujangasana",
+      "description": "Gentle backbend, chest opener",
+      "instructions": "Lie face down, hands under shoulders. Press into hands to lift chest, keeping hips on floor. Draw shoulders back, gaze forward. Keep elbows slightly bent.",
+      "duration": { "default": 30, "unit": "seconds", "range": [15, 45] },
+      "caloriesPerMinute": 3,
+      "muscleGroups": ["back", "chest", "shoulders"],
+      "movementPattern": "mobility",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [2, 6],
+      "contraindications": ["back_severe", "pregnancy"],
+      "modifications": {
+        "easier": "Baby cobra - keep lift small, forearms on floor",
+        "harder": "Straighten arms more, deeper backbend"
+      },
+      "videoSearch": "cobra pose yoga proper form"
+    },
+    {
+      "id": "pigeon-pose",
+      "name": "Pigeon Pose",
+      "sanskrit": "Eka Pada Rajakapotasana",
+      "description": "Deep hip opener",
+      "instructions": "From downward dog, bring one knee forward behind same-side wrist. Extend other leg straight back. Square hips. Walk hands forward to fold over front leg.",
+      "duration": { "default": 60, "unit": "seconds", "note": "per side", "range": [30, 120] },
+      "caloriesPerMinute": 2,
+      "muscleGroups": ["hips", "glutes", "hip_flexors"],
+      "movementPattern": "mobility",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [1, 5],
+      "contraindications": ["knee_high", "hip_severe"],
+      "modifications": {
+        "easier": "Place block under hip, or do figure-4 stretch on back",
+        "harder": "Keep torso upright, add quad stretch with back leg"
+      },
+      "videoSearch": "pigeon pose yoga hip opener"
+    },
+    {
+      "id": "seated-forward-fold",
+      "name": "Seated Forward Fold",
+      "sanskrit": "Paschimottanasana",
+      "description": "Hamstring and back stretch",
+      "instructions": "Sit with legs extended. Inhale to lengthen spine. Exhale to hinge at hips, reaching towards feet. Keep spine long rather than rounding. Hold where you feel stretch.",
+      "duration": { "default": 60, "unit": "seconds", "range": [30, 120] },
+      "caloriesPerMinute": 2,
+      "muscleGroups": ["hamstrings", "back", "calves"],
+      "movementPattern": "mobility",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [1, 4],
+      "contraindications": ["back_severe", "hamstring_injury"],
+      "modifications": {
+        "easier": "Bend knees, use a strap around feet",
+        "harder": "Grab feet, draw chest to thighs"
+      },
+      "videoSearch": "seated forward fold yoga stretch"
+    },
+    {
+      "id": "corpse-pose",
+      "name": "Corpse Pose",
+      "sanskrit": "Savasana",
+      "description": "Final relaxation and integration",
+      "instructions": "Lie flat on back. Let feet fall open, arms by sides with palms up. Close eyes. Release all effort. Breathe naturally. Stay present, allow complete relaxation.",
+      "duration": { "default": 180, "unit": "seconds", "range": [60, 600] },
+      "caloriesPerMinute": 1,
+      "muscleGroups": ["relaxation", "nervous_system"],
+      "movementPattern": "recovery",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [1, 2],
+      "contraindications": [],
+      "modifications": {
+        "easier": "Bolster under knees, blanket for warmth",
+        "harder": "N/A - this is meant to be effortless"
+      },
+      "videoSearch": "savasana corpse pose relaxation"
+    },
+    {
+      "id": "standing-forward-fold",
+      "name": "Standing Forward Fold",
+      "sanskrit": "Uttanasana",
+      "description": "Standing hamstring stretch and inversion",
+      "instructions": "Stand with feet hip-width. Hinge at hips, folding torso over legs. Let head hang heavy. Hands can touch floor, grab elbows, or rest on shins. Bend knees as needed.",
+      "duration": { "default": 45, "unit": "seconds", "range": [20, 90] },
+      "caloriesPerMinute": 2,
+      "muscleGroups": ["hamstrings", "back", "calves"],
+      "movementPattern": "mobility",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [1, 5],
+      "contraindications": ["back_severe", "blood_pressure_low"],
+      "modifications": {
+        "easier": "Bend knees generously, use blocks",
+        "harder": "Straight legs, grab behind ankles"
+      },
+      "videoSearch": "standing forward fold yoga uttanasana"
+    },
+    {
+      "id": "bridge-pose",
+      "name": "Bridge Pose",
+      "sanskrit": "Setu Bandhasana",
+      "description": "Backbend, glute strength, chest opener",
+      "instructions": "Lie on back, knees bent, feet flat near hips. Press into feet to lift hips. Clasp hands underneath, roll shoulders under. Keep thighs parallel. Hold and breathe.",
+      "duration": { "default": 30, "unit": "seconds", "range": [15, 60] },
+      "caloriesPerMinute": 4,
+      "muscleGroups": ["glutes", "back", "chest", "core"],
+      "movementPattern": "hinge",
+      "equipment": ["yoga_mat"],
+      "energyRequired": [2, 6],
+      "contraindications": ["neck_high", "back_severe"],
+      "modifications": {
+        "easier": "Place block under sacrum for supported bridge",
+        "harder": "Lift one leg, or interlace hands under back"
+      },
+      "videoSearch": "bridge pose yoga setu bandhasana"
+    }
+  ]
+}
