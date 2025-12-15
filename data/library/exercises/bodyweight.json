@@ -1,1 +1,287 @@
-
+{
+  "id": "bodyweight",
+  "name": "Bodyweight Exercises",
+  "description": "No equipment needed",
+  
+  "exercises": [
+    {
+      "id": "jumping-jacks",
+      "name": "Jumping Jacks",
+      "description": "Classic cardio warm-up that elevates heart rate",
+      "instructions": "Stand tall with feet together, arms at sides. Jump feet wide while raising arms overhead. Jump back to start. Keep a steady rhythm.",
+      "duration": { "default": 30, "unit": "seconds" },
+      "caloriesPerMinute": 10,
+      "muscleGroups": ["full_body", "cardio"],
+      "movementPattern": "locomotion",
+      "equipment": [],
+      "energyRequired": [5, 10],
+      "contraindications": ["knee_high", "ankle_high", "back_high"],
+      "modifications": {
+        "easier": "Step side to side instead of jumping (step jacks)",
+        "harder": "Add a squat between each jack"
+      },
+      "videoSearch": "jumping jacks proper form"
+    },
+    {
+      "id": "bodyweight-squat",
+      "name": "Bodyweight Squat",
+      "description": "Fundamental lower body movement",
+      "instructions": "Stand with feet shoulder-width apart. Push hips back and bend knees to lower down. Keep chest up and weight in heels. Drive through heels to stand.",
+      "duration": { "default": 45, "unit": "seconds" },
+      "reps": { "default": 12, "range": [8, 20] },
+      "caloriesPerMinute": 8,
+      "muscleGroups": ["quads", "glutes", "core"],
+      "movementPattern": "squat",
+      "equipment": [],
+      "energyRequired": [4, 10],
+      "contraindications": ["knee_high", "hip_high"],
+      "modifications": {
+        "easier": "Squat to a chair or reduce depth",
+        "harder": "Add a pause at the bottom or pulse"
+      },
+      "videoSearch": "bodyweight squat proper form"
+    },
+    {
+      "id": "push-up",
+      "name": "Push-Up",
+      "description": "Upper body pushing strength",
+      "instructions": "Start in plank position, hands slightly wider than shoulders. Lower chest towards floor, keeping body straight. Push back up to start.",
+      "duration": { "default": 45, "unit": "seconds" },
+      "reps": { "default": 10, "range": [5, 20] },
+      "caloriesPerMinute": 7,
+      "muscleGroups": ["chest", "shoulders", "triceps", "core"],
+      "movementPattern": "push",
+      "equipment": [],
+      "energyRequired": [5, 10],
+      "contraindications": ["shoulder_high", "wrist_high", "back_high"],
+      "modifications": {
+        "easier": "Knees on floor, or push against a wall",
+        "harder": "Elevate feet, or add a clap"
+      },
+      "videoSearch": "push up proper form beginner"
+    },
+    {
+      "id": "reverse-lunge",
+      "name": "Reverse Lunge",
+      "description": "Single-leg strength and balance",
+      "instructions": "Stand tall. Step one foot back and lower until both knees are at 90 degrees. Front knee stays over ankle. Push through front heel to return.",
+      "duration": { "default": 60, "unit": "seconds" },
+      "reps": { "default": 10, "range": [6, 16], "note": "per leg" },
+      "caloriesPerMinute": 8,
+      "muscleGroups": ["quads", "glutes", "hamstrings", "balance"],
+      "movementPattern": "squat",
+      "equipment": [],
+      "energyRequired": [4, 10],
+      "contraindications": ["knee_high", "hip_high", "balance_issues"],
+      "modifications": {
+        "easier": "Hold onto a wall for balance, reduce range",
+        "harder": "Add a jump to switch legs"
+      },
+      "videoSearch": "reverse lunge proper form"
+    },
+    {
+      "id": "plank",
+      "name": "Plank",
+      "description": "Core stability and endurance",
+      "instructions": "Forearms on floor, elbows under shoulders. Body in straight line from head to heels. Engage core, don't let hips sag or pike up. Breathe steadily.",
+      "duration": { "default": 30, "unit": "seconds", "range": [15, 60] },
+      "caloriesPerMinute": 4,
+      "muscleGroups": ["core", "shoulders", "back"],
+      "movementPattern": "stability",
+      "equipment": [],
+      "energyRequired": [3, 10],
+      "contraindications": ["shoulder_high", "back_high", "wrist_high"],
+      "modifications": {
+        "easier": "Knees on floor, or hold for shorter time",
+        "harder": "Lift one arm or leg, or add shoulder taps"
+      },
+      "videoSearch": "plank proper form"
+    },
+    {
+      "id": "mountain-climbers",
+      "name": "Mountain Climbers",
+      "description": "High-intensity cardio and core",
+      "instructions": "Start in push-up position. Drive one knee towards chest, then quickly switch legs. Keep hips low and core tight. Move as fast as form allows.",
+      "duration": { "default": 30, "unit": "seconds" },
+      "caloriesPerMinute": 12,
+      "muscleGroups": ["core", "cardio", "shoulders", "hip_flexors"],
+      "movementPattern": "locomotion",
+      "equipment": [],
+      "energyRequired": [6, 10],
+      "contraindications": ["wrist_high", "shoulder_high", "hip_high", "back_high"],
+      "modifications": {
+        "easier": "Slow the pace, step instead of jump",
+        "harder": "Cross knee to opposite elbow"
+      },
+      "videoSearch": "mountain climbers proper form"
+    },
+    {
+      "id": "glute-bridge",
+      "name": "Glute Bridge",
+      "description": "Glute activation and hip mobility",
+      "instructions": "Lie on back, knees bent, feet flat on floor. Push through heels to lift hips until body forms straight line. Squeeze glutes at top. Lower with control.",
+      "duration": { "default": 45, "unit": "seconds" },
+      "reps": { "default": 12, "range": [8, 20] },
+      "caloriesPerMinute": 5,
+      "muscleGroups": ["glutes", "hamstrings", "core"],
+      "movementPattern": "hinge",
+      "equipment": [],
+      "energyRequired": [2, 8],
+      "contraindications": ["back_severe"],
+      "modifications": {
+        "easier": "Reduce range of motion",
+        "harder": "Single leg, or add a pause at top"
+      },
+      "videoSearch": "glute bridge proper form"
+    },
+    {
+      "id": "dead-bug",
+      "name": "Dead Bug",
+      "description": "Core stability with controlled movement",
+      "instructions": "Lie on back, arms reaching to ceiling, knees bent at 90 degrees. Lower opposite arm and leg towards floor while keeping lower back pressed down. Return and switch sides.",
+      "duration": { "default": 45, "unit": "seconds" },
+      "reps": { "default": 10, "range": [6, 16], "note": "per side" },
+      "caloriesPerMinute": 4,
+      "muscleGroups": ["core", "stability"],
+      "movementPattern": "stability",
+      "equipment": [],
+      "energyRequired": [2, 7],
+      "contraindications": ["back_severe"],
+      "modifications": {
+        "easier": "Move only legs, keep arms still",
+        "harder": "Slow down the movement, or add ankle weights"
+      },
+      "videoSearch": "dead bug exercise proper form"
+    },
+    {
+      "id": "bird-dog",
+      "name": "Bird Dog",
+      "description": "Core stability and back health",
+      "instructions": "Start on hands and knees. Extend opposite arm and leg until parallel to floor. Keep hips level and core engaged. Return with control, switch sides.",
+      "duration": { "default": 45, "unit": "seconds" },
+      "reps": { "default": 8, "range": [6, 12], "note": "per side" },
+      "caloriesPerMinute": 4,
+      "muscleGroups": ["core", "back", "glutes", "stability"],
+      "movementPattern": "stability",
+      "equipment": [],
+      "energyRequired": [2, 6],
+      "contraindications": ["wrist_high", "knee_high"],
+      "modifications": {
+        "easier": "Extend only arm or only leg",
+        "harder": "Add a pause, or draw circles with extended limbs"
+      },
+      "videoSearch": "bird dog exercise proper form mcgill"
+    },
+    {
+      "id": "wall-sit",
+      "name": "Wall Sit",
+      "description": "Isometric leg strength and endurance",
+      "instructions": "Lean back against wall, slide down until thighs are parallel to floor. Knees at 90 degrees, directly over ankles. Hold position, breathe steadily.",
+      "duration": { "default": 30, "unit": "seconds", "range": [15, 60] },
+      "caloriesPerMinute": 5,
+      "muscleGroups": ["quads", "glutes", "core"],
+      "movementPattern": "squat",
+      "equipment": [],
+      "energyRequired": [4, 9],
+      "contraindications": ["knee_high"],
+      "modifications": {
+        "easier": "Don't go as deep, or hold for shorter time",
+        "harder": "Single leg, or hold a weight"
+      },
+      "videoSearch": "wall sit proper form"
+    },
+    {
+      "id": "burpee",
+      "name": "Burpee",
+      "description": "Full-body high-intensity movement",
+      "instructions": "From standing, squat down and place hands on floor. Jump feet back to plank. Do a push-up. Jump feet forward. Explode up with a jump and arms overhead.",
+      "duration": { "default": 30, "unit": "seconds" },
+      "reps": { "default": 8, "range": [5, 15] },
+      "caloriesPerMinute": 14,
+      "muscleGroups": ["full_body", "cardio"],
+      "movementPattern": "locomotion",
+      "equipment": [],
+      "energyRequired": [7, 10],
+      "contraindications": ["wrist_high", "shoulder_high", "knee_high", "back_high", "heart_condition"],
+      "modifications": {
+        "easier": "Step back instead of jump, remove push-up, step up instead of jump",
+        "harder": "Add a tuck jump at the top"
+      },
+      "videoSearch": "burpee proper form"
+    },
+    {
+      "id": "superman",
+      "name": "Superman",
+      "description": "Back extension and posterior chain",
+      "instructions": "Lie face down, arms extended overhead. Simultaneously lift arms, chest, and legs off the floor. Squeeze glutes and back muscles. Hold briefly, lower with control.",
+      "duration": { "default": 30, "unit": "seconds" },
+      "reps": { "default": 10, "range": [6, 15] },
+      "caloriesPerMinute": 4,
+      "muscleGroups": ["back", "glutes", "shoulders"],
+      "movementPattern": "hinge",
+      "equipment": [],
+      "energyRequired": [3, 7],
+      "contraindications": ["back_severe"],
+      "modifications": {
+        "easier": "Lift only arms OR only legs",
+        "harder": "Hold at top for 3-5 seconds"
+      },
+      "videoSearch": "superman exercise proper form"
+    },
+    {
+      "id": "high-knees",
+      "name": "High Knees",
+      "description": "Cardio and hip flexor engagement",
+      "instructions": "Run in place, driving knees up towards chest. Pump arms in running motion. Stay on balls of feet. Keep core engaged and maintain tall posture.",
+      "duration": { "default": 30, "unit": "seconds" },
+      "caloriesPerMinute": 11,
+      "muscleGroups": ["cardio", "hip_flexors", "core"],
+      "movementPattern": "locomotion",
+      "equipment": [],
+      "energyRequired": [6, 10],
+      "contraindications": ["knee_high", "hip_high", "ankle_high"],
+      "modifications": {
+        "easier": "March instead of run, lower knee height",
+        "harder": "Increase speed, or add arm drivers"
+      },
+      "videoSearch": "high knees exercise proper form"
+    },
+    {
+      "id": "tricep-dip",
+      "name": "Tricep Dip",
+      "description": "Upper body pushing, tricep focus",
+      "instructions": "Sit on edge of chair/bench, hands gripping edge. Slide off, supporting weight on hands. Lower body by bending elbows to 90 degrees. Push back up.",
+      "duration": { "default": 45, "unit": "seconds" },
+      "reps": { "default": 10, "range": [6, 15] },
+      "caloriesPerMinute": 6,
+      "muscleGroups": ["triceps", "shoulders", "chest"],
+      "movementPattern": "push",
+      "equipment": ["chair_or_bench"],
+      "energyRequired": [5, 9],
+      "contraindications": ["shoulder_high", "wrist_high", "elbow_high"],
+      "modifications": {
+        "easier": "Keep feet closer, bend knees more",
+        "harder": "Extend legs straight, or elevate feet"
+      },
+      "videoSearch": "tricep dips proper form chair"
+    },
+    {
+      "id": "side-plank",
+      "name": "Side Plank",
+      "description": "Oblique and lateral core stability",
+      "instructions": "Lie on side, elbow under shoulder. Lift hips so body forms straight line. Top arm can reach to ceiling or rest on hip. Hold, then switch sides.",
+      "duration": { "default": 20, "unit": "seconds", "note": "per side" },
+      "caloriesPerMinute": 5,
+      "muscleGroups": ["obliques", "core", "shoulders"],
+      "movementPattern": "stability",
+      "equipment": [],
+      "energyRequired": [4, 9],
+      "contraindications": ["shoulder_high", "back_high", "wrist_high"],
+      "modifications": {
+        "easier": "Bottom knee on floor for support",
+        "harder": "Lift top leg, or add hip dips"
+      },
+      "videoSearch": "side plank proper form"
+    }
+  ]
+}
