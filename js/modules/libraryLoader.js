@@ -268,6 +268,7 @@ function getVideoSearchUrl(exercise) {
 // Export the library API
 export const library = {
   loadIndex,
+  loadExerciseSource,
   loadWorkout,
   getExercise,
   getExercisesFromSource,
