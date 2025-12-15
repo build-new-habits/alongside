@@ -1,0 +1,502 @@
+/**
+ * Exercise Card Styles
+ * Front card in browse view, back card as modal popup
+ * Accessible, high-contrast, mobile-first
+ */
+
+/* ============================================
+   Exercise Card - FRONT (Browse View)
+   ============================================ */
+.exercise-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--color-border);
+}
+
+.exercise-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.exercise-card:active {
+  transform: translateY(0);
+}
+
+/* Category Header Band */
+.exercise-card__header {
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Category colours */
+.exercise-card__header--strength { background: #EF4444; color: white; }
+.exercise-card__header--cardio { background: #F97316; color: white; }
+.exercise-card__header--mobility { background: #10B981; color: white; }
+.exercise-card__header--stability { background: #6366F1; color: white; }
+.exercise-card__header--recovery { background: #A855F7; color: white; }
+.exercise-card__header--yoga { background: #8B5CF6; color: white; }
+.exercise-card__header--running { background: #3B82F6; color: white; }
+.exercise-card__header--mindfulness { background: #06B6D4; color: white; }
+
+.exercise-card__header-icon {
+  font-size: 1rem;
+}
+
+/* Card Body */
+.exercise-card__body {
+  padding: var(--space-4);
+}
+
+.exercise-card__name {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin: 0 0 var(--space-2) 0;
+  color: var(--color-text);
+}
+
+.exercise-card__description {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4) 0;
+  line-height: 1.4;
+}
+
+/* Stats Row */
+.exercise-card__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.exercise-card__stat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.exercise-card__stat-icon {
+  font-size: 0.875rem;
+}
+
+/* Energy badge */
+.exercise-card__energy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.exercise-card__energy--low {
+  background: rgba(168, 85, 247, 0.2);
+  color: #A855F7;
+}
+
+.exercise-card__energy--medium {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3B82F6;
+}
+
+.exercise-card__energy--high {
+  background: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
+}
+
+/* Credits badge */
+.exercise-card__credits {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: #22C55E;
+}
+
+/* Footer hint */
+.exercise-card__hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* ============================================
+   Exercise Detail Modal - BACK (Pop-out)
+   ============================================ */
+.exercise-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.exercise-modal__content {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  background: var(--color-bg);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Header - compact summary */
+.exercise-modal__header {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.exercise-modal__title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.exercise-modal__summary {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: var(--space-1) 0 0 0;
+}
+
+.exercise-modal__close {
+  width: 44px;
+  height: 44px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.exercise-modal__close:hover {
+  background: var(--color-border);
+}
+
+/* Modal Body - scrollable instructions */
+.exercise-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Instructions Section */
+.exercise-modal__section-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 var(--space-3) 0;
+}
+
+.exercise-modal__instructions {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-5) 0;
+  counter-reset: step;
+}
+
+.exercise-modal__step {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.exercise-modal__step:last-child {
+  border-bottom: none;
+}
+
+.exercise-modal__step-number {
+  width: 32px;
+  height: 32px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.exercise-modal__step-text {
+  font-size: var(--text-base);
+  color: var(--color-text);
+  line-height: 1.5;
+  padding-top: var(--space-1);
+}
+
+/* Modifications */
+.exercise-modal__modifications {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.exercise-modal__mod-title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.exercise-modal__mod-text {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.exercise-modal__mod-text + .exercise-modal__mod-title {
+  margin-top: var(--space-3);
+}
+
+/* YouTube Button */
+.exercise-modal__video-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4);
+  background: #FF0000;
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  min-height: 56px;
+  transition: background 0.2s;
+}
+
+.exercise-modal__video-btn:hover {
+  background: #CC0000;
+}
+
+.exercise-modal__video-icon {
+  font-size: 1.5rem;
+}
+
+/* Modal Footer - Actions */
+.exercise-modal__footer {
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  gap: var(--space-3);
+}
+
+.exercise-modal__back-btn {
+  flex: 1;
+  padding: var(--space-4);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 56px;
+  transition: background 0.2s;
+}
+
+.exercise-modal__back-btn:hover {
+  background: var(--color-border);
+}
+
+.exercise-modal__complete-btn {
+  flex: 2;
+  padding: var(--space-4);
+  background: #22C55E;
+  border: none;
+  border-radius: var(--radius-lg);
+  color: white;
+  font-size: var(--text-base);
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: background 0.2s;
+}
+
+.exercise-modal__complete-btn:hover {
+  background: #16A34A;
+}
+
+.exercise-modal__complete-btn:disabled {
+  background: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.exercise-modal__complete-btn--completed {
+  background: var(--color-surface);
+  color: #22C55E;
+  border: 2px solid #22C55E;
+}
+
+/* ============================================
+   Card Grid Layout
+   ============================================ */
+.exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+  padding: var(--space-4);
+}
+
+/* Compact list view option */
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.exercise-list .exercise-card {
+  display: flex;
+  align-items: center;
+}
+
+.exercise-list .exercise-card__header {
+  width: 48px;
+  height: 100%;
+  flex-shrink: 0;
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+.exercise-list .exercise-card__body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3);
+}
+
+.exercise-list .exercise-card__name {
+  flex: 1;
+  margin: 0;
+  font-size: var(--text-base);
+}
+
+.exercise-list .exercise-card__description,
+.exercise-list .exercise-card__hint {
+  display: none;
+}
+
+.exercise-list .exercise-card__stats {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   Mobile Adjustments
+   ============================================ */
+@media (max-width: 480px) {
+  .exercise-modal {
+    padding: 0;
+  }
+  
+  .exercise-modal__content {
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  
+  .exercise-grid {
+    grid-template-columns: 1fr;
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+}
+
+/* ============================================
+   Accessibility - Focus States
+   ============================================ */
+.exercise-card:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.exercise-modal__close:focus-visible,
+.exercise-modal__video-btn:focus-visible,
+.exercise-modal__back-btn:focus-visible,
+.exercise-modal__complete-btn:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .exercise-card {
+    transition: none;
+  }
+  
+  .exercise-modal,
+  .exercise-modal__content {
+    animation: none;
+  }
+}
