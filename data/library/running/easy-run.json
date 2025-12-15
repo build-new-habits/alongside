@@ -1,1 +1,58 @@
-
+{
+  "id": "easy-run",
+  "name": "Easy Run",
+  "description": "Conversational pace run for building aerobic base. You should be able to talk throughout.",
+  "category": "running",
+  "duration": 25,
+  "energyRequired": [4, 8],
+  "equipment": ["running_shoes"],
+  "goals": ["running", "cardio", "endurance", "first_5k", "aerobic_base"],
+  "contraindications": ["knee_severe", "ankle_severe", "hip_severe"],
+  
+  "coach": {
+    "intro": "Today's an easy run. That means conversational pace — if you can't hold a conversation, you're going too fast. This is where fitness is actually built.",
+    "motivation": "Easy runs aren't lazy runs. They're smart runs. Trust the process.",
+    "completion": "Well done. Easy runs like this are the foundation of every runner's training."
+  },
+  
+  "structure": [
+    {
+      "type": "segment",
+      "name": "Warm-Up Walk",
+      "activity": "walk",
+      "duration": 180,
+      "notes": "Brisk walk to warm up muscles and elevate heart rate gently"
+    },
+    {
+      "type": "segment",
+      "name": "Dynamic Warm-Up",
+      "activity": "drills",
+      "duration": 120,
+      "notes": "Leg swings, high knees, butt kicks — 30 seconds each"
+    },
+    {
+      "type": "segment",
+      "name": "Easy Run",
+      "activity": "run",
+      "intensity": "easy",
+      "duration": 1200,
+      "notes": "Conversational pace. If breathing hard, slow down. It's okay to walk briefly if needed."
+    },
+    {
+      "type": "segment",
+      "name": "Cool-Down Walk",
+      "activity": "walk",
+      "duration": 180,
+      "notes": "Gradually bring heart rate back down"
+    }
+  ],
+  
+  "paceGuidance": {
+    "description": "Easy pace means you can speak in full sentences. Heart rate roughly 60-70% of max.",
+    "feel": "Should feel comfortable. You could go faster, but you're choosing not to.",
+    "common_mistake": "Going too fast. Most runners do their easy runs too hard, which limits progress."
+  },
+  
+  "estimatedCalories": 200,
+  "credits": 120
+}
