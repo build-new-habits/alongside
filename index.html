@@ -2,32 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Alongside - A coach that actually gets you. Building habits together.">
-  <meta name="theme-color" content="#2D5A87">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Alongside - Your compassionate fitness coach">
   
-  <title>Alongside | Building Habits Together</title>
+  <title>Alongside</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
   
   <!-- Styles -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/conversation.css">
-  <link rel="stylesheet" href="css/checkin.css">
-  <link rel="stylesheet" href="css/options.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/cards.css">
 </head>
 <body>
-  <div id="app">
-    <!-- Dynamic content rendered here -->
-    <div class="loading">
-      <div class="loading__icon">🤝</div>
-      <p class="loading__text">Loading Alongside...</p>
+  <!-- App Container -->
+  <div id="app" class="app">
+    
+    <!-- Header -->
+    <header class="header" id="header">
+      <div class="header__logo">
+        <span class="header__icon">🌱</span>
+        <span class="header__title">Alongside</span>
+      </div>
+      <div class="header__credits" id="headerCredits">
+        <span class="header__credits-value">0</span>
+        <span class="header__credits-icon">⭐</span>
+      </div>
+    </header>
+    
+    <!-- Main Content Area -->
+    <main class="main" id="main">
+      <!-- Screens will be injected here -->
+      <div class="screen screen--loading" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <p>Loading your coach...</p>
+      </div>
+    </main>
+    
+    <!-- Bottom Navigation -->
+    <nav class="nav" id="nav">
+      <button class="nav__item nav__item--active" data-screen="today" aria-label="Today">
+        <span class="nav__icon">🏠</span>
+        <span class="nav__label">Today</span>
+      </button>
+      <button class="nav__item" data-screen="browse" aria-label="Browse">
+        <span class="nav__icon">📚</span>
+        <span class="nav__label">Browse</span>
+      </button>
+      <button class="nav__item" data-screen="progress" aria-label="Progress">
+        <span class="nav__icon">📊</span>
+        <span class="nav__label">Progress</span>
+      </button>
+      <button class="nav__item" data-screen="profile" aria-label="Profile">
+        <span class="nav__icon">⚙️</span>
+        <span class="nav__label">Settings</span>
+      </button>
+    </nav>
+    
+    <!-- Celebration Overlay -->
+    <div class="celebration" id="celebration" hidden>
+      <div class="celebration__content">
+        <div class="celebration__confetti" id="confetti"></div>
+        <div class="celebration__message">
+          <span class="celebration__emoji">🎉</span>
+          <h2 class="celebration__title">Nice work!</h2>
+          <p class="celebration__credits">+<span id="creditsEarned">50</span> credits</p>
+        </div>
+      </div>
     </div>
+    
   </div>
-
+  
   <!-- Scripts -->
   <script type="module" src="js/app.js"></script>
 </body>
