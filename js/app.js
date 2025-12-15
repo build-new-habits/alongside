@@ -1,568 +1,434 @@
 /**
  * Alongside - Main App Orchestrator
- * Building Habits Together
+ * Initializes modules and handles navigation
  */
 
-import store from './store.js';
-import ConversationEngine from './modules/conversationEngine.js';
+import { store } from './store.js';
+import { library } from './modules/libraryLoader.js';
+import { coach } from './modules/coach.js';
+import { checkin } from './modules/checkin.js';
+import { todayView } from './modules/todayView.js';
+import { cards } from './modules/cards.js';
 
-// App State
-const app = {
-  container: null,
-  currentView: null,
-  conversationEngine: null
-};
+// App state
+let currentScreen = 'loading';
 
 /**
- * Initialize the application
+ * Initialize the app
  */
 async function init() {
-  app.container = document.getElementById('app');
+  console.log('🌱 Alongside starting...');
   
-  // Check if onboarding is complete
-  if (!store.isOnboarded()) {
-    await showOnboarding();
-  } else {
-    await showCheckIn();
-  }
-}
-
-/**
- * Show onboarding conversation
- */
-async function showOnboarding() {
-  app.currentView = 'onboarding';
+  // Initialize store
+  store.init();
   
-  // Load onboarding scripts
-  const scripts = await loadJSON('data/onboardingScripts.json');
+  // Update header credits display
+  updateCreditsDisplay();
   
-  // Initialize conversation engine
-  app.conversationEngine = new ConversationEngine({
-    onComplete: handleOnboardingComplete,
-    onStepChange: (step, data) => {
-      console.log('Step:', step, 'Data:', data);
-    }
+  // Subscribe to store changes
+  store.subscribe(() => {
+    updateCreditsDisplay();
   });
   
-  app.conversationEngine.init(app.container, scripts);
-  app.conversationEngine.start('welcome');
-}
-
-/**
- * Handle onboarding completion
- */
-function handleOnboardingComplete(data) {
-  console.log('Onboarding complete:', data);
+  // Initialize navigation
+  initNavigation();
   
-  // Save to store
-  store.update({
-    'onboarding.complete': true,
-    'onboarding.completedAt': new Date().toISOString(),
-    'profile.name': data.name,
-    'profile.preferredName': data.name,
-    'profile.primaryGoal': data.primaryGoal || data.goalType,
-    'profile.motivation': data.motivation,
-    'profile.createdAt': new Date().toISOString()
-  });
+  // Load exercise library
+  console.log('📚 Loading exercise library...');
+  const libraryLoaded = await library.loadIndex();
   
-  // Show check-in
-  showCheckIn();
-}
-
-/**
- * Show daily check-in
- */
-async function showCheckIn() {
-  app.currentView = 'checkin';
-  
-  const userName = store.getUserName();
-  const todayCheckIn = store.getTodayCheckIn();
-  
-  // If already checked in today, show options
-  if (todayCheckIn) {
-    showOptions(todayCheckIn);
+  if (!libraryLoaded) {
+    console.error('Failed to load exercise library');
+    showError('Could not load exercise library. Please refresh.');
     return;
   }
   
-  // Get time-based greeting
-  const hour = new Date().getHours();
-  let greeting = 'Hello';
-  if (hour < 12) greeting = 'Good morning';
-  else if (hour < 17) greeting = 'Good afternoon';
-  else greeting = 'Good evening';
+  // Preload exercise sources
+  await Promise.all([
+    library.loadExerciseSource('bodyweight'),
+    library.loadExerciseSource('yoga-poses'),
+    library.loadExerciseSource('breathing'),
+    library.loadExerciseSource('mobility-drills')
+  ]);
   
-  app.container.innerHTML = `
-    <div class="checkin">
-      <header class="checkin__header">
-        <p class="checkin__greeting">${greeting}, ${userName}</p>
-        <h1 class="checkin__title">How are you today?</h1>
-        <p class="checkin__subtitle">Be honest — there's no wrong answer</p>
-      </header>
+  console.log('✅ Library loaded');
+  
+  // Check if user has already checked in today
+  if (store.hasCheckedInToday()) {
+    // Show today's workout
+    const checkinData = store.get('checkin');
+    await showToday(checkinData.energy, checkinData.mood);
+  } else {
+    // Show check-in
+    showCheckin();
+  }
+  
+  console.log('🌱 Alongside ready!');
+}
+
+/**
+ * Show the check-in screen
+ */
+function showCheckin() {
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  main.innerHTML = checkin.render();
+  checkin.init();
+  currentScreen = 'checkin';
+  
+  // Update nav
+  updateNav('today');
+}
+
+/**
+ * Show today's workout
+ */
+async function showToday(energy = 5, mood = 5) {
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  // Show loading state briefly
+  main.innerHTML = `
+    <div class="screen screen--loading screen--active">
+      <div class="loading-spinner"></div>
+      <p>Building your workout...</p>
+    </div>
+  `;
+  
+  // Render today view
+  main.innerHTML = await todayView.render(energy, mood);
+  todayView.init();
+  currentScreen = 'today';
+  
+  // Update nav
+  updateNav('today');
+}
+
+/**
+ * Show browse screen
+ */
+async function showBrowse() {
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  // Get all exercises
+  const allExercises = [];
+  
+  const sources = ['bodyweight', 'yoga-poses', 'breathing', 'mobility-drills'];
+  for (const sourceId of sources) {
+    const source = await library.loadExerciseSource(sourceId);
+    if (source && source.exercises) {
+      allExercises.push(...source.exercises);
+    }
+  }
+  
+  main.innerHTML = `
+    <div class="screen screen--active browse" id="browseScreen">
+      <div class="browse__header">
+        <h1 class="browse__title">Exercise Library</h1>
+        <div class="browse__filters">
+          <button class="browse__filter browse__filter--active" data-filter="all">All</button>
+          <button class="browse__filter" data-filter="low">Low Energy</button>
+          <button class="browse__filter" data-filter="medium">Medium</button>
+          <button class="browse__filter" data-filter="high">High Energy</button>
+        </div>
+      </div>
+      <div class="exercise-grid" id="exerciseGrid">
+        ${allExercises.map(ex => cards.renderExerciseCard(ex)).join('')}
+      </div>
+    </div>
+  `;
+  
+  // Init filter buttons
+  initBrowseFilters(allExercises);
+  
+  currentScreen = 'browse';
+  updateNav('browse');
+}
+
+/**
+ * Initialize browse filter buttons
+ */
+function initBrowseFilters(allExercises) {
+  const filterBtns = document.querySelectorAll('.browse__filter');
+  const grid = document.getElementById('exerciseGrid');
+  
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active state
+      filterBtns.forEach(b => b.classList.remove('browse__filter--active'));
+      btn.classList.add('browse__filter--active');
       
-      <div class="checkin__content">
-        <!-- Energy Level -->
-        <section class="checkin__section">
-          <div class="checkin__section-header">
-            <span class="checkin__section-icon">⚡</span>
-            <h2 class="checkin__section-title">Energy Level</h2>
-          </div>
-          
-          <div class="energy-slider">
-            <div class="energy-slider__value">
-              <span class="energy-slider__number" id="energy-value">5</span>
-              <span class="energy-slider__label" id="energy-label">Moderate — steady does it</span>
-            </div>
-            
-            <input 
-              type="range" 
-              class="energy-slider__input" 
-              id="energy-slider"
-              min="1" 
-              max="10" 
-              value="5"
-              aria-label="Energy level from 1 to 10"
-            >
-            
-            <div class="energy-slider__scale">
-              <span>Rest</span>
-              <span>Push</span>
-            </div>
-          </div>
-        </section>
-        
-        <!-- Mood -->
-        <section class="checkin__section">
-          <div class="checkin__section-header">
-            <span class="checkin__section-icon">💭</span>
-            <h2 class="checkin__section-title">Mood</h2>
-          </div>
-          
-          <div class="energy-slider">
-            <div class="energy-slider__value">
-              <span class="energy-slider__number" id="mood-value">5</span>
-              <span class="energy-slider__label" id="mood-label">Okay — could go either way</span>
-            </div>
-            
-            <input 
-              type="range" 
-              class="energy-slider__input" 
-              id="mood-slider"
-              min="1" 
-              max="10" 
-              value="5"
-              aria-label="Mood level from 1 to 10"
-            >
-            
-            <div class="energy-slider__scale">
-              <span>Low</span>
-              <span>Great</span>
-            </div>
-          </div>
-        </section>
-        
-        <!-- Time Available -->
-        <section class="checkin__section">
-          <div class="checkin__section-header">
-            <span class="checkin__section-icon">⏱️</span>
-            <h2 class="checkin__section-title">Time Available</h2>
-          </div>
-          
-          <div class="time-select" id="time-select">
-            <button class="time-select__btn" data-value="15">
-              <span class="time-select__value">15</span>
-              <span class="time-select__unit">mins</span>
-            </button>
-            <button class="time-select__btn time-select__btn--selected" data-value="30">
-              <span class="time-select__value">30</span>
-              <span class="time-select__unit">mins</span>
-            </button>
-            <button class="time-select__btn" data-value="45">
-              <span class="time-select__value">45</span>
-              <span class="time-select__unit">mins</span>
-            </button>
-            <button class="time-select__btn" data-value="60">
-              <span class="time-select__value">60+</span>
-              <span class="time-select__unit">mins</span>
-            </button>
-          </div>
-        </section>
+      // Filter exercises
+      const filter = btn.dataset.filter;
+      let filtered = allExercises;
+      
+      if (filter !== 'all') {
+        filtered = allExercises.filter(ex => ex.energyRequired === filter);
+      }
+      
+      // Re-render grid
+      grid.innerHTML = filtered.map(ex => cards.renderExerciseCard(ex)).join('');
+    });
+  });
+}
+
+/**
+ * Show progress screen (placeholder)
+ */
+function showProgress() {
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  const credits = store.get('credits.balance') || 0;
+  const totalCredits = store.get('stats.totalCredits') || 0;
+  
+  main.innerHTML = `
+    <div class="screen screen--active" id="progressScreen">
+      <div class="today__header">
+        <h1 class="today__title">Your Progress</h1>
       </div>
       
-      <footer class="checkin__footer">
-        <button class="btn btn--primary btn--lg btn--full checkin__submit" id="checkin-submit">
-          Show me my options
-        </button>
-      </footer>
-    </div>
-  `;
-  
-  // Initialize check-in interactions
-  initCheckInHandlers();
-}
-
-/**
- * Initialize check-in event handlers
- */
-function initCheckInHandlers() {
-  const energySlider = document.getElementById('energy-slider');
-  const energyValue = document.getElementById('energy-value');
-  const energyLabel = document.getElementById('energy-label');
-  
-  const moodSlider = document.getElementById('mood-slider');
-  const moodValue = document.getElementById('mood-value');
-  const moodLabel = document.getElementById('mood-label');
-  
-  const timeSelect = document.getElementById('time-select');
-  const submitBtn = document.getElementById('checkin-submit');
-  
-  let selectedTime = 30;
-  
-  // Energy labels
-  const energyLabels = {
-    1: "Complete rest — breathe and be gentle",
-    2: "Very low — gentle movement only",
-    3: "Low — active recovery day",
-    4: "Light — building the foundation",
-    5: "Moderate — steady does it",
-    6: "Solid — let's get to work",
-    7: "Good — time to push a bit",
-    8: "Strong — feeling capable",
-    9: "High — ready to go hard",
-    10: "All out — let's make it count!"
-  };
-  
-  // Mood labels
-  const moodLabels = {
-    1: "Really struggling — be gentle with yourself",
-    2: "Quite low — small wins matter",
-    3: "Feeling down — movement might help",
-    4: "A bit flat — but showing up",
-    5: "Okay — could go either way",
-    6: "Decent — feeling alright",
-    7: "Good — positive outlook",
-    8: "Great — feeling motivated",
-    9: "Excellent — ready for anything",
-    10: "Amazing — on top of the world!"
-  };
-  
-  // Energy color
-  function getEnergyColor(value) {
-    if (value <= 3) return 'var(--color-energy-2)';
-    if (value <= 6) return 'var(--color-energy-5)';
-    if (value <= 8) return 'var(--color-energy-7)';
-    return 'var(--color-energy-9)';
-  }
-  
-  // Energy slider handler
-  energySlider.addEventListener('input', () => {
-    const value = parseInt(energySlider.value);
-    energyValue.textContent = value;
-    energyLabel.textContent = energyLabels[value];
-    energyValue.style.color = getEnergyColor(value);
-  });
-  
-  // Mood slider handler  
-  moodSlider.addEventListener('input', () => {
-    const value = parseInt(moodSlider.value);
-    moodValue.textContent = value;
-    moodLabel.textContent = moodLabels[value];
-  });
-  
-  // Time select handler
-  timeSelect.addEventListener('click', (e) => {
-    const btn = e.target.closest('.time-select__btn');
-    if (!btn) return;
-    
-    timeSelect.querySelectorAll('.time-select__btn').forEach(b => {
-      b.classList.remove('time-select__btn--selected');
-    });
-    btn.classList.add('time-select__btn--selected');
-    selectedTime = parseInt(btn.dataset.value);
-  });
-  
-  // Submit handler
-  submitBtn.addEventListener('click', () => {
-    const checkIn = {
-      energy: parseInt(energySlider.value),
-      mood: parseInt(moodSlider.value),
-      timeAvailable: selectedTime
-    };
-    
-    // Save check-in
-    store.saveCheckIn(checkIn);
-    
-    // Show options
-    showOptions(checkIn);
-  });
-}
-
-/**
- * Show workout options based on check-in
- */
-function showOptions(checkIn) {
-  app.currentView = 'options';
-  
-  const userName = store.getUserName();
-  const energy = checkIn.energy;
-  
-  // Determine intensity tier
-  let intensityName, intensityClass, coachMessage;
-  
-  if (energy <= 3) {
-    intensityName = 'Recovery Day';
-    intensityClass = 'rest';
-    coachMessage = "Your body is asking for rest. Let's honour that with some gentle movement.";
-  } else if (energy <= 6) {
-    intensityName = 'Moderate Session';
-    intensityClass = 'moderate';
-    coachMessage = "Steady energy today. Let's build with something sustainable.";
-  } else if (energy <= 8) {
-    intensityName = 'Push Day';
-    intensityClass = 'push';
-    coachMessage = "Good energy! Time to challenge yourself.";
-  } else {
-    intensityName = 'High Intensity';
-    intensityClass = 'intense';
-    coachMessage = "You're fired up! Let's make this count.";
-  }
-  
-  app.container.innerHTML = `
-    <div class="options-view">
-      <header class="coach-header">
-        <div class="coach-header__avatar">🤝</div>
-        <div class="coach-header__content">
-          <p class="coach-header__greeting">Your coach says:</p>
-          <p class="coach-header__message">${coachMessage}</p>
-          <span class="intensity-badge intensity-badge--${intensityClass}">${intensityName}</span>
-        </div>
-      </header>
+      <div class="today__coach" style="text-align: center;">
+        <span style="font-size: 3rem; display: block; margin-bottom: 16px;">⭐</span>
+        <h2 style="font-size: 2.5rem; font-family: var(--font-mono); color: var(--color-success);">
+          ${credits}
+        </h2>
+        <p style="color: var(--color-text-muted);">Current Credits</p>
+      </div>
       
-      <section class="options-section">
-        <h2 class="options-section__title">Today's Options</h2>
-        
-        <div class="options-grid">
-          <!-- Option A -->
-          <button class="option-card" id="option-a" tabindex="0">
-            <div class="option-card__header">
-              <span class="option-card__letter">A</span>
-              <h3 class="option-card__title">${getOptionATitle(energy)}</h3>
-            </div>
-            
-            <div class="option-card__stats">
-              <div class="option-stat">
-                <span class="option-stat__value">${getOptionADuration(energy, checkIn.timeAvailable)}</span>
-                <span class="option-stat__label">mins</span>
-              </div>
-              <div class="option-stat">
-                <span class="option-stat__value">~${getOptionACalories(energy, checkIn.timeAvailable)}</span>
-                <span class="option-stat__label">cals</span>
-              </div>
-              <div class="option-stat">
-                <span class="option-stat__value">+${getOptionACredits(energy)}</span>
-                <span class="option-stat__label">credits</span>
-              </div>
-            </div>
-            
-            <p class="option-card__rationale">${getOptionARationale(energy, checkIn)}</p>
-          </button>
-          
-          <!-- Option B -->
-          <button class="option-card" id="option-b" tabindex="0">
-            <div class="option-card__header">
-              <span class="option-card__letter">B</span>
-              <h3 class="option-card__title">${getOptionBTitle(energy)}</h3>
-            </div>
-            
-            <div class="option-card__stats">
-              <div class="option-stat">
-                <span class="option-stat__value">${getOptionBDuration(energy, checkIn.timeAvailable)}</span>
-                <span class="option-stat__label">mins</span>
-              </div>
-              <div class="option-stat">
-                <span class="option-stat__value">~${getOptionBCalories(energy, checkIn.timeAvailable)}</span>
-                <span class="option-stat__label">cals</span>
-              </div>
-              <div class="option-stat">
-                <span class="option-stat__value">+${getOptionBCredits(energy)}</span>
-                <span class="option-stat__label">credits</span>
-              </div>
-            </div>
-            
-            <p class="option-card__rationale">${getOptionBRationale(energy, checkIn)}</p>
-          </button>
-        </div>
-        
-        <button class="why-these" id="why-these">
-          <span>🤔</span>
-          <span>Why these options?</span>
-        </button>
-      </section>
-      
-      <footer class="options-footer">
-        <div class="options-footer__primary">
-          <button class="btn btn--ghost btn--lg" id="skip-today">
-            Skip today
-          </button>
-          <button class="btn btn--primary btn--lg" id="confirm-option" disabled>
-            Let's do this
-          </button>
-        </div>
-        <p class="options-footer__secondary">
-          <span class="options-footer__link" id="different-options">Show me different options</span>
+      <div class="today__coach">
+        <p class="today__coach-message" style="text-align: center;">
+          <strong>${totalCredits}</strong> total credits earned<br>
+          Keep going — every workout counts!
         </p>
-      </footer>
+      </div>
     </div>
   `;
   
-  initOptionsHandlers();
+  currentScreen = 'progress';
+  updateNav('progress');
 }
 
 /**
- * Initialize options event handlers
+ * Show settings screen (placeholder)
  */
-function initOptionsHandlers() {
-  const optionA = document.getElementById('option-a');
-  const optionB = document.getElementById('option-b');
-  const confirmBtn = document.getElementById('confirm-option');
-  let selectedOption = null;
+function showSettings() {
+  const main = document.getElementById('main');
+  if (!main) return;
   
-  const selectOption = (option, btn) => {
-    selectedOption = option;
+  main.innerHTML = `
+    <div class="screen screen--active" id="settingsScreen">
+      <div class="today__header">
+        <h1 class="today__title">Settings</h1>
+      </div>
+      
+      <div class="today__coach">
+        <div class="today__coach-header">
+          <span class="today__coach-avatar">⚙️</span>
+          <span class="today__coach-name">Coming Soon</span>
+        </div>
+        <p class="today__coach-message">
+          Profile settings, condition management, and preferences will be here.
+        </p>
+      </div>
+      
+      <button class="checkin__submit" style="background: var(--color-danger);" 
+              onclick="window.alongside.resetApp()">
+        Reset All Data
+      </button>
+    </div>
+  `;
+  
+  currentScreen = 'profile';
+  updateNav('profile');
+}
+
+/**
+ * Initialize bottom navigation
+ */
+function initNavigation() {
+  const navItems = document.querySelectorAll('.nav__item');
+  
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const screen = item.dataset.screen;
+      
+      switch (screen) {
+        case 'today':
+          if (store.hasCheckedInToday()) {
+            const checkinData = store.get('checkin');
+            showToday(checkinData.energy, checkinData.mood);
+          } else {
+            showCheckin();
+          }
+          break;
+        case 'browse':
+          showBrowse();
+          break;
+        case 'progress':
+          showProgress();
+          break;
+        case 'profile':
+          showSettings();
+          break;
+      }
+    });
+  });
+}
+
+/**
+ * Update navigation active state
+ */
+function updateNav(activeScreen) {
+  const navItems = document.querySelectorAll('.nav__item');
+  navItems.forEach(item => {
+    item.classList.toggle('nav__item--active', item.dataset.screen === activeScreen);
+  });
+}
+
+/**
+ * Update credits display in header
+ */
+function updateCreditsDisplay() {
+  const creditsEl = document.querySelector('.header__credits-value');
+  if (creditsEl) {
+    creditsEl.textContent = store.get('credits.balance') || 0;
+  }
+}
+
+/**
+ * Show celebration animation
+ */
+function celebrate(credits) {
+  const celebration = document.getElementById('celebration');
+  const creditsEarned = document.getElementById('creditsEarned');
+  const confetti = document.getElementById('confetti');
+  
+  if (!celebration) return;
+  
+  // Update credits display
+  if (creditsEarned) {
+    creditsEarned.textContent = credits;
+  }
+  
+  // Generate confetti
+  if (confetti) {
+    confetti.innerHTML = '';
+    const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#a855f7'];
     
-    // Update UI
-    optionA.classList.remove('option-card--selected');
-    optionB.classList.remove('option-card--selected');
-    btn.classList.add('option-card--selected');
-    
-    confirmBtn.disabled = false;
-  };
-  
-  optionA.addEventListener('click', () => selectOption('A', optionA));
-  optionB.addEventListener('click', () => selectOption('B', optionB));
-  
-  confirmBtn.addEventListener('click', () => {
-    if (selectedOption) {
-      // TODO: Start workout with selected option
-      alert(`Starting Option ${selectedOption}!`);
+    for (let i = 0; i < 30; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = `${Math.random() * 200 - 100}px`;
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = `${Math.random() * 0.5}s`;
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      confetti.appendChild(piece);
     }
-  });
+  }
   
-  document.getElementById('skip-today').addEventListener('click', () => {
-    // TODO: Handle skip
-    alert('No problem. Rest is important too. See you tomorrow!');
-  });
+  // Show celebration
+  celebration.hidden = false;
   
-  document.getElementById('why-these').addEventListener('click', () => {
-    // TODO: Show rationale modal
-    alert('Rationale modal coming soon!');
-  });
+  // Hide after delay
+  setTimeout(() => {
+    celebration.hidden = true;
+    
+    // Refresh today view
+    if (currentScreen === 'today') {
+      todayView.refresh();
+    }
+  }, 2000);
 }
 
-// === Option Generation Helpers ===
-
-function getOptionATitle(energy) {
-  if (energy <= 3) return 'Gentle Rest';
-  if (energy <= 6) return 'Steady Session';
-  if (energy <= 8) return 'Challenge Workout';
-  return 'Full Intensity';
-}
-
-function getOptionBTitle(energy) {
-  if (energy <= 3) return 'Mindful Movement';
-  if (energy <= 6) return 'Active Recovery';
-  if (energy <= 8) return 'Strength Focus';
-  return 'Cardio Blast';
-}
-
-function getOptionADuration(energy, timeAvailable) {
-  const maxTime = Math.min(timeAvailable, energy <= 3 ? 15 : energy <= 6 ? 35 : 50);
-  return maxTime;
-}
-
-function getOptionBDuration(energy, timeAvailable) {
-  const maxTime = Math.min(timeAvailable, energy <= 3 ? 10 : energy <= 6 ? 25 : 40);
-  return maxTime;
-}
-
-function getOptionACalories(energy, timeAvailable) {
-  const duration = getOptionADuration(energy, timeAvailable);
-  const rate = energy <= 3 ? 3 : energy <= 6 ? 7 : energy <= 8 ? 10 : 14;
-  return Math.round(duration * rate);
-}
-
-function getOptionBCalories(energy, timeAvailable) {
-  const duration = getOptionBDuration(energy, timeAvailable);
-  const rate = energy <= 3 ? 2 : energy <= 6 ? 5 : energy <= 8 ? 8 : 12;
-  return Math.round(duration * rate);
-}
-
-function getOptionACredits(energy) {
-  if (energy <= 3) return 50;
-  if (energy <= 6) return 100;
-  if (energy <= 8) return 150;
-  return 200;
-}
-
-function getOptionBCredits(energy) {
-  if (energy <= 3) return 30;
-  if (energy <= 6) return 80;
-  if (energy <= 8) return 120;
-  return 180;
-}
-
-function getOptionARationale(energy, checkIn) {
-  if (energy <= 3) {
-    return "Your energy is low. This gentle session honours your body while keeping you moving.";
+/**
+ * Complete an exercise (called from modal)
+ */
+function completeExercise(exerciseId) {
+  // Find the exercise to get credits
+  const workout = todayView.getCurrentWorkout();
+  let credits = 50; // Default
+  
+  if (workout) {
+    for (const section of workout.sections) {
+      const ex = section.exercises.find(e => e.id === exerciseId);
+      if (ex) {
+        credits = ex.credits || 50;
+        break;
+      }
+    }
   }
-  if (energy <= 6) {
-    return "A balanced session that builds fitness without draining you. Sustainable progress.";
+  
+  // Check if already completed
+  if (store.isExerciseCompletedToday(exerciseId)) {
+    console.log('Already completed today');
+    cards.closeExerciseModal();
+    return;
   }
-  if (energy <= 8) {
-    return "Your energy is good — this session will push you and build real fitness.";
-  }
-  return "High energy means we can go hard. This session will challenge your limits.";
+  
+  // Mark as completed in store
+  store.completeExercise(exerciseId, credits);
+  
+  // Close modal
+  cards.closeExerciseModal();
+  
+  // Show celebration
+  celebrate(credits);
 }
 
-function getOptionBRationale(energy, checkIn) {
-  if (energy <= 3) {
-    return "Even gentler. Breathing and mindfulness to restore without any physical demand.";
-  }
-  if (energy <= 6) {
-    return "A lighter alternative if you want to move without too much intensity.";
-  }
-  if (energy <= 8) {
-    return "Focuses on strength rather than cardio. Build muscle and power.";
-  }
-  return "Pure cardio intensity. Get your heart rate up and burn calories.";
-}
-
-// === Utility Functions ===
-
-async function loadJSON(path) {
-  try {
-    const response = await fetch(path);
-    if (!response.ok) throw new Error(`Failed to load ${path}`);
-    return await response.json();
-  } catch (error) {
-    console.error('Error loading JSON:', error);
-    return {};
+/**
+ * Reset the app (for testing)
+ */
+function resetApp() {
+  if (confirm('This will delete all your data. Are you sure?')) {
+    store.reset();
+    location.reload();
   }
 }
 
-// Initialize app when DOM is ready
+/**
+ * Show error message
+ */
+function showError(message) {
+  const main = document.getElementById('main');
+  if (main) {
+    main.innerHTML = `
+      <div class="screen screen--active" style="text-align: center; padding-top: 100px;">
+        <span style="font-size: 3rem;">😕</span>
+        <h2 style="margin: 20px 0;">Something went wrong</h2>
+        <p style="color: var(--color-text-muted);">${message}</p>
+        <button class="checkin__submit" onclick="location.reload()" style="margin-top: 30px;">
+          Try Again
+        </button>
+      </div>
+    `;
+  }
+}
+
+// Global interface
+window.alongside = {
+  showCheckin,
+  showToday,
+  showBrowse,
+  showProgress,
+  showSettings,
+  showExerciseModal: cards.showExerciseModal,
+  closeExerciseModal: cards.closeExerciseModal,
+  completeExercise,
+  celebrate,
+  skipToday: todayView.skipToday,
+  resetApp,
+  store,
+  library
+};
+
+// Initialize on DOM ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
   init();
 }
 
-// Export for debugging
-window.alongside = {
-  store,
-  app,
-  reset: () => {
-    store.reset();
-    location.reload();
-  }
-};
-
+export { init };
