@@ -1,1 +1,125 @@
-
+{
+  "id": "morning-yoga-flow",
+  "name": "Morning Yoga Flow",
+  "description": "Gentle wake-up sequence to energise body and calm mind. Perfect for starting your day.",
+  "category": "yoga",
+  "duration": 15,
+  "energyRequired": [2, 6],
+  "equipment": ["yoga_mat"],
+  "goals": ["flexibility", "stress_relief", "morning_routine", "mobility"],
+  "contraindications": [],
+  
+  "coach": {
+    "intro": "Good morning. This gentle flow will wake up your body and settle your mind. Move with your breath, and don't force anything.",
+    "motivation": "Your body has been still all night. Let's invite movement back in, gently.",
+    "completion": "Beautifully done. Carry this calm energy with you into your day."
+  },
+  
+  "structure": [
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/childs-pose",
+      "duration": 60,
+      "notes": "Start here. Connect with your breath."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/cat-cow",
+      "duration": 90,
+      "notes": "Wake up the spine. Inhale cow, exhale cat."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/downward-dog",
+      "duration": 45,
+      "notes": "Pedal out the feet, wake up the legs"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/standing-forward-fold",
+      "duration": 45,
+      "notes": "Walk hands to feet, let head hang heavy"
+    },
+    {
+      "type": "instruction",
+      "text": "Slowly roll up to standing, one vertebra at a time",
+      "duration": 15
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/warrior-1",
+      "duration": 45,
+      "notes": "Right side first. Ground through feet, reach up."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/warrior-2",
+      "duration": 45,
+      "notes": "Open up to Warrior 2. Gaze over front hand."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/downward-dog",
+      "duration": 30,
+      "notes": "Reset. Breathe."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/warrior-1",
+      "duration": 45,
+      "notes": "Left side. Same journey, other side."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/warrior-2",
+      "duration": 45,
+      "notes": "Open to Warrior 2 on left."
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/downward-dog",
+      "duration": 30,
+      "notes": "Final down dog"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/childs-pose",
+      "duration": 45,
+      "notes": "Rest and integrate"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/cobra",
+      "duration": 30,
+      "notes": "Gentle heart opener"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/childs-pose",
+      "duration": 30,
+      "notes": "Counter pose"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/seated-forward-fold",
+      "duration": 60,
+      "notes": "Stretch the back body"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/bridge-pose",
+      "duration": 45,
+      "notes": "Open the front body"
+    },
+    {
+      "type": "exercise",
+      "ref": "yoga-poses/corpse-pose",
+      "duration": 120,
+      "notes": "Final rest. Notice how you feel now vs. when you started."
+    }
+  ],
+  
+  "totalExercises": 15,
+  "estimatedCalories": 45,
+  "credits": 80
+}
