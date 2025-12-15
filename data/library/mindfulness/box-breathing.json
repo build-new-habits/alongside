@@ -1,1 +1,64 @@
-
+{
+  "id": "box-breathing-session",
+  "name": "Box Breathing Session",
+  "description": "5-minute guided breathing for calm, focus, and stress relief. Used by Navy SEALs and executives alike.",
+  "category": "mindfulness",
+  "duration": 5,
+  "energyRequired": [1, 3],
+  "equipment": [],
+  "goals": ["stress_relief", "focus", "anxiety", "sleep_prep", "calm"],
+  "contraindications": [],
+  
+  "coach": {
+    "intro": "Find a comfortable position — sitting or lying down. Close your eyes if that feels okay. We're going to breathe in a simple box pattern: 4 counts in, 4 counts hold, 4 counts out, 4 counts hold.",
+    "motivation": "Your breath is the one thing you can always control. Let's use it.",
+    "completion": "Notice how you feel now compared to 5 minutes ago. That's your nervous system shifting. You can access this anytime you need it."
+  },
+  
+  "structure": [
+    {
+      "type": "instruction",
+      "text": "Get comfortable. Sit or lie down. Let your shoulders drop.",
+      "duration": 15
+    },
+    {
+      "type": "instruction", 
+      "text": "Close your eyes if comfortable. Take one natural breath.",
+      "duration": 10
+    },
+    {
+      "type": "exercise",
+      "ref": "breathing/box-breathing",
+      "duration": 250,
+      "notes": "10 complete cycles of box breathing",
+      "guided": true,
+      "cues": [
+        { "time": 0, "text": "Breathe in... 2... 3... 4..." },
+        { "time": 4, "text": "Hold... 2... 3... 4..." },
+        { "time": 8, "text": "Breathe out... 2... 3... 4..." },
+        { "time": 12, "text": "Hold empty... 2... 3... 4..." }
+      ]
+    },
+    {
+      "type": "instruction",
+      "text": "Return to natural breathing. Notice how your body feels.",
+      "duration": 15
+    },
+    {
+      "type": "instruction",
+      "text": "When you're ready, gently open your eyes.",
+      "duration": 10
+    }
+  ],
+  
+  "benefits": [
+    "Activates parasympathetic nervous system",
+    "Reduces cortisol and stress hormones",
+    "Improves focus and mental clarity",
+    "Lowers blood pressure",
+    "Can be done anywhere, anytime"
+  ],
+  
+  "estimatedCalories": 5,
+  "credits": 50
+}
