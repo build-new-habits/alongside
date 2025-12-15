@@ -1,195 +1,387 @@
 {
   "id": "mobility-drills",
   "name": "Mobility Drills",
-  "description": "Joint mobility and movement preparation",
+  "description": "Joint health and movement preparation",
   
   "exercises": [
     {
       "id": "hip-circles",
       "name": "Hip Circles",
-      "description": "Loosen hip joints in all directions",
-      "instructions": "Stand on one leg, holding wall for balance if needed. Lift other knee and make large circles with the hip. Go slowly, feel the full range. Switch directions, then legs.",
-      "duration": { "default": 60, "unit": "seconds" },
-      "reps": { "default": 10, "range": [6, 15], "note": "each direction, each leg" },
+      "description": "Loosens hip joints and warms up the lower body",
+      "instructions": [
+        "Stand tall with feet hip-width apart",
+        "Place hands on your hips",
+        "Shift your weight slightly to your left foot",
+        "Begin making circles with your hips",
+        "Move your hips forward, right, back, and left",
+        "Make the circles as large as comfortable",
+        "Do 10 circles in one direction",
+        "Then reverse for 10 circles the other way",
+        "Switch standing leg and repeat"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 15],
+      "repNote": "each direction, each side",
       "caloriesPerMinute": 3,
-      "muscleGroups": ["hips", "balance"],
+      "credits": 30,
+      "energyRequired": "low",
+      "muscleGroups": ["hips", "core", "lower_back"],
       "movementPattern": "mobility",
       "equipment": [],
-      "energyRequired": [1, 5],
-      "contraindications": ["hip_severe", "balance_issues"],
+      "contraindications": ["hip_severe"],
       "modifications": {
-        "easier": "Hold onto wall, make smaller circles",
-        "harder": "No support, larger circles, slower pace"
+        "easier": "Smaller circles, hold onto something for balance",
+        "harder": "Larger circles, single-leg stance"
       },
-      "videoSearch": "hip circles mobility exercise"
+      "videoSearch": "hip circles warm up"
     },
     {
       "id": "shoulder-circles",
       "name": "Shoulder Circles",
-      "description": "Mobilise shoulder joints and upper back",
-      "instructions": "Stand or sit tall. Roll shoulders forward in big circles, then reverse direction. Focus on making full, controlled circles. Keep neck relaxed.",
-      "duration": { "default": 45, "unit": "seconds" },
-      "reps": { "default": 10, "range": [6, 15], "note": "each direction" },
+      "description": "Releases tension and improves shoulder mobility",
+      "instructions": [
+        "Stand or sit tall with arms relaxed at your sides",
+        "Lift your shoulders up towards your ears",
+        "Roll them back, squeezing shoulder blades together",
+        "Drop them down away from your ears",
+        "Roll them forward to complete the circle",
+        "Move slowly and deliberately",
+        "Do 10 circles backwards (the priority direction)",
+        "Then 10 circles forwards"
+      ],
+      "duration": 45,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 15],
+      "repNote": "each direction",
       "caloriesPerMinute": 2,
-      "muscleGroups": ["shoulders", "upper_back"],
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["shoulders", "upper_back", "neck"],
       "movementPattern": "mobility",
       "equipment": [],
-      "energyRequired": [1, 4],
       "contraindications": ["shoulder_severe"],
       "modifications": {
-        "easier": "Smaller circles, seated",
-        "harder": "Arms extended, bigger circles"
+        "easier": "Smaller, gentler circles",
+        "harder": "Add light weights or resistance band"
       },
-      "videoSearch": "shoulder circles warm up"
+      "videoSearch": "shoulder circles mobility"
     },
     {
       "id": "ankle-circles",
       "name": "Ankle Circles",
-      "description": "Mobilise ankle joints",
-      "instructions": "Sit or stand on one leg. Lift other foot and draw circles with your toes, moving from the ankle. Go both directions. Switch feet.",
-      "duration": { "default": 45, "unit": "seconds" },
-      "reps": { "default": 10, "range": [6, 15], "note": "each direction, each ankle" },
+      "description": "Improves ankle mobility and prepares feet for activity",
+      "instructions": [
+        "Sit in a chair or stand holding onto something",
+        "Lift your right foot off the ground",
+        "Point your toes and make circles with your foot",
+        "Move from the ankle, not the whole leg",
+        "Do 10 circles clockwise",
+        "Then 10 circles anticlockwise",
+        "Switch to left foot and repeat",
+        "Try to make the circles as large as possible"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 15],
+      "repNote": "each direction, each ankle",
       "caloriesPerMinute": 2,
-      "muscleGroups": ["ankles"],
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["ankles", "calves", "feet"],
       "movementPattern": "mobility",
       "equipment": [],
-      "energyRequired": [1, 3],
       "contraindications": ["ankle_severe"],
       "modifications": {
-        "easier": "Seated, support foot with hand",
-        "harder": "Standing unsupported"
+        "easier": "Smaller circles, keep foot lower",
+        "harder": "Write the alphabet with your toes"
       },
-      "videoSearch": "ankle circles mobility"
+      "videoSearch": "ankle circles mobility exercise"
     },
     {
       "id": "neck-rolls",
       "name": "Neck Rolls",
-      "description": "Release neck tension and improve mobility",
-      "instructions": "Drop chin to chest. Slowly roll head to one side (ear to shoulder), then back, to other side, and forward again. Move slowly, pause where you feel tightness.",
-      "duration": { "default": 45, "unit": "seconds" },
-      "reps": { "default": 5, "range": [3, 8], "note": "each direction" },
+      "description": "Releases neck tension — perfect for desk workers",
+      "instructions": [
+        "Sit or stand tall with shoulders relaxed",
+        "Drop your chin to your chest",
+        "Slowly roll your head to the right",
+        "Bring your right ear towards right shoulder",
+        "Continue rolling head back (look up gently)",
+        "Roll to the left, ear towards left shoulder",
+        "Return chin to chest to complete the circle",
+        "Do 5 slow circles, then reverse direction",
+        "IMPORTANT: Move slowly and never force"
+      ],
+      "duration": 45,
+      "durationUnit": "seconds",
+      "reps": 5,
+      "repRange": [3, 8],
+      "repNote": "each direction",
       "caloriesPerMinute": 1,
+      "credits": 25,
+      "energyRequired": "low",
       "muscleGroups": ["neck", "upper_back"],
       "movementPattern": "mobility",
       "equipment": [],
-      "energyRequired": [1, 3],
-      "contraindications": ["neck_severe", "cervical_issues"],
+      "contraindications": ["neck_severe", "vertigo"],
       "modifications": {
-        "easier": "Half circles only (front), avoid full back extension",
-        "harder": "Add gentle pressure with hand"
+        "easier": "Half circles only (ear to ear, not going back)",
+        "harder": "Add gentle hand pressure for deeper stretch"
       },
-      "videoSearch": "neck rolls stretch safe technique"
+      "videoSearch": "neck rolls stretch safely"
     },
     {
       "id": "thoracic-rotation",
-      "name": "Thoracic Spine Rotation",
-      "description": "Upper back rotation for posture and mobility",
-      "instructions": "On hands and knees, place one hand behind head. Rotate that elbow towards opposite arm, then open up towards ceiling. Follow elbow with eyes. Move slowly.",
-      "duration": { "default": 60, "unit": "seconds" },
-      "reps": { "default": 8, "range": [5, 12], "note": "each side" },
+      "name": "Thoracic Rotation",
+      "description": "Improves mid-back mobility — essential for desk workers and athletes",
+      "instructions": [
+        "Start on hands and knees in tabletop position",
+        "Place your right hand behind your head",
+        "Rotate your upper body to the right",
+        "Lead with your elbow, opening your chest to the ceiling",
+        "Look up towards your raised elbow",
+        "Return to start with control",
+        "Don't let your hips move — rotation is from mid-back",
+        "Do 8-10 reps, then switch sides"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 12],
+      "repNote": "per side",
       "caloriesPerMinute": 3,
+      "credits": 40,
+      "energyRequired": "low",
       "muscleGroups": ["thoracic_spine", "core", "shoulders"],
-      "movementPattern": "mobility",
+      "movementPattern": "rotation",
       "equipment": ["yoga_mat"],
-      "energyRequired": [2, 5],
-      "contraindications": ["wrist_high", "shoulder_severe"],
+      "contraindications": ["back_severe", "wrist_high"],
       "modifications": {
         "easier": "Smaller range of motion",
-        "harder": "Hold at end range, add breathing"
+        "harder": "Hold at end range for 2-3 breaths"
       },
-      "videoSearch": "thoracic spine rotation mobility"
+      "videoSearch": "thoracic rotation quadruped"
     },
     {
-      "id": "world-greatest-stretch",
+      "id": "worlds-greatest-stretch",
       "name": "World's Greatest Stretch",
-      "description": "Multi-joint mobility in one movement",
-      "instructions": "Lunge forward, place both hands inside front foot. Rotate torso, reaching top arm to ceiling. Return hand to floor. Option to drop rear knee. Switch sides.",
-      "duration": { "default": 90, "unit": "seconds" },
-      "reps": { "default": 5, "range": [3, 8], "note": "each side" },
+      "description": "Full-body mobility drill that hits hips, thoracic spine, and hamstrings",
+      "instructions": [
+        "Start in a push-up position",
+        "Step your right foot to the outside of your right hand",
+        "Keep your left leg straight, knee off the ground",
+        "Drop your right elbow towards the floor inside your right foot",
+        "Hold for 2-3 breaths",
+        "Place right hand on the floor",
+        "Rotate and reach your right arm to the ceiling",
+        "Look up at your raised hand",
+        "Hold for 2-3 breaths",
+        "Return to start and switch sides"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "reps": 5,
+      "repRange": [3, 8],
+      "repNote": "per side",
       "caloriesPerMinute": 4,
+      "credits": 60,
+      "energyRequired": "medium",
       "muscleGroups": ["hips", "thoracic_spine", "hamstrings", "hip_flexors"],
       "movementPattern": "mobility",
       "equipment": [],
-      "energyRequired": [3, 7],
-      "contraindications": ["hip_high", "knee_high", "shoulder_high"],
+      "contraindications": ["hip_severe", "wrist_high", "back_severe"],
       "modifications": {
-        "easier": "Keep hands on blocks, back knee down",
-        "harder": "Add hamstring stretch by straightening front leg"
+        "easier": "Skip the rotation, just do the lunge stretch",
+        "harder": "Add a hamstring stretch by straightening front leg"
       },
-      "videoSearch": "worlds greatest stretch mobility"
+      "videoSearch": "worlds greatest stretch tutorial"
     },
     {
-      "id": "90-90-stretch",
+      "id": "90-90-hip-stretch",
       "name": "90/90 Hip Stretch",
-      "description": "External and internal hip rotation",
-      "instructions": "Sit with front leg bent 90 degrees in front, back leg bent 90 degrees to side. Keep spine tall. Lean forward over front shin. Hold, then switch sides.",
-      "duration": { "default": 60, "unit": "seconds", "note": "per side" },
+      "description": "Deep hip opener that targets both internal and external rotation",
+      "instructions": [
+        "Sit on the floor",
+        "Position your front leg at 90 degrees in front of you",
+        "Position your back leg at 90 degrees behind you",
+        "Both knees should be bent at 90-degree angles",
+        "Sit up tall — use your hands for support if needed",
+        "You should feel a stretch in your front hip (external rotation)",
+        "And your back hip (internal rotation)",
+        "Hold for 60-90 seconds, then switch sides"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "durationNote": "per side",
       "caloriesPerMinute": 2,
-      "muscleGroups": ["hips", "glutes"],
+      "credits": 50,
+      "energyRequired": "low",
+      "muscleGroups": ["hips", "glutes", "hip_flexors"],
       "movementPattern": "mobility",
       "equipment": ["yoga_mat"],
-      "energyRequired": [1, 5],
-      "contraindications": ["hip_severe", "knee_high"],
+      "contraindications": ["knee_high", "hip_severe"],
       "modifications": {
-        "easier": "Sit on block or cushion, don't lean as far",
-        "harder": "Fold chest to floor, longer holds"
+        "easier": "Sit on a yoga block or pillow, lean back on hands",
+        "harder": "Lean forward over front leg, or lift back knee"
       },
-      "videoSearch": "90 90 hip stretch mobility"
+      "videoSearch": "90 90 hip stretch tutorial"
     },
     {
       "id": "wrist-circles",
       "name": "Wrist Circles",
-      "description": "Wrist mobility and preparation",
-      "instructions": "Extend arms in front. Make fists and draw circles with your wrists. Go both directions. Then open hands and spread fingers wide, close to fists. Repeat.",
-      "duration": { "default": 30, "unit": "seconds" },
-      "reps": { "default": 10, "range": [6, 15], "note": "each direction" },
+      "description": "Essential for anyone who types, lifts weights, or does push-ups",
+      "instructions": [
+        "Extend your arms in front of you",
+        "Make fists with both hands",
+        "Slowly rotate your wrists in circles",
+        "Make the circles as large as comfortable",
+        "Do 10 circles in each direction",
+        "Then open and close your fingers 10 times",
+        "Finally, shake out your hands loosely"
+      ],
+      "duration": 45,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 15],
+      "repNote": "each direction",
       "caloriesPerMinute": 1,
-      "muscleGroups": ["wrists", "forearms"],
+      "credits": 20,
+      "energyRequired": "low",
+      "muscleGroups": ["wrists", "forearms", "hands"],
       "movementPattern": "mobility",
       "equipment": [],
-      "energyRequired": [1, 3],
       "contraindications": ["wrist_severe"],
       "modifications": {
-        "easier": "Smaller circles, support forearm with other hand",
-        "harder": "Larger circles, add finger stretches"
+        "easier": "Smaller circles, support wrist with other hand",
+        "harder": "Add wrist flexor and extensor stretches"
       },
-      "videoSearch": "wrist circles warm up mobility"
+      "videoSearch": "wrist mobility exercises"
     },
     {
       "id": "hip-flexor-stretch",
-      "name": "Hip Flexor Stretch",
-      "description": "Lengthen tight hip flexors from sitting",
-      "instructions": "Kneel on one knee, other foot forward. Tuck tailbone under, squeeze rear glute. Shift weight forward until you feel stretch in front of rear hip. Hold and breathe.",
-      "duration": { "default": 45, "unit": "seconds", "note": "per side" },
+      "name": "Kneeling Hip Flexor Stretch",
+      "description": "Opens the hip flexors that get tight from sitting",
+      "instructions": [
+        "Kneel on your left knee with right foot forward",
+        "Place a cushion under your knee if needed",
+        "Keep your torso upright",
+        "Tuck your pelvis under (posterior pelvic tilt)",
+        "Shift your weight forward until you feel a stretch",
+        "The stretch should be in the front of your left hip",
+        "Keep your core engaged throughout",
+        "Hold for 30-60 seconds, then switch sides"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "durationNote": "per side",
       "caloriesPerMinute": 2,
-      "muscleGroups": ["hip_flexors", "quads"],
+      "credits": 40,
+      "energyRequired": "low",
+      "muscleGroups": ["hip_flexors", "quads", "core"],
       "movementPattern": "mobility",
       "equipment": ["yoga_mat"],
-      "energyRequired": [1, 4],
-      "contraindications": ["knee_severe"],
+      "contraindications": ["knee_high"],
       "modifications": {
-        "easier": "Place padding under knee, don't lunge as deep",
-        "harder": "Reach same-side arm overhead, lean away"
+        "easier": "Stay more upright, smaller lunge",
+        "harder": "Reach arm overhead on stretching side, add side bend"
       },
-      "videoSearch": "hip flexor stretch kneeling"
+      "videoSearch": "kneeling hip flexor stretch"
     },
     {
       "id": "calf-stretch",
-      "name": "Calf Stretch",
-      "description": "Stretch calves and Achilles tendon",
-      "instructions": "Stand facing wall, hands on wall. Step one foot back, keeping heel down and leg straight. Lean into wall until you feel stretch in calf. Hold, then switch.",
-      "duration": { "default": 30, "unit": "seconds", "note": "per side" },
-      "caloriesPerMinute": 2,
-      "muscleGroups": ["calves", "achilles"],
+      "name": "Wall Calf Stretch",
+      "description": "Stretches the calves and Achilles — important for runners and walkers",
+      "instructions": [
+        "Stand facing a wall, arm's length away",
+        "Place both hands on the wall at shoulder height",
+        "Step your right foot back about 2-3 feet",
+        "Keep your right heel firmly on the ground",
+        "Keep your right leg straight",
+        "Bend your left knee and lean towards the wall",
+        "Feel the stretch in your right calf",
+        "Hold for 30 seconds, then switch legs"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "durationNote": "per side",
+      "caloriesPerMinute": 1,
+      "credits": 30,
+      "energyRequired": "low",
+      "muscleGroups": ["calves", "achilles", "ankles"],
       "movementPattern": "mobility",
       "equipment": [],
-      "energyRequired": [1, 3],
-      "contraindications": ["achilles_severe", "calf_strain"],
+      "contraindications": ["calf_severe", "achilles_injury"],
       "modifications": {
-        "easier": "Bend back knee slightly for soleus stretch",
-        "harder": "Deeper lean, or stretch on step edge"
+        "easier": "Don't step back as far",
+        "harder": "Step further back, or bend back knee slightly for deeper Achilles stretch"
       },
       "videoSearch": "calf stretch against wall"
+    },
+    {
+      "id": "thread-the-needle",
+      "name": "Thread the Needle",
+      "description": "Thoracic rotation stretch that opens the upper back and shoulders",
+      "instructions": [
+        "Start on hands and knees in tabletop position",
+        "Lift your right arm out to the side",
+        "Thread your right arm under your body",
+        "Slide it along the floor to the left",
+        "Let your right shoulder and head rest on the floor",
+        "Your left arm can stay straight or bend for support",
+        "Feel the stretch in your right shoulder and upper back",
+        "Hold for 30 seconds, then switch sides"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "durationNote": "per side",
+      "caloriesPerMinute": 2,
+      "credits": 40,
+      "energyRequired": "low",
+      "muscleGroups": ["thoracic_spine", "shoulders", "upper_back"],
+      "movementPattern": "rotation",
+      "equipment": ["yoga_mat"],
+      "contraindications": ["shoulder_severe", "neck_severe"],
+      "modifications": {
+        "easier": "Don't go as deep, use a pillow under head",
+        "harder": "Reach top arm overhead for deeper stretch"
+      },
+      "videoSearch": "thread the needle stretch"
+    },
+    {
+      "id": "arm-circles",
+      "name": "Arm Circles",
+      "description": "Dynamic warm-up that increases shoulder mobility and blood flow",
+      "instructions": [
+        "Stand tall with feet hip-width apart",
+        "Extend your arms straight out to the sides",
+        "Make small circles with your arms",
+        "Gradually increase the size of the circles",
+        "Keep your core engaged and stand tall",
+        "Do 10-15 circles forward",
+        "Then 10-15 circles backward",
+        "Finish by shaking out your arms"
+      ],
+      "duration": 45,
+      "durationUnit": "seconds",
+      "reps": 15,
+      "repRange": [10, 20],
+      "repNote": "each direction",
+      "caloriesPerMinute": 3,
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["shoulders", "arms", "upper_back"],
+      "movementPattern": "mobility",
+      "equipment": [],
+      "contraindications": ["shoulder_severe"],
+      "modifications": {
+        "easier": "Smaller circles, bent elbows",
+        "harder": "Hold light weights, increase circle size"
+      },
+      "videoSearch": "arm circles warm up exercise"
     }
   ]
 }
