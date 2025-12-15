@@ -1,1 +1,114 @@
-
+{
+  "id": "walk-run-intervals",
+  "name": "Walk-Run Intervals",
+  "description": "Gentle introduction to running. Alternating walking and jogging builds fitness without overwhelming.",
+  "category": "running",
+  "duration": 20,
+  "energyRequired": [3, 7],
+  "equipment": ["running_shoes"],
+  "goals": ["first_5k", "running", "beginner", "returning_runner"],
+  "contraindications": ["knee_high", "ankle_high", "hip_high"],
+  
+  "coach": {
+    "intro": "This walk-run session is how every runner starts — or returns. The walking isn't rest, it's part of the training. No shame, just smart progression.",
+    "motivation": "Every runner you've ever admired started exactly like this. One foot in front of the other.",
+    "completion": "Fantastic work. You're a runner now. Doesn't matter how fast."
+  },
+  
+  "structure": [
+    {
+      "type": "segment",
+      "name": "Warm-Up Walk",
+      "activity": "walk",
+      "duration": 180,
+      "notes": "Start with 3 minutes of brisk walking"
+    },
+    {
+      "type": "segment",
+      "name": "Jog 1",
+      "activity": "run",
+      "intensity": "easy",
+      "duration": 60,
+      "notes": "1 minute easy jog. Slow is fine. Just not walking."
+    },
+    {
+      "type": "segment",
+      "name": "Walk 1",
+      "activity": "walk",
+      "duration": 90,
+      "notes": "90 seconds walking recovery. Keep moving."
+    },
+    {
+      "type": "segment",
+      "name": "Jog 2",
+      "activity": "run",
+      "intensity": "easy",
+      "duration": 60,
+      "notes": "1 minute jog"
+    },
+    {
+      "type": "segment",
+      "name": "Walk 2",
+      "activity": "walk",
+      "duration": 90,
+      "notes": "90 seconds walk"
+    },
+    {
+      "type": "segment",
+      "name": "Jog 3",
+      "activity": "run",
+      "intensity": "easy",
+      "duration": 60,
+      "notes": "1 minute jog"
+    },
+    {
+      "type": "segment",
+      "name": "Walk 3",
+      "activity": "walk",
+      "duration": 90,
+      "notes": "90 seconds walk"
+    },
+    {
+      "type": "segment",
+      "name": "Jog 4",
+      "activity": "run",
+      "intensity": "easy",
+      "duration": 60,
+      "notes": "1 minute jog"
+    },
+    {
+      "type": "segment",
+      "name": "Walk 4",
+      "activity": "walk",
+      "duration": 90,
+      "notes": "90 seconds walk"
+    },
+    {
+      "type": "segment",
+      "name": "Jog 5",
+      "activity": "run",
+      "intensity": "easy",
+      "duration": 60,
+      "notes": "Final jog interval"
+    },
+    {
+      "type": "segment",
+      "name": "Cool-Down Walk",
+      "activity": "walk",
+      "duration": 180,
+      "notes": "3 minutes easy walking to cool down"
+    }
+  ],
+  
+  "progression": {
+    "week1_2": "1 min jog / 90 sec walk × 5",
+    "week3_4": "90 sec jog / 60 sec walk × 6",
+    "week5_6": "2 min jog / 60 sec walk × 5",
+    "week7_8": "3 min jog / 30 sec walk × 4",
+    "week9_10": "5 min jog / 30 sec walk × 3",
+    "beyond": "Continuous easy running"
+  },
+  
+  "estimatedCalories": 140,
+  "credits": 100
+}
