@@ -1,84 +1,164 @@
 {
   "id": "breathing",
   "name": "Breathing Exercises",
-  "description": "Breathwork for calm, focus, and recovery",
+  "description": "Breathwork for calm, focus and energy",
   
   "exercises": [
     {
       "id": "box-breathing",
       "name": "Box Breathing",
-      "description": "4-4-4-4 breathing pattern for calm and focus",
-      "instructions": "Breathe in for 4 counts. Hold for 4 counts. Breathe out for 4 counts. Hold empty for 4 counts. Repeat. Focus entirely on the count.",
-      "duration": { "default": 180, "unit": "seconds", "range": [60, 600] },
-      "reps": { "default": 10, "range": [4, 20], "note": "cycles" },
+      "description": "Navy SEAL technique for calm under pressure — 4-4-4-4 pattern",
+      "instructions": [
+        "Sit comfortably with feet flat on the floor",
+        "Close your eyes or soften your gaze",
+        "Exhale completely to empty your lungs",
+        "INHALE slowly through your nose for 4 counts",
+        "HOLD your breath for 4 counts",
+        "EXHALE slowly through your mouth for 4 counts",
+        "HOLD empty for 4 counts",
+        "Repeat for 4-8 cycles"
+      ],
+      "duration": 180,
+      "durationUnit": "seconds",
+      "cycles": 6,
+      "cycleRange": [4, 10],
+      "pattern": {
+        "inhale": 4,
+        "holdIn": 4,
+        "exhale": 4,
+        "holdOut": 4
+      },
       "caloriesPerMinute": 1,
-      "muscleGroups": ["nervous_system", "diaphragm"],
+      "credits": 40,
+      "energyRequired": "low",
+      "muscleGroups": ["respiratory", "nervous_system"],
       "movementPattern": "recovery",
       "equipment": [],
-      "energyRequired": [1, 3],
       "contraindications": [],
-      "benefits": ["Reduces anxiety", "Improves focus", "Activates parasympathetic nervous system"],
+      "benefits": [
+        "Reduces stress and anxiety",
+        "Activates parasympathetic nervous system",
+        "Improves focus and concentration",
+        "Lowers heart rate and blood pressure"
+      ],
       "modifications": {
-        "easier": "3-3-3-3 count if 4 feels too long",
-        "harder": "5-5-5-5 or 6-6-6-6 count"
+        "easier": "Reduce to 3-3-3-3 counts",
+        "harder": "Increase to 5-5-5-5 or 6-6-6-6 counts"
       },
-      "videoSearch": "box breathing technique navy seal"
+      "videoSearch": "box breathing technique tutorial"
     },
     {
       "id": "4-7-8-breathing",
       "name": "4-7-8 Breathing",
-      "description": "Relaxation breath for sleep and anxiety",
-      "instructions": "Breathe in through nose for 4 counts. Hold for 7 counts. Exhale slowly through mouth for 8 counts, making a whoosh sound. Repeat cycle.",
-      "duration": { "default": 180, "unit": "seconds", "range": [60, 600] },
-      "reps": { "default": 4, "range": [3, 8], "note": "cycles" },
+      "description": "Dr. Andrew Weil's relaxing breath — natural tranquiliser for the nervous system",
+      "instructions": [
+        "Sit or lie in a comfortable position",
+        "Place tongue tip behind your upper front teeth",
+        "Keep tongue there throughout the exercise",
+        "Exhale completely through your mouth with a whoosh",
+        "INHALE quietly through your nose for 4 counts",
+        "HOLD your breath for 7 counts",
+        "EXHALE completely through mouth for 8 counts (whoosh)",
+        "Repeat for 4 cycles (work up to 8 over time)"
+      ],
+      "duration": 120,
+      "durationUnit": "seconds",
+      "cycles": 4,
+      "cycleRange": [4, 8],
+      "pattern": {
+        "inhale": 4,
+        "holdIn": 7,
+        "exhale": 8,
+        "holdOut": 0
+      },
       "caloriesPerMinute": 1,
-      "muscleGroups": ["nervous_system", "diaphragm"],
+      "credits": 40,
+      "energyRequired": "low",
+      "muscleGroups": ["respiratory", "nervous_system"],
       "movementPattern": "recovery",
       "equipment": [],
-      "energyRequired": [1, 2],
-      "contraindications": [],
-      "benefits": ["Promotes sleep", "Reduces anxiety", "Natural tranquiliser for nervous system"],
+      "contraindications": ["pregnancy", "respiratory_severe"],
+      "benefits": [
+        "Promotes sleep",
+        "Reduces anxiety",
+        "Manages cravings",
+        "Controls anger responses"
+      ],
       "modifications": {
-        "easier": "Reduce counts proportionally: 2-3.5-4",
-        "harder": "Hold positions longer between breaths"
+        "easier": "Reduce hold time, maintain the ratio",
+        "harder": "Increase to 8 cycles"
       },
-      "videoSearch": "4-7-8 breathing technique andrew weil"
+      "videoSearch": "4 7 8 breathing technique andrew weil"
     },
     {
       "id": "diaphragmatic-breathing",
       "name": "Diaphragmatic Breathing",
-      "description": "Belly breathing for relaxation and core connection",
-      "instructions": "Place one hand on chest, one on belly. Breathe in through nose, expanding belly (not chest). Exhale slowly, feeling belly fall. Chest stays relatively still.",
-      "duration": { "default": 180, "unit": "seconds", "range": [60, 600] },
+      "description": "Deep belly breathing that maximises oxygen intake and calms the mind",
+      "instructions": [
+        "Lie on your back with knees bent, or sit comfortably",
+        "Place one hand on your chest, one on your belly",
+        "Breathe in slowly through your nose",
+        "Feel your BELLY rise while chest stays still",
+        "Your lower hand should rise, upper hand stays quiet",
+        "Exhale slowly through pursed lips",
+        "Feel your belly fall as you empty your lungs",
+        "Continue for 5-10 minutes"
+      ],
+      "duration": 300,
+      "durationUnit": "seconds",
+      "durationRange": [180, 600],
       "caloriesPerMinute": 1,
-      "muscleGroups": ["diaphragm", "core", "nervous_system"],
+      "credits": 50,
+      "energyRequired": "low",
+      "muscleGroups": ["diaphragm", "core", "respiratory"],
       "movementPattern": "recovery",
       "equipment": [],
-      "energyRequired": [1, 2],
       "contraindications": [],
-      "benefits": ["Reduces stress", "Improves core engagement", "Lowers blood pressure"],
+      "benefits": [
+        "Increases oxygen efficiency",
+        "Strengthens the diaphragm",
+        "Reduces stress hormones",
+        "Lowers blood pressure"
+      ],
       "modifications": {
-        "easier": "Practice lying down first",
-        "harder": "Practice while standing or during gentle movement"
+        "easier": "Just focus on belly rising, don't worry about chest",
+        "harder": "Add a book on your belly for feedback"
       },
-      "videoSearch": "diaphragmatic belly breathing technique"
+      "videoSearch": "diaphragmatic breathing tutorial"
     },
     {
       "id": "physiological-sigh",
       "name": "Physiological Sigh",
-      "description": "Fastest way to calm down in real-time",
-      "instructions": "Take a deep breath in through nose. At the top, take a second short sip of air to fully expand lungs. Then exhale slowly and fully through mouth. Repeat 2-3 times.",
-      "duration": { "default": 60, "unit": "seconds" },
-      "reps": { "default": 3, "range": [2, 5], "note": "sighs" },
+      "description": "Stanford neuroscience technique — fastest way to calm down in real-time",
+      "instructions": [
+        "This is the fastest way to reduce stress in the moment",
+        "Take a deep inhale through your nose",
+        "At the top, take a SECOND short inhale (double inhale)",
+        "This reinflates the collapsed air sacs in your lungs",
+        "Then exhale very slowly through your mouth",
+        "The exhale should be longer than the inhales combined",
+        "One cycle is often enough to feel calmer",
+        "Repeat 2-3 times if needed"
+      ],
+      "duration": 30,
+      "durationUnit": "seconds",
+      "cycles": 3,
+      "cycleRange": [1, 5],
       "caloriesPerMinute": 1,
-      "muscleGroups": ["nervous_system", "diaphragm"],
+      "credits": 30,
+      "energyRequired": "low",
+      "muscleGroups": ["respiratory", "nervous_system"],
       "movementPattern": "recovery",
       "equipment": [],
-      "energyRequired": [1, 3],
       "contraindications": [],
-      "benefits": ["Immediate stress relief", "Resets nervous system quickly", "Can use anywhere"],
+      "benefits": [
+        "Fastest real-time stress reduction",
+        "Can be done anywhere, anytime",
+        "Activates parasympathetic response",
+        "Reduces heart rate within seconds"
+      ],
       "modifications": {
-        "easier": "Just one sigh when stressed",
+        "easier": "Just do one cycle",
         "harder": "Extend the exhale even longer"
       },
       "videoSearch": "physiological sigh andrew huberman"
@@ -86,43 +166,117 @@
     {
       "id": "alternate-nostril",
       "name": "Alternate Nostril Breathing",
-      "sanskrit": "Nadi Shodhana",
-      "description": "Balancing breath for calm and mental clarity",
-      "instructions": "Close right nostril with thumb, inhale through left. Close left nostril with ring finger, exhale through right. Inhale through right, close, exhale through left. That's one cycle.",
-      "duration": { "default": 300, "unit": "seconds", "range": [120, 600] },
-      "reps": { "default": 10, "range": [5, 20], "note": "cycles" },
+      "sanskritName": "Nadi Shodhana",
+      "description": "Yogic breathing that balances left and right brain hemispheres",
+      "instructions": [
+        "Sit comfortably with spine tall",
+        "Rest left hand on your knee",
+        "Bring right hand to your face",
+        "Use thumb to close right nostril",
+        "INHALE through left nostril for 4 counts",
+        "Close left nostril with ring finger, release thumb",
+        "EXHALE through right nostril for 4 counts",
+        "INHALE through right nostril for 4 counts",
+        "Close right nostril, release left",
+        "EXHALE through left nostril for 4 counts",
+        "This is one complete cycle — repeat 5-10 times"
+      ],
+      "duration": 240,
+      "durationUnit": "seconds",
+      "cycles": 8,
+      "cycleRange": [5, 15],
       "caloriesPerMinute": 1,
-      "muscleGroups": ["nervous_system"],
+      "credits": 50,
+      "energyRequired": "low",
+      "muscleGroups": ["respiratory", "nervous_system"],
       "movementPattern": "recovery",
       "equipment": [],
-      "energyRequired": [1, 3],
-      "contraindications": ["nasal_congestion"],
-      "benefits": ["Balances left and right brain", "Calms mind", "Improves focus"],
+      "contraindications": ["cold", "sinus_infection"],
+      "benefits": [
+        "Balances nervous system",
+        "Clears energy channels",
+        "Improves focus",
+        "Prepares mind for meditation"
+      ],
       "modifications": {
-        "easier": "Slower pace, shorter duration",
+        "easier": "Just visualise the breath alternating",
         "harder": "Add breath retention between sides"
       },
-      "videoSearch": "alternate nostril breathing nadi shodhana yoga"
+      "videoSearch": "alternate nostril breathing tutorial"
     },
     {
       "id": "energising-breath",
       "name": "Energising Breath",
-      "description": "Quick breaths to boost energy and alertness",
-      "instructions": "Take 20-30 quick, sharp breaths through the nose, pumping the belly. Then take a deep breath in, hold for 10-15 seconds, exhale slowly. Repeat 2-3 rounds.",
-      "duration": { "default": 180, "unit": "seconds" },
-      "reps": { "default": 3, "range": [2, 4], "note": "rounds" },
+      "description": "Quick, rhythmic breathing to increase alertness and energy",
+      "instructions": [
+        "Sit tall with shoulders relaxed",
+        "Take a few normal breaths to settle",
+        "Begin quick, rhythmic breaths through your nose",
+        "Both inhale and exhale should be short and equal",
+        "Keep your mouth closed",
+        "Pump your belly with each exhale",
+        "Start with 15-20 breaths per round",
+        "Take a break and breathe normally between rounds",
+        "Do 2-3 rounds total"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "cycles": 3,
+      "breathsPerCycle": 20,
       "caloriesPerMinute": 2,
-      "muscleGroups": ["nervous_system", "core"],
+      "credits": 40,
+      "energyRequired": "medium",
+      "muscleGroups": ["respiratory", "core", "nervous_system"],
       "movementPattern": "recovery",
       "equipment": [],
-      "energyRequired": [2, 5],
-      "contraindications": ["pregnancy", "epilepsy", "heart_condition", "blood_pressure_high"],
-      "benefits": ["Increases alertness", "Boosts energy", "Clears mind fog"],
+      "contraindications": ["pregnancy", "epilepsy", "heart_condition", "blood_pressure_high", "panic_disorder"],
+      "benefits": [
+        "Increases alertness",
+        "Boosts energy naturally",
+        "Warms the body",
+        "Clears mental fog"
+      ],
       "modifications": {
-        "easier": "Fewer breaths per round (15), shorter holds",
-        "harder": "More breaths per round, longer holds"
+        "easier": "Slower breaths, fewer per round",
+        "harder": "More breaths per round, add breath holds"
       },
-      "videoSearch": "wim hof breathing technique beginner"
+      "videoSearch": "breath of fire pranayama beginners"
+    },
+    {
+      "id": "resonance-breathing",
+      "name": "Resonance Breathing",
+      "description": "5.5 breaths per minute — the optimal rate for heart rate variability",
+      "instructions": [
+        "Sit or lie in a comfortable position",
+        "Set a timer for 5 minutes to start",
+        "Breathe in through your nose for about 5.5 seconds",
+        "Breathe out through your nose for about 5.5 seconds",
+        "No pause between breaths — continuous flow",
+        "This equals about 5.5 breaths per minute",
+        "Focus on the smoothness of your breath",
+        "Let your belly expand naturally on inhale"
+      ],
+      "duration": 300,
+      "durationUnit": "seconds",
+      "durationRange": [180, 1200],
+      "caloriesPerMinute": 1,
+      "credits": 60,
+      "energyRequired": "low",
+      "muscleGroups": ["respiratory", "nervous_system", "cardiovascular"],
+      "movementPattern": "recovery",
+      "equipment": [],
+      "contraindications": [],
+      "benefits": [
+        "Optimises heart rate variability",
+        "Synchronises heart and respiratory systems",
+        "Reduces blood pressure",
+        "Promotes deep relaxation"
+      ],
+      "modifications": {
+        "easier": "Start with 4-second inhale/exhale and work up",
+        "harder": "Extend to 6-second inhale/exhale"
+      },
+      "videoSearch": "resonance breathing coherent breathing"
     }
   ]
 }
