@@ -263,30 +263,15 @@ function closeExerciseModal() {
 
 /**
  * Complete an exercise
+ * Delegates to main app for proper handling
  */
 function completeExercise(exerciseId) {
-  // Get exercise to find credits
-  // For now, assume we can find it in the DOM
-  const credits = 50; // Default, should be passed or looked up
-  
-  // Add to completed today
-  const completedToday = store.get('workouts.completedToday') || [];
-  if (!completedToday.includes(exerciseId)) {
-    completedToday.push(exerciseId);
-    store.set('workouts.completedToday', completedToday);
-    
-    // Add credits
-    const currentCredits = store.get('credits.balance') || 0;
-    store.set('credits.balance', currentCredits + credits);
-    
-    // Trigger celebration
-    if (window.alongside?.celebrate) {
-      window.alongside.celebrate(credits);
-    }
+  if (window.alongside?.completeExercise) {
+    window.alongside.completeExercise(exerciseId);
+  } else {
+    console.warn('Complete exercise handler not available');
+    closeExerciseModal();
   }
-  
-  // Close modal
-  closeExerciseModal();
 }
 
 /**
