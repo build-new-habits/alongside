@@ -9,6 +9,8 @@ import { coach } from './modules/coach.js';
 import { checkin } from './modules/checkin.js';
 import { todayView } from './modules/todayView.js';
 import { cards } from './modules/cards.js';
+import { economy } from './modules/economy.js';
+import { weeklyCheckin } from './modules/weeklyCheckin.js';
 
 // App state
 let currentScreen = 'loading';
@@ -32,6 +34,9 @@ async function init() {
   
   // Initialize navigation
   initNavigation();
+  
+  // Initialize weekly check-in handlers
+  weeklyCheckin.init();
   
   // Load exercise library
   console.log('📚 Loading exercise library...');
@@ -234,6 +239,11 @@ function showSettings() {
         </p>
       </div>
       
+      <button class="checkin__submit" style="background: var(--color-primary); margin-bottom: var(--space-3);" 
+              onclick="window.alongside.showWeeklyCheckin()">
+        Weekly Check-In
+      </button>
+      
       <button class="checkin__submit" style="background: var(--color-danger);" 
               onclick="window.alongside.resetApp()">
         Reset All Data
@@ -243,6 +253,17 @@ function showSettings() {
   
   currentScreen = 'profile';
   updateNav('profile');
+}
+
+/**
+ * Show weekly check-in screen
+ */
+function showWeeklyCheckin() {
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  main.innerHTML = weeklyCheckin.render();
+  currentScreen = 'weekly';
 }
 
 /**
@@ -347,28 +368,40 @@ function celebrate(credits) {
  * Complete an exercise (called from modal)
  */
 function completeExercise(exerciseId) {
-  // Find the exercise to get credits
+  // Find the exercise to get full data
   const workout = todayView.getCurrentWorkout();
-  let credits = 50; // Default
+  let exercise = null;
   
   if (workout) {
     for (const section of workout.sections) {
       const ex = section.exercises.find(e => e.id === exerciseId);
       if (ex) {
-        credits = ex.credits || 50;
+        exercise = ex;
         break;
       }
     }
   }
   
-  // Check if already completed
+  if (!exercise) {
+    console.warn('Exercise not found:', exerciseId);
+    cards.closeExerciseModal();
+    return;
+  }
+  
+  // Check if already completed today
   if (store.isExerciseCompletedToday(exerciseId)) {
     console.log('Already completed today');
     cards.closeExerciseModal();
     return;
   }
   
-  // Mark as completed in store
+  // Calculate credits using economy module
+  const credits = economy.calculateCredits(exercise);
+  
+  // Log the completion with economy module
+  economy.logExerciseCompletion(exercise);
+  
+  // Mark as completed in store (for daily tracking)
   store.completeExercise(exerciseId, credits);
   
   // Close modal
@@ -414,6 +447,7 @@ window.alongside = {
   showBrowse,
   showProgress,
   showSettings,
+  showWeeklyCheckin,
   showExerciseModal: cards.showExerciseModal,
   closeExerciseModal: cards.closeExerciseModal,
   completeExercise,
@@ -421,7 +455,8 @@ window.alongside = {
   skipToday: todayView.skipToday,
   resetApp,
   store,
-  library
+  library,
+  economy
 };
 
 // Initialize on DOM ready
