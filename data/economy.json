@@ -1,0 +1,160 @@
+{
+  "version": "1.0",
+  "description": "Alongside Credit Economy - Strict Edition",
+  
+  "creditCalculation": {
+    "description": "Credits = basePerMinute × duration × intensityMultiplier",
+    "basePerMinute": 5,
+    "intensityMultipliers": {
+      "low": 0.5,
+      "medium": 1.0,
+      "high": 1.5,
+      "veryHigh": 2.0
+    },
+    "minimumCredits": 5,
+    "examples": {
+      "wallSit30s": "5 × 0.5 × 1.0 = 2.5 → 5 (minimum)",
+      "squats1min": "5 × 1 × 1.0 = 5",
+      "run30min": "5 × 30 × 1.5 = 225",
+      "hiit10min": "5 × 10 × 2.0 = 100"
+    }
+  },
+  
+  "weeklyTiers": {
+    "description": "Weekly exercise minutes determine treat tier",
+    "tiers": [
+      {
+        "id": "building",
+        "name": "Building",
+        "minMinutes": 0,
+        "maxMinutes": 59,
+        "unlocks": [],
+        "message": "Keep building! You're laying the foundation."
+      },
+      {
+        "id": "bronze",
+        "name": "Bronze",
+        "minMinutes": 60,
+        "maxMinutes": 119,
+        "unlocks": ["small"],
+        "message": "Solid week! You've earned a small reward."
+      },
+      {
+        "id": "silver",
+        "name": "Silver",
+        "minMinutes": 120,
+        "maxMinutes": 179,
+        "unlocks": ["small", "medium"],
+        "message": "Great consistency! A medium treat is yours if you want it."
+      },
+      {
+        "id": "gold",
+        "name": "Gold",
+        "minMinutes": 180,
+        "maxMinutes": 239,
+        "unlocks": ["small", "medium", "large"],
+        "message": "Impressive dedication! You've unlocked all treat tiers."
+      },
+      {
+        "id": "platinum",
+        "name": "Platinum",
+        "minMinutes": 240,
+        "maxMinutes": 9999,
+        "unlocks": ["small", "medium", "large", "premium"],
+        "message": "Outstanding! Bank this week for something special."
+      }
+    ]
+  },
+  
+  "treats": {
+    "description": "What credits can buy - ONE per week maximum",
+    "categories": {
+      "small": {
+        "name": "Small Treat",
+        "description": "A little something",
+        "items": [
+          { "id": "fancy-coffee", "name": "Fancy Coffee", "icon": "☕", "description": "Barista-made, not home brew" },
+          { "id": "small-snack", "name": "Small Snack", "icon": "🍪", "description": "A biscuit, small chocolate" }
+        ]
+      },
+      "medium": {
+        "name": "Medium Treat",
+        "description": "Something more substantial",
+        "items": [
+          { "id": "cake", "name": "Cake or Dessert", "icon": "🍰", "description": "A proper slice" },
+          { "id": "glass-wine", "name": "Glass of Wine", "icon": "🍷", "description": "One glass, savoured" },
+          { "id": "beer", "name": "Pint of Beer", "icon": "🍺", "description": "One pint" },
+          { "id": "chocolate-bar", "name": "Chocolate Bar", "icon": "🍫", "description": "Full size, not fun size" }
+        ]
+      },
+      "large": {
+        "name": "Large Treat",
+        "description": "A significant indulgence",
+        "items": [
+          { "id": "takeaway", "name": "Takeaway Meal", "icon": "🍕", "description": "Delivery or collection" },
+          { "id": "bottle-wine", "name": "Bottle of Wine", "icon": "🍾", "description": "To share (or not)" },
+          { "id": "dessert-meal", "name": "Dessert with Meal", "icon": "🍨", "description": "When eating out" }
+        ]
+      },
+      "premium": {
+        "name": "Premium Treat",
+        "description": "Rare and special",
+        "items": [
+          { "id": "restaurant", "name": "Restaurant Meal", "icon": "🍽️", "description": "Starter, main, dessert" },
+          { "id": "cheat-day", "name": "Cheat Day", "icon": "🎉", "description": "No logging required" }
+        ]
+      }
+    }
+  },
+  
+  "banking": {
+    "description": "Bank weeks to unlock bigger rewards",
+    "enabled": true,
+    "rules": [
+      {
+        "weeksRequired": 2,
+        "tierRequired": "gold",
+        "unlocks": "restaurant",
+        "description": "2 Gold+ weeks without spending = Restaurant meal"
+      },
+      {
+        "weeksRequired": 4,
+        "tierRequired": "silver",
+        "unlocks": "cheat-day",
+        "description": "4 Silver+ weeks without spending = Cheat day"
+      }
+    ]
+  },
+  
+  "friction": {
+    "description": "Speed bumps before spending",
+    "showWeightProgress": true,
+    "showLastIndulgence": true,
+    "showBankingAlternative": true,
+    "requireConfirmation": true,
+    "cooldownDays": 7,
+    "messages": {
+      "confirmation": "You've worked hard for this. Still want to spend?",
+      "recentIndulgence": "Your last treat was {days} days ago.",
+      "nearGoal": "You're {amount} away from your {goal} goal.",
+      "bankingSuggestion": "Banking this would unlock {reward} in {weeks} more weeks."
+    }
+  },
+  
+  "savings": {
+    "description": "Track money saved through smart choices",
+    "enabled": true,
+    "defaultValues": {
+      "GBP": {
+        "coffee-home": { "name": "Home brewed coffee", "saves": 3.50, "icon": "☕" },
+        "coffee-bought": { "name": "Bought coffee", "costs": 3.50, "icon": "☕" },
+        "lunch-packed": { "name": "Packed lunch", "saves": 7.00, "icon": "🥪" },
+        "lunch-bought": { "name": "Bought lunch", "costs": 7.00, "icon": "🍱" },
+        "dinner-cooked": { "name": "Cooked dinner", "saves": 12.00, "icon": "🍳" },
+        "dinner-takeaway": { "name": "Takeaway dinner", "costs": 15.00, "icon": "🍕" },
+        "walked": { "name": "Walked instead of taxi", "saves": 8.00, "icon": "🚶" },
+        "taxi": { "name": "Took taxi/Uber", "costs": 8.00, "icon": "🚕" }
+      }
+    }
+  }
+}
