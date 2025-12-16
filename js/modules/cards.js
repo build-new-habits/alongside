@@ -5,6 +5,7 @@
 
 import { library } from './libraryLoader.js';
 import { store } from '../store.js';
+import { economy } from './economy.js';
 
 // Movement pattern display info
 const PATTERN_INFO = {
@@ -38,6 +39,9 @@ function renderExerciseCard(exercise) {
   // Calculate estimated calories for default duration
   const duration = exercise.duration || 30;
   const calories = Math.round((exercise.caloriesPerMinute || 5) * (duration / 60));
+  
+  // Calculate credits using economy module
+  const credits = economy.calculateCredits(exercise);
   
   // Format duration display
   const durationDisplay = exercise.durationUnit === 'seconds' 
@@ -80,7 +84,7 @@ function renderExerciseCard(exercise) {
         
         <!-- Credits -->
         <div class="exercise-card__credits">
-          +${exercise.credits || 50} ⭐
+          +${credits} ⭐
         </div>
       </div>
       
@@ -146,7 +150,7 @@ async function showExerciseModal(exerciseId) {
     ? `${duration} secs` 
     : `${duration} min`;
   const calories = Math.round((exercise.caloriesPerMinute || 5) * (duration / 60));
-  const credits = exercise.credits || 50;
+  const credits = economy.calculateCredits(exercise);
   
   const youtubeUrl = library.getVideoSearchUrl(exercise);
   
