@@ -7,6 +7,7 @@ import { store } from '../store.js';
 import { coach } from './coach.js';
 import { library } from './libraryLoader.js';
 import { checkin } from './checkin.js';
+import { economy } from './economy.js';
 
 // Pattern icons
 const PATTERN_ICONS = {
@@ -31,34 +32,51 @@ let currentWorkout = null;
  * Render the today screen
  */
 async function render(energy = 5, mood = 5) {
-  // Get coach-generated workout
-  currentWorkout = await coach.buildDailyWorkout({
-    energy,
-    mood,
-    conditions: store.get('profile.conditions') || [],
-    equipment: store.get('profile.equipment') || [],
-    goals: store.get('profile.goals') || []
-  });
+  const today = new Date().toDateString();
+  
+  // Check if we already have a workout saved for today
+  const savedWorkout = store.get('workout.todayWorkout');
+  const savedDate = store.get('workout.date');
+  
+  if (savedWorkout && savedDate === today) {
+    // Use the saved workout
+    currentWorkout = savedWorkout;
+  } else {
+    // Generate a new workout and save it
+    currentWorkout = await coach.buildDailyWorkout({
+      energy,
+      mood,
+      conditions: store.get('profile.conditions') || [],
+      equipment: store.get('profile.equipment') || [],
+      goals: store.get('profile.goals') || []
+    });
+    
+    // Save to store so it persists all day
+    if (currentWorkout) {
+      store.set('workout.todayWorkout', currentWorkout);
+      store.set('workout.date', today);
+    }
+  }
   
   if (!currentWorkout) {
     return renderError();
   }
   
   // Get today's date formatted
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('en-GB', { 
+  const todayDate = new Date();
+  const dateStr = todayDate.toLocaleDateString('en-GB', { 
     weekday: 'long', 
     day: 'numeric', 
     month: 'long' 
   });
   
-  // Calculate totals
+  // Calculate totals using economy module for consistent credits
   const totalDuration = currentWorkout.sections.reduce((sum, section) => {
     return sum + section.exercises.reduce((s, e) => s + (e.duration || 30), 0);
   }, 0);
   
   const totalCredits = currentWorkout.sections.reduce((sum, section) => {
-    return sum + section.exercises.reduce((s, e) => s + (e.credits || 50), 0);
+    return sum + section.exercises.reduce((s, e) => s + economy.calculateCredits(e), 0);
   }, 0);
   
   // Get completed exercises
@@ -106,6 +124,9 @@ async function render(energy = 5, mood = 5) {
               ? `${exercise.duration}s` 
               : `${exercise.duration} min`;
             
+            // Calculate credits using economy module
+            const credits = economy.calculateCredits(exercise);
+            
             return `
               <div class="exercise-item ${isCompleted ? 'exercise-item--completed' : ''}"
                    data-exercise-id="${exercise.id}"
@@ -115,7 +136,7 @@ async function render(energy = 5, mood = 5) {
                   <div class="exercise-item__name">${exercise.name}</div>
                   <div class="exercise-item__meta">
                     <span>${duration}</span>
-                    <span class="exercise-item__credits">+${exercise.credits || 50}</span>
+                    <span class="exercise-item__credits">+${credits}</span>
                   </div>
                 </div>
                 <div class="exercise-item__check">
