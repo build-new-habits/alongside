@@ -1,469 +1,424 @@
 /**
- * Alongside - Main App Orchestrator
- * Initializes modules and handles navigation
+ * Alongside Exercise Card Renderer
+ * Renders exercise cards (front) and detail modals (back)
  */
 
-import { store } from './store.js';
-import { library } from './modules/libraryLoader.js';
-import { coach } from './modules/coach.js';
-import { checkin } from './modules/checkin.js';
-import { todayView } from './modules/todayView.js';
-import { cards } from './modules/cards.js';
-import { economy } from './modules/economy.js';
-import { weeklyCheckin } from './modules/weeklyCheckin.js';
+import { library } from './libraryLoader.js';
+import { store } from '../store.js';
+import { economy } from './economy.js';
 
-// App state
-let currentScreen = 'loading';
+// Movement pattern display info
+const PATTERN_INFO = {
+  hinge: { name: 'Strength', icon: '🏋️', category: 'strength' },
+  squat: { name: 'Strength', icon: '🏋️', category: 'strength' },
+  lunge: { name: 'Strength', icon: '🏋️', category: 'strength' },
+  push: { name: 'Strength', icon: '💪', category: 'strength' },
+  pull: { name: 'Strength', icon: '💪', category: 'strength' },
+  carry: { name: 'Strength', icon: '🎒', category: 'strength' },
+  rotation: { name: 'Mobility', icon: '🔄', category: 'mobility' },
+  mobility: { name: 'Mobility', icon: '🧘', category: 'mobility' },
+  stability: { name: 'Core', icon: '⚖️', category: 'stability' },
+  locomotion: { name: 'Cardio', icon: '🏃', category: 'cardio' },
+  recovery: { name: 'Recovery', icon: '💚', category: 'recovery' }
+};
+
+// Energy level display
+const ENERGY_DISPLAY = {
+  low: { label: 'Low', icon: '🔋' },
+  medium: { label: 'Medium', icon: '⚡' },
+  high: { label: 'High', icon: '🔥' }
+};
 
 /**
- * Initialize the app
+ * Render an exercise card (FRONT)
  */
-async function init() {
-  console.log('🌱 Alongside starting...');
+function renderExerciseCard(exercise) {
+  const pattern = PATTERN_INFO[exercise.movementPattern] || PATTERN_INFO.stability;
+  const energy = ENERGY_DISPLAY[exercise.energyRequired] || ENERGY_DISPLAY.medium;
   
-  // Initialize store
-  store.init();
-  
-  // Update header credits display
-  updateCreditsDisplay();
-  
-  // Subscribe to store changes
-  store.subscribe(() => {
-    updateCreditsDisplay();
-  });
-  
-  // Initialize navigation
-  initNavigation();
-  
-  // Initialize weekly check-in handlers
-  weeklyCheckin.init();
-  
-  // Load exercise library
-  console.log('📚 Loading exercise library...');
-  const libraryLoaded = await library.loadIndex();
-  
-  if (!libraryLoaded) {
-    console.error('Failed to load exercise library');
-    showError('Could not load exercise library. Please refresh.');
-    return;
-  }
-  
-  // Preload exercise sources
-  await Promise.all([
-    library.loadExerciseSource('bodyweight'),
-    library.loadExerciseSource('yoga-poses'),
-    library.loadExerciseSource('breathing'),
-    library.loadExerciseSource('mobility-drills')
-  ]);
-  
-  console.log('✅ Library loaded');
-  
-  // Check if user has already checked in today
-  if (store.hasCheckedInToday()) {
-    // Show today's workout
-    const checkinData = store.get('checkin');
-    await showToday(checkinData.energy, checkinData.mood);
-  } else {
-    // Show check-in
-    showCheckin();
-  }
-  
-  console.log('🌱 Alongside ready!');
-}
-
-/**
- * Show the check-in screen
- */
-function showCheckin() {
-  const main = document.getElementById('main');
-  if (!main) return;
-  
-  main.innerHTML = checkin.render();
-  checkin.init();
-  currentScreen = 'checkin';
-  
-  // Update nav
-  updateNav('today');
-}
-
-/**
- * Show today's workout
- */
-async function showToday(energy = 5, mood = 5) {
-  const main = document.getElementById('main');
-  if (!main) return;
-  
-  // Show loading state briefly
-  main.innerHTML = `
-    <div class="screen screen--loading screen--active">
-      <div class="loading-spinner"></div>
-      <p>Building your workout...</p>
-    </div>
-  `;
-  
-  // Render today view
-  main.innerHTML = await todayView.render(energy, mood);
-  todayView.init();
-  currentScreen = 'today';
-  
-  // Update nav
-  updateNav('today');
-}
-
-/**
- * Show browse screen
- */
-async function showBrowse() {
-  const main = document.getElementById('main');
-  if (!main) return;
-  
-  // Get all exercises
-  const allExercises = [];
-  
-  const sources = ['bodyweight', 'yoga-poses', 'breathing', 'mobility-drills'];
-  for (const sourceId of sources) {
-    const source = await library.loadExerciseSource(sourceId);
-    if (source && source.exercises) {
-      allExercises.push(...source.exercises);
-    }
-  }
-  
-  main.innerHTML = `
-    <div class="screen screen--active browse" id="browseScreen">
-      <div class="browse__header">
-        <h1 class="browse__title">Exercise Library</h1>
-        <div class="browse__filters">
-          <button class="browse__filter browse__filter--active" data-filter="all">All</button>
-          <button class="browse__filter" data-filter="low">Low Energy</button>
-          <button class="browse__filter" data-filter="medium">Medium</button>
-          <button class="browse__filter" data-filter="high">High Energy</button>
-        </div>
-      </div>
-      <div class="exercise-grid" id="exerciseGrid">
-        ${allExercises.map(ex => cards.renderExerciseCard(ex)).join('')}
-      </div>
-    </div>
-  `;
-  
-  // Init filter buttons
-  initBrowseFilters(allExercises);
-  
-  currentScreen = 'browse';
-  updateNav('browse');
-}
-
-/**
- * Initialize browse filter buttons
- */
-function initBrowseFilters(allExercises) {
-  const filterBtns = document.querySelectorAll('.browse__filter');
-  const grid = document.getElementById('exerciseGrid');
-  
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Update active state
-      filterBtns.forEach(b => b.classList.remove('browse__filter--active'));
-      btn.classList.add('browse__filter--active');
-      
-      // Filter exercises
-      const filter = btn.dataset.filter;
-      let filtered = allExercises;
-      
-      if (filter !== 'all') {
-        filtered = allExercises.filter(ex => ex.energyRequired === filter);
-      }
-      
-      // Re-render grid
-      grid.innerHTML = filtered.map(ex => cards.renderExerciseCard(ex)).join('');
-    });
-  });
-}
-
-/**
- * Show progress screen (placeholder)
- */
-function showProgress() {
-  const main = document.getElementById('main');
-  if (!main) return;
-  
-  const credits = store.get('credits.balance') || 0;
-  const totalCredits = store.get('stats.totalCredits') || 0;
-  
-  main.innerHTML = `
-    <div class="screen screen--active" id="progressScreen">
-      <div class="today__header">
-        <h1 class="today__title">Your Progress</h1>
-      </div>
-      
-      <div class="today__coach" style="text-align: center;">
-        <span style="font-size: 3rem; display: block; margin-bottom: 16px;">⭐</span>
-        <h2 style="font-size: 2.5rem; font-family: var(--font-mono); color: var(--color-success);">
-          ${credits}
-        </h2>
-        <p style="color: var(--color-text-muted);">Current Credits</p>
-      </div>
-      
-      <div class="today__coach">
-        <p class="today__coach-message" style="text-align: center;">
-          <strong>${totalCredits}</strong> total credits earned<br>
-          Keep going — every workout counts!
-        </p>
-      </div>
-    </div>
-  `;
-  
-  currentScreen = 'progress';
-  updateNav('progress');
-}
-
-/**
- * Show settings screen (placeholder)
- */
-function showSettings() {
-  const main = document.getElementById('main');
-  if (!main) return;
-  
-  main.innerHTML = `
-    <div class="screen screen--active" id="settingsScreen">
-      <div class="today__header">
-        <h1 class="today__title">Settings</h1>
-      </div>
-      
-      <div class="today__coach">
-        <div class="today__coach-header">
-          <span class="today__coach-avatar">⚙️</span>
-          <span class="today__coach-name">Coming Soon</span>
-        </div>
-        <p class="today__coach-message">
-          Profile settings, condition management, and preferences will be here.
-        </p>
-      </div>
-      
-      <button class="checkin__submit" style="background: var(--color-primary); margin-bottom: var(--space-3);" 
-              onclick="window.alongside.showWeeklyCheckin()">
-        Weekly Check-In
-      </button>
-      
-      <button class="checkin__submit" style="background: var(--color-danger);" 
-              onclick="window.alongside.resetApp()">
-        Reset All Data
-      </button>
-    </div>
-  `;
-  
-  currentScreen = 'profile';
-  updateNav('profile');
-}
-
-/**
- * Show weekly check-in screen
- */
-function showWeeklyCheckin() {
-  const main = document.getElementById('main');
-  if (!main) return;
-  
-  main.innerHTML = weeklyCheckin.render();
-  currentScreen = 'weekly';
-}
-
-/**
- * Initialize bottom navigation
- */
-function initNavigation() {
-  const navItems = document.querySelectorAll('.nav__item');
-  
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const screen = item.dataset.screen;
-      
-      switch (screen) {
-        case 'today':
-          if (store.hasCheckedInToday()) {
-            const checkinData = store.get('checkin');
-            showToday(checkinData.energy, checkinData.mood);
-          } else {
-            showCheckin();
-          }
-          break;
-        case 'browse':
-          showBrowse();
-          break;
-        case 'progress':
-          showProgress();
-          break;
-        case 'profile':
-          showSettings();
-          break;
-      }
-    });
-  });
-}
-
-/**
- * Update navigation active state
- */
-function updateNav(activeScreen) {
-  const navItems = document.querySelectorAll('.nav__item');
-  navItems.forEach(item => {
-    item.classList.toggle('nav__item--active', item.dataset.screen === activeScreen);
-  });
-}
-
-/**
- * Update credits display in header
- */
-function updateCreditsDisplay() {
-  const creditsEl = document.querySelector('.header__credits-value');
-  if (creditsEl) {
-    creditsEl.textContent = store.get('credits.balance') || 0;
-  }
-}
-
-/**
- * Show celebration animation
- */
-function celebrate(credits) {
-  const celebration = document.getElementById('celebration');
-  const creditsEarned = document.getElementById('creditsEarned');
-  const confetti = document.getElementById('confetti');
-  
-  if (!celebration) return;
-  
-  // Update credits display
-  if (creditsEarned) {
-    creditsEarned.textContent = credits;
-  }
-  
-  // Generate confetti
-  if (confetti) {
-    confetti.innerHTML = '';
-    const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#a855f7'];
-    
-    for (let i = 0; i < 30; i++) {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      piece.style.left = `${Math.random() * 200 - 100}px`;
-      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-      piece.style.animationDelay = `${Math.random() * 0.5}s`;
-      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-      confetti.appendChild(piece);
-    }
-  }
-  
-  // Show celebration
-  celebration.hidden = false;
-  
-  // Hide after delay
-  setTimeout(() => {
-    celebration.hidden = true;
-    
-    // Refresh today view
-    if (currentScreen === 'today') {
-      todayView.refresh();
-    }
-  }, 2000);
-}
-
-/**
- * Complete an exercise (called from modal)
- */
-function completeExercise(exerciseId) {
-  // Find the exercise to get full data
-  const workout = todayView.getCurrentWorkout();
-  let exercise = null;
-  
-  if (workout) {
-    for (const section of workout.sections) {
-      const ex = section.exercises.find(e => e.id === exerciseId);
-      if (ex) {
-        exercise = ex;
-        break;
-      }
-    }
-  }
-  
-  if (!exercise) {
-    console.warn('Exercise not found:', exerciseId);
-    cards.closeExerciseModal();
-    return;
-  }
-  
-  // Check if already completed today
-  if (store.isExerciseCompletedToday(exerciseId)) {
-    console.log('Already completed today');
-    cards.closeExerciseModal();
-    return;
-  }
+  // Calculate estimated calories for default duration
+  const duration = exercise.duration || 30;
+  const calories = Math.round((exercise.caloriesPerMinute || 5) * (duration / 60));
   
   // Calculate credits using economy module
   const credits = economy.calculateCredits(exercise);
   
-  // Log the completion with economy module
-  economy.logExerciseCompletion(exercise);
+  // Format duration display
+  const durationDisplay = exercise.durationUnit === 'seconds' 
+    ? `${duration}s` 
+    : `${duration} min`;
   
-  // Mark as completed in store (for daily tracking)
-  store.completeExercise(exerciseId, credits);
-  
-  // Close modal
-  cards.closeExerciseModal();
-  
-  // Show celebration
-  celebrate(credits);
+  return `
+    <article class="exercise-card" 
+             tabindex="0" 
+             role="button"
+             aria-label="${exercise.name} - click for instructions"
+             data-exercise-id="${exercise.id}"
+             onclick="window.alongside.showExerciseModal('${exercise.id}')">
+      
+      <!-- Category Header -->
+      <div class="exercise-card__header exercise-card__header--${pattern.category}">
+        <span class="exercise-card__header-icon">${pattern.icon}</span>
+        <span>${pattern.name}</span>
+      </div>
+      
+      <!-- Card Body -->
+      <div class="exercise-card__body">
+        <h3 class="exercise-card__name">${exercise.name}</h3>
+        <p class="exercise-card__description">${exercise.description}</p>
+        
+        <!-- Stats -->
+        <div class="exercise-card__stats">
+          <span class="exercise-card__energy exercise-card__energy--${exercise.energyRequired}">
+            ${energy.icon} ${energy.label}
+          </span>
+          <span class="exercise-card__stat">
+            <span class="exercise-card__stat-icon">⏱️</span>
+            ${durationDisplay}
+          </span>
+          <span class="exercise-card__stat">
+            <span class="exercise-card__stat-icon">🔥</span>
+            ~${calories} cal
+          </span>
+        </div>
+        
+        <!-- Credits -->
+        <div class="exercise-card__credits">
+          +${credits} ⭐
+        </div>
+      </div>
+      
+      <!-- Hint -->
+      <div class="exercise-card__hint">
+        <span>👆</span>
+        <span>Tap for instructions</span>
+      </div>
+    </article>
+  `;
 }
 
 /**
- * Reset the app (for testing)
+ * Show exercise detail modal (BACK)
  */
-function resetApp() {
-  if (confirm('This will delete all your data. Are you sure?')) {
-    store.reset();
-    location.reload();
+async function showExerciseModal(exerciseId) {
+  // Get exercise data
+  // Try to find in loaded sources, or load it
+  let exercise = null;
+  
+  // Check bodyweight first
+  const bodyweight = await library.loadExerciseSource('bodyweight');
+  if (bodyweight) {
+    exercise = bodyweight.exercises.find(e => e.id === exerciseId);
   }
-}
-
-/**
- * Show error message
- */
-function showError(message) {
-  const main = document.getElementById('main');
-  if (main) {
-    main.innerHTML = `
-      <div class="screen screen--active" style="text-align: center; padding-top: 100px;">
-        <span style="font-size: 3rem;">😕</span>
-        <h2 style="margin: 20px 0;">Something went wrong</h2>
-        <p style="color: var(--color-text-muted);">${message}</p>
-        <button class="checkin__submit" onclick="location.reload()" style="margin-top: 30px;">
-          Try Again
+  
+  // Check yoga if not found
+  if (!exercise) {
+    const yoga = await library.loadExerciseSource('yoga-poses');
+    if (yoga) {
+      exercise = yoga.exercises.find(e => e.id === exerciseId);
+    }
+  }
+  
+  // Check breathing if not found
+  if (!exercise) {
+    const breathing = await library.loadExerciseSource('breathing');
+    if (breathing) {
+      exercise = breathing.exercises.find(e => e.id === exerciseId);
+    }
+  }
+  
+  // Check mobility if not found
+  if (!exercise) {
+    const mobility = await library.loadExerciseSource('mobility-drills');
+    if (mobility) {
+      exercise = mobility.exercises.find(e => e.id === exerciseId);
+    }
+  }
+  
+  if (!exercise) {
+    console.error('Exercise not found:', exerciseId);
+    return;
+  }
+  
+  // Check if already completed today
+  const completedToday = store.get('workouts.completedToday') || [];
+  const isCompleted = completedToday.includes(exerciseId);
+  
+  // Build modal HTML
+  const duration = exercise.duration || 30;
+  const durationDisplay = exercise.durationUnit === 'seconds' 
+    ? `${duration} secs` 
+    : `${duration} min`;
+  const calories = Math.round((exercise.caloriesPerMinute || 5) * (duration / 60));
+  const credits = economy.calculateCredits(exercise);
+  
+  const youtubeUrl = library.getVideoSearchUrl(exercise);
+  
+  const modal = document.createElement('div');
+  modal.className = 'exercise-modal';
+  modal.id = 'exercise-detail-modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-labelledby', 'exercise-modal-title');
+  
+  modal.innerHTML = `
+    <div class="exercise-modal__content">
+      <!-- Header - Summary -->
+      <div class="exercise-modal__header">
+        <div>
+          <h2 id="exercise-modal-title" class="exercise-modal__title">${exercise.name}</h2>
+          <p class="exercise-modal__summary">
+            ${durationDisplay} • ~${calories} cal • +${credits} credits
+          </p>
+        </div>
+        <button class="exercise-modal__close" 
+                onclick="window.alongside.closeExerciseModal()"
+                aria-label="Close">
+          ✕
         </button>
       </div>
-    `;
+      
+      <!-- Body - Instructions -->
+      <div class="exercise-modal__body">
+        <h3 class="exercise-modal__section-title">How to do it</h3>
+        
+        <ol class="exercise-modal__instructions">
+          ${Array.isArray(exercise.instructions) 
+            ? exercise.instructions.map((step, i) => `
+                <li class="exercise-modal__step">
+                  <span class="exercise-modal__step-number">${i + 1}</span>
+                  <span class="exercise-modal__step-text">${step}</span>
+                </li>
+              `).join('')
+            : `<li class="exercise-modal__step">
+                 <span class="exercise-modal__step-number">1</span>
+                 <span class="exercise-modal__step-text">${exercise.instructions}</span>
+               </li>`
+          }
+        </ol>
+        
+        ${exercise.modifications ? `
+          <div class="exercise-modal__modifications">
+            <h4 class="exercise-modal__mod-title">🟢 Make it easier</h4>
+            <p class="exercise-modal__mod-text">${exercise.modifications.easier}</p>
+            
+            <h4 class="exercise-modal__mod-title">🔴 Make it harder</h4>
+            <p class="exercise-modal__mod-text">${exercise.modifications.harder}</p>
+          </div>
+        ` : ''}
+        
+        ${youtubeUrl ? `
+          <a href="${youtubeUrl}" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="exercise-modal__video-btn">
+            <span class="exercise-modal__video-icon">🎬</span>
+            Watch how to do this
+          </a>
+        ` : ''}
+      </div>
+      
+      <!-- Footer - Actions -->
+      <div class="exercise-modal__footer">
+        <!-- Duration/Reps Input -->
+        <div class="exercise-modal__input-section">
+          <label class="exercise-modal__input-label">
+            ${exercise.reps ? 'Reps completed' : 'Time completed'}
+          </label>
+          <div class="exercise-modal__input-row">
+            <button class="exercise-modal__adjust-btn" 
+                    onclick="window.alongside.adjustExerciseValue(-1, '${exerciseId}')"
+                    aria-label="Decrease">−</button>
+            <input type="number" 
+                   id="exercise-actual-value"
+                   class="exercise-modal__input"
+                   value="${exercise.reps || duration}"
+                   min="1"
+                   max="${exercise.reps ? 100 : 3600}"
+                   data-exercise-id="${exerciseId}"
+                   data-is-reps="${exercise.reps ? 'true' : 'false'}"
+                   data-default="${exercise.reps || duration}"
+                   data-unit="${exercise.durationUnit || 'seconds'}">
+            <button class="exercise-modal__adjust-btn" 
+                    onclick="window.alongside.adjustExerciseValue(1, '${exerciseId}')"
+                    aria-label="Increase">+</button>
+            <span class="exercise-modal__input-unit">${exercise.reps ? 'reps' : (exercise.durationUnit === 'seconds' ? 'secs' : 'mins')}</span>
+          </div>
+          <p class="exercise-modal__credits-preview" id="credits-preview">
+            = <span id="credits-value">${credits}</span> credits
+          </p>
+        </div>
+        
+        <div class="exercise-modal__buttons">
+          <button class="exercise-modal__back-btn" 
+                  onclick="window.alongside.closeExerciseModal()">
+            ← Back
+          </button>
+          <button class="exercise-modal__complete-btn ${isCompleted ? 'exercise-modal__complete-btn--completed' : ''}"
+                  onclick="window.alongside.completeExerciseWithValue('${exerciseId}')"
+                  ${isCompleted ? 'disabled' : ''}>
+            ${isCompleted ? '✓ Completed' : '✓ Complete'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Focus trap - focus the close button
+  modal.querySelector('.exercise-modal__close').focus();
+  
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeExerciseModal();
+    }
+  });
+  
+  // Close on Escape key
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      closeExerciseModal();
+      document.removeEventListener('keydown', handleEscape);
+    }
+  };
+  document.addEventListener('keydown', handleEscape);
+}
+
+/**
+ * Close exercise detail modal
+ */
+function closeExerciseModal() {
+  const modal = document.getElementById('exercise-detail-modal');
+  if (modal) {
+    modal.remove();
   }
 }
 
-// Global interface
-window.alongside = {
-  showCheckin,
-  showToday,
-  showBrowse,
-  showProgress,
-  showSettings,
-  showWeeklyCheckin,
-  showExerciseModal: cards.showExerciseModal,
-  closeExerciseModal: cards.closeExerciseModal,
-  completeExercise,
-  celebrate,
-  skipToday: todayView.skipToday,
-  resetApp,
-  store,
-  library,
-  economy
-};
-
-// Initialize on DOM ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
+/**
+ * Adjust the exercise value (reps or duration) with +/- buttons
+ */
+function adjustExerciseValue(delta, exerciseId) {
+  const input = document.getElementById('exercise-actual-value');
+  if (!input) return;
+  
+  const isReps = input.dataset.isReps === 'true';
+  const unit = input.dataset.unit;
+  const min = 1;
+  const max = isReps ? 100 : (unit === 'seconds' ? 300 : 60);
+  
+  // Adjust step based on type
+  const step = isReps ? 1 : (unit === 'seconds' ? 5 : 1);
+  
+  let newValue = parseInt(input.value) + (delta * step);
+  newValue = Math.max(min, Math.min(max, newValue));
+  input.value = newValue;
+  
+  // Update credits preview
+  updateCreditsPreview(input);
 }
 
-export { init };
+/**
+ * Update the credits preview based on current input value
+ */
+function updateCreditsPreview(input) {
+  const creditsEl = document.getElementById('credits-value');
+  if (!creditsEl || !input) return;
+  
+  const value = parseInt(input.value);
+  const isReps = input.dataset.isReps === 'true';
+  const unit = input.dataset.unit;
+  const defaultVal = parseInt(input.dataset.default);
+  
+  // Calculate duration in minutes
+  let durationMinutes;
+  if (isReps) {
+    // Estimate ~3 seconds per rep
+    durationMinutes = (value * 3) / 60;
+  } else if (unit === 'seconds') {
+    durationMinutes = value / 60;
+  } else {
+    durationMinutes = value;
+  }
+  
+  // Simple credit calculation (will be refined with actual exercise data)
+  // Base: 5 credits per minute, adjusted by rough intensity
+  const credits = Math.max(1, Math.round(5 * durationMinutes * 1.5));
+  creditsEl.textContent = credits;
+}
+
+/**
+ * Complete an exercise with the actual value entered
+ */
+function completeExerciseWithValue(exerciseId) {
+  const input = document.getElementById('exercise-actual-value');
+  if (!input) {
+    // Fallback to default completion
+    if (window.alongside?.completeExercise) {
+      window.alongside.completeExercise(exerciseId);
+    }
+    return;
+  }
+  
+  const actualValue = parseInt(input.value);
+  const isReps = input.dataset.isReps === 'true';
+  const unit = input.dataset.unit;
+  
+  // Pass to main app with actual value
+  if (window.alongside?.completeExerciseWithValue) {
+    window.alongside.completeExerciseWithValue(exerciseId, actualValue, isReps, unit);
+  } else if (window.alongside?.completeExercise) {
+    window.alongside.completeExercise(exerciseId);
+  }
+}
+
+/**
+ * Complete an exercise
+ * Delegates to main app for proper handling
+ */
+function completeExercise(exerciseId) {
+  if (window.alongside?.completeExercise) {
+    window.alongside.completeExercise(exerciseId);
+  } else {
+    console.warn('Complete exercise handler not available');
+    closeExerciseModal();
+  }
+}
+
+/**
+ * Render a grid of exercise cards
+ */
+function renderExerciseGrid(exercises, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  
+  container.innerHTML = `
+    <div class="exercise-grid">
+      ${exercises.map(ex => renderExerciseCard(ex)).join('')}
+    </div>
+  `;
+}
+
+// Export functions
+export const cards = {
+  renderExerciseCard,
+  showExerciseModal,
+  closeExerciseModal,
+  completeExercise,
+  completeExerciseWithValue,
+  adjustExerciseValue,
+  renderExerciseGrid
+};
+
+// Make available globally
+if (typeof window !== 'undefined') {
+  window.alongside = window.alongside || {};
+  window.alongside.showExerciseModal = showExerciseModal;
+  window.alongside.closeExerciseModal = closeExerciseModal;
+  window.alongside.completeExercise = completeExercise;
+  window.alongside.adjustExerciseValue = adjustExerciseValue;
+}
+}
+
+export default cards;
