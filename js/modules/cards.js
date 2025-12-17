@@ -220,15 +220,46 @@ async function showExerciseModal(exerciseId) {
       
       <!-- Footer - Actions -->
       <div class="exercise-modal__footer">
-        <button class="exercise-modal__back-btn" 
-                onclick="window.alongside.closeExerciseModal()">
-          ← Back
-        </button>
-        <button class="exercise-modal__complete-btn ${isCompleted ? 'exercise-modal__complete-btn--completed' : ''}"
-                onclick="window.alongside.completeExercise('${exerciseId}')"
-                ${isCompleted ? 'disabled' : ''}>
-          ${isCompleted ? '✓ Completed' : `✓ Complete +${credits}`}
-        </button>
+        <!-- Duration/Reps Input -->
+        <div class="exercise-modal__input-section">
+          <label class="exercise-modal__input-label">
+            ${exercise.reps ? 'Reps completed' : 'Time completed'}
+          </label>
+          <div class="exercise-modal__input-row">
+            <button class="exercise-modal__adjust-btn" 
+                    onclick="window.alongside.adjustExerciseValue(-1, '${exerciseId}')"
+                    aria-label="Decrease">−</button>
+            <input type="number" 
+                   id="exercise-actual-value"
+                   class="exercise-modal__input"
+                   value="${exercise.reps || duration}"
+                   min="1"
+                   max="${exercise.reps ? 100 : 3600}"
+                   data-exercise-id="${exerciseId}"
+                   data-is-reps="${exercise.reps ? 'true' : 'false'}"
+                   data-default="${exercise.reps || duration}"
+                   data-unit="${exercise.durationUnit || 'seconds'}">
+            <button class="exercise-modal__adjust-btn" 
+                    onclick="window.alongside.adjustExerciseValue(1, '${exerciseId}')"
+                    aria-label="Increase">+</button>
+            <span class="exercise-modal__input-unit">${exercise.reps ? 'reps' : (exercise.durationUnit === 'seconds' ? 'secs' : 'mins')}</span>
+          </div>
+          <p class="exercise-modal__credits-preview" id="credits-preview">
+            = <span id="credits-value">${credits}</span> credits
+          </p>
+        </div>
+        
+        <div class="exercise-modal__buttons">
+          <button class="exercise-modal__back-btn" 
+                  onclick="window.alongside.closeExerciseModal()">
+            ← Back
+          </button>
+          <button class="exercise-modal__complete-btn ${isCompleted ? 'exercise-modal__complete-btn--completed' : ''}"
+                  onclick="window.alongside.completeExerciseWithValue('${exerciseId}')"
+                  ${isCompleted ? 'disabled' : ''}>
+            ${isCompleted ? '✓ Completed' : '✓ Complete'}
+          </button>
+        </div>
       </div>
     </div>
   `;
@@ -266,6 +297,83 @@ function closeExerciseModal() {
 }
 
 /**
+ * Adjust the exercise value (reps or duration) with +/- buttons
+ */
+function adjustExerciseValue(delta, exerciseId) {
+  const input = document.getElementById('exercise-actual-value');
+  if (!input) return;
+  
+  const isReps = input.dataset.isReps === 'true';
+  const unit = input.dataset.unit;
+  const min = 1;
+  const max = isReps ? 100 : (unit === 'seconds' ? 300 : 60);
+  
+  // Adjust step based on type
+  const step = isReps ? 1 : (unit === 'seconds' ? 5 : 1);
+  
+  let newValue = parseInt(input.value) + (delta * step);
+  newValue = Math.max(min, Math.min(max, newValue));
+  input.value = newValue;
+  
+  // Update credits preview
+  updateCreditsPreview(input);
+}
+
+/**
+ * Update the credits preview based on current input value
+ */
+function updateCreditsPreview(input) {
+  const creditsEl = document.getElementById('credits-value');
+  if (!creditsEl || !input) return;
+  
+  const value = parseInt(input.value);
+  const isReps = input.dataset.isReps === 'true';
+  const unit = input.dataset.unit;
+  const defaultVal = parseInt(input.dataset.default);
+  
+  // Calculate duration in minutes
+  let durationMinutes;
+  if (isReps) {
+    // Estimate ~3 seconds per rep
+    durationMinutes = (value * 3) / 60;
+  } else if (unit === 'seconds') {
+    durationMinutes = value / 60;
+  } else {
+    durationMinutes = value;
+  }
+  
+  // Simple credit calculation (will be refined with actual exercise data)
+  // Base: 5 credits per minute, adjusted by rough intensity
+  const credits = Math.max(1, Math.round(5 * durationMinutes * 1.5));
+  creditsEl.textContent = credits;
+}
+
+/**
+ * Complete an exercise with the actual value entered
+ */
+function completeExerciseWithValue(exerciseId) {
+  const input = document.getElementById('exercise-actual-value');
+  if (!input) {
+    // Fallback to default completion
+    if (window.alongside?.completeExercise) {
+      window.alongside.completeExercise(exerciseId);
+    }
+    return;
+  }
+  
+  const actualValue = parseInt(input.value);
+  const isReps = input.dataset.isReps === 'true';
+  const unit = input.dataset.unit;
+  
+  // Pass to main app with actual value
+  if (window.alongside?.completeExerciseWithValue) {
+    window.alongside.completeExerciseWithValue(exerciseId, actualValue, isReps, unit);
+  } else if (window.alongside?.completeExercise) {
+    window.alongside.completeExercise(exerciseId);
+  }
+}
+
+/**
  * Complete an exercise
  * Delegates to main app for proper handling
  */
@@ -298,6 +406,8 @@ export const cards = {
   showExerciseModal,
   closeExerciseModal,
   completeExercise,
+  completeExerciseWithValue,
+  adjustExerciseValue,
   renderExerciseGrid
 };
 
@@ -307,6 +417,8 @@ if (typeof window !== 'undefined') {
   window.alongside.showExerciseModal = showExerciseModal;
   window.alongside.closeExerciseModal = closeExerciseModal;
   window.alongside.completeExercise = completeExercise;
+  window.alongside.adjustExerciseValue = adjustExerciseValue;
+}
 }
 
 export default cards;
