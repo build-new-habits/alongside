@@ -11,6 +11,7 @@ import { todayView } from './modules/todayView.js';
 import { cards } from './modules/cards.js';
 import { economy } from './modules/economy.js';
 import { weeklyCheckin } from './modules/weeklyCheckin.js';
+import { savingsTracker } from './modules/savingsTracker.js';
 
 // App state
 let currentScreen = 'loading';
@@ -180,37 +181,17 @@ function initBrowseFilters(allExercises) {
 }
 
 /**
- * Show progress screen (placeholder)
+ * Show savings/progress screen
  */
 function showProgress() {
   const main = document.getElementById('main');
   if (!main) return;
   
-  const credits = store.get('credits.balance') || 0;
-  const totalCredits = store.get('stats.totalCredits') || 0;
+  // Initialize savings if needed
+  savingsTracker.init();
   
-  main.innerHTML = `
-    <div class="screen screen--active" id="progressScreen">
-      <div class="today__header">
-        <h1 class="today__title">Your Progress</h1>
-      </div>
-      
-      <div class="today__coach" style="text-align: center;">
-        <span style="font-size: 3rem; display: block; margin-bottom: 16px;">⭐</span>
-        <h2 style="font-size: 2.5rem; font-family: var(--font-mono); color: var(--color-success);">
-          ${credits}
-        </h2>
-        <p style="color: var(--color-text-muted);">Current Credits</p>
-      </div>
-      
-      <div class="today__coach">
-        <p class="today__coach-message" style="text-align: center;">
-          <strong>${totalCredits}</strong> total credits earned<br>
-          Keep going — every workout counts!
-        </p>
-      </div>
-    </div>
-  `;
+  // Render savings tracker
+  main.innerHTML = savingsTracker.render();
   
   currentScreen = 'progress';
   updateNav('progress');
@@ -521,6 +502,14 @@ window.alongside = {
   celebrate,
   skipToday: todayView.skipToday,
   resetApp,
+  // Savings functions
+  logSaving: savingsTracker.logSaving,
+  logSpend: savingsTracker.logSpend,
+  showAddGoal: savingsTracker.showAddGoal,
+  closeAddGoal: savingsTracker.closeAddGoal,
+  saveGoal: savingsTracker.saveGoal,
+  removeGoal: savingsTracker.removeGoal,
+  // Modules
   store,
   library,
   economy
