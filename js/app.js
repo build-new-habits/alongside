@@ -12,6 +12,7 @@ import { cards } from './modules/cards.js';
 import { economy } from './modules/economy.js';
 import { weeklyCheckin } from './modules/weeklyCheckin.js';
 import { savingsTracker } from './modules/savingsTracker.js';
+import { onboarding } from './modules/onboarding.js';
 
 // App state
 let currentScreen = 'loading';
@@ -58,6 +59,13 @@ async function init() {
   ]);
   
   console.log('✅ Library loaded');
+  
+  // Check if onboarding is needed
+  if (onboarding.needsOnboarding()) {
+    onboarding.start();
+    console.log('🌱 Starting onboarding...');
+    return;
+  }
   
   // Check if user has already checked in today
   if (store.hasCheckedInToday()) {
@@ -509,6 +517,13 @@ window.alongside = {
   closeAddGoal: savingsTracker.closeAddGoal,
   saveGoal: savingsTracker.saveGoal,
   removeGoal: savingsTracker.removeGoal,
+  // Onboarding functions
+  onboardingNext: onboarding.next,
+  onboardingBack: onboarding.back,
+  toggleCondition: onboarding.toggleCondition,
+  toggleEquipment: onboarding.toggleEquipment,
+  toggleGoal: onboarding.toggleGoal,
+  skipOnboarding: onboarding.skip,
   // Modules
   store,
   library,
