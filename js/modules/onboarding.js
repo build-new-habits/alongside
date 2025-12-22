@@ -5,15 +5,21 @@
 
 import { store } from '../store.js';
 
-// Condition options
+// Condition options - expanded with body areas
 const CONDITIONS = [
-  { id: 'back', name: 'Lower Back', icon: '🔙' },
-  { id: 'knee', name: 'Knee', icon: '🦵' },
-  { id: 'shoulder', name: 'Shoulder', icon: '💪' },
-  { id: 'hip', name: 'Hip', icon: '🦴' },
-  { id: 'ankle', name: 'Ankle', icon: '🦶' },
-  { id: 'wrist', name: 'Wrist', icon: '✋' },
-  { id: 'neck', name: 'Neck', icon: '🧣' }
+  { id: 'lower-back', name: 'Lower Back', icon: '🔙', area: 'back' },
+  { id: 'upper-back', name: 'Upper Back', icon: '🔙', area: 'back' },
+  { id: 'neck', name: 'Neck', icon: '🧣', area: 'neck' },
+  { id: 'shoulder', name: 'Shoulder', icon: '💪', area: 'shoulder' },
+  { id: 'elbow', name: 'Elbow', icon: '💪', area: 'elbow' },
+  { id: 'wrist', name: 'Wrist', icon: '✋', area: 'wrist' },
+  { id: 'hip', name: 'Hip', icon: '🦴', area: 'hip' },
+  { id: 'knee', name: 'Knee', icon: '🦵', area: 'knee' },
+  { id: 'ankle', name: 'Ankle', icon: '🦶', area: 'ankle' },
+  { id: 'hamstring', name: 'Hamstring', icon: '🦵', area: 'hamstring' },
+  { id: 'calf', name: 'Calf', icon: '🦵', area: 'calf' },
+  { id: 'shin', name: 'Shin Splints', icon: '🦵', area: 'shin' },
+  { id: 'foot', name: 'Foot / Plantar', icon: '🦶', area: 'foot' }
 ];
 
 // Equipment options
@@ -40,7 +46,7 @@ const GOALS = [
 
 // Current step in onboarding
 let currentStep = 1;
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 // Collected data
 let onboardingData = {
@@ -48,7 +54,7 @@ let onboardingData = {
   weight: null,
   goalWeight: null,
   weightUnit: 'kg',
-  conditions: [],
+  conditions: [], // Now stores { id, severity, type } objects
   equipment: ['none'],
   goals: []
 };
@@ -103,6 +109,9 @@ function renderCurrentStep() {
       break;
     case 5:
       main.innerHTML = renderGoals();
+      break;
+    case 6:
+      main.innerHTML = renderCoachSummary();
       break;
     default:
       completeOnboarding();
@@ -185,12 +194,11 @@ function renderNameWeight() {
                      placeholder="0"
                      value="${onboardingData.weight || ''}"
                      min="30"
-                     max="300"
+                     max="500"
                      step="0.1">
-              <select id="onboardingWeightUnit" class="onboarding__select">
+              <select id="onboardingWeightUnit" class="onboarding__select" onchange="window.alongside.syncWeightUnit()">
                 <option value="kg" ${onboardingData.weightUnit === 'kg' ? 'selected' : ''}>kg</option>
-                <option value="st" ${onboardingData.weightUnit === 'st' ? 'selected' : ''}>stone</option>
-                <option value="lb" ${onboardingData.weightUnit === 'lb' ? 'selected' : ''}>lbs</option>
+                <option value="lbs" ${onboardingData.weightUnit === 'lbs' ? 'selected' : ''}>lbs</option>
               </select>
             </div>
           </div>
@@ -204,9 +212,9 @@ function renderNameWeight() {
                      placeholder="0"
                      value="${onboardingData.goalWeight || ''}"
                      min="30"
-                     max="300"
+                     max="500"
                      step="0.1">
-              <span class="onboarding__unit-label" id="goalWeightUnit">${onboardingData.weightUnit}</span>
+              <span class="onboarding__unit-match" id="goalWeightUnit">${onboardingData.weightUnit}</span>
             </div>
           </div>
         </div>
@@ -224,9 +232,12 @@ function renderNameWeight() {
 }
 
 /**
- * Step 3: Conditions
+ * Step 3: Conditions - Select areas that need care
  */
 function renderConditions() {
+  // Get currently selected condition IDs
+  const selectedIds = onboardingData.conditions.map(c => c.id);
+  
   return `
     <div class="screen screen--active onboarding">
       <div class="onboarding__header">
@@ -235,12 +246,12 @@ function renderConditions() {
       </div>
       
       <div class="onboarding__content">
-        <h2 class="onboarding__title">Any areas we should be careful with?</h2>
-        <p class="onboarding__subtitle">We'll filter out exercises that might aggravate these</p>
+        <h2 class="onboarding__title">Any areas that need extra care?</h2>
+        <p class="onboarding__subtitle">We'll adapt exercises to protect and strengthen these areas</p>
         
         <div class="onboarding__options onboarding__options--grid">
           ${CONDITIONS.map(condition => `
-            <button class="onboarding__option ${onboardingData.conditions.includes(condition.id) ? 'onboarding__option--selected' : ''}"
+            <button class="onboarding__option ${selectedIds.includes(condition.id) ? 'onboarding__option--selected' : ''}"
                     onclick="window.alongside.toggleCondition('${condition.id}')">
               <span class="onboarding__option-icon">${condition.icon}</span>
               <span class="onboarding__option-name">${condition.name}</span>
@@ -249,11 +260,52 @@ function renderConditions() {
         </div>
         
         <p class="onboarding__hint">
-          💡 Select all that apply, or skip if none
+          💡 Includes injuries, chronic conditions, or areas you want to protect
         </p>
         
+        ${selectedIds.length > 0 ? `
+          <div class="onboarding__severity-section">
+            <h3 class="onboarding__severity-title">How are these areas right now?</h3>
+            ${onboardingData.conditions.map(cond => {
+              const condInfo = CONDITIONS.find(c => c.id === cond.id);
+              return `
+                <div class="onboarding__severity-item">
+                  <div class="onboarding__severity-header">
+                    <span>${condInfo?.icon || '🩹'} ${condInfo?.name || cond.id}</span>
+                    <span class="onboarding__severity-value">${getSeverityLabel(cond.severity)}</span>
+                  </div>
+                  <input type="range" 
+                         class="onboarding__severity-slider"
+                         min="1" 
+                         max="10" 
+                         value="${cond.severity}"
+                         onchange="window.alongside.updateConditionSeverity('${cond.id}', this.value)">
+                  <div class="onboarding__severity-labels">
+                    <span>Manageable</span>
+                    <span>Severe</span>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+            
+            <div class="onboarding__condition-type">
+              <label class="onboarding__label">Are these mostly:</label>
+              <div class="onboarding__type-options">
+                <button class="onboarding__type-btn ${onboardingData.conditionType === 'acute' ? 'onboarding__type-btn--active' : ''}"
+                        onclick="window.alongside.setConditionType('acute')">
+                  🩹 Recent injuries<br><small>Need rest & recovery</small>
+                </button>
+                <button class="onboarding__type-btn ${onboardingData.conditionType === 'chronic' ? 'onboarding__type-btn--active' : ''}"
+                        onclick="window.alongside.setConditionType('chronic')">
+                  🔄 Ongoing conditions<br><small>Need careful strengthening</small>
+                </button>
+              </div>
+            </div>
+          </div>
+        ` : ''}
+        
         <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.onboardingNext()">
-          ${onboardingData.conditions.length > 0 ? 'Continue →' : 'Skip →'}
+          ${selectedIds.length > 0 ? 'Continue →' : 'No issues — skip →'}
         </button>
       </div>
       
@@ -262,6 +314,16 @@ function renderConditions() {
       </div>
     </div>
   `;
+}
+
+/**
+ * Get severity label from value
+ */
+function getSeverityLabel(severity) {
+  if (severity <= 3) return 'Mild';
+  if (severity <= 5) return 'Moderate';
+  if (severity <= 7) return 'Significant';
+  return 'Severe';
 }
 
 /**
@@ -338,7 +400,101 @@ function renderGoals() {
         <button class="onboarding__btn onboarding__btn--primary" 
                 onclick="window.alongside.onboardingNext()"
                 ${onboardingData.goals.length === 0 ? 'disabled' : ''}>
-          Complete Setup →
+          Continue →
+        </button>
+      </div>
+      
+      <div class="onboarding__progress">
+        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Step 6: Coach Summary
+ */
+function renderCoachSummary() {
+  const name = onboardingData.name || 'there';
+  const conditions = onboardingData.conditions;
+  const equipment = onboardingData.equipment.filter(e => e !== 'none');
+  const goals = onboardingData.goals;
+  
+  // Build the coach message
+  let message = `Got it, ${name}. `;
+  
+  // Conditions
+  if (conditions.length > 0) {
+    const conditionNames = conditions.map(c => {
+      const info = CONDITIONS.find(ci => ci.id === c.id);
+      return info?.name || c.id;
+    });
+    if (conditions.length === 1) {
+      message += `You're managing a ${conditionNames[0].toLowerCase()} issue, `;
+    } else {
+      message += `You're managing ${conditionNames.slice(0, -1).join(', ').toLowerCase()} and ${conditionNames.slice(-1)[0].toLowerCase()} issues, `;
+    }
+    message += conditions[0].type === 'acute' 
+      ? `so we'll focus on recovery and gentle movement. `
+      : `so we'll include exercises to strengthen and protect those areas. `;
+  }
+  
+  // Equipment
+  if (equipment.length > 0) {
+    const equipNames = equipment.map(e => {
+      const info = EQUIPMENT.find(eq => eq.id === e);
+      return info?.name || e;
+    });
+    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;
+  } else {
+    message += `We'll focus on bodyweight exercises you can do anywhere. `;
+  }
+  
+  // Goals
+  if (goals.length > 0) {
+    const goalNames = goals.map(g => {
+      const info = GOALS.find(gi => gi.id === g);
+      return info?.name || g;
+    });
+    message += `Your focus is on ${goalNames.join(', ').toLowerCase()}. `;
+  }
+  
+  message += `I'll build each workout with all of this in mind.`;
+  
+  return `
+    <div class="screen screen--active onboarding">
+      <div class="onboarding__content onboarding__content--centered">
+        <div class="onboarding__coach-summary">
+          <span class="onboarding__coach-avatar">🌱</span>
+          <h2 class="onboarding__coach-title">Your Coach</h2>
+          <p class="onboarding__coach-message">${message}</p>
+        </div>
+        
+        <div class="onboarding__summary-details">
+          ${conditions.length > 0 ? `
+            <div class="onboarding__summary-item">
+              <span class="onboarding__summary-icon">🩹</span>
+              <span>${conditions.length} area${conditions.length > 1 ? 's' : ''} to protect</span>
+            </div>
+          ` : ''}
+          
+          <div class="onboarding__summary-item">
+            <span class="onboarding__summary-icon">🏠</span>
+            <span>${equipment.length > 0 ? equipment.length + ' equipment item' + (equipment.length > 1 ? 's' : '') : 'Bodyweight only'}</span>
+          </div>
+          
+          <div class="onboarding__summary-item">
+            <span class="onboarding__summary-icon">🎯</span>
+            <span>${goals.length} goal${goals.length > 1 ? 's' : ''} set</span>
+          </div>
+        </div>
+        
+        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.onboardingNext()">
+          Let's go! →
+        </button>
+        
+        <button class="onboarding__btn onboarding__btn--secondary" onclick="window.alongside.onboardingBack()" style="margin-top: var(--space-3);">
+          ← Go back and edit
         </button>
       </div>
       
@@ -398,13 +554,56 @@ function saveCurrentStepData() {
  * Toggle a condition selection
  */
 function toggleCondition(conditionId) {
-  const index = onboardingData.conditions.indexOf(conditionId);
+  const index = onboardingData.conditions.findIndex(c => c.id === conditionId);
   if (index > -1) {
+    // Remove it
     onboardingData.conditions.splice(index, 1);
   } else {
-    onboardingData.conditions.push(conditionId);
+    // Add it with default severity
+    onboardingData.conditions.push({
+      id: conditionId,
+      severity: 5,
+      type: onboardingData.conditionType || 'chronic'
+    });
   }
   renderCurrentStep();
+}
+
+/**
+ * Update condition severity
+ */
+function updateConditionSeverity(conditionId, severity) {
+  const condition = onboardingData.conditions.find(c => c.id === conditionId);
+  if (condition) {
+    condition.severity = parseInt(severity);
+    // Update the label without full re-render
+    const valueEl = document.querySelector(`[data-condition="${conditionId}"] .onboarding__severity-value`);
+    if (valueEl) {
+      valueEl.textContent = getSeverityLabel(condition.severity);
+    }
+  }
+}
+
+/**
+ * Set condition type (acute/chronic)
+ */
+function setConditionType(type) {
+  onboardingData.conditionType = type;
+  // Update all conditions with this type
+  onboardingData.conditions.forEach(c => c.type = type);
+  renderCurrentStep();
+}
+
+/**
+ * Sync weight unit between current and goal
+ */
+function syncWeightUnit() {
+  const unitEl = document.getElementById('onboardingWeightUnit');
+  const goalUnitEl = document.getElementById('goalWeightUnit');
+  if (unitEl && goalUnitEl) {
+    onboardingData.weightUnit = unitEl.value;
+    goalUnitEl.textContent = unitEl.value;
+  }
 }
 
 /**
@@ -502,6 +701,9 @@ export const onboarding = {
   next,
   back,
   toggleCondition,
+  updateConditionSeverity,
+  setConditionType,
+  syncWeightUnit,
   toggleEquipment,
   toggleGoal,
   skip,
