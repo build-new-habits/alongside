@@ -46,7 +46,19 @@ const GOALS = [
 
 // Current step in onboarding
 let currentStep = 1;
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
+
+// "Anything to declare" - non-physical conditions
+const DECLARATIONS = [
+  { id: 'digestive', name: 'Digestive issues', icon: '🫃', description: 'IBS, Colitis, etc.' },
+  { id: 'migraines', name: 'Migraines / headaches', icon: '🤕', description: 'Frequent or chronic' },
+  { id: 'fatigue', name: 'Chronic fatigue', icon: '😴', description: 'Persistent tiredness' },
+  { id: 'anxiety', name: 'Anxiety / stress sensitivity', icon: '😰', description: 'Affects energy & focus' },
+  { id: 'menstrual', name: 'Menstrual cycle', icon: '🌙', description: 'Energy varies with cycle' },
+  { id: 'medication', name: 'Medication effects', icon: '💊', description: 'Affects energy or movement' },
+  { id: 'breathing', name: 'Breathing / asthma', icon: '🌬️', description: 'Affects cardio capacity' },
+  { id: 'sleep', name: 'Sleep disorder', icon: '😵', description: 'Insomnia, apnea, etc.' }
+];
 
 // Collected data
 let onboardingData = {
@@ -55,6 +67,8 @@ let onboardingData = {
   goalWeight: null,
   weightUnit: 'kg',
   conditions: [], // Now stores { id, severity, type } objects
+  declarations: [], // Non-physical conditions
+  declarationNotes: '', // Free text for "other"
   equipment: ['none'],
   goals: []
 };
@@ -105,12 +119,15 @@ function renderCurrentStep() {
       main.innerHTML = renderConditions();
       break;
     case 4:
-      main.innerHTML = renderEquipment();
+      main.innerHTML = renderDeclarations();
       break;
     case 5:
-      main.innerHTML = renderGoals();
+      main.innerHTML = renderEquipment();
       break;
     case 6:
+      main.innerHTML = renderGoals();
+      break;
+    case 7:
       main.innerHTML = renderCoachSummary();
       break;
     default:
@@ -327,7 +344,62 @@ function getSeverityLabel(severity) {
 }
 
 /**
- * Step 4: Equipment
+ * Step 4: Declarations - "Anything else to declare?"
+ */
+function renderDeclarations() {
+  return `
+    <div class="screen screen--active onboarding">
+      <div class="onboarding__header">
+        <button class="onboarding__back" onclick="window.alongside.onboardingBack()">← Back</button>
+        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
+      </div>
+      
+      <div class="onboarding__content">
+        <h2 class="onboarding__title">Anything else that affects your day-to-day?</h2>
+        <p class="onboarding__subtitle">This helps me understand your context and adapt suggestions</p>
+        
+        <div class="onboarding__disclaimer">
+          <span class="onboarding__disclaimer-icon">⚕️</span>
+          <p>I'm not a doctor. This information helps me adjust workout intensity and tone — always consult a medical professional for health concerns.</p>
+        </div>
+        
+        <div class="onboarding__options">
+          ${DECLARATIONS.map(dec => `
+            <button class="onboarding__option onboarding__option--wide ${onboardingData.declarations.includes(dec.id) ? 'onboarding__option--selected' : ''}"
+                    onclick="window.alongside.toggleDeclaration('${dec.id}')">
+              <span class="onboarding__option-icon">${dec.icon}</span>
+              <div class="onboarding__option-text">
+                <span class="onboarding__option-name">${dec.name}</span>
+                <span class="onboarding__option-desc">${dec.description}</span>
+              </div>
+              <span class="onboarding__option-check">${onboardingData.declarations.includes(dec.id) ? '✓' : ''}</span>
+            </button>
+          `).join('')}
+        </div>
+        
+        <div class="onboarding__field" style="margin-top: var(--space-4);">
+          <label class="onboarding__label">Anything else? <span class="onboarding__optional">(optional)</span></label>
+          <textarea id="declarationNotes" 
+                    class="onboarding__textarea"
+                    placeholder="Anything else that affects how you feel or move..."
+                    rows="3"
+                    maxlength="500">${onboardingData.declarationNotes}</textarea>
+        </div>
+        
+        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.onboardingNext()">
+          ${onboardingData.declarations.length > 0 || onboardingData.declarationNotes ? 'Continue →' : 'Nothing to add — skip →'}
+        </button>
+      </div>
+      
+      <div class="onboarding__progress">
+        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Step 5: Equipment
  */
 function renderEquipment() {
   return `
@@ -439,6 +511,12 @@ function renderCoachSummary() {
       : `so we'll include exercises to strengthen and protect those areas. `;
   }
   
+  // Declarations
+  const declarations = onboardingData.declarations;
+  if (declarations.length > 0) {
+    message += `I'll also keep in mind that you're managing some other factors that affect your energy. `;
+  }
+  
   // Equipment
   if (equipment.length > 0) {
     const equipNames = equipment.map(e => {
@@ -475,6 +553,13 @@ function renderCoachSummary() {
             <div class="onboarding__summary-item">
               <span class="onboarding__summary-icon">🩹</span>
               <span>${conditions.length} area${conditions.length > 1 ? 's' : ''} to protect</span>
+            </div>
+          ` : ''}
+          
+          ${declarations.length > 0 ? `
+            <div class="onboarding__summary-item">
+              <span class="onboarding__summary-icon">💚</span>
+              <span>${declarations.length} other factor${declarations.length > 1 ? 's' : ''} noted</span>
             </div>
           ` : ''}
           
@@ -547,7 +632,24 @@ function saveCurrentStepData() {
       if (goalWeightEl) onboardingData.goalWeight = parseFloat(goalWeightEl.value) || null;
       if (unitEl) onboardingData.weightUnit = unitEl.value;
       break;
+    case 4:
+      const notesEl = document.getElementById('declarationNotes');
+      if (notesEl) onboardingData.declarationNotes = notesEl.value.trim();
+      break;
   }
+}
+
+/**
+ * Toggle a declaration selection
+ */
+function toggleDeclaration(declarationId) {
+  const index = onboardingData.declarations.indexOf(declarationId);
+  if (index > -1) {
+    onboardingData.declarations.splice(index, 1);
+  } else {
+    onboardingData.declarations.push(declarationId);
+  }
+  renderCurrentStep();
 }
 
 /**
@@ -659,12 +761,19 @@ function completeOnboarding() {
   store.set('profile.goalWeight', onboardingData.goalWeight);
   store.set('profile.weightUnit', onboardingData.weightUnit);
   store.set('profile.lastWeight', onboardingData.weight); // For tracking changes
-  store.set('profile.conditions', onboardingData.conditions.map(id => ({
-    id,
-    area: id,
-    severity: 5, // Default mid severity
-    ischronic: true
+  
+  // Save conditions with their severity and type
+  store.set('profile.conditions', onboardingData.conditions.map(cond => ({
+    id: cond.id,
+    area: CONDITIONS.find(c => c.id === cond.id)?.area || cond.id,
+    severity: cond.severity,
+    type: cond.type || 'chronic'
   })));
+  
+  // Save declarations
+  store.set('profile.declarations', onboardingData.declarations);
+  store.set('profile.declarationNotes', onboardingData.declarationNotes);
+  
   store.set('profile.equipment', onboardingData.equipment);
   store.set('profile.goals', onboardingData.goals);
   store.set('profile.onboardingComplete', true);
@@ -704,10 +813,12 @@ export const onboarding = {
   updateConditionSeverity,
   setConditionType,
   syncWeightUnit,
+  toggleDeclaration,
   toggleEquipment,
   toggleGoal,
   skip,
   CONDITIONS,
+  DECLARATIONS,
   EQUIPMENT,
   GOALS
 };
