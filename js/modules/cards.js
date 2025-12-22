@@ -238,11 +238,21 @@ async function showExerciseModal(exerciseId) {
                    data-exercise-id="${exerciseId}"
                    data-is-reps="${exercise.reps ? 'true' : 'false'}"
                    data-default="${exercise.reps || duration}"
-                   data-unit="${exercise.durationUnit || 'seconds'}">
+                   data-unit="${exercise.durationUnit || 'seconds'}"
+                   onchange="window.alongside.updateCreditsPreview()">
             <button class="exercise-modal__adjust-btn" 
                     onclick="window.alongside.adjustExerciseValue(1, '${exerciseId}')"
                     aria-label="Increase">+</button>
-            <span class="exercise-modal__input-unit">${exercise.reps ? 'reps' : (exercise.durationUnit === 'seconds' ? 'secs' : 'mins')}</span>
+            ${exercise.reps ? `
+              <span class="exercise-modal__input-unit">reps</span>
+            ` : `
+              <select class="exercise-modal__unit-select" 
+                      id="exercise-unit-select"
+                      onchange="window.alongside.toggleTimeUnit()">
+                <option value="seconds" ${(exercise.durationUnit || 'seconds') === 'seconds' ? 'selected' : ''}>secs</option>
+                <option value="minutes" ${exercise.durationUnit === 'minutes' ? 'selected' : ''}>mins</option>
+              </select>
+            `}
           </div>
           <p class="exercise-modal__credits-preview" id="credits-preview">
             = <span id="credits-value">${credits}</span> credits
@@ -323,13 +333,14 @@ function adjustExerciseValue(delta, exerciseId) {
  * Update the credits preview based on current input value
  */
 function updateCreditsPreview(input) {
+  input = input || document.getElementById('exercise-actual-value');
   const creditsEl = document.getElementById('credits-value');
   if (!creditsEl || !input) return;
   
   const value = parseInt(input.value);
   const isReps = input.dataset.isReps === 'true';
-  const unit = input.dataset.unit;
-  const defaultVal = parseInt(input.dataset.default);
+  const unitSelect = document.getElementById('exercise-unit-select');
+  const unit = unitSelect ? unitSelect.value : input.dataset.unit;
   
   // Calculate duration in minutes
   let durationMinutes;
@@ -346,6 +357,36 @@ function updateCreditsPreview(input) {
   // Base: 5 credits per minute, adjusted by rough intensity
   const credits = Math.max(1, Math.round(5 * durationMinutes * 1.5));
   creditsEl.textContent = credits;
+}
+
+/**
+ * Toggle between seconds and minutes
+ */
+function toggleTimeUnit() {
+  const input = document.getElementById('exercise-actual-value');
+  const unitSelect = document.getElementById('exercise-unit-select');
+  if (!input || !unitSelect) return;
+  
+  const currentValue = parseInt(input.value);
+  const newUnit = unitSelect.value;
+  const oldUnit = input.dataset.unit;
+  
+  // Convert value
+  let newValue;
+  if (oldUnit === 'seconds' && newUnit === 'minutes') {
+    newValue = Math.round(currentValue / 60);
+    if (newValue < 1) newValue = 1;
+  } else if (oldUnit === 'minutes' && newUnit === 'seconds') {
+    newValue = currentValue * 60;
+  } else {
+    newValue = currentValue;
+  }
+  
+  input.value = newValue;
+  input.dataset.unit = newUnit;
+  
+  // Update credits preview
+  updateCreditsPreview(input);
 }
 
 /**
@@ -408,6 +449,8 @@ export const cards = {
   completeExercise,
   completeExerciseWithValue,
   adjustExerciseValue,
+  updateCreditsPreview,
+  toggleTimeUnit,
   renderExerciseGrid
 };
 
@@ -418,6 +461,7 @@ if (typeof window !== 'undefined') {
   window.alongside.closeExerciseModal = closeExerciseModal;
   window.alongside.completeExercise = completeExercise;
   window.alongside.adjustExerciseValue = adjustExerciseValue;
+}
 }
 
 export default cards;
