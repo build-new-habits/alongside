@@ -462,6 +462,5 @@ if (typeof window !== 'undefined') {
   window.alongside.completeExercise = completeExercise;
   window.alongside.adjustExerciseValue = adjustExerciseValue;
 }
-}
 
 export default cards;
