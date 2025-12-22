@@ -526,6 +526,7 @@ window.alongside = {
   updateConditionSeverity: onboarding.updateConditionSeverity,
   setConditionType: onboarding.setConditionType,
   syncWeightUnit: onboarding.syncWeightUnit,
+  toggleDeclaration: onboarding.toggleDeclaration,
   toggleEquipment: onboarding.toggleEquipment,
   toggleGoal: onboarding.toggleGoal,
   skipOnboarding: onboarding.skip,
