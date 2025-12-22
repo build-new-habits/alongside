@@ -365,14 +365,14 @@ function renderDeclarations() {
         
         <div class="onboarding__options">
           ${DECLARATIONS.map(dec => `
-            <button class="onboarding__option onboarding__option--wide ${onboardingData.declarations.includes(dec.id) ? 'onboarding__option--selected' : ''}"
+            <button class="onboarding__option onboarding__option--wide ${(onboardingData.declarations || []).includes(dec.id) ? 'onboarding__option--selected' : ''}"
                     onclick="window.alongside.toggleDeclaration('${dec.id}')">
               <span class="onboarding__option-icon">${dec.icon}</span>
               <div class="onboarding__option-text">
                 <span class="onboarding__option-name">${dec.name}</span>
                 <span class="onboarding__option-desc">${dec.description}</span>
               </div>
-              <span class="onboarding__option-check">${onboardingData.declarations.includes(dec.id) ? '✓' : ''}</span>
+              <span class="onboarding__option-check">${(onboardingData.declarations || []).includes(dec.id) ? '✓' : ''}</span>
             </button>
           `).join('')}
         </div>
@@ -512,7 +512,7 @@ function renderCoachSummary() {
   }
   
   // Declarations
-  const declarations = onboardingData.declarations;
+  const declarations = onboardingData.declarations || [];
   if (declarations.length > 0) {
     message += `I'll also keep in mind that you're managing some other factors that affect your energy. `;
   }
