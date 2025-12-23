@@ -202,14 +202,22 @@ function reset() {
 
 /**
  * Deep merge two objects
+ * FIXED: Properly handles arrays to prevent them becoming objects
  */
 function deepMerge(target, source) {
   const result = { ...target };
   
   for (const key of Object.keys(source)) {
-    if (source[key] instanceof Object && key in target) {
+    // Handle arrays specially - don't merge them, just use source
+    if (Array.isArray(source[key])) {
+      result[key] = source[key];
+    }
+    // Handle objects (but not arrays or null)
+    else if (source[key] instanceof Object && source[key] !== null && key in target) {
       result[key] = deepMerge(target[key], source[key]);
-    } else {
+    } 
+    // Primitive values
+    else {
       result[key] = source[key];
     }
   }
@@ -244,8 +252,14 @@ function saveCheckin(energy, mood) {
 
 /**
  * Add credits to balance
+ * FIXED: Added safety check to ensure history is an array
  */
 function addCredits(amount, reason = 'exercise') {
+  // Safety check: ensure history is an array
+  if (!Array.isArray(state.credits.history)) {
+    state.credits.history = [];
+  }
+  
   state.credits.balance += amount;
   state.credits.history.push({
     amount,
