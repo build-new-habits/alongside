@@ -383,11 +383,11 @@ function renderDeclarations() {
                     class="onboarding__textarea"
                     placeholder="Anything else that affects how you feel or move..."
                     rows="3"
-                    maxlength="500">${onboardingData.declarationNotes}</textarea>
+                    maxlength="500">${onboardingData.declarationNotes || ''}</textarea>
         </div>
         
         <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.onboardingNext()">
-          ${onboardingData.declarations.length > 0 || onboardingData.declarationNotes ? 'Continue →' : 'Nothing to add — skip →'}
+          ${(onboardingData.declarations || []).length > 0 || onboardingData.declarationNotes ? 'Continue →' : 'Nothing to add — skip →'}
         </button>
       </div>
       
