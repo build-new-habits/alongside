@@ -82,6 +82,8 @@ function needsOnboarding() {
 
 /**
  * Start onboarding flow
+/**
+ * Start onboarding flow
  */
 function start() {
   currentStep = 1;
@@ -91,6 +93,9 @@ function start() {
     goalWeight: null,
     weightUnit: 'kg',
     conditions: [],
+    conditionType: 'chronic',
+    declarations: [],
+    declarationNotes: '',
     equipment: ['none'],
     goals: []
   };
@@ -643,6 +648,11 @@ function saveCurrentStepData() {
  * Toggle a declaration selection
  */
 function toggleDeclaration(declarationId) {
+  // Ensure declarations array exists
+  if (!onboardingData.declarations) {
+    onboardingData.declarations = [];
+  }
+  
   const index = onboardingData.declarations.indexOf(declarationId);
   if (index > -1) {
     onboardingData.declarations.splice(index, 1);
