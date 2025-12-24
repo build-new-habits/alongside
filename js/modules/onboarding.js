@@ -1,6 +1,7 @@
 /**
  * Alongside Onboarding
  * First-time user setup flow
+ * UPDATED: Now includes Age, Gender, and Menstrual Tracking opt-in
  */
 
 import { store } from '../store.js';
@@ -44,10 +45,6 @@ const GOALS = [
   { id: 'build-habit', name: 'Build exercise habit', icon: '📅' }
 ];
 
-// Current step in onboarding
-let currentStep = 1;
-const TOTAL_STEPS = 7;
-
 // "Anything to declare" - non-physical conditions
 const DECLARATIONS = [
   { id: 'digestive', name: 'Digestive issues', icon: '🫃', description: 'IBS, Colitis, etc.' },
@@ -60,15 +57,23 @@ const DECLARATIONS = [
   { id: 'sleep', name: 'Sleep disorder', icon: '😵', description: 'Insomnia, apnea, etc.' }
 ];
 
-// Collected data
+// Current step in onboarding
+let currentStep = 1;
+const TOTAL_STEPS = 7;
+
+// Collected data - UPDATED to include age, gender, menstrualTracking
 let onboardingData = {
   name: '',
+  age: null,
+  gender: null, // 'male' | 'female' | 'non-binary' | null
+  menstrualTracking: false,
   weight: null,
   goalWeight: null,
   weightUnit: 'kg',
-  conditions: [], // Now stores { id, severity, type } objects
-  declarations: [], // Non-physical conditions
-  declarationNotes: '', // Free text for "other"
+  conditions: [],
+  conditionType: 'chronic',
+  declarations: [],
+  declarationNotes: '',
   equipment: ['none'],
   goals: []
 };
@@ -82,13 +87,14 @@ function needsOnboarding() {
 
 /**
  * Start onboarding flow
-/**
- * Start onboarding flow
  */
 function start() {
   currentStep = 1;
   onboardingData = {
     name: '',
+    age: null,
+    gender: null,
+    menstrualTracking: false,
     weight: null,
     goalWeight: null,
     weightUnit: 'kg',
@@ -182,7 +188,8 @@ function renderWelcome() {
 }
 
 /**
- * Step 2: Name and Weight
+ * Step 2: Name, Age, Gender, and Weight
+ * UPDATED: Now includes Age, Gender, and Menstrual Tracking opt-in
  */
 function renderNameWeight() {
   return `
@@ -206,6 +213,48 @@ function renderNameWeight() {
                    value="${onboardingData.name}"
                    maxlength="30">
           </div>
+          
+          <div class="onboarding__field">
+            <label class="onboarding__label">Age <span class="onboarding__optional">(optional)</span></label>
+            <input type="number" 
+                   id="onboardingAge" 
+                   class="onboarding__input onboarding__input--number"
+                   placeholder="0"
+                   value="${onboardingData.age || ''}"
+                   min="13"
+                   max="120">
+          </div>
+          
+          <div class="onboarding__field">
+            <label class="onboarding__label">Gender <span class="onboarding__optional">(optional)</span></label>
+            <select id="onboardingGender" class="onboarding__select" onchange="window.alongside.onGenderChange()">
+              <option value="">Prefer not to say</option>
+              <option value="male" ${onboardingData.gender === 'male' ? 'selected' : ''}>Male</option>
+              <option value="female" ${onboardingData.gender === 'female' ? 'selected' : ''}>Female</option>
+              <option value="non-binary" ${onboardingData.gender === 'non-binary' ? 'selected' : ''}>Non-binary</option>
+            </select>
+          </div>
+          
+          ${onboardingData.gender === 'female' ? `
+            <div class="onboarding__field onboarding__menstrual-opt-in" style="background: var(--color-bg-tertiary); padding: var(--space-3); border-radius: var(--radius-md); margin-top: var(--space-2);">
+              <label class="onboarding__checkbox-label" style="display: flex; align-items: flex-start; gap: var(--space-2); cursor: pointer;">
+                <input type="checkbox" 
+                       id="onboardingMenstrualTracking"
+                       ${onboardingData.menstrualTracking ? 'checked' : ''}
+                       onchange="window.alongside.onMenstrualTrackingChange()"
+                       style="margin-top: 2px;">
+                <span style="flex: 1;">
+                  <strong>Track menstrual cycle</strong><br>
+                  <span style="font-size: var(--text-sm); color: var(--color-text-muted);">
+                    Helps me adjust workout intensity and energy expectations throughout your cycle
+                  </span>
+                </span>
+              </label>
+              <p class="onboarding__hint" style="margin-top: var(--space-2); margin-bottom: 0;">
+                🔒 This data stays private on your device and is never shared or transmitted.
+              </p>
+            </div>
+          ` : ''}
           
           <div class="onboarding__field">
             <label class="onboarding__label">Current weight <span class="onboarding__optional">(optional)</span></label>
@@ -445,7 +494,7 @@ function renderEquipment() {
 }
 
 /**
- * Step 5: Goals
+ * Step 6: Goals
  */
 function renderGoals() {
   return `
@@ -489,7 +538,7 @@ function renderGoals() {
 }
 
 /**
- * Step 6: Coach Summary
+ * Step 7: Coach Summary
  */
 function renderCoachSummary() {
   const name = onboardingData.name || 'there';
@@ -623,16 +672,23 @@ function back() {
 
 /**
  * Save data from current step
+ * UPDATED: Now saves age, gender, menstrualTracking for step 2
  */
 function saveCurrentStepData() {
   switch (currentStep) {
     case 2:
       const nameEl = document.getElementById('onboardingName');
+      const ageEl = document.getElementById('onboardingAge');
+      const genderEl = document.getElementById('onboardingGender');
+      const menstrualEl = document.getElementById('onboardingMenstrualTracking');
       const weightEl = document.getElementById('onboardingWeight');
       const goalWeightEl = document.getElementById('onboardingGoalWeight');
       const unitEl = document.getElementById('onboardingWeightUnit');
       
       if (nameEl) onboardingData.name = nameEl.value.trim();
+      if (ageEl) onboardingData.age = parseInt(ageEl.value) || null;
+      if (genderEl) onboardingData.gender = genderEl.value || null;
+      if (menstrualEl) onboardingData.menstrualTracking = menstrualEl.checked;
       if (weightEl) onboardingData.weight = parseFloat(weightEl.value) || null;
       if (goalWeightEl) onboardingData.goalWeight = parseFloat(goalWeightEl.value) || null;
       if (unitEl) onboardingData.weightUnit = unitEl.value;
@@ -719,6 +775,33 @@ function syncWeightUnit() {
 }
 
 /**
+ * Handle gender selection change
+ * NEW: Shows/hides menstrual tracking option
+ */
+function onGenderChange() {
+  const genderEl = document.getElementById('onboardingGender');
+  if (genderEl) {
+    onboardingData.gender = genderEl.value || null;
+    // If changing away from female, clear menstrual tracking
+    if (onboardingData.gender !== 'female') {
+      onboardingData.menstrualTracking = false;
+    }
+    renderCurrentStep(); // Re-render to show/hide menstrual option
+  }
+}
+
+/**
+ * Handle menstrual tracking checkbox change
+ * NEW: Saves checkbox state
+ */
+function onMenstrualTrackingChange() {
+  const checkboxEl = document.getElementById('onboardingMenstrualTracking');
+  if (checkboxEl) {
+    onboardingData.menstrualTracking = checkboxEl.checked;
+  }
+}
+
+/**
  * Toggle equipment selection
  */
 function toggleEquipment(equipmentId) {
@@ -763,10 +846,14 @@ function toggleGoal(goalId) {
 
 /**
  * Complete onboarding and save to store
+ * UPDATED: Now saves age, gender, menstrualTracking
  */
 function completeOnboarding() {
   // Save all data to store
   store.set('profile.name', onboardingData.name);
+  store.set('profile.age', onboardingData.age);
+  store.set('profile.gender', onboardingData.gender);
+  store.set('profile.menstrualTracking', onboardingData.menstrualTracking);
   store.set('profile.weight', onboardingData.weight);
   store.set('profile.goalWeight', onboardingData.goalWeight);
   store.set('profile.weightUnit', onboardingData.weightUnit);
@@ -826,6 +913,8 @@ export const onboarding = {
   toggleDeclaration,
   toggleEquipment,
   toggleGoal,
+  onGenderChange,
+  onMenstrualTrackingChange,
   skip,
   CONDITIONS,
   DECLARATIONS,
