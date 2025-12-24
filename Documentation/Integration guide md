@@ -1,0 +1,355 @@
+# Enhanced Check-In Integration Guide
+## For Your Existing Alongside Codebase
+
+---
+
+## 📦 Files to Update
+
+### 1. **Replace `/js/store.js`**
+
+Your current `store.js` uses the old `saveCheckin(energy, mood)` method.
+
+**Replace it with:** `store-updated.js` (provided)
+
+**Key Changes:**
+```javascript
+// OLD METHOD
+function saveCheckin(energy, mood) {
+  state.checkin = {
+    date: today,
+    energy,
+    mood,
+    completed: true
+  };
+}
+
+// NEW METHOD
+function saveCheckin(checkinData) {
+  state.checkin = {
+    date: today,
+    ...checkinData,
+    completed: true
+  };
+  
+  // Also saves to history
+  state.checkinHistory.push({
+    date: today,
+    ...checkinData
+  });
+}
+```
+
+**New State Structure:**
+```javascript
+checkin: {
+  date: 'Mon Dec 23 2024',
+  sleepHours: 7,
+  sleepQuality: 6,
+  hydration: 4,
+  energy: 7,
+  mood: 6,
+  menstruating: false,
+  menstrualImpact: null,
+  conditions: [],
+  coachingIntensity: 'moderate',
+  completed: true
+}
+```
+
+---
+
+### 2. **Replace `/js/modules/checkin.js`**
+
+Your current `checkin.js` only captures energy + mood.
+
+**Replace it with:** `checkin-enhanced.js` (provided)
+
+**Key Changes:**
+- Adds sleep hours + quality sliders
+- Adds hydration slider
+- Adds coaching intensity selector
+- Adds menstrual tracking (conditional)
+- Adds condition updates (conditional)
+- Includes burnout detection logic
+
+---
+
+### 3. **Update `/js/app.js`**
+
+Add new functions to the `window.alongside` global interface:
+
+```javascript
+// ADD THESE TO window.alongside object (around line 498)
+window.alongside = {
+  // ... existing functions ...
+  
+  // NEW: Enhanced check-in functions
+  selectMenstrual: checkin.selectMenstrual,
+  selectMenstrualImpact: checkin.selectMenstrualImpact,
+  selectCoachingIntensity: checkin.selectCoachingIntensity,
+  submitCheckin: checkin.submitCheckin,
+  
+  // ... rest of existing functions ...
+};
+```
+
+**No other changes needed in app.js!** The `showCheckin()` function already works correctly.
+
+---
+
+### 4. **Add `/css/checkin-enhanced.css`**
+
+Add the new stylesheet (provided as `checkin-enhanced.css`)
+
+**In your `index.html`, add:**
+```html
+<link rel="stylesheet" href="css/checkin-enhanced.css">
+```
+
+Or if you have a single `style.css`, append the contents of `checkin-enhanced.css` to it.
+
+---
+
+## 🔧 Update Summary
+
+### Files to Replace:
+1. ✅ `/js/store.js` → Use `store-updated.js`
+2. ✅ `/js/modules/checkin.js` → Use `checkin-enhanced.js`
+
+### Files to Modify:
+3. ✅ `/js/app.js` → Add 4 new functions to `window.alongside`
+4. ✅ `/index.html` → Add CSS import (or append to existing stylesheet)
+
+### Files to Add:
+5. ✅ `/css/checkin-enhanced.css` → New stylesheet
+
+---
+
+## 🧪 Testing Checklist
+
+After integration, test these scenarios:
+
+### Basic Check-In
+- [ ] Sleep sliders work (hours + quality)
+- [ ] Hydration slider works
+- [ ] Energy slider works
+- [ ] Mood slider works
+- [ ] All sliders update their descriptive labels
+- [ ] Submit button navigates to Today view
+
+### Coaching Intensity
+- [ ] Can select Gentle 🌱
+- [ ] Can select Moderate 💪
+- [ ] Can select Aggressive 🔥
+- [ ] Selected intensity is highlighted
+- [ ] Data saves to store
+
+### Menstrual Tracking (if female profile)
+- [ ] "Are you menstruating?" appears ONLY if:
+  - `store.get('profile.gender') === 'female'`
+  - `store.get('profile.menstrualTracking') === true`
+- [ ] Selecting "Yes" shows impact options
+- [ ] Selecting "No" hides impact options
+- [ ] Data saves correctly
+
+### Condition Updates (if conditions exist)
+- [ ] Appears ONLY if `store.get('profile.conditions').length > 0`
+- [ ] Shows pain slider for each condition
+- [ ] Shows difficulty slider for each condition
+- [ ] Sliders update independently
+
+### Data Persistence
+- [ ] Complete check-in
+- [ ] Refresh page
+- [ ] Check localStorage: `localStorage.getItem('alongside_data')`
+- [ ] Verify all check-in data is saved
+- [ ] Verify `checkinHistory` array is populated
+
+### Burnout Detection
+- [ ] Complete 3 check-ins with energy ≤ 3
+- [ ] Verify `store.get('burnoutDetected') === true`
+- [ ] (Next step: Coach should show only recovery options)
+
+---
+
+## 🎯 What Happens After Check-In
+
+### Current Behavior (Your Code):
+```javascript
+// In checkin.js handleSubmit():
+store.saveCheckin(currentEnergy, currentMood);
+window.alongside.showToday(currentEnergy, currentMood);
+```
+
+### New Behavior (Enhanced):
+```javascript
+// In checkin-enhanced.js submitCheckin():
+store.saveCheckin(currentValues); // Saves ALL data
+detectBurnout(); // Checks patterns
+await window.alongside.showToday(currentValues.energy, currentValues.mood);
+```
+
+### What Your `coach.js` Will Receive:
+```javascript
+// coach.buildDailyWorkout() receives:
+{
+  energy: 7,
+  mood: 6,
+  conditions: [...],
+  equipment: [...],
+  goals: [...]
+}
+```
+
+**Plus, the coach can now access:**
+```javascript
+const checkinData = store.get('checkin');
+// {
+//   sleepHours: 7,
+//   sleepQuality: 6,
+//   hydration: 4,
+//   coachingIntensity: 'moderate',
+//   menstruating: false,
+//   ...
+// }
+```
+
+---
+
+## 🚀 Next Steps
+
+Once the enhanced check-in is integrated and tested:
+
+### **Phase 2: Build the 3-Option System**
+
+The coach will use this rich data to create:
+
+**Option A: Strength**
+```
+Recommendation: "Good energy (7/10) and well-rested (7h sleep, 
+quality 6/10). Let's build strength today."
+
+• Warm-up: Cat-Cow, Hip Circles (5min)
+• Main: Glute Bridge, Split Squat, Plank (25min)
+• Cool-down: Stretching (5min)
+```
+
+**Option B: Wellbeing**
+```
+Recommendation: "You selected 'Gentle' coaching today. Prioritizing 
+recovery and restoration."
+
+• Breathwork: Box Breathing (5min)
+• Gentle Movement: Yoga flow (15min)
+• Relaxation: Body scan (5min)
+```
+
+**Option C: Cardio**
+```
+Recommendation: "Energy is good, but coaching intensity is 'Moderate'. 
+A light cardio session balances effort with self-care."
+
+• Warm-up: Dynamic stretches (5min)
+• Main: Easy 3K run OR 20min bodyweight circuit
+• Cool-down: Walking, stretching (5min)
+```
+
+### **Coach Intelligence:**
+```javascript
+// Example logic in coach.js
+const checkin = store.get('checkin');
+
+if (checkin.energy <= 3 && checkin.coachingIntensity === 'gentle') {
+  // Show ONLY wellbeing option
+  return {
+    options: [wellbeingOption],
+    recommendation: "You're running low and asked for gentle coaching. 
+                     Let's focus purely on restoration today."
+  };
+}
+
+if (checkin.menstruating && checkin.menstrualImpact === 'heavy') {
+  // Filter out high-impact cardio, prioritize strength
+  return {
+    options: [strengthOption, wellbeingOption, lowImpactCardioOption],
+    recommendation: "Your body is working hard right now. Avoiding 
+                     high-impact work and offering strength/wellbeing focus."
+  };
+}
+```
+
+---
+
+## 💡 Pro Tips
+
+### For Development:
+```javascript
+// In console, check current state:
+window.alongside.store.get('checkin')
+
+// Check burnout detection:
+window.alongside.store.get('burnoutDetected')
+
+// View check-in history:
+window.alongside.store.get('checkinHistory')
+
+// Reset everything for testing:
+window.alongside.resetApp()
+```
+
+### For Debugging Menstrual Tracking:
+```javascript
+// Manually set profile to test:
+window.alongside.store.set('profile.gender', 'female');
+window.alongside.store.set('profile.menstrualTracking', true);
+
+// Then refresh check-in screen
+window.alongside.showCheckin();
+```
+
+### For Debugging Conditions:
+```javascript
+// Add a test condition:
+window.alongside.store.set('profile.conditions', [
+  {
+    id: 'test_back',
+    name: 'Lower Back',
+    area: 'lower_back'
+  }
+]);
+
+// Refresh check-in screen
+window.alongside.showCheckin();
+```
+
+---
+
+## 📝 Summary
+
+**What You're Getting:**
+1. ✅ Comprehensive daily data capture (8 metrics vs. 2)
+2. ✅ Smart branching (only shows relevant questions)
+3. ✅ Daily coaching intensity choice
+4. ✅ Burnout detection with historical tracking
+5. ✅ Menstrual cycle awareness (opt-in)
+6. ✅ Condition updates for accurate filtering
+7. ✅ Foundation for intelligent 3-option coaching system
+
+**What Stays the Same:**
+- Your existing app architecture
+- Your navigation system
+- Your exercise library
+- Your today view structure
+- Your credits system
+
+**What Improves:**
+- Coach has 8x more context to make decisions
+- User feels truly understood
+- App adapts to daily variations
+- Foundation for periodization + long-term planning
+
+---
+
+Ready to integrate! 🌱
+
+Let me know if you hit any issues during integration.
