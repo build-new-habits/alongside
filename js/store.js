@@ -10,19 +10,39 @@ const defaultState = {
   // User profile
   profile: {
     name: '',
+    age: null,
+    gender: null, // 'male' | 'female' | 'non-binary' | 'prefer-not-to-say'
+    menstrualTracking: false, // Only relevant if gender === 'female'
     conditions: [],
     equipment: [],
     goals: [],
     onboardingComplete: false
   },
   
-  // Today's check-in
+  // Today's check-in (ENHANCED)
   checkin: {
     date: null,
+    // Physical state
+    sleepHours: 7,
+    sleepQuality: 5,
+    hydration: 4,
     energy: 5,
     mood: 5,
+    // Menstrual (if applicable)
+    menstruating: null,
+    menstrualImpact: null, // 'none' | 'light' | 'moderate' | 'heavy'
+    // Conditions (daily updates)
+    conditions: [],
+    // Coaching intensity TODAY
+    coachingIntensity: 'moderate', // 'gentle' | 'moderate' | 'aggressive'
     completed: false
   },
+  
+  // Check-in history (last 90 days)
+  checkinHistory: [],
+  
+  // Burnout detection
+  burnoutDetected: false,
   
   // Today's workout
   workout: {
@@ -234,17 +254,32 @@ function hasCheckedInToday() {
 }
 
 /**
- * Save today's check-in
+ * Save today's enhanced check-in
  */
-function saveCheckin(energy, mood) {
+function saveCheckin(checkinData) {
   const today = new Date().toDateString();
   
+  // Save current check-in
   state.checkin = {
     date: today,
-    energy,
-    mood,
+    ...checkinData,
     completed: true
   };
+  
+  // Add to history (keep last 90 days)
+  if (!Array.isArray(state.checkinHistory)) {
+    state.checkinHistory = [];
+  }
+  
+  state.checkinHistory.push({
+    date: today,
+    ...checkinData
+  });
+  
+  // Trim history to 90 days
+  if (state.checkinHistory.length > 90) {
+    state.checkinHistory = state.checkinHistory.slice(-90);
+  }
   
   persist();
   notify();
