@@ -1,7 +1,11 @@
 /**
- * Alongside Onboarding
+ * Alongside Onboarding  
  * First-time user setup flow
- * UPDATED: Now includes Age, Gender, and Menstrual Tracking opt-in
+ * 
+ * FIXES APPLIED:
+ * - Bug 1: Gender dropdown no longer resets name/age (saves before re-render)
+ * - Bug 2: Scroll to top on Continue button
+ * - Bug 4: Expanded equipment list (26 items)
  */
 
 import { store } from '../store.js';
@@ -23,14 +27,46 @@ const CONDITIONS = [
   { id: 'foot', name: 'Foot / Plantar', icon: '🦶', area: 'foot' }
 ];
 
-// Equipment options
+// Equipment options - EXPANDED (Bug Fix #4)
 const EQUIPMENT = [
   { id: 'none', name: 'No equipment', icon: '🏠', description: 'Bodyweight only' },
+  
+  // Free weights
   { id: 'dumbbells', name: 'Dumbbells', icon: '🏋️', description: 'Any weight' },
   { id: 'kettlebell', name: 'Kettlebell', icon: '🔔', description: 'Any weight' },
+  { id: 'barbell', name: 'Barbell', icon: '🏋️‍♂️', description: 'With or without plates' },
+  { id: 'medicine-ball', name: 'Medicine Ball', icon: '⚽', description: 'Weighted ball' },
+  
+  // Resistance
   { id: 'resistance-bands', name: 'Resistance Bands', icon: '🎗️', description: 'Any resistance' },
+  { id: 'suspension-trainer', name: 'Suspension Trainer (TRX)', icon: '🪢', description: 'Bodyweight resistance' },
+  
+  // Cardio equipment
+  { id: 'skipping-rope', name: 'Skipping Rope', icon: '🪢', description: 'Jump rope' },
+  { id: 'treadmill', name: 'Treadmill', icon: '🏃', description: 'Indoor running' },
+  { id: 'exercise-bike', name: 'Exercise Bike', icon: '🚴', description: 'Stationary or spin' },
+  { id: 'rowing-machine', name: 'Rowing Machine', icon: '🚣', description: 'Indoor rower' },
+  { id: 'elliptical', name: 'Elliptical', icon: '🏃‍♀️', description: 'Cross-trainer' },
+  
+  // Functional equipment
   { id: 'pull-up-bar', name: 'Pull-up Bar', icon: '🪜', description: 'Doorway or mounted' },
-  { id: 'yoga-mat', name: 'Yoga Mat', icon: '🧘', description: 'For floor work' }
+  { id: 'dip-station', name: 'Dip Station / Parallettes', icon: '💪', description: 'For dips and L-sits' },
+  { id: 'step-platform', name: 'Step Platform', icon: '📦', description: 'Aerobic step' },
+  { id: 'plyo-box', name: 'Plyo Box / Jump Box', icon: '📦', description: 'For box jumps' },
+  { id: 'balance-board', name: 'Balance Board / Wobble Board', icon: '🛹', description: 'Stability training' },
+  { id: 'foam-roller', name: 'Foam Roller', icon: '🧻', description: 'Mobility and recovery' },
+  { id: 'yoga-mat', name: 'Yoga Mat', icon: '🧘', description: 'For floor work' },
+  { id: 'yoga-blocks', name: 'Yoga Blocks', icon: '🧱', description: 'Support and modifications' },
+  
+  // Boxing/Combat
+  { id: 'punch-bag', name: 'Punch Bag / Heavy Bag', icon: '🥊', description: 'Boxing/kickboxing' },
+  { id: 'boxing-gloves', name: 'Boxing Gloves', icon: '🥊', description: 'For pad work' },
+  { id: 'focus-pads', name: 'Focus Pads', icon: '🎯', description: 'Boxing mitt work' },
+  
+  // Access
+  { id: 'gym-access', name: 'Gym Access', icon: '🏢', description: 'Full gym facility' },
+  { id: 'pool-access', name: 'Pool Access', icon: '🏊', description: 'Swimming pool' },
+  { id: 'track-access', name: 'Running Track', icon: '🏟️', description: 'Outdoor or indoor track' }
 ];
 
 // Goal options
@@ -61,11 +97,11 @@ const DECLARATIONS = [
 let currentStep = 1;
 const TOTAL_STEPS = 7;
 
-// Collected data - UPDATED to include age, gender, menstrualTracking
+// Collected data
 let onboardingData = {
   name: '',
   age: null,
-  gender: null, // 'male' | 'female' | 'non-binary' | null
+  gender: null,
   menstrualTracking: false,
   weight: null,
   goalWeight: null,
@@ -189,7 +225,6 @@ function renderWelcome() {
 
 /**
  * Step 2: Name, Age, Gender, and Weight
- * UPDATED: Now includes Age, Gender, and Menstrual Tracking opt-in
  */
 function renderNameWeight() {
   return `
@@ -646,6 +681,7 @@ function renderCoachSummary() {
 
 /**
  * Go to next step
+ * FIX #2: Added scroll to top
  */
 function next() {
   // Save current step data
@@ -657,6 +693,8 @@ function next() {
     completeOnboarding();
   } else {
     renderCurrentStep();
+    // FIX #2: Scroll to top of page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
@@ -667,12 +705,13 @@ function back() {
   if (currentStep > 1) {
     currentStep--;
     renderCurrentStep();
+    // Also scroll to top when going back
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
 /**
  * Save data from current step
- * UPDATED: Now saves age, gender, menstrualTracking for step 2
  */
 function saveCurrentStepData() {
   switch (currentStep) {
@@ -776,23 +815,30 @@ function syncWeightUnit() {
 
 /**
  * Handle gender selection change
- * NEW: Shows/hides menstrual tracking option
+ * FIX #1: Save form values BEFORE re-rendering
  */
 function onGenderChange() {
+  // FIX #1: Save all current values before re-rendering
+  const nameEl = document.getElementById('onboardingName');
+  const ageEl = document.getElementById('onboardingAge');
   const genderEl = document.getElementById('onboardingGender');
+  
+  if (nameEl) onboardingData.name = nameEl.value.trim();
+  if (ageEl) onboardingData.age = parseInt(ageEl.value) || null;
   if (genderEl) {
     onboardingData.gender = genderEl.value || null;
     // If changing away from female, clear menstrual tracking
     if (onboardingData.gender !== 'female') {
       onboardingData.menstrualTracking = false;
     }
-    renderCurrentStep(); // Re-render to show/hide menstrual option
   }
+  
+  // Now safe to re-render with saved data
+  renderCurrentStep();
 }
 
 /**
  * Handle menstrual tracking checkbox change
- * NEW: Saves checkbox state
  */
 function onMenstrualTrackingChange() {
   const checkboxEl = document.getElementById('onboardingMenstrualTracking');
@@ -846,7 +892,6 @@ function toggleGoal(goalId) {
 
 /**
  * Complete onboarding and save to store
- * UPDATED: Now saves age, gender, menstrualTracking
  */
 function completeOnboarding() {
   // Save all data to store
@@ -857,7 +902,7 @@ function completeOnboarding() {
   store.set('profile.weight', onboardingData.weight);
   store.set('profile.goalWeight', onboardingData.goalWeight);
   store.set('profile.weightUnit', onboardingData.weightUnit);
-  store.set('profile.lastWeight', onboardingData.weight); // For tracking changes
+  store.set('profile.lastWeight', onboardingData.weight);
   
   // Save conditions with their severity and type
   store.set('profile.conditions', onboardingData.conditions.map(cond => ({
