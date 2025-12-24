@@ -496,6 +496,8 @@ function showError(message) {
 
 // Global interface
 window.alongside = {
+  onGenderChange: onboarding.onGenderChange,
+  onMenstrualTrackingChange: onboarding.onMenstrualTrackingChange,
   selectMenstrual: checkin.selectMenstrual,
   selectMenstrualImpact: checkin.selectMenstrualImpact,
   selectCoachingIntensity: checkin.selectCoachingIntensity,
