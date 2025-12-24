@@ -496,6 +496,10 @@ function showError(message) {
 
 // Global interface
 window.alongside = {
+  selectMenstrual: checkin.selectMenstrual,
+  selectMenstrualImpact: checkin.selectMenstrualImpact,
+  selectCoachingIntensity: checkin.selectCoachingIntensity,
+  submitCheckin: checkin.submitCheckin,
   showCheckin,
   showToday,
   showBrowse,
