@@ -919,7 +919,7 @@ function renderCoachSummary() {
   const goals = onboardingData.goals;
   
   // Build the coach message
-  let message = `Got it, ${name}. `;
+  let message = `Got it, ${name}. `;  // ✅ BACKTICKS not quotes
   
   // Conditions
   if (conditions.length > 0) {
@@ -928,30 +928,36 @@ function renderCoachSummary() {
       return info?.name || c.id;
     });
     if (conditions.length === 1) {
-      message += `You're managing a ${conditionNames[0].toLowerCase()} issue, `;
+      message += `You're managing a ${conditionNames[0].toLowerCase()} issue, `;  // ✅ BACKTICKS
     } else {
-      message += `You're managing ${conditionNames.slice(0, -1).join(', ').toLowerCase()} and ${conditionNames.slice(-1)[0].toLowerCase()} issues, `;
+      message += `You're managing ${conditionNames.slice(0, -1).join(', ').toLowerCase()} and ${conditionNames.slice(-1)[0].toLowerCase()} issues, `;  // ✅ BACKTICKS
     }
     message += conditions[0].type === 'acute' 
-      ? `so we'll focus on recovery and gentle movement. `
-      : `so we'll include exercises to strengthen and protect those areas. `;
+      ? `so we'll focus on recovery and gentle movement. `  // ✅ BACKTICKS
+      : `so we'll include exercises to strengthen and protect those areas. `;  // ✅ BACKTICKS
   }
   
   // Declarations
   const declarations = onboardingData.declarations || [];
   if (declarations.length > 0) {
-    message += `I'll also keep in mind that you're managing some other factors that affect your energy. `;
+    message += `I'll also keep in mind that you're managing some other factors that affect your energy. `;  // ✅ BACKTICKS
   }
   
   // Equipment
   if (equipment.length > 0) {
     const equipNames = equipment.map(e => {
-      const info = EQUIPMENT.find(eq => eq.id === e);
-      return info?.name || e;
+      // Search through all categories to find the equipment item
+      let itemName = e;
+      EQUIPMENT_CATEGORIES.forEach(category => {
+        const item = category.items.find(item => item.id === e);
+        if (item) itemName = item.name;
+      });
+      return itemName;
     });
-    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;
+    
+    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;  // ✅ BACKTICKS
   } else {
-    message += `We'll focus on bodyweight exercises you can do anywhere. `;
+    message += `We'll focus on bodyweight exercises you can do anywhere. `;  // ✅ BACKTICKS
   }
   
   // Goals
