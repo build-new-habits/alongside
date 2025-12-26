@@ -1,9 +1,28 @@
 /**
  * Alongside - Enhanced Daily Check-In Module
  * Captures comprehensive daily state with smart branching
+ * 
+ * FIXED: Condition names now display correctly (was showing "undefined")
  */
 
 import { store } from '../store.js';
+
+// CONDITIONS array - matches onboarding.js
+const CONDITIONS = [
+  { id: 'lower-back', name: 'Lower Back', icon: '🔙', area: 'back' },
+  { id: 'upper-back', name: 'Upper Back', icon: '🔙', area: 'back' },
+  { id: 'neck', name: 'Neck', icon: '🧣', area: 'neck' },
+  { id: 'shoulder', name: 'Shoulder', icon: '💪', area: 'shoulder' },
+  { id: 'elbow', name: 'Elbow', icon: '💪', area: 'elbow' },
+  { id: 'wrist', name: 'Wrist', icon: '✋', area: 'wrist' },
+  { id: 'hip', name: 'Hip', icon: '🦴', area: 'hip' },
+  { id: 'knee', name: 'Knee', icon: '🦵', area: 'knee' },
+  { id: 'ankle', name: 'Ankle', icon: '🦶', area: 'ankle' },
+  { id: 'hamstring', name: 'Hamstring', icon: '🦵', area: 'hamstring' },
+  { id: 'calf', name: 'Calf', icon: '🦵', area: 'calf' },
+  { id: 'shin', name: 'Shin Splints', icon: '🦵', area: 'shin' },
+  { id: 'foot', name: 'Foot / Plantar', icon: '🦶', area: 'foot' }
+];
 
 // Current check-in values
 let currentValues = {
@@ -100,22 +119,21 @@ function render() {
         <div class="checkin__section">
           <div class="checkin__section-header">
             <span class="checkin__section-icon">😴</span>
-            <h2 class="checkin__section-title">How did you sleep?</h2>
+            <h2 class="checkin__section-title">Sleep</h2>
           </div>
           
           <div class="checkin__field">
             <label class="checkin__label">
-              <span>Sleep Hours</span>
-              <span class="checkin__value" id="sleepHoursValue">7 hours</span>
+              <span>Hours of sleep</span>
+              <span class="checkin__value" id="sleepHoursValue">${currentValues.sleepHours}h</span>
             </label>
-            <input 
-              type="range" 
-              class="checkin__slider" 
-              id="sleepHoursSlider"
-              min="4" 
-              max="11" 
-              step="0.5"
-              value="7">
+            <input type="range" 
+                   class="checkin__slider" 
+                   id="sleepHours"
+                   min="4" 
+                   max="11" 
+                   value="${currentValues.sleepHours}"
+                   oninput="window.alongside.updateSleepHours(this.value)">
             <div class="checkin__slider-labels">
               <span>4h</span>
               <span>11h+</span>
@@ -124,16 +142,16 @@ function render() {
           
           <div class="checkin__field">
             <label class="checkin__label">
-              <span>Sleep Quality</span>
-              <span class="checkin__value" id="sleepQualityValue">Average</span>
+              <span>Sleep quality</span>
+              <span class="checkin__value" id="sleepQualityValue">${SLEEP_QUALITY_LABELS[currentValues.sleepQuality]}</span>
             </label>
-            <input 
-              type="range" 
-              class="checkin__slider" 
-              id="sleepQualitySlider"
-              min="1" 
-              max="10" 
-              value="5">
+            <input type="range" 
+                   class="checkin__slider" 
+                   id="sleepQuality"
+                   min="1" 
+                   max="10" 
+                   value="${currentValues.sleepQuality}"
+                   oninput="window.alongside.updateSleepQuality(this.value)">
             <div class="checkin__slider-labels">
               <span>Terrible</span>
               <span>Perfect</span>
@@ -145,21 +163,21 @@ function render() {
         <div class="checkin__section">
           <div class="checkin__section-header">
             <span class="checkin__section-icon">💧</span>
-            <h2 class="checkin__section-title">Yesterday's Hydration</h2>
+            <h2 class="checkin__section-title">Hydration</h2>
           </div>
           
           <div class="checkin__field">
             <label class="checkin__label">
-              <span>Water Intake</span>
-              <span class="checkin__value" id="hydrationValue">4 glasses</span>
+              <span>Glasses of water today</span>
+              <span class="checkin__value" id="hydrationValue">${currentValues.hydration} glasses</span>
             </label>
-            <input 
-              type="range" 
-              class="checkin__slider" 
-              id="hydrationSlider"
-              min="0" 
-              max="12" 
-              value="4">
+            <input type="range" 
+                   class="checkin__slider" 
+                   id="hydration"
+                   min="0" 
+                   max="12" 
+                   value="${currentValues.hydration}"
+                   oninput="window.alongside.updateHydration(this.value)">
             <div class="checkin__slider-labels">
               <span>0</span>
               <span>12+</span>
@@ -171,21 +189,21 @@ function render() {
         <div class="checkin__section">
           <div class="checkin__section-header">
             <span class="checkin__section-icon">⚡</span>
-            <h2 class="checkin__section-title">How are you feeling?</h2>
+            <h2 class="checkin__section-title">Energy & Mood</h2>
           </div>
           
           <div class="checkin__field">
             <label class="checkin__label">
-              <span>Energy Level</span>
-              <span class="checkin__value" id="energyValue">Moderate - steady does it</span>
+              <span>Energy level</span>
+              <span class="checkin__value" id="energyValue">${ENERGY_LABELS[currentValues.energy]}</span>
             </label>
-            <input 
-              type="range" 
-              class="checkin__slider" 
-              id="energySlider"
-              min="1" 
-              max="10" 
-              value="5">
+            <input type="range" 
+                   class="checkin__slider" 
+                   id="energy"
+                   min="1" 
+                   max="10" 
+                   value="${currentValues.energy}"
+                   oninput="window.alongside.updateEnergy(this.value)">
             <div class="checkin__slider-labels">
               <span>Exhausted</span>
               <span>Peak</span>
@@ -195,15 +213,15 @@ function render() {
           <div class="checkin__field">
             <label class="checkin__label">
               <span>Mood</span>
-              <span class="checkin__value" id="moodValue">Okay - neutral</span>
+              <span class="checkin__value" id="moodValue">${MOOD_LABELS[currentValues.mood]}</span>
             </label>
-            <input 
-              type="range" 
-              class="checkin__slider" 
-              id="moodSlider"
-              min="1" 
-              max="10" 
-              value="5">
+            <input type="range" 
+                   class="checkin__slider" 
+                   id="mood"
+                   min="1" 
+                   max="10" 
+                   value="${currentValues.mood}"
+                   oninput="window.alongside.updateMood(this.value)">
             <div class="checkin__slider-labels">
               <span>Struggling</span>
               <span>Thriving</span>
@@ -211,26 +229,26 @@ function render() {
           </div>
         </div>
         
+        <!-- Section 4: Menstrual Cycle (Conditional) -->
         ${hasMenstrualTracking ? renderMenstrualSection() : ''}
         
+        <!-- Section 5: Conditions (Conditional) -->
         ${hasConditions ? renderConditionsSection() : ''}
         
-        <!-- Section 4: Coaching Intensity -->
+        <!-- Section 6: Coaching Intensity -->
         <div class="checkin__section">
           <div class="checkin__section-header">
             <span class="checkin__section-icon">🎯</span>
-            <h2 class="checkin__section-title">How hard should I push you today?</h2>
+            <h2 class="checkin__section-title">How should I coach you today?</h2>
           </div>
           
-          <div class="checkin__intensity-options">
+          <div class="checkin__coaching-options">
             ${Object.entries(COACHING_INTENSITY).map(([key, config]) => `
-              <button 
-                class="checkin__intensity-btn ${key === 'moderate' ? 'checkin__intensity-btn--active' : ''}"
-                data-intensity="${key}"
-                onclick="window.alongside.selectCoachingIntensity('${key}')">
-                <span class="checkin__intensity-emoji">${config.emoji}</span>
-                <span class="checkin__intensity-label">${config.label}</span>
-                <span class="checkin__intensity-desc">${config.description}</span>
+              <button class="checkin__coaching-btn ${currentValues.coachingIntensity === key ? 'checkin__coaching-btn--active' : ''}"
+                      onclick="window.alongside.selectCoachingIntensity('${key}')">
+                <span class="checkin__coaching-emoji">${config.emoji}</span>
+                <span class="checkin__coaching-label">${config.label}</span>
+                <p class="checkin__coaching-desc">${config.description}</p>
               </button>
             `).join('')}
           </div>
@@ -239,11 +257,11 @@ function render() {
       </div>
       
       <!-- Submit Button -->
-      <button 
-        class="checkin__submit" 
-        onclick="window.alongside.submitCheckin()">
-        Continue to Today's Plan
-      </button>
+      <div class="checkin__actions">
+        <button class="checkin__submit-btn" onclick="window.alongside.submitCheckin()">
+          Start Today's Workout →
+        </button>
+      </div>
     </div>
   `;
 }
@@ -312,6 +330,7 @@ function renderMenstrualSection() {
 
 /**
  * Render conditions update section (conditional)
+ * FIXED: Now looks up condition names from CONDITIONS array
  */
 function renderConditionsSection() {
   const conditions = store.get('profile.conditions') || [];
@@ -323,10 +342,17 @@ function renderConditionsSection() {
         <h2 class="checkin__section-title">How are your conditions today?</h2>
       </div>
       
-      ${conditions.map(condition => `
+      ${conditions.map(condition => {
+        // FIX: Look up the condition name from CONDITIONS array
+        const conditionInfo = CONDITIONS.find(c => c.id === condition.id);
+        const conditionName = conditionInfo?.name || condition.id;
+        const conditionIcon = conditionInfo?.icon || '🩹';
+        
+        return `
         <div class="checkin__condition" data-condition-id="${condition.id}">
           <div class="checkin__condition-header">
-            <span class="checkin__condition-name">${condition.name}</span>
+            <span class="checkin__condition-icon">${conditionIcon}</span>
+            <span class="checkin__condition-name">${conditionName}</span>
             <span class="checkin__condition-area">${formatArea(condition.area)}</span>
           </div>
           
@@ -342,7 +368,12 @@ function renderConditionsSection() {
               data-type="pain"
               min="0" 
               max="10" 
-              value="0">
+              value="0"
+              oninput="window.alongside.updateCondition('${condition.id}', 'pain', this.value)">
+            <div class="checkin__slider-labels">
+              <span>None</span>
+              <span>Severe</span>
+            </div>
           </div>
           
           <div class="checkin__field">
@@ -352,88 +383,76 @@ function renderConditionsSection() {
             </label>
             <input 
               type="range" 
-              class="checkin__slider" 
+              class="checkin__slider"
               data-condition="${condition.id}"
               data-type="difficulty"
               min="0" 
               max="10" 
-              value="0">
+              value="0"
+              oninput="window.alongside.updateCondition('${condition.id}', 'difficulty', this.value)">
+            <div class="checkin__slider-labels">
+              <span>Easy</span>
+              <span>Very Hard</span>
+            </div>
           </div>
         </div>
-      `).join('')}
+        `;
+      }).join('')}
     </div>
   `;
 }
 
 /**
- * Initialize the check-in screen
+ * Format area name for display
  */
-function init() {
-  // Initialize all sliders
-  initSlider('sleepHoursSlider', 'sleepHoursValue', (val) => {
-    currentValues.sleepHours = parseFloat(val);
-    return val >= 11 ? '11+ hours' : `${val} hours`;
-  });
-  
-  initSlider('sleepQualitySlider', 'sleepQualityValue', (val) => {
-    currentValues.sleepQuality = parseInt(val);
-    return SLEEP_QUALITY_LABELS[val];
-  });
-  
-  initSlider('hydrationSlider', 'hydrationValue', (val) => {
-    currentValues.hydration = parseInt(val);
-    return val >= 12 ? '12+ glasses' : `${val} glass${val !== 1 ? 'es' : ''}`;
-  });
-  
-  initSlider('energySlider', 'energyValue', (val) => {
-    currentValues.energy = parseInt(val);
-    return ENERGY_LABELS[val];
-  });
-  
-  initSlider('moodSlider', 'moodValue', (val) => {
-    currentValues.mood = parseInt(val);
-    return MOOD_LABELS[val];
-  });
-  
-  // Initialize condition sliders if they exist
-  const conditionSliders = document.querySelectorAll('[data-condition]');
-  conditionSliders.forEach(slider => {
-    const conditionId = slider.dataset.condition;
-    const type = slider.dataset.type;
-    const valueId = `${type}-${conditionId}`;
-    
-    initSlider(slider.id || null, valueId, (val) => {
-      // Store condition value
-      const existing = currentValues.conditions.find(c => c.id === conditionId);
-      if (existing) {
-        existing[type] = parseInt(val);
-      } else {
-        currentValues.conditions.push({
-          id: conditionId,
-          [type]: parseInt(val)
-        });
-      }
-      return `${val}/10`;
-    }, slider);
-  });
+function formatArea(area) {
+  if (!area) return '';
+  return area.charAt(0).toUpperCase() + area.slice(1);
 }
 
 /**
- * Initialize a slider with value display
+ * Update sleep hours value
  */
-function initSlider(sliderId, valueId, formatter, sliderElement = null) {
-  const slider = sliderElement || document.getElementById(sliderId);
-  const valueDisplay = document.getElementById(valueId);
-  
-  if (!slider || !valueDisplay) return;
-  
-  const updateValue = () => {
-    const formatted = formatter(slider.value);
-    valueDisplay.textContent = formatted;
-  };
-  
-  slider.addEventListener('input', updateValue);
-  updateValue(); // Set initial value
+function updateSleepHours(value) {
+  currentValues.sleepHours = parseInt(value);
+  const label = document.getElementById('sleepHoursValue');
+  if (label) label.textContent = `${value}h`;
+}
+
+/**
+ * Update sleep quality value
+ */
+function updateSleepQuality(value) {
+  currentValues.sleepQuality = parseInt(value);
+  const label = document.getElementById('sleepQualityValue');
+  if (label) label.textContent = SLEEP_QUALITY_LABELS[value];
+}
+
+/**
+ * Update hydration value
+ */
+function updateHydration(value) {
+  currentValues.hydration = parseInt(value);
+  const label = document.getElementById('hydrationValue');
+  if (label) label.textContent = `${value} glasses`;
+}
+
+/**
+ * Update energy value
+ */
+function updateEnergy(value) {
+  currentValues.energy = parseInt(value);
+  const label = document.getElementById('energyValue');
+  if (label) label.textContent = ENERGY_LABELS[value];
+}
+
+/**
+ * Update mood value
+ */
+function updateMood(value) {
+  currentValues.mood = parseInt(value);
+  const label = document.getElementById('moodValue');
+  if (label) label.textContent = MOOD_LABELS[value];
 }
 
 /**
@@ -445,8 +464,12 @@ function selectMenstrual(isMenstruating) {
   // Update button states
   const buttons = document.querySelectorAll('[data-menstruating]');
   buttons.forEach(btn => {
-    const btnValue = btn.dataset.menstruating === 'true';
-    btn.classList.toggle('checkin__option-btn--active', btnValue === isMenstruating);
+    const btnValue = btn.getAttribute('data-menstruating') === 'true';
+    if (btnValue === isMenstruating) {
+      btn.classList.add('checkin__option-btn--active');
+    } else {
+      btn.classList.remove('checkin__option-btn--active');
+    }
   });
   
   // Show/hide impact section
@@ -464,15 +487,17 @@ function selectMenstrual(isMenstruating) {
 /**
  * Select menstrual impact level
  */
-function selectMenstrualImpact(level) {
-  currentValues.menstrualImpact = level;
+function selectMenstrualImpact(impact) {
+  currentValues.menstrualImpact = impact;
   
-  // Update button state
-  const buttons = document.querySelectorAll('[onclick*="selectMenstrualImpact"]');
+  // Update button states
+  const buttons = document.querySelectorAll('#menstrualImpact .checkin__option-btn');
   buttons.forEach(btn => {
-    const isActive = btn.textContent.trim().toLowerCase() === level || 
-                     (level === 'none' && btn.textContent.includes('No impact'));
-    btn.classList.toggle('checkin__option-btn--active', isActive);
+    if (btn.textContent.trim().toLowerCase().includes(impact)) {
+      btn.classList.add('checkin__option-btn--active');
+    } else {
+      btn.classList.remove('checkin__option-btn--active');
+    }
   });
 }
 
@@ -483,100 +508,132 @@ function selectCoachingIntensity(intensity) {
   currentValues.coachingIntensity = intensity;
   
   // Update button states
-  const buttons = document.querySelectorAll('[data-intensity]');
+  const buttons = document.querySelectorAll('.checkin__coaching-btn');
   buttons.forEach(btn => {
-    btn.classList.toggle('checkin__intensity-btn--active', 
-                        btn.dataset.intensity === intensity);
+    if (btn.onclick.toString().includes(`'${intensity}'`)) {
+      btn.classList.add('checkin__coaching-btn--active');
+    } else {
+      btn.classList.remove('checkin__coaching-btn--active');
+    }
   });
 }
 
 /**
- * Submit the check-in
+ * Update condition pain/difficulty
  */
-async function submitCheckin() {
-  // Validate required fields
-  if (currentValues.energy < 1 || currentValues.mood < 1) {
-    alert('Please complete all required fields');
-    return;
+function updateCondition(conditionId, type, value) {
+  // Find or create condition entry
+  let conditionEntry = currentValues.conditions.find(c => c.id === conditionId);
+  if (!conditionEntry) {
+    conditionEntry = { id: conditionId, pain: 0, difficulty: 0 };
+    currentValues.conditions.push(conditionEntry);
   }
   
-  // Save to store
-  const today = new Date().toDateString();
+  // Update the value
+  conditionEntry[type] = parseInt(value);
   
-  store.set('checkin', {
-    date: today,
-    ...currentValues,
-    completed: true
-  });
-  
-  // Detect burnout patterns
-  detectBurnout();
-  
-  // Navigate to today's workout
-  await window.alongside.showToday(currentValues.energy, currentValues.mood);
+  // Update the label
+  const label = document.getElementById(`${type}-${conditionId}`);
+  if (label) label.textContent = `${value}/10`;
 }
 
 /**
- * Detect burnout patterns
+ * Submit check-in and save to store
+ */
+function submitCheckin() {
+  const checkinData = {
+    timestamp: new Date().toISOString(),
+    sleepHours: currentValues.sleepHours,
+    sleepQuality: currentValues.sleepQuality,
+    hydration: currentValues.hydration,
+    energy: currentValues.energy,
+    mood: currentValues.mood,
+    menstruating: currentValues.menstruating,
+    menstrualImpact: currentValues.menstrualImpact,
+    coachingIntensity: currentValues.coachingIntensity,
+    conditions: currentValues.conditions
+  };
+  
+  // Save to store
+  store.saveCheckin(checkinData);
+  
+  // Detect burnout
+  detectBurnout();
+  
+  // Show confetti
+  if (window.alongside?.triggerConfetti) {
+    window.alongside.triggerConfetti();
+  }
+  
+  // Navigate to Today view
+  if (window.alongside?.showToday) {
+    window.alongside.showToday();
+  }
+}
+
+/**
+ * Detect potential burnout patterns
  */
 function detectBurnout() {
   const history = store.get('checkinHistory') || [];
+  if (history.length < 3) return;
   
-  // Get last 7 days
-  const last7Days = history.slice(-7);
+  const recent = history.slice(-7);
   
-  if (last7Days.length < 3) return; // Need at least 3 days of data
+  const avgEnergy = recent.reduce((sum, c) => sum + (c.energy || 5), 0) / recent.length;
+  const avgMood = recent.reduce((sum, c) => sum + (c.mood || 5), 0) / recent.length;
+  const avgSleepQuality = recent.reduce((sum, c) => sum + (c.sleepQuality || 5), 0) / recent.length;
   
-  // Check for 3+ consecutive low energy days
-  const consecutiveLowEnergy = last7Days
-    .slice(-3)
-    .every(day => day.energy <= 3);
+  const isBurnout = avgEnergy < 4 && avgMood < 4 && avgSleepQuality < 5;
   
-  // Check for rolling average below 4
-  const avgEnergy = last7Days.reduce((sum, day) => sum + day.energy, 0) / last7Days.length;
-  
-  // Check for combined low energy AND low mood
-  const combinedLow = last7Days
-    .slice(-3)
-    .every(day => day.energy <= 4 && day.mood <= 4);
-  
-  if (consecutiveLowEnergy || avgEnergy < 4 || combinedLow) {
+  if (isBurnout && !store.get('burnoutDetected')) {
     store.set('burnoutDetected', true);
-    console.log('🚨 Burnout pattern detected - activating recovery mode');
-  } else {
+    store.set('burnoutDetectedDate', new Date().toISOString());
+  } else if (!isBurnout && store.get('burnoutDetected')) {
     store.set('burnoutDetected', false);
   }
 }
 
 /**
- * Format body area name
+ * Show the check-in screen
  */
-function formatArea(area) {
-  return area
-    .split('_')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+function show() {
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  // Reset current values to defaults
+  currentValues = {
+    sleepHours: 7,
+    sleepQuality: 5,
+    hydration: 4,
+    energy: 5,
+    mood: 5,
+    menstruating: null,
+    menstrualImpact: null,
+    coachingIntensity: 'moderate',
+    conditions: []
+  };
+  
+  main.innerHTML = render();
+  
+  // Scroll to top
+  window.scrollTo(0, 0);
 }
 
-/**
- * Get current check-in values
- */
-function getValues() {
-  return currentValues;
-}
-
+// Export
 export const checkin = {
+  show,
   render,
-  init,
-  getValues,
+  updateSleepHours,
+  updateSleepQuality,
+  updateHydration,
+  updateEnergy,
+  updateMood,
   selectMenstrual,
   selectMenstrualImpact,
   selectCoachingIntensity,
-  submitCheckin,
-  ENERGY_LABELS,
-  MOOD_LABELS,
-  SLEEP_QUALITY_LABELS,
-  COACHING_INTENSITY
+  updateCondition,
+  submitCheckin
 };
 
 export default checkin;
