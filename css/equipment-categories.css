@@ -1,0 +1,131 @@
+/**
+ * BRANCHED EQUIPMENT CSS
+ * Add this to your onboarding.css or create equipment-categories.css
+ */
+
+/* Category Cards Grid */
+.onboarding__equipment-categories {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+}
+
+@media (min-width: 640px) {
+  .onboarding__equipment-categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Category Card */
+.onboarding__category-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 100px;
+}
+
+.onboarding__category-card:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+.onboarding__category-card:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.onboarding__category-card--selected {
+  border-color: var(--color-primary);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+/* Category Icon */
+.onboarding__category-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.onboarding__category-icon--large {
+  font-size: 4rem;
+  display: block;
+  margin: 0 auto var(--space-3);
+  line-height: 1;
+}
+
+/* Category Text */
+.onboarding__category-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.onboarding__category-name {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  display: block;
+}
+
+.onboarding__category-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  display: block;
+}
+
+.onboarding__category-count {
+  font-size: var(--text-sm);
+  color: var(--color-primary);
+  font-weight: 500;
+  margin-top: var(--space-1);
+  display: block;
+}
+
+/* Category Check */
+.onboarding__category-check {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Category Detail Header */
+.onboarding__category-detail-header {
+  text-align: center;
+  margin-bottom: var(--space-5);
+}
+
+.onboarding__category-detail-header .onboarding__title {
+  margin-top: var(--space-2);
+}
+
+.onboarding__category-detail-header .onboarding__subtitle {
+  margin-top: var(--space-1);
+}
+
+/* Responsive tweaks */
+@media (max-width: 639px) {
+  .onboarding__category-card {
+    padding: var(--space-3);
+    min-height: 80px;
+  }
+  
+  .onboarding__category-icon {
+    font-size: 2rem;
+  }
+  
+  .onboarding__category-name {
+    font-size: var(--text-base);
+  }
+}
