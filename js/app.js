@@ -536,6 +536,14 @@ window.alongside = {
   toggleEquipment: onboarding.toggleEquipment,
   toggleGoal: onboarding.toggleGoal,
   skipOnboarding: onboarding.skip,
+  // Equipment branching functions
+  toggleEquipmentCategory: onboarding.toggleEquipmentCategory,
+  toggleNoEquipment: onboarding.toggleNoEquipment,
+  equipmentCategoriesNext: onboarding.equipmentCategoriesNext,
+  equipmentCategoryNext: onboarding.equipmentCategoryNext,
+  equipmentCategoryBack: onboarding.equipmentCategoryBack,
+  toggleEquipmentItem: onboarding.toggleEquipmentItem,
+  equipmentOtherDone: onboarding.equipmentOtherDone,
   // Modules
   store,
   library,
