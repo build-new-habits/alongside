@@ -206,8 +206,8 @@ function start() {
     declarations: [],
     declarationNotes: '',
     equipment: ['none'],
+    equipmentOther: '',    
     goals: []
-    equipmentOther: '',
   };
   renderCurrentStep();
 }
