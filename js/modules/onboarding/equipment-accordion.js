@@ -129,6 +129,17 @@ function render(data, currentStep, totalSteps) {
         <h2 class="onboarding__title">What equipment do you have?</h2>
         <p class="onboarding__subtitle">Click categories to select items</p>
         
+        <!-- No Equipment Checkbox - MOVED TO TOP -->
+        <div class="onboarding__field" style="margin-bottom: var(--space-4); padding: var(--space-4); background: var(--color-bg-secondary); border-radius: var(--radius-lg); border: 2px solid var(--color-border);">
+          <label class="onboarding__checkbox-label" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer; margin: 0;">
+            <input type="checkbox" 
+                   id="noEquipmentCheckbox"
+                   ${hasNoEquipment ? 'checked' : ''}
+                   onchange="window.alongside.equipment.toggleNoEquipment()">
+            <span style="font-weight: 500;">I have no equipment (bodyweight only)</span>
+          </label>
+        </div>
+        
         <div class="onboarding__equipment-accordion">
           ${EQUIPMENT_CATEGORIES.map(category => {
             const isExpanded = expandedCategories.includes(category.id);
@@ -190,16 +201,6 @@ function render(data, currentStep, totalSteps) {
               </div>
             `;
           }).join('')}
-        </div>
-        
-        <div class="onboarding__field" style="margin-top: var(--space-4);">
-          <label class="onboarding__checkbox-label" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
-            <input type="checkbox" 
-                   id="noEquipmentCheckbox"
-                   ${hasNoEquipment ? 'checked' : ''}
-                   onchange="window.alongside.equipment.toggleNoEquipment()">
-            <span>I have no equipment (bodyweight only)</span>
-          </label>
         </div>
         
         <div class="onboarding__field" style="margin-top: var(--space-4);">
