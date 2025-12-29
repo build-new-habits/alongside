@@ -173,24 +173,30 @@ function render(data, currentStep, totalSteps) {
                 ${isExpanded ? `
                   <div class="onboarding__category-items">
                     ${category.items.map(item => `
-                      <label class="onboarding__equipment-checkbox">
-                        <input type="checkbox" 
-                               ${data.equipment.includes(item.id) ? 'checked' : ''}
-                               onchange="window.alongside.equipment.toggleItem('${item.id}')">
-                        <div class="onboarding__equipment-text">
-                          <span class="onboarding__equipment-name">${item.name}</span>
-                          <span class="onboarding__equipment-desc">${item.description}</span>
-                        </div>
-                      </label>
+                      <div class="onboarding__equipment-item">
+                        <label class="onboarding__equipment-label">
+                          <input type="checkbox" 
+                                 class="onboarding__equipment-input"
+                                 ${data.equipment.includes(item.id) ? 'checked' : ''}
+                                 onchange="window.alongside.equipment.toggleItem('${item.id}')">
+                          <div class="onboarding__equipment-content">
+                            <span class="onboarding__equipment-name">${item.name}</span>
+                            <span class="onboarding__equipment-desc">${item.description}</span>
+                          </div>
+                        </label>
+                      </div>
                     `).join('')}
                     
-                    <label class="onboarding__equipment-checkbox onboarding__equipment-checkbox--none">
-                      <input type="checkbox" 
-                             onchange="window.alongside.equipment.noneInCategory('${category.id}')">
-                      <div class="onboarding__equipment-text">
-                        <span class="onboarding__equipment-name">None in this category</span>
-                      </div>
-                    </label>
+                    <div class="onboarding__equipment-item onboarding__equipment-item--none">
+                      <label class="onboarding__equipment-label">
+                        <input type="checkbox" 
+                               class="onboarding__equipment-input"
+                               onchange="window.alongside.equipment.noneInCategory('${category.id}')">
+                        <div class="onboarding__equipment-content">
+                          <span class="onboarding__equipment-name" style="font-style: italic; color: var(--color-text-muted);">None in this category</span>
+                        </div>
+                      </label>
+                    </div>
                     
                     <button class="onboarding__category-done-btn" 
                             onclick="window.alongside.equipment.doneWithCategory('${category.id}')">
