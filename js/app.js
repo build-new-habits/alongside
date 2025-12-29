@@ -533,17 +533,31 @@ window.alongside = {
   setConditionType: onboarding.setConditionType,
   syncWeightUnit: onboarding.syncWeightUnit,
   toggleDeclaration: onboarding.toggleDeclaration,
-  toggleEquipment: onboarding.toggleEquipment,
   toggleGoal: onboarding.toggleGoal,
   skipOnboarding: onboarding.skip,
-  // Equipment branching functions
-  toggleEquipmentCategory: onboarding.toggleEquipmentCategory,
-  toggleNoEquipment: onboarding.toggleNoEquipment,
-  equipmentCategoriesNext: onboarding.equipmentCategoriesNext,
-  equipmentCategoryNext: onboarding.equipmentCategoryNext,
-  equipmentCategoryBack: onboarding.equipmentCategoryBack,
-  toggleEquipmentItem: onboarding.toggleEquipmentItem,
-  equipmentOtherDone: onboarding.equipmentOtherDone,
+  
+  // Equipment module (NEW - replaces old equipment functions)
+  equipment: {
+    toggleCategory: (id) => {
+      onboarding.equipmentModule.toggleCategory(id, () => onboarding.renderCurrentStep());
+    },
+    doneWithCategory: (id) => {
+      onboarding.equipmentModule.doneWithCategory(id, () => onboarding.renderCurrentStep());
+    },
+    noneInCategory: (id) => {
+      const data = { equipment: store.get('profile.equipment') || ['none'] };
+      onboarding.equipmentModule.noneInCategory(id, data, () => onboarding.renderCurrentStep());
+    },
+    toggleItem: (id) => {
+      const data = { equipment: store.get('profile.equipment') || ['none'] };
+      onboarding.equipmentModule.toggleItem(id, data, () => onboarding.renderCurrentStep());
+    },
+    toggleNoEquipment: () => {
+      const data = { equipment: store.get('profile.equipment') || ['none'] };
+      onboarding.equipmentModule.toggleNoEquipment(data, () => onboarding.renderCurrentStep());
+    }
+  },
+  
   // Modules
   store,
   library,
