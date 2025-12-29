@@ -9,6 +9,7 @@
  */
 
 import { store } from '../store.js';
+import equipmentModule from './onboarding/equipment-accordion.js';
 
 // Condition options - expanded with body areas
 const CONDITIONS = [
@@ -157,10 +158,6 @@ const DECLARATIONS = [
 let currentStep = 1;
 const TOTAL_STEPS = 7;
 
-// Equipment sub-navigation
-let equipmentSubStep = 'categories'; // 'categories' | 'category-id' | 'done'
-let selectedCategories = []; // Track which categories user selected
-
 // Collected data
 let onboardingData = {
   name: '',
@@ -191,8 +188,7 @@ function needsOnboarding() {
  */
 function start() {
   currentStep = 1;
-  equipmentSubStep = 'categories';
-  selectedCategories = [];
+  equipmentModule.reset();  // ← ADD THIS LINE
   onboardingData = {
     name: '',
     age: null,
@@ -206,7 +202,7 @@ function start() {
     declarations: [],
     declarationNotes: '',
     equipment: ['none'],
-    equipmentOther: '',    
+    equipmentOther: '',  // ← ADD THIS LINE
     goals: []
   };
   renderCurrentStep();
@@ -237,7 +233,7 @@ function renderCurrentStep() {
       main.innerHTML = renderDeclarations();
       break;
     case 5:
-      main.innerHTML = renderEquipmentFlow();
+      main.innerHTML = renderEquipment();
       break;
     case 6:
       main.innerHTML = renderGoals();
@@ -556,313 +552,10 @@ function renderDeclarations() {
 }
 
 /**
- * EQUIPMENT RENDER FUNCTIONS
- * Copy these into your onboarding.js file (replacing old renderEquipment)
+ * Step 5: Equipment
  */
-
-/**
- * Equipment Router - determines which screen to show
- */
-function renderEquipmentFlow() {
-  if (equipmentSubStep === 'categories') {
-    return renderEquipmentCategories();
-  } else if (equipmentSubStep === 'done') {
-    return renderEquipmentOther();
-  } else {
-    return renderEquipmentCategory(equipmentSubStep);
-  }
-}
-
-/**
- * Screen 1: Category Selection
- */
-function renderEquipmentCategories() {
-  const hasNoEquipment = onboardingData.equipment.includes('none');
-  
-  return `
-    <div class="screen screen--active onboarding">
-      <div class="onboarding__header">
-        <button class="onboarding__back" onclick="window.alongside.onboardingBack()">← Back</button>
-        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
-      </div>
-      
-      <div class="onboarding__content">
-        <h2 class="onboarding__title">What type of equipment do you have?</h2>
-        <p class="onboarding__subtitle">Select all categories that apply</p>
-        
-        <div class="onboarding__equipment-categories">
-          ${EQUIPMENT_CATEGORIES.map(category => {
-            const isSelected = selectedCategories.includes(category.id);
-            const itemCount = onboardingData.equipment.filter(eq => 
-              category.items.some(item => item.id === eq)
-            ).length;
-            
-            return `
-              <button class="onboarding__category-card ${isSelected ? 'onboarding__category-card--selected' : ''}"
-                      onclick="window.alongside.toggleEquipmentCategory('${category.id}')"
-                      ${hasNoEquipment ? 'disabled' : ''}>
-                <span class="onboarding__category-icon">${category.icon}</span>
-                <div class="onboarding__category-text">
-                  <span class="onboarding__category-name">${category.name}</span>
-                  <span class="onboarding__category-desc">${category.description}</span>
-                  ${isSelected && itemCount > 0 ? `
-                    <span class="onboarding__category-count">${itemCount} item${itemCount > 1 ? 's' : ''} selected</span>
-                  ` : ''}
-                </div>
-                <span class="onboarding__category-check">${isSelected ? '✓' : ''}</span>
-              </button>
-            `;
-          }).join('')}
-        </div>
-        
-        <div class="onboarding__field" style="margin-top: var(--space-4);">
-          <label class="onboarding__checkbox-label" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
-            <input type="checkbox" 
-                   id="noEquipmentCheckbox"
-                   ${hasNoEquipment ? 'checked' : ''}
-                   onchange="window.alongside.toggleNoEquipment()">
-            <span>I have no equipment (bodyweight only)</span>
-          </label>
-        </div>
-        
-        <p class="onboarding__hint">
-          ${selectedCategories.length > 0 
-            ? `${selectedCategories.length} categor${selectedCategories.length > 1 ? 'ies' : 'y'} selected` 
-            : hasNoEquipment ? 'Bodyweight training selected' : 'Select categories to continue'}
-        </p>
-        
-        <button class="onboarding__btn onboarding__btn--primary" 
-                onclick="window.alongside.equipmentCategoriesNext()"
-                ${selectedCategories.length === 0 && !hasNoEquipment ? 'disabled' : ''}>
-          ${selectedCategories.length > 0 ? 'Continue to Details →' : hasNoEquipment ? 'Continue →' : 'Select equipment'}
-        </button>
-      </div>
-      
-      <div class="onboarding__progress">
-        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
-      </div>
-    </div>
-  `;
-}
-
-/**
- * Screen 2: Individual Category Detail
- */
-function renderEquipmentCategory(categoryId) {
-  const category = EQUIPMENT_CATEGORIES.find(c => c.id === categoryId);
-  if (!category) return renderEquipmentCategories();
-  
-  const currentCategoryIndex = selectedCategories.indexOf(categoryId);
-  const isLastCategory = currentCategoryIndex === selectedCategories.length - 1;
-  
-  return `
-    <div class="screen screen--active onboarding">
-      <div class="onboarding__header">
-        <button class="onboarding__back" onclick="window.alongside.equipmentCategoryBack()">← Back</button>
-        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
-      </div>
-      
-      <div class="onboarding__content">
-        <div class="onboarding__category-detail-header">
-          <span class="onboarding__category-icon--large">${category.icon}</span>
-          <h2 class="onboarding__title">${category.name}</h2>
-          <p class="onboarding__subtitle">Select what you have</p>
-        </div>
-        
-        <div class="onboarding__options">
-          ${category.items.map(item => `
-            <button class="onboarding__option onboarding__option--wide ${onboardingData.equipment.includes(item.id) ? 'onboarding__option--selected' : ''}"
-                    onclick="window.alongside.toggleEquipmentItem('${item.id}')">
-              <div class="onboarding__option-text">
-                <span class="onboarding__option-name">${item.name}</span>
-                <span class="onboarding__option-desc">${item.description}</span>
-              </div>
-              <span class="onboarding__option-check">${onboardingData.equipment.includes(item.id) ? '✓' : ''}</span>
-            </button>
-          `).join('')}
-        </div>
-        
-        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.equipmentCategoryNext()">
-          ${isLastCategory ? 'Continue →' : `Next Category →`}
-        </button>
-      </div>
-      
-      <div class="onboarding__progress">
-        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
-      </div>
-    </div>
-  `;
-}
-
-/**
- * Screen 3: Other Equipment (free text)
- */
-function renderEquipmentOther() {
-  return `
-    <div class="screen screen--active onboarding">
-      <div class="onboarding__header">
-        <button class="onboarding__back" onclick="window.alongside.equipmentCategoryBack()">← Back</button>
-        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
-      </div>
-      
-      <div class="onboarding__content">
-        <h2 class="onboarding__title">Any other equipment?</h2>
-        <p class="onboarding__subtitle">List anything we missed</p>
-        
-        <div class="onboarding__field">
-          <label class="onboarding__label">Other equipment <span class="onboarding__optional">(optional)</span></label>
-          <textarea id="equipmentOther" 
-                    class="onboarding__textarea"
-                    placeholder="e.g., gymnastic rings, sandbag, adjustable bench..."
-                    rows="3"
-                    maxlength="200">${onboardingData.equipmentOther || ''}</textarea>
-          <p class="onboarding__hint">This helps us improve our equipment list</p>
-        </div>
-        
-        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.equipmentOtherDone()">
-          Continue →
-        </button>
-      </div>
-      
-      <div class="onboarding__progress">
-        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
-      </div>
-    </div>
-  `;
-}
-
-/**
- * Toggle equipment category selection
- */
-function toggleEquipmentCategory(categoryId) {
-  const index = selectedCategories.indexOf(categoryId);
-  if (index > -1) {
-    // Deselecting - remove category and all its items
-    selectedCategories.splice(index, 1);
-    const category = EQUIPMENT_CATEGORIES.find(c => c.id === categoryId);
-    if (category) {
-      category.items.forEach(item => {
-        const itemIndex = onboardingData.equipment.indexOf(item.id);
-        if (itemIndex > -1) {
-          onboardingData.equipment.splice(itemIndex, 1);
-        }
-      });
-    }
-  } else {
-    // Selecting - add category
-    selectedCategories.push(categoryId);
-    // Remove 'none' if present
-    const noneIndex = onboardingData.equipment.indexOf('none');
-    if (noneIndex > -1) {
-      onboardingData.equipment.splice(noneIndex, 1);
-    }
-  }
-  renderCurrentStep();
-}
-
-/**
- * Toggle "no equipment" checkbox
- */
-function toggleNoEquipment() {
-  const checkbox = document.getElementById('noEquipmentCheckbox');
-  if (checkbox && checkbox.checked) {
-    // Clear all selections
-    selectedCategories = [];
-    onboardingData.equipment = ['none'];
-  } else {
-    // Remove 'none'
-    onboardingData.equipment = [];
-  }
-  renderCurrentStep();
-}
-
-/**
- * Navigate from category selection to first category detail
- */
-function equipmentCategoriesNext() {
-  if (onboardingData.equipment.includes('none')) {
-    // Skip directly to "other equipment" screen
-    equipmentSubStep = 'done';
-    renderCurrentStep();
-  } else if (selectedCategories.length > 0) {
-    // Go to first selected category
-    equipmentSubStep = selectedCategories[0];
-    renderCurrentStep();
-  }
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-/**
- * Navigate from category detail to next category or "other equipment"
- */
-function equipmentCategoryNext() {
-  const currentIndex = selectedCategories.indexOf(equipmentSubStep);
-  if (currentIndex < selectedCategories.length - 1) {
-    // Go to next category
-    equipmentSubStep = selectedCategories[currentIndex + 1];
-  } else {
-    // Go to "other equipment" screen
-    equipmentSubStep = 'done';
-  }
-  renderCurrentStep();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-/**
- * Go back from category detail
- */
-function equipmentCategoryBack() {
-  if (equipmentSubStep === 'done') {
-    // Go back to last category or category selection if no equipment
-    if (selectedCategories.length > 0) {
-      equipmentSubStep = selectedCategories[selectedCategories.length - 1];
-    } else {
-      equipmentSubStep = 'categories';
-    }
-  } else {
-    const currentIndex = selectedCategories.indexOf(equipmentSubStep);
-    if (currentIndex > 0) {
-      // Go to previous category
-      equipmentSubStep = selectedCategories[currentIndex - 1];
-    } else {
-      // Go back to category selection
-      equipmentSubStep = 'categories';
-    }
-  }
-  renderCurrentStep();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-/**
- * Toggle individual equipment item
- */
-function toggleEquipmentItem(itemId) {
-  const index = onboardingData.equipment.indexOf(itemId);
-  if (index > -1) {
-    onboardingData.equipment.splice(index, 1);
-  } else {
-    onboardingData.equipment.push(itemId);
-  }
-  renderCurrentStep();
-}
-
-/**
- * Complete "other equipment" and move to next main step
- */
-function equipmentOtherDone() {
-  const otherEl = document.getElementById('equipmentOther');
-  if (otherEl) {
-    onboardingData.equipmentOther = otherEl.value.trim();
-  }
-  
-  // Reset equipment sub-navigation
-  equipmentSubStep = 'categories';
-  selectedCategories = [];
-  
-  // Move to next main step
-  currentStep++;
-  renderCurrentStep();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function renderEquipment() {
+  return equipmentModule.render(onboardingData, currentStep, TOTAL_STEPS);
 }
 
 /**
