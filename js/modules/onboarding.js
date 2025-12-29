@@ -638,19 +638,10 @@ function renderCoachSummary() {
   
   // Equipment
   if (equipment.length > 0) {
-    const equipNames = equipment.map(e => {
-      // Search through all categories to find the equipment item
-      let itemName = e;
-      EQUIPMENT_CATEGORIES.forEach(category => {
-        const item = category.items.find(item => item.id === e);
-        if (item) itemName = item.name;
-      });
-      return itemName;
-    });
-    
-    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;  // ✅ BACKTICKS
+    const equipNames = equipmentModule.getEquipmentNames(equipment);
+    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;
   } else {
-    message += `We'll focus on bodyweight exercises you can do anywhere. `;  // ✅ BACKTICKS
+    message += `We'll focus on bodyweight exercises you can do anywhere. `;
   }
   
   // Goals
@@ -779,6 +770,9 @@ function saveCurrentStepData() {
     case 4:
       const notesEl = document.getElementById('declarationNotes');
       if (notesEl) onboardingData.declarationNotes = notesEl.value.trim();
+      break;
+    case 5:
+      equipmentModule.onExit(onboardingData);
       break;
   }
 }
@@ -944,6 +938,7 @@ function completeOnboarding() {
   store.set('profile.gender', onboardingData.gender);
   store.set('profile.equipment', onboardingData.equipment);
   store.set('profile.equipmentOther', onboardingData.equipmentOther);
+  store.set('profile.equipmentOther', onboardingData.equipmentOther);
   store.set('profile.menstrualTracking', onboardingData.menstrualTracking);
   store.set('profile.weight', onboardingData.weight);
   store.set('profile.goalWeight', onboardingData.goalWeight);
@@ -1016,8 +1011,8 @@ export const onboarding = {
   skip,
   CONDITIONS,
   DECLARATIONS,
-  EQUIPMENT_CATEGORIES, // CHANGED from EQUIPMENT
-  GOALS
+  GOALS,
+  equipmentModule
 };
 
 export default onboarding;
