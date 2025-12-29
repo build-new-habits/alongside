@@ -992,6 +992,7 @@ export const onboarding = {
   start,
   next,
   back,
+  renderCurrentStep,
   toggleCondition,
   updateConditionSeverity,
   setConditionType,
