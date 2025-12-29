@@ -171,7 +171,7 @@ let onboardingData = {
   conditionType: 'chronic',
   declarations: [],
   declarationNotes: '',
-  equipment: ['none'],
+  equipment: [],
   equipmentOther: '',
   goals: []
 };
@@ -201,7 +201,7 @@ function start() {
     conditionType: 'chronic',
     declarations: [],
     declarationNotes: '',
-    equipment: ['none'],
+    equipment: [],
     equipmentOther: '',  // ← ADD THIS LINE
     goals: []
   };
