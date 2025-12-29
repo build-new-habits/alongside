@@ -1,0 +1,204 @@
+/**
+ * EQUIPMENT ACCORDION CSS
+ * Save this as /css/equipment-accordion.css
+ * Add to index.html: <link rel="stylesheet" href="css/equipment-accordion.css">
+ */
+
+/* Accordion Container */
+.onboarding__equipment-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+}
+
+/* Individual Category Accordion */
+.onboarding__category-accordion {
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+/* Category Header (clickable button) */
+.onboarding__category-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-bg-secondary);
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.onboarding__category-header:hover:not(:disabled) {
+  background: var(--color-bg-tertiary);
+}
+
+.onboarding__category-header:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.onboarding__category-header--has-items {
+  background: rgba(59, 130, 246, 0.05);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+/* Category Icon */
+.onboarding__category-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* Category Text */
+.onboarding__category-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.onboarding__category-name {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  display: block;
+}
+
+.onboarding__category-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  display: block;
+}
+
+/* Category Badge (checkmark) */
+.onboarding__category-badge {
+  color: var(--color-success, #10b981);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Category Chevron */
+.onboarding__category-chevron {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+/* Category Summary (when collapsed with items) */
+.onboarding__category-summary {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-primary);
+  background: rgba(59, 130, 246, 0.02);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Category Items (expanded state) */
+.onboarding__category-items {
+  padding: var(--space-3);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Equipment Checkbox Item */
+.onboarding__equipment-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.onboarding__equipment-checkbox:hover {
+  background: var(--color-bg-secondary);
+}
+
+.onboarding__equipment-checkbox input[type="checkbox"] {
+  margin-top: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.onboarding__equipment-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.onboarding__equipment-name {
+  font-weight: 500;
+  font-size: var(--text-base);
+  color: var(--color-text);
+  display: block;
+}
+
+.onboarding__equipment-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  display: block;
+}
+
+/* "None in this category" checkbox */
+.onboarding__equipment-checkbox--none {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  background: transparent !important;
+}
+
+.onboarding__equipment-checkbox--none .onboarding__equipment-name {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* "Done with Category" Button */
+.onboarding__category-done-btn {
+  width: 100%;
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.onboarding__category-done-btn:hover {
+  background: var(--color-primary-dark, #2563eb);
+}
+
+/* Responsive adjustments */
+@media (max-width: 639px) {
+  .onboarding__category-header {
+    padding: var(--space-3);
+  }
+  
+  .onboarding__category-icon {
+    font-size: 1.75rem;
+  }
+  
+  .onboarding__category-name {
+    font-size: var(--text-base);
+  }
+  
+  .onboarding__category-desc {
+    font-size: var(--text-xs);
+  }
+  
+  .onboarding__equipment-checkbox {
+    padding: var(--space-2);
+  }
+}
