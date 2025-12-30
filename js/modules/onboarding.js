@@ -862,24 +862,6 @@ function onMenstrualTrackingChange() {
     onboardingData.menstrualTracking = checkboxEl.checked;
   }
 }
-   
-/**
- * Toggle equipment selection
- */ 
-function toggleEquipment(equipmentId) {
-    // Toggle the selected equipment
-    const index = onboardingData.equipment.indexOf(equipmentId);
-    if (index > -1) {
-      onboardingData.equipment.splice(index, 1);
-    } else {
-      onboardingData.equipment.push(equipmentId);
-    }
-    
-    // If nothing selected, default to 'none'
-    if (onboardingData.equipment.length === 0) {
-      onboardingData.equipment = ['none'];
-    }
-  renderCurrentStep();
 
 /**
  * Toggle goal selection
