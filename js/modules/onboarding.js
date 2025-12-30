@@ -243,7 +243,10 @@ function renderCurrentStep() {
       break;
     default:
       completeOnboarding();
-  }
+  } 
+  
+  // Scroll to top after rendering
+  window.scrollTo({ top: 0, behavior: 'smooth' }); // ← ADD THIS
 }
 
 /**
@@ -713,11 +716,6 @@ function renderCoachSummary() {
 function next() {
   saveCurrentStepData();
   
-  // Don't advance main step if still in equipment sub-flow
-  if (currentStep === 5 && equipmentSubStep !== 'categories') {
-    return;
-  }
-  
   currentStep++;
   
   if (currentStep > TOTAL_STEPS) {
@@ -732,12 +730,7 @@ function next() {
  * Go to previous step
  */
 function back() {
-  // If in equipment sub-flow, use equipment-specific back
-  if (currentStep === 5 && equipmentSubStep !== 'categories') {
-    equipmentCategoryBack();
-    return;
-  }
-  
+
   if (currentStep > 1) {
     currentStep--;
     renderCurrentStep();
