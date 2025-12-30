@@ -529,6 +529,7 @@ window.alongside = {
   onboardingNext: onboarding.next,
   onboardingBack: onboarding.back,
   toggleCondition: onboarding.toggleCondition,
+  toggleEquipment: onboarding.toggleEquipment,
   updateConditionSeverity: onboarding.updateConditionSeverity,
   setConditionType: onboarding.setConditionType,
   syncWeightUnit: onboarding.syncWeightUnit,
