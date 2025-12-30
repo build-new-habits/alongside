@@ -862,7 +862,11 @@ function onMenstrualTrackingChange() {
     onboardingData.menstrualTracking = checkboxEl.checked;
   }
 }
-    
+   
+/**
+ * Toggle equipment selection
+ */ 
+function toggleEquipment(equipmentId) {
     // Toggle the selected equipment
     const index = onboardingData.equipment.indexOf(equipmentId);
     if (index > -1) {
