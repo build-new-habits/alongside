@@ -28,106 +28,44 @@ const CONDITIONS = [
   { id: 'foot', name: 'Foot / Plantar', icon: '🦶', area: 'foot' }
 ];
 
-// EQUIPMENT - REORGANIZED INTO CATEGORIES
-const EQUIPMENT_CATEGORIES = [
-  {
-    id: 'weights',
-    name: 'Weights & Strength',
-    icon: '🏋️',
-    description: 'Free weights, resistance equipment',
-    items: [
-      { id: 'dumbbells', name: 'Dumbbells', description: 'Any weight' },
-      { id: 'kettlebell', name: 'Kettlebell', description: 'Any weight' },
-      { id: 'barbell', name: 'Barbell', description: 'With or without plates' },
-      { id: 'weight-plates', name: 'Weight Plates', description: 'For barbell/adjustable' },
-      { id: 'ez-bar', name: 'EZ Bar', description: 'Curved barbell' },
-      { id: 'medicine-ball', name: 'Medicine Ball', description: 'Weighted ball' },
-      { id: 'slam-ball', name: 'Slam Ball', description: 'For throwing' },
-      { id: 'resistance-bands', name: 'Resistance Bands', description: 'Any resistance' },
-      { id: 'suspension-trainer', name: 'Suspension Trainer (TRX)', description: 'Bodyweight resistance' },
-      { id: 'pull-up-bar', name: 'Pull-up Bar', description: 'Doorway or mounted' },
-      { id: 'dip-station', name: 'Dip Station', description: 'For dips and L-sits' },
-      { id: 'weight-vest', name: 'Weight Vest', description: 'Added resistance' },
-      { id: 'ankle-weights', name: 'Ankle/Wrist Weights', description: 'Resistance training' }
-    ]
-  },
-  {
-    id: 'cardio',
-    name: 'Cardio Machines',
-    icon: '🏃',
-    description: 'Running, cycling, rowing equipment',
-    items: [
-      { id: 'treadmill', name: 'Treadmill', description: 'Indoor running' },
-      { id: 'exercise-bike', name: 'Exercise Bike', description: 'Stationary or spin' },
-      { id: 'rowing-machine', name: 'Rowing Machine', description: 'Indoor rower' },
-      { id: 'elliptical', name: 'Elliptical', description: 'Cross-trainer' },
-      { id: 'stair-climber', name: 'Stair Climber', description: 'Vertical machine' },
-      { id: 'assault-bike', name: 'Assault Bike', description: 'Fan-based bike' },
-      { id: 'skipping-rope', name: 'Skipping Rope', description: 'Jump rope' },
-      { id: 'battle-ropes', name: 'Battle Ropes', description: 'Heavy conditioning ropes' }
-    ]
-  },
-  {
-    id: 'flexibility',
-    name: 'Flexibility & Recovery',
-    icon: '🧘',
-    description: 'Yoga, stretching, mobility tools',
-    items: [
-      { id: 'yoga-mat', name: 'Yoga Mat', description: 'For floor work' },
-      { id: 'yoga-blocks', name: 'Yoga Blocks', description: 'Support and mods' },
-      { id: 'yoga-strap', name: 'Yoga Strap', description: 'Assisted stretching' },
-      { id: 'foam-roller', name: 'Foam Roller', description: 'Self-massage' },
-      { id: 'massage-ball', name: 'Massage Ball', description: 'Trigger point work' },
-      { id: 'massage-gun', name: 'Massage Gun', description: 'Percussive therapy' },
-      { id: 'stretching-bands', name: 'Stretching Bands', description: 'Flexibility work' }
-    ]
-  },
-  {
-    id: 'functional',
-    name: 'Functional Equipment',
-    icon: '📦',
-    description: 'Boxes, balance boards, agility tools',
-    items: [
-      { id: 'plyo-box', name: 'Plyo Box / Jump Box', description: 'For box jumps' },
-      { id: 'step-platform', name: 'Step Platform', description: 'Aerobic step' },
-      { id: 'balance-board', name: 'Balance Board', description: 'Stability training' },
-      { id: 'bosu-ball', name: 'BOSU Ball', description: 'Half stability ball' },
-      { id: 'ab-wheel', name: 'Ab Wheel', description: 'Core training' },
-      { id: 'gliding-discs', name: 'Gliding Discs', description: 'Floor exercises' },
-      { id: 'agility-ladder', name: 'Agility Ladder', description: 'Footwork drills' },
-      { id: 'cones', name: 'Training Cones', description: 'Agility work' },
-      { id: 'mini-bands', name: 'Mini Loop Bands', description: 'Hip activation' }
-    ]
-  },
-  {
-    id: 'combat',
-    name: 'Combat Sports',
-    icon: '🥊',
-    description: 'Boxing, kickboxing equipment',
-    items: [
-      { id: 'punch-bag', name: 'Punch Bag / Heavy Bag', description: 'Boxing/kickboxing' },
-      { id: 'free-standing-bag', name: 'Free-Standing Bag', description: 'No mounting needed' },
-      { id: 'speed-bag', name: 'Speed Bag', description: 'Rhythm training' },
-      { id: 'double-end-bag', name: 'Double-End Bag', description: 'Accuracy work' },
-      { id: 'boxing-gloves', name: 'Boxing Gloves', description: 'For bag work' },
-      { id: 'focus-pads', name: 'Focus Pads', description: 'Partner pad work' },
-      { id: 'hand-wraps', name: 'Hand Wraps', description: 'Hand protection' }
-    ]
-  },
-  {
-    id: 'access',
-    name: 'Access-Based',
-    icon: '🏢',
-    description: 'Gym, pool, track access',
-    items: [
-      { id: 'gym-access', name: 'Gym Membership', description: 'Full commercial gym' },
-      { id: 'pool-access', name: 'Swimming Pool', description: 'Indoor or outdoor' },
-      { id: 'track-access', name: 'Running Track', description: 'Athletics track' },
-      { id: 'tennis-court', name: 'Tennis Courts', description: 'Racquet sports' },
-      { id: 'climbing-wall', name: 'Climbing Wall', description: 'Indoor climbing' },
-      { id: 'sports-field', name: 'Sports Field', description: 'Team sports pitch' }
-    ]
-  }
+/**
+ * FLAT EQUIPMENT LIST
+ */
+
+const EQUIPMENT = [
+  { id: 'none', name: 'No equipment', icon: '🏠' },
+  
+  // Weights
+  { id: 'dumbbells', name: 'Dumbbells', icon: '🏋️' },
+  { id: 'kettlebell', name: 'Kettlebell', icon: '🔔' },
+  { id: 'barbell', name: 'Barbell', icon: '🏋️‍♂️' },
+  { id: 'weight-plates', name: 'Weight Plates', icon: '⚙️' },
+  { id: 'resistance-bands', name: 'Resistance Bands', icon: '🎗️' },
+  
+  // Cardio
+  { id: 'treadmill', name: 'Treadmill', icon: '🏃' },
+  { id: 'exercise-bike', name: 'Exercise Bike', icon: '🚴' },
+  { id: 'rowing-machine', name: 'Rowing Machine', icon: '🚣' },
+  { id: 'skipping-rope', name: 'Skipping Rope', icon: '🪢' },
+  
+  // Yoga/Recovery
+  { id: 'yoga-mat', name: 'Yoga Mat', icon: '🧘' },
+  { id: 'yoga-blocks', name: 'Yoga Blocks', icon: '🧱' },
+  { id: 'foam-roller', name: 'Foam Roller', icon: '🧻' },
+  
+  // Functional
+  { id: 'pull-up-bar', name: 'Pull-up Bar', icon: '🪜' },
+  { id: 'plyo-box', name: 'Plyo Box', icon: '📦' },
+  { id: 'balance-board', name: 'Balance Board', icon: '🛹' },
+  
+  // Boxing
+  { id: 'punch-bag', name: 'Punch Bag', icon: '🥊' },
+  { id: 'boxing-gloves', name: 'Boxing Gloves', icon: '🥊' },
+  { id: 'focus-pads', name: 'Focus Pads', icon: '🎯' },
+  
+  // Access
+  { id: 'gym-access', name: 'Gym Access', icon: '🏢' },
+  { id: 'pool-access', name: 'Pool Access', icon: '🏊' }
 ];
 
 // Goal options
@@ -557,8 +495,58 @@ function renderDeclarations() {
 /**
  * Step 5: Equipment
  */
+
 function renderEquipment() {
-  return equipmentModule.render(onboardingData, currentStep, TOTAL_STEPS);
+  return `
+    <div class="screen screen--active onboarding">
+      <div class="onboarding__header">
+        <button class="onboarding__back" onclick="window.alongside.onboardingBack()">← Back</button>
+        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
+      </div>
+      
+      <div class="onboarding__content">
+        <h2 class="onboarding__title">What equipment do you have?</h2>
+        <p class="onboarding__subtitle">Select all that apply</p>
+        
+        <div class="onboarding__grid">
+          ${EQUIPMENT.map(eq => `
+            <div class="onboarding__card ${onboardingData.equipment.includes(eq.id) ? 'onboarding__card--selected' : ''}"
+                 onclick="window.alongside.toggleEquipment('${eq.id}')">
+              <div class="onboarding__card-icon">${eq.icon}</div>
+              <div class="onboarding__card-name">${eq.name}</div>
+            </div>
+          `).join('')}
+        </div>
+        
+        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.onboardingNext()">
+          Continue →
+        </button>
+      </div>
+      
+      <div class="onboarding__progress">
+        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Toggle equipment selection
+ */
+function toggleEquipment(equipmentId) {
+  const index = onboardingData.equipment.indexOf(equipmentId);
+  if (index > -1) {
+    onboardingData.equipment.splice(index, 1);
+  } else {
+    onboardingData.equipment.push(equipmentId);
+    
+    // Remove 'none' if selecting actual equipment
+    const noneIndex = onboardingData.equipment.indexOf('none');
+    if (noneIndex > -1) {
+      onboardingData.equipment.splice(noneIndex, 1);
+    }
+  }
+  renderCurrentStep();
 }
 
 /**
@@ -990,6 +978,7 @@ export const onboarding = {
   updateConditionSeverity,
   setConditionType,
   syncWeightUnit,
+  toggleEquipment,
   toggleDeclaration,
   toggleGoal,
   onGenderChange,
@@ -997,6 +986,7 @@ export const onboarding = {
   skip,
   CONDITIONS,
   DECLARATIONS,
+  EQUIPMENT,
   GOALS,
   equipmentModule
 };
