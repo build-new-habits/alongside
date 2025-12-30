@@ -955,7 +955,6 @@ export const onboarding = {
   DECLARATIONS,
   EQUIPMENT,
   GOALS,
-  equipmentModule
 };
 
 export default onboarding;
