@@ -876,7 +876,6 @@ function onMenstrualTrackingChange() {
     if (onboardingData.equipment.length === 0) {
       onboardingData.equipment = ['none'];
     }
-  }
   renderCurrentStep();
 }
 
