@@ -1,0 +1,528 @@
+# 🌱 Alongside Project - Complete Handoff Documentation
+
+**Date:** December 30, 2025  
+**Handoff To:** Next Claude session (Active Coach focus)  
+**Current Status:** ~40% complete, Equipment UI in progress
+
+---
+
+## 📊 QUICK STATUS
+
+### ✅ What's Working (40%)
+- Foundation & core systems (store, navigation, modules)
+- Enhanced check-in system (energy, mood, sleep, conditions, burnout detection)
+- Onboarding flow (7 steps, 95% complete)
+- Data persistence (localStorage)
+
+### 🚧 Current Blocker
+- Equipment step has duplicate `toggleEquipment` function causing error
+- Simple grid approach decided (NOT accordion/modular for now)
+- Scroll-to-top only on "Continue" button (NOT on every interaction)
+
+### ⏳ Next Priority
+- **Active Coach** - The core differentiator (0% complete)
+
+---
+
+## 🎯 CRITICAL CONTEXT
+
+### **The Vision**
+Alongside is a compassionate fitness app for neurodivergent adults with complex life circumstances. It "listens first, prescribes second" - fundamentally different from Peloton/Fitbit/etc.
+
+### **Key Principle**
+**Adaptive, compassionate coaching** that responds to:
+- User energy levels (1-10 scale)
+- Mood state
+- Injury/condition status
+- Life circumstances
+- Menstrual cycle (optional)
+- Burnout detection
+
+### **The Differentiator**
+**"Fake AI" Active Coach** - heuristic logic that feels intelligent without ML:
+- 3 workout options daily (Strength / Wellbeing / Cardio)
+- Context-aware recommendations
+- Transparent rationale ("Why this exercise")
+- Adapts to check-in data in real-time
+
+---
+
+## 📁 PROJECT STRUCTURE
+
+```
+alongside/
+├── index.html                 # Main entry, module loader
+├── css/
+│   ├── main.css              # Core styles, CSS variables
+│   └── equipment-accordion.css # (May be removed - using grid instead)
+├── js/
+│   ├── app.js                # Main orchestrator, window.alongside exports
+│   ├── store.js              # localStorage wrapper
+│   └── modules/
+│       ├── checkin.js        # ✅ Complete - enhanced check-in
+│       ├── coach.js          # 🚧 Placeholder - needs Active Coach logic
+│       ├── todayView.js      # 🚧 Placeholder - needs workout display
+│       └── onboarding.js     # 🚧 95% - equipment step issue
+└── data/
+    └── exercises.json        # ⏳ Needs expansion (30 → 200 exercises)
+```
+
+---
+
+## 🏗️ ARCHITECTURE DECISIONS
+
+### **Decision 1: Modular Refactor - LATER**
+- **When:** After Active Coach is built
+- **Why:** Focus on core differentiator first, refactor when breathing room
+- **What:** Extract onboarding steps into `/js/modules/onboarding/` folder
+
+### **Decision 2: Equipment UI - Simple Grid**
+- **Pattern:** Same as goals/conditions (clickable tiles)
+- **Why:** Accordion was overcomplicated, broke user experience
+- **Implementation:** Flat EQUIPMENT array, grid tiles, onclick handlers
+
+### **Decision 3: Exercise Database - Build from Scratch**
+- **Source:** Custom-built, not API
+- **Why:** Need tight control for neurodivergent audience
+- **Size:** 150-200 exercises minimum
+- **Structure:** JSON with movement patterns, equipment, conditions tags
+
+### **Decision 4: "Fake AI" Before Real AI**
+- **Approach:** Heuristic logic, decision trees
+- **Why:** Cheaper, faster, controllable, transparent
+- **Future:** Can add ML later if needed
+
+---
+
+## 📋 COMPLETED SYSTEMS
+
+### **1. Store System (100% ✅)**
+**File:** `js/store.js`
+
+**Features:**
+- localStorage wrapper with get/set/remove
+- Nested path support: `store.get('profile.name')`
+- Initialization with defaults
+- Data persistence across sessions
+
+**Key Data:**
+```javascript
+{
+  profile: { name, age, gender, weight, equipment, conditions, goals },
+  checkin: { energy, mood, sleep, hydration, menstrualDay, conditions },
+  checkinHistory: [...],
+  workout: {...},
+  burnoutDetected: false
+}
+```
+
+---
+
+### **2. Enhanced Check-In System (100% ✅)**
+**File:** `js/modules/checkin.js`
+
+**Features:**
+- Two-slider system (energy 1-10, mood 1-10)
+- Sleep tracking (hours + quality rating)
+- Hydration tracking
+- Menstrual cycle tracking (day of cycle, conditional)
+- Condition pain/difficulty (two sliders per condition)
+- Coaching intensity (gentle/moderate/aggressive)
+- Burnout detection algorithm (Dr. Claire Plumbly methodology)
+
+**Burnout Detection:**
+```javascript
+- Energy ≤3 for 3+ consecutive days
+- Mood ≤4 for 3+ consecutive days  
+- Sleep quality ≤2 for 3+ consecutive days
+- Condition pain ≥8 for 2+ consecutive days
+→ Sets burnoutDetected flag
+→ Active Coach should respond with gentle/recovery focus
+```
+
+**Data Structure:**
+```javascript
+checkin: {
+  energy: 1-10,
+  mood: 1-10,
+  sleep: { hours: number, quality: 1-5 },
+  hydration: 'low'|'ok'|'good',
+  menstrualDay: number | null,
+  conditions: [
+    { id: 'knee', pain: 1-10, difficulty: 1-10 }
+  ],
+  coachingIntensity: 'gentle'|'moderate'|'aggressive',
+  timestamp: ISO string
+}
+```
+
+---
+
+### **3. Onboarding Flow (95% ✅)**
+**File:** `js/modules/onboarding.js`
+
+**7 Steps:**
+1. ✅ Welcome screen
+2. ✅ Name, age, gender, weight (with menstrual tracking opt-in)
+3. ✅ Conditions/injuries (13 options, severity 1-3, chronic vs acute)
+4. ✅ Declarations (8 health factors like fatigue, anxiety, sleep)
+5. 🚧 Equipment (grid tiles - has duplicate function bug)
+6. ✅ Goals (8 options like lose weight, build muscle, reduce stress)
+7. ✅ Coach summary (personalized welcome message)
+
+**Known Issues:**
+- Duplicate `toggleEquipment` function (line ~870 in onboarding.js)
+- Equipment CSS may reference accordion styles (not needed for grid)
+- Scroll behavior should only trigger on "Continue" button
+
+**Data Collected:**
+```javascript
+profile: {
+  name: string,
+  age: number,
+  gender: 'male'|'female'|'non-binary'|'prefer-not-to-say',
+  menstrualTracking: boolean,
+  weight: number,
+  goalWeight: number,
+  weightUnit: 'kg'|'lbs',
+  conditions: [
+    { id: string, severity: 1-3, type: 'chronic'|'acute' }
+  ],
+  declarations: [string],
+  declarationNotes: string,
+  equipment: [string],
+  goals: [string],
+  onboardingComplete: true
+}
+```
+
+---
+
+## 🐛 CURRENT ISSUES
+
+### **Issue 1: Duplicate toggleEquipment Function**
+**Location:** `js/modules/onboarding.js` around line 870  
+**Error:** "Identifier 'toggleEquipment' has already been declared"  
+**Fix:** Search for `function toggleEquipment` - appears twice, delete one
+
+---
+
+### **Issue 2: Equipment-Accordion CSS Not Needed**
+**File:** `css/equipment-accordion.css`  
+**Status:** May exist but not needed for grid approach  
+**Fix:** Can delete if using simple grid tiles
+
+---
+
+### **Issue 3: Scroll Behavior Confusion**
+**Issue:** User wants scroll-to-top ONLY on "Continue" button, NOT on every interaction  
+**Fix:** Add `window.scrollTo({ top: 0, behavior: 'smooth' })` ONLY in `next()` function  
+**Don't add to:** `back()`, `renderCurrentStep()`, or any toggle functions
+
+---
+
+## 📚 KEY REFERENCE DOCUMENTS
+
+### **In Project Files:**
+1. `01. Strategy & Vision: "Build New Habits"` - Overall vision
+2. `02. Technical Architecture` - System design
+3. `03. Design System & UX` - UI patterns
+4. `04. Smart Reasoning Engine ("Fake AI")` - Coach logic placeholder
+5. `AthleteOS_Strategy___Specification_Document` - Original spec
+6. `AthleteOS_Psychological_Specification` - Neurodivergent focus
+
+### **Key Research:**
+- **Burnout Detection:** Dr. Claire Plumbly, "Burnout: How to Manage Your Nervous System Before It Manages You", Yellow Kite 2024, ISBN 978-1-399-73342-7
+- **SOLO Taxonomy:** Relational progression for exercise recommendations
+- **Mood Meter:** Marc Brackett's work on emotional awareness
+
+---
+
+## 🎯 EQUIPMENT STEP - CURRENT STATE
+
+### **What Works:**
+- EQUIPMENT array defined (20+ items with icons)
+- onboardingData.equipment array for storage
+- Grid CSS classes exist (`.onboarding__grid`, `.onboarding__card`)
+
+### **What Doesn't Work:**
+- Duplicate `toggleEquipment` function causing console error
+- May have leftover accordion code/CSS
+
+### **Simple Grid Pattern (Recommended):**
+```javascript
+function renderEquipment() {
+  return `
+    <div class="onboarding__grid">
+      ${EQUIPMENT.map(eq => `
+        <div class="onboarding__card ${onboardingData.equipment.includes(eq.id) ? 'onboarding__card--selected' : ''}"
+             onclick="window.alongside.toggleEquipment('${eq.id}')">
+          <div class="onboarding__card-icon">${eq.icon}</div>
+          <div class="onboarding__card-name">${eq.name}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function toggleEquipment(equipmentId) {
+  const index = onboardingData.equipment.indexOf(equipmentId);
+  if (index > -1) {
+    onboardingData.equipment.splice(index, 1);
+  } else {
+    onboardingData.equipment.push(equipmentId);
+    const noneIndex = onboardingData.equipment.indexOf('none');
+    if (noneIndex > -1) onboardingData.equipment.splice(noneIndex, 1);
+  }
+  renderCurrentStep();
+}
+```
+
+---
+
+## ⏳ WHAT'S NOT STARTED (60%)
+
+### **Phase 3: Active Coach (0%) - THE BIG ONE**
+**Priority:** Critical - this is the core differentiator
+
+**What Needs Building:**
+
+#### **1. Exercise Database Expansion**
+**Current:** ~30 exercises in exercises.json  
+**Needed:** 150-200 exercises minimum
+
+**Structure:**
+```javascript
+{
+  id: "goblet-squat",
+  name: "Goblet Squat",
+  movementPattern: "squat", // hinge, squat, push, pull, carry, rotate
+  category: "strength",
+  equipment: ["dumbbells", "kettlebell"],
+  difficulty: 2, // 1-5
+  conditions: {
+    safe: ["none"],
+    modify: ["knee", "hip"],
+    avoid: ["severe-knee"]
+  },
+  energyRequired: 6, // 1-10 scale
+  benefits: ["lower-body-strength", "core-stability"],
+  rationale: "Why this exercise works for your goals",
+  modifications: "How to make it easier/harder",
+  cues: ["Keep chest up", "Drive through heels"]
+}
+```
+
+**Categories Needed:**
+- Strength: compound movements (squat, hinge, push, pull)
+- Strength: isolation (bicep curls, leg extensions)
+- Cardio: HIIT, steady-state, intervals
+- Mobility: dynamic stretching, joint circles
+- Stretching: static holds
+- Boxing: punch combinations, footwork, bag work
+- Athletic: agility drills, plyometrics
+
+---
+
+#### **2. Smart Reasoning Engine**
+**File:** `js/modules/coach.js` (currently placeholder)
+
+**Core Logic:**
+```javascript
+function generateWorkoutOptions(checkinData, profileData) {
+  // Input: energy, mood, conditions, equipment, burnout status
+  // Output: 3 workout options (Strength / Wellbeing / Cardio)
+  
+  // Step 1: Filter exercises
+  const available = filterByEquipment(exercises, profileData.equipment);
+  const safe = filterByConditions(available, checkinData.conditions);
+  const energyAppropriate = filterByEnergy(safe, checkinData.energy);
+  
+  // Step 2: Burnout response
+  if (store.get('burnoutDetected')) {
+    return generateRecoveryOptions(energyAppropriate);
+  }
+  
+  // Step 3: Generate 3 options
+  const optionA = generateStrengthWorkout(energyAppropriate);
+  const optionB = generateWellbeingWorkout(energyAppropriate);
+  const optionC = generateCardioWorkout(energyAppropriate);
+  
+  return { optionA, optionB, optionC };
+}
+```
+
+**Key Filters:**
+- **Energy-based:** Low energy (1-4) → gentler exercises, fewer reps
+- **Mood-based:** Low mood → endorphin-boosting exercises
+- **Condition-aware:** Avoid exercises that stress injured areas
+- **Equipment:** Only show exercises user can actually do
+- **Menstrual cycle:** Adjust intensity during certain phases
+- **Goals:** Prioritize exercises aligned with user goals
+
+---
+
+#### **3. Workout Card Generator**
+**Creates the actual workout structure:**
+
+```javascript
+{
+  title: "Strength Session",
+  duration: "25 minutes",
+  warmup: [
+    { exercise: "arm-circles", duration: "30s" },
+    { exercise: "leg-swings", duration: "30s" }
+  ],
+  main: [
+    {
+      exercise: "goblet-squat",
+      sets: 3,
+      reps: 10,
+      rest: "60s",
+      rationale: "Building lower body strength while protecting your knee",
+      modification: "Reduce depth if knee feels uncomfortable"
+    }
+  ],
+  cooldown: [
+    { exercise: "quad-stretch", duration: "30s each side" }
+  ],
+  rationale: "Why this workout today"
+}
+```
+
+---
+
+#### **4. Rationale System**
+**Transparent explanations for every recommendation:**
+
+```javascript
+generateRationale(workout, checkinData, profileData) {
+  // Example outputs:
+  // "Your energy is 7/10 today - perfect for building strength"
+  // "I've kept impact low because of your knee"
+  // "This focuses on mobility since you mentioned feeling stiff"
+  // "Given your burnout signs, today is about gentle movement"
+}
+```
+
+---
+
+### **Phase 4: Today View (0%)**
+**File:** `js/modules/todayView.js` (placeholder)
+
+**What Needs Building:**
+- Display 3 workout options
+- Exercise card UI with timer/counter
+- Set completion tracking
+- Workout completion flow
+- Celebration system (confetti animation)
+- Progress logging
+
+---
+
+### **Phase 5: History & Progress (0%)**
+- Workout history view
+- Check-in history visualization
+- Progress charts
+- Streak tracking
+
+---
+
+### **Phase 6: Backend & Monetization (0%)**
+- User authentication
+- Database (Supabase/Firebase)
+- Stripe integration
+- Subscription management
+
+---
+
+## 🚀 TIMELINE
+
+**Current:** Week 0 (Equipment step bug fix)  
+**Weeks 1-2:** Exercise database (150-200 exercises)  
+**Weeks 3-6:** Active Coach reasoning engine  
+**Weeks 7-8:** Today view + workout execution  
+**Week 9-10:** Polish, testing, bug fixes  
+**Week 11+:** Beta testing, revenue
+
+**MVP Ready:** ~10 weeks from now
+
+---
+
+## 💡 STRATEGIC CONTEXT
+
+### **Revenue Model:**
+- Freemium: Basic features free
+- Premium: £4.99/month or £49.99/year
+- Target: £20-25K annually (conservative)
+
+### **Market Position:**
+- **NOT** another Peloton/Fitbit clone
+- **FOR** neurodivergent adults with complex circumstances
+- **DIFFERENTIATOR** Adaptive, compassionate coaching
+
+### **User Profile:**
+- Graeme himself (dogfooding)
+- Weston College students (institutional access)
+- Neurodivergent communities
+- People with chronic conditions
+- Those failed by traditional fitness culture
+
+---
+
+## 📝 IMPORTANT NOTES
+
+### **Design Philosophy:**
+- **Compassionate, not coddling:** Supportive but not patronizing
+- **Transparent rationale:** Explain why, build trust
+- **User autonomy:** Suggest, don't dictate
+- **Evidence-based:** SOLO taxonomy, mood science, burnout research
+
+### **Technical Principles:**
+- **Modular architecture:** (After Active Coach is built)
+- **Simple over clever:** Flat structures, direct logic
+- **Mobile-first:** Responsive, touch-friendly
+- **Offline-capable:** localStorage, no backend required initially
+
+### **What Works in This App:**
+- Grid tile pattern (goals, conditions)
+- Two-slider system (check-in)
+- Store system (data persistence)
+- Module loading (app.js orchestration)
+
+### **What Doesn't Work:**
+- Accordion UI (overcomplicated)
+- Checkbox patterns (hard to click)
+- Multi-screen flows (equipment branching)
+
+---
+
+## 🎯 IMMEDIATE NEXT STEPS
+
+### **Before Active Coach Session:**
+1. Fix duplicate `toggleEquipment` function
+2. Test equipment step works (grid tiles, selection saves)
+3. Verify scroll-to-top only on "Continue" button
+4. Commit and deploy working onboarding
+
+### **For Active Coach Session:**
+1. Read this handoff document
+2. Review exercise database structure
+3. Start with filtering logic (equipment, conditions, energy)
+4. Build 3-option workout generator
+5. Add rationale system
+
+---
+
+## 📞 QUESTIONS FOR NEXT CLAUDE
+
+If anything is unclear, the key documents in project files are:
+1. Strategy & Vision doc (overall goals)
+2. Technical Architecture doc (system design)
+3. Smart Reasoning Engine doc (coach logic)
+
+**Key contact:** Graeme (Digital Coach, Weston College)
+
+---
+
+**This handoff complete. Ready for Active Coach session.** 🌱
