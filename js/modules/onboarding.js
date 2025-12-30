@@ -9,7 +9,6 @@
  */
 
 import { store } from '../store.js';
-import equipmentModule from './onboarding/equipment-accordion.js';
 
 // Condition options - expanded with body areas
 const CONDITIONS = [
