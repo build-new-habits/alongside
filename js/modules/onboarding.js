@@ -27,44 +27,106 @@ const CONDITIONS = [
   { id: 'foot', name: 'Foot / Plantar', icon: '🦶', area: 'foot' }
 ];
 
-/**
- * FLAT EQUIPMENT LIST
- */
-
-const EQUIPMENT = [
-  { id: 'none', name: 'No equipment', icon: '🏠' },
-  
-  // Weights
-  { id: 'dumbbells', name: 'Dumbbells', icon: '🏋️' },
-  { id: 'kettlebell', name: 'Kettlebell', icon: '🔔' },
-  { id: 'barbell', name: 'Barbell', icon: '🏋️‍♂️' },
-  { id: 'weight-plates', name: 'Weight Plates', icon: '⚙️' },
-  { id: 'resistance-bands', name: 'Resistance Bands', icon: '🎗️' },
-  
-  // Cardio
-  { id: 'treadmill', name: 'Treadmill', icon: '🏃' },
-  { id: 'exercise-bike', name: 'Exercise Bike', icon: '🚴' },
-  { id: 'rowing-machine', name: 'Rowing Machine', icon: '🚣' },
-  { id: 'skipping-rope', name: 'Skipping Rope', icon: '🪢' },
-  
-  // Yoga/Recovery
-  { id: 'yoga-mat', name: 'Yoga Mat', icon: '🧘' },
-  { id: 'yoga-blocks', name: 'Yoga Blocks', icon: '🧱' },
-  { id: 'foam-roller', name: 'Foam Roller', icon: '🧻' },
-  
-  // Functional
-  { id: 'pull-up-bar', name: 'Pull-up Bar', icon: '🪜' },
-  { id: 'plyo-box', name: 'Plyo Box', icon: '📦' },
-  { id: 'balance-board', name: 'Balance Board', icon: '🛹' },
-  
-  // Boxing
-  { id: 'punch-bag', name: 'Punch Bag', icon: '🥊' },
-  { id: 'boxing-gloves', name: 'Boxing Gloves', icon: '🥊' },
-  { id: 'focus-pads', name: 'Focus Pads', icon: '🎯' },
-  
-  // Access
-  { id: 'gym-access', name: 'Gym Access', icon: '🏢' },
-  { id: 'pool-access', name: 'Pool Access', icon: '🏊' }
+// EQUIPMENT - REORGANIZED INTO CATEGORIES
+const EQUIPMENT_CATEGORIES = [
+  {
+    id: 'weights',
+    name: 'Weights & Strength',
+    icon: '🏋️',
+    description: 'Free weights, resistance equipment',
+    items: [
+      { id: 'dumbbells', name: 'Dumbbells', description: 'Any weight' },
+      { id: 'kettlebell', name: 'Kettlebell', description: 'Any weight' },
+      { id: 'barbell', name: 'Barbell', description: 'With or without plates' },
+      { id: 'weight-plates', name: 'Weight Plates', description: 'For barbell/adjustable' },
+      { id: 'ez-bar', name: 'EZ Bar', description: 'Curved barbell' },
+      { id: 'medicine-ball', name: 'Medicine Ball', description: 'Weighted ball' },
+      { id: 'slam-ball', name: 'Slam Ball', description: 'For throwing' },
+      { id: 'resistance-bands', name: 'Resistance Bands', description: 'Any resistance' },
+      { id: 'suspension-trainer', name: 'Suspension Trainer (TRX)', description: 'Bodyweight resistance' },
+      { id: 'pull-up-bar', name: 'Pull-up Bar', description: 'Doorway or mounted' },
+      { id: 'dip-station', name: 'Dip Station', description: 'For dips and L-sits' },
+      { id: 'weight-vest', name: 'Weight Vest', description: 'Added resistance' },
+      { id: 'ankle-weights', name: 'Ankle/Wrist Weights', description: 'Resistance training' }
+    ]
+  },
+  {
+    id: 'cardio',
+    name: 'Cardio Machines',
+    icon: '🏃',
+    description: 'Running, cycling, rowing equipment',
+    items: [
+      { id: 'treadmill', name: 'Treadmill', description: 'Indoor running' },
+      { id: 'exercise-bike', name: 'Exercise Bike', description: 'Stationary or spin' },
+      { id: 'rowing-machine', name: 'Rowing Machine', description: 'Indoor rower' },
+      { id: 'elliptical', name: 'Elliptical', description: 'Cross-trainer' },
+      { id: 'stair-climber', name: 'Stair Climber', description: 'Vertical machine' },
+      { id: 'assault-bike', name: 'Assault Bike', description: 'Fan-based bike' },
+      { id: 'skipping-rope', name: 'Skipping Rope', description: 'Jump rope' },
+      { id: 'battle-ropes', name: 'Battle Ropes', description: 'Heavy conditioning ropes' }
+    ]
+  },
+  {
+    id: 'flexibility',
+    name: 'Flexibility & Recovery',
+    icon: '🧘',
+    description: 'Yoga, stretching, mobility tools',
+    items: [
+      { id: 'yoga-mat', name: 'Yoga Mat', description: 'For floor work' },
+      { id: 'yoga-blocks', name: 'Yoga Blocks', description: 'Support and mods' },
+      { id: 'yoga-strap', name: 'Yoga Strap', description: 'Assisted stretching' },
+      { id: 'foam-roller', name: 'Foam Roller', description: 'Self-massage' },
+      { id: 'massage-ball', name: 'Massage Ball', description: 'Trigger point work' },
+      { id: 'massage-gun', name: 'Massage Gun', description: 'Percussive therapy' },
+      { id: 'stretching-bands', name: 'Stretching Bands', description: 'Flexibility work' }
+    ]
+  },
+  {
+    id: 'functional',
+    name: 'Functional Equipment',
+    icon: '📦',
+    description: 'Boxes, balance boards, agility tools',
+    items: [
+      { id: 'plyo-box', name: 'Plyo Box / Jump Box', description: 'For box jumps' },
+      { id: 'step-platform', name: 'Step Platform', description: 'Aerobic step' },
+      { id: 'balance-board', name: 'Balance Board', description: 'Stability training' },
+      { id: 'bosu-ball', name: 'BOSU Ball', description: 'Half stability ball' },
+      { id: 'ab-wheel', name: 'Ab Wheel', description: 'Core training' },
+      { id: 'gliding-discs', name: 'Gliding Discs', description: 'Floor exercises' },
+      { id: 'agility-ladder', name: 'Agility Ladder', description: 'Footwork drills' },
+      { id: 'cones', name: 'Training Cones', description: 'Agility work' },
+      { id: 'mini-bands', name: 'Mini Loop Bands', description: 'Hip activation' }
+    ]
+  },
+  {
+    id: 'combat',
+    name: 'Combat Sports',
+    icon: '🥊',
+    description: 'Boxing, kickboxing equipment',
+    items: [
+      { id: 'punch-bag', name: 'Punch Bag / Heavy Bag', description: 'Boxing/kickboxing' },
+      { id: 'free-standing-bag', name: 'Free-Standing Bag', description: 'No mounting needed' },
+      { id: 'speed-bag', name: 'Speed Bag', description: 'Rhythm training' },
+      { id: 'double-end-bag', name: 'Double-End Bag', description: 'Accuracy work' },
+      { id: 'boxing-gloves', name: 'Boxing Gloves', description: 'For bag work' },
+      { id: 'focus-pads', name: 'Focus Pads', description: 'Partner pad work' },
+      { id: 'hand-wraps', name: 'Hand Wraps', description: 'Hand protection' }
+    ]
+  },
+  {
+    id: 'access',
+    name: 'Access-Based',
+    icon: '🏢',
+    description: 'Gym, pool, track access',
+    items: [
+      { id: 'gym-access', name: 'Gym Membership', description: 'Full commercial gym' },
+      { id: 'pool-access', name: 'Swimming Pool', description: 'Indoor or outdoor' },
+      { id: 'track-access', name: 'Running Track', description: 'Athletics track' },
+      { id: 'tennis-court', name: 'Tennis Courts', description: 'Racquet sports' },
+      { id: 'climbing-wall', name: 'Climbing Wall', description: 'Indoor climbing' },
+      { id: 'sports-field', name: 'Sports Field', description: 'Team sports pitch' }
+    ]
+  }
 ];
 
 // Goal options
@@ -95,6 +157,10 @@ const DECLARATIONS = [
 let currentStep = 1;
 const TOTAL_STEPS = 7;
 
+// Equipment sub-navigation
+let equipmentSubStep = 'categories'; // 'categories' | 'category-id' | 'done'
+let selectedCategories = []; // Track which categories user selected
+
 // Collected data
 let onboardingData = {
   name: '',
@@ -108,7 +174,7 @@ let onboardingData = {
   conditionType: 'chronic',
   declarations: [],
   declarationNotes: '',
-  equipment: [],
+  equipment: ['none'],
   equipmentOther: '',
   goals: []
 };
@@ -125,6 +191,8 @@ function needsOnboarding() {
  */
 function start() {
   currentStep = 1;
+  equipmentSubStep = 'categories';
+  selectedCategories = [];
   onboardingData = {
     name: '',
     age: null,
@@ -137,8 +205,8 @@ function start() {
     conditionType: 'chronic',
     declarations: [],
     declarationNotes: '',
-    equipment: [],
-    equipmentOther: '',  // ← ADD THIS LINE
+    equipment: ['none'],
+    equipmentOther: '',    
     goals: []
   };
   renderCurrentStep();
@@ -169,7 +237,7 @@ function renderCurrentStep() {
       main.innerHTML = renderDeclarations();
       break;
     case 5:
-      main.innerHTML = renderEquipment();
+      main.innerHTML = renderEquipmentFlow();
       break;
     case 6:
       main.innerHTML = renderGoals();
@@ -179,10 +247,7 @@ function renderCurrentStep() {
       break;
     default:
       completeOnboarding();
-  } 
-  
-  // Scroll to top after rendering
-  window.scrollTo({ top: 0, behavior: 'smooth' }); // ← ADD THIS
+  }
 }
 
 /**
@@ -491,10 +556,29 @@ function renderDeclarations() {
 }
 
 /**
- * Step 5: Equipment
+ * EQUIPMENT RENDER FUNCTIONS
+ * Copy these into your onboarding.js file (replacing old renderEquipment)
  */
 
-function renderEquipment() {
+/**
+ * Equipment Router - determines which screen to show
+ */
+function renderEquipmentFlow() {
+  if (equipmentSubStep === 'categories') {
+    return renderEquipmentCategories();
+  } else if (equipmentSubStep === 'done') {
+    return renderEquipmentOther();
+  } else {
+    return renderEquipmentCategory(equipmentSubStep);
+  }
+}
+
+/**
+ * Screen 1: Category Selection
+ */
+function renderEquipmentCategories() {
+  const hasNoEquipment = onboardingData.equipment.includes('none');
+  
   return `
     <div class="screen screen--active onboarding">
       <div class="onboarding__header">
@@ -503,20 +587,139 @@ function renderEquipment() {
       </div>
       
       <div class="onboarding__content">
-        <h2 class="onboarding__title">What equipment do you have?</h2>
-        <p class="onboarding__subtitle">Select all that apply</p>
+        <h2 class="onboarding__title">What type of equipment do you have?</h2>
+        <p class="onboarding__subtitle">Select all categories that apply</p>
         
-        <div class="onboarding__grid">
-          ${EQUIPMENT.map(eq => `
-            <div class="onboarding__card ${onboardingData.equipment.includes(eq.id) ? 'onboarding__card--selected' : ''}"
-                 onclick="window.alongside.toggleEquipment('${eq.id}')">
-              <div class="onboarding__card-icon">${eq.icon}</div>
-              <div class="onboarding__card-name">${eq.name}</div>
-            </div>
+        <div class="onboarding__equipment-categories">
+          ${EQUIPMENT_CATEGORIES.map(category => {
+            const isSelected = selectedCategories.includes(category.id);
+            const itemCount = onboardingData.equipment.filter(eq => 
+              category.items.some(item => item.id === eq)
+            ).length;
+            
+            return `
+              <button class="onboarding__category-card ${isSelected ? 'onboarding__category-card--selected' : ''}"
+                      onclick="window.alongside.toggleEquipmentCategory('${category.id}')"
+                      ${hasNoEquipment ? 'disabled' : ''}>
+                <span class="onboarding__category-icon">${category.icon}</span>
+                <div class="onboarding__category-text">
+                  <span class="onboarding__category-name">${category.name}</span>
+                  <span class="onboarding__category-desc">${category.description}</span>
+                  ${isSelected && itemCount > 0 ? `
+                    <span class="onboarding__category-count">${itemCount} item${itemCount > 1 ? 's' : ''} selected</span>
+                  ` : ''}
+                </div>
+                <span class="onboarding__category-check">${isSelected ? '✓' : ''}</span>
+              </button>
+            `;
+          }).join('')}
+        </div>
+        
+        <div class="onboarding__field" style="margin-top: var(--space-4);">
+          <label class="onboarding__checkbox-label" style="display: flex; align-items: center; gap: var(--space-2); cursor: pointer;">
+            <input type="checkbox" 
+                   id="noEquipmentCheckbox"
+                   ${hasNoEquipment ? 'checked' : ''}
+                   onchange="window.alongside.toggleNoEquipment()">
+            <span>I have no equipment (bodyweight only)</span>
+          </label>
+        </div>
+        
+        <p class="onboarding__hint">
+          ${selectedCategories.length > 0 
+            ? `${selectedCategories.length} categor${selectedCategories.length > 1 ? 'ies' : 'y'} selected` 
+            : hasNoEquipment ? 'Bodyweight training selected' : 'Select categories to continue'}
+        </p>
+        
+        <button class="onboarding__btn onboarding__btn--primary" 
+                onclick="window.alongside.equipmentCategoriesNext()"
+                ${selectedCategories.length === 0 && !hasNoEquipment ? 'disabled' : ''}>
+          ${selectedCategories.length > 0 ? 'Continue to Details →' : hasNoEquipment ? 'Continue →' : 'Select equipment'}
+        </button>
+      </div>
+      
+      <div class="onboarding__progress">
+        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Screen 2: Individual Category Detail
+ */
+function renderEquipmentCategory(categoryId) {
+  const category = EQUIPMENT_CATEGORIES.find(c => c.id === categoryId);
+  if (!category) return renderEquipmentCategories();
+  
+  const currentCategoryIndex = selectedCategories.indexOf(categoryId);
+  const isLastCategory = currentCategoryIndex === selectedCategories.length - 1;
+  
+  return `
+    <div class="screen screen--active onboarding">
+      <div class="onboarding__header">
+        <button class="onboarding__back" onclick="window.alongside.equipmentCategoryBack()">← Back</button>
+        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
+      </div>
+      
+      <div class="onboarding__content">
+        <div class="onboarding__category-detail-header">
+          <span class="onboarding__category-icon--large">${category.icon}</span>
+          <h2 class="onboarding__title">${category.name}</h2>
+          <p class="onboarding__subtitle">Select what you have</p>
+        </div>
+        
+        <div class="onboarding__options">
+          ${category.items.map(item => `
+            <button class="onboarding__option onboarding__option--wide ${onboardingData.equipment.includes(item.id) ? 'onboarding__option--selected' : ''}"
+                    onclick="window.alongside.toggleEquipmentItem('${item.id}')">
+              <div class="onboarding__option-text">
+                <span class="onboarding__option-name">${item.name}</span>
+                <span class="onboarding__option-desc">${item.description}</span>
+              </div>
+              <span class="onboarding__option-check">${onboardingData.equipment.includes(item.id) ? '✓' : ''}</span>
+            </button>
           `).join('')}
         </div>
         
-        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.onboardingNext()">
+        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.equipmentCategoryNext()">
+          ${isLastCategory ? 'Continue →' : `Next Category →`}
+        </button>
+      </div>
+      
+      <div class="onboarding__progress">
+        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Screen 3: Other Equipment (free text)
+ */
+function renderEquipmentOther() {
+  return `
+    <div class="screen screen--active onboarding">
+      <div class="onboarding__header">
+        <button class="onboarding__back" onclick="window.alongside.equipmentCategoryBack()">← Back</button>
+        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
+      </div>
+      
+      <div class="onboarding__content">
+        <h2 class="onboarding__title">Any other equipment?</h2>
+        <p class="onboarding__subtitle">List anything we missed</p>
+        
+        <div class="onboarding__field">
+          <label class="onboarding__label">Other equipment <span class="onboarding__optional">(optional)</span></label>
+          <textarea id="equipmentOther" 
+                    class="onboarding__textarea"
+                    placeholder="e.g., gymnastic rings, sandbag, adjustable bench..."
+                    rows="3"
+                    maxlength="200">${onboardingData.equipmentOther || ''}</textarea>
+          <p class="onboarding__hint">This helps us improve our equipment list</p>
+        </div>
+        
+        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.equipmentOtherDone()">
           Continue →
         </button>
       </div>
@@ -529,22 +732,137 @@ function renderEquipment() {
 }
 
 /**
- * Toggle equipment selection
+ * Toggle equipment category selection
  */
-function toggleEquipment(equipmentId) {
-  const index = onboardingData.equipment.indexOf(equipmentId);
+function toggleEquipmentCategory(categoryId) {
+  const index = selectedCategories.indexOf(categoryId);
   if (index > -1) {
-    onboardingData.equipment.splice(index, 1);
+    // Deselecting - remove category and all its items
+    selectedCategories.splice(index, 1);
+    const category = EQUIPMENT_CATEGORIES.find(c => c.id === categoryId);
+    if (category) {
+      category.items.forEach(item => {
+        const itemIndex = onboardingData.equipment.indexOf(item.id);
+        if (itemIndex > -1) {
+          onboardingData.equipment.splice(itemIndex, 1);
+        }
+      });
+    }
   } else {
-    onboardingData.equipment.push(equipmentId);
-    
-    // Remove 'none' if selecting actual equipment
+    // Selecting - add category
+    selectedCategories.push(categoryId);
+    // Remove 'none' if present
     const noneIndex = onboardingData.equipment.indexOf('none');
     if (noneIndex > -1) {
       onboardingData.equipment.splice(noneIndex, 1);
     }
   }
   renderCurrentStep();
+}
+
+/**
+ * Toggle "no equipment" checkbox
+ */
+function toggleNoEquipment() {
+  const checkbox = document.getElementById('noEquipmentCheckbox');
+  if (checkbox && checkbox.checked) {
+    // Clear all selections
+    selectedCategories = [];
+    onboardingData.equipment = ['none'];
+  } else {
+    // Remove 'none'
+    onboardingData.equipment = [];
+  }
+  renderCurrentStep();
+}
+
+/**
+ * Navigate from category selection to first category detail
+ */
+function equipmentCategoriesNext() {
+  if (onboardingData.equipment.includes('none')) {
+    // Skip directly to "other equipment" screen
+    equipmentSubStep = 'done';
+    renderCurrentStep();
+  } else if (selectedCategories.length > 0) {
+    // Go to first selected category
+    equipmentSubStep = selectedCategories[0];
+    renderCurrentStep();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/**
+ * Navigate from category detail to next category or "other equipment"
+ */
+function equipmentCategoryNext() {
+  const currentIndex = selectedCategories.indexOf(equipmentSubStep);
+  if (currentIndex < selectedCategories.length - 1) {
+    // Go to next category
+    equipmentSubStep = selectedCategories[currentIndex + 1];
+  } else {
+    // Go to "other equipment" screen
+    equipmentSubStep = 'done';
+  }
+  renderCurrentStep();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/**
+ * Go back from category detail
+ */
+function equipmentCategoryBack() {
+  if (equipmentSubStep === 'done') {
+    // Go back to last category or category selection if no equipment
+    if (selectedCategories.length > 0) {
+      equipmentSubStep = selectedCategories[selectedCategories.length - 1];
+    } else {
+      equipmentSubStep = 'categories';
+    }
+  } else {
+    const currentIndex = selectedCategories.indexOf(equipmentSubStep);
+    if (currentIndex > 0) {
+      // Go to previous category
+      equipmentSubStep = selectedCategories[currentIndex - 1];
+    } else {
+      // Go back to category selection
+      equipmentSubStep = 'categories';
+    }
+  }
+  renderCurrentStep();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/**
+ * Toggle individual equipment item
+ */
+function toggleEquipmentItem(itemId) {
+  const index = onboardingData.equipment.indexOf(itemId);
+  if (index > -1) {
+    onboardingData.equipment.splice(index, 1);
+  } else {
+    onboardingData.equipment.push(itemId);
+  }
+  renderCurrentStep();
+}
+
+/**
+ * Complete "other equipment" and move to next main step
+ */
+function equipmentOtherDone() {
+  const otherEl = document.getElementById('equipmentOther');
+  if (otherEl) {
+    onboardingData.equipmentOther = otherEl.value.trim();
+  }
+  
+  // Reset equipment sub-navigation
+  equipmentSubStep = 'categories';
+  selectedCategories = [];
+  
+  // Move to next main step
+  currentStep++;
+  renderCurrentStep();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /**
@@ -627,13 +945,19 @@ function renderCoachSummary() {
   
   // Equipment
   if (equipment.length > 0) {
-    const equipNames = equipment.map(id => {
-      const eq = EQUIPMENT.find(e => e.id === id);
-      return eq ? eq.name : id;
+    const equipNames = equipment.map(e => {
+      // Search through all categories to find the equipment item
+      let itemName = e;
+      EQUIPMENT_CATEGORIES.forEach(category => {
+        const item = category.items.find(item => item.id === e);
+        if (item) itemName = item.name;
+      });
+      return itemName;
     });
-    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;
+    
+    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;  // ✅ BACKTICKS
   } else {
-    message += `We'll focus on bodyweight exercises you can do anywhere. `;
+    message += `We'll focus on bodyweight exercises you can do anywhere. `;  // ✅ BACKTICKS
   }
   
   // Goals
@@ -704,6 +1028,12 @@ function renderCoachSummary() {
  */
 function next() {
   saveCurrentStepData();
+  
+  // Don't advance main step if still in equipment sub-flow
+  if (currentStep === 5 && equipmentSubStep !== 'categories') {
+    return;
+  }
+  
   currentStep++;
   
   if (currentStep > TOTAL_STEPS) {
@@ -718,10 +1048,16 @@ function next() {
  * Go to previous step
  */
 function back() {
-
+  // If in equipment sub-flow, use equipment-specific back
+  if (currentStep === 5 && equipmentSubStep !== 'categories') {
+    equipmentCategoryBack();
+    return;
+  }
+  
   if (currentStep > 1) {
     currentStep--;
     renderCurrentStep();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
@@ -750,10 +1086,6 @@ function saveCurrentStepData() {
     case 4:
       const notesEl = document.getElementById('declarationNotes');
       if (notesEl) onboardingData.declarationNotes = notesEl.value.trim();
-      break;
-    case 5:
-      const equipmentOtherEl = document.getElementById('equipmentOther');
-      if (equipmentOtherEl) onboardingData.equipmentOther = equipmentOtherEl.value.trim();
       break;
   }
 }
@@ -867,6 +1199,36 @@ function onMenstrualTrackingChange() {
 }
 
 /**
+ * Toggle equipment selection
+ */
+function toggleEquipment(equipmentId) {
+  // Special handling for 'none' - clear others
+  if (equipmentId === 'none') {
+    onboardingData.equipment = ['none'];
+  } else {
+    // Remove 'none' if selecting actual equipment
+    const noneIndex = onboardingData.equipment.indexOf('none');
+    if (noneIndex > -1) {
+      onboardingData.equipment.splice(noneIndex, 1);
+    }
+    
+    // Toggle the selected equipment
+    const index = onboardingData.equipment.indexOf(equipmentId);
+    if (index > -1) {
+      onboardingData.equipment.splice(index, 1);
+    } else {
+      onboardingData.equipment.push(equipmentId);
+    }
+    
+    // If nothing selected, default to 'none'
+    if (onboardingData.equipment.length === 0) {
+      onboardingData.equipment = ['none'];
+    }
+  }
+  renderCurrentStep();
+}
+
+/**
  * Toggle goal selection
  */
 function toggleGoal(goalId) {
@@ -888,7 +1250,6 @@ function completeOnboarding() {
   store.set('profile.age', onboardingData.age);
   store.set('profile.gender', onboardingData.gender);
   store.set('profile.equipment', onboardingData.equipment);
-  store.set('profile.equipmentOther', onboardingData.equipmentOther);
   store.set('profile.equipmentOther', onboardingData.equipmentOther);
   store.set('profile.menstrualTracking', onboardingData.menstrualTracking);
   store.set('profile.weight', onboardingData.weight);
@@ -943,21 +1304,27 @@ export const onboarding = {
   start,
   next,
   back,
-  renderCurrentStep,
   toggleCondition,
   updateConditionSeverity,
   setConditionType,
   syncWeightUnit,
-  toggleEquipment,
   toggleDeclaration,
   toggleGoal,
   onGenderChange,
   onMenstrualTrackingChange,
+  // NEW EQUIPMENT FUNCTIONS
+  toggleEquipmentCategory,
+  toggleNoEquipment,
+  equipmentCategoriesNext,
+  equipmentCategoryNext,
+  equipmentCategoryBack,
+  toggleEquipmentItem,
+  equipmentOtherDone,
   skip,
   CONDITIONS,
   DECLARATIONS,
-  EQUIPMENT,
-  GOALS,
+  EQUIPMENT_CATEGORIES, // CHANGED from EQUIPMENT
+  GOALS
 };
 
 export default onboarding;
