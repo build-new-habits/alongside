@@ -877,7 +877,6 @@ function onMenstrualTrackingChange() {
       onboardingData.equipment = ['none'];
     }
   renderCurrentStep();
-}
 
 /**
  * Toggle goal selection
