@@ -703,7 +703,6 @@ function renderCoachSummary() {
  */
 function next() {
   saveCurrentStepData();
-  
   currentStep++;
   
   if (currentStep > TOTAL_STEPS) {
@@ -722,7 +721,6 @@ function back() {
   if (currentStep > 1) {
     currentStep--;
     renderCurrentStep();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
