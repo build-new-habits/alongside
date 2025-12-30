@@ -125,7 +125,6 @@ function needsOnboarding() {
  */
 function start() {
   currentStep = 1;
-  equipmentModule.reset();  // ← ADD THIS LINE
   onboardingData = {
     name: '',
     age: null,
@@ -628,7 +627,10 @@ function renderCoachSummary() {
   
   // Equipment
   if (equipment.length > 0) {
-    const equipNames = equipmentModule.getEquipmentNames(equipment);
+    const equipNames = equipment.map(id => {
+      const eq = EQUIPMENT.find(e => e.id === id);
+      return eq ? eq.name : id;
+    });
     message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;
   } else {
     message += `We'll focus on bodyweight exercises you can do anywhere. `;
@@ -750,7 +752,8 @@ function saveCurrentStepData() {
       if (notesEl) onboardingData.declarationNotes = notesEl.value.trim();
       break;
     case 5:
-      equipmentModule.onExit(onboardingData);
+      const equipmentOtherEl = document.getElementById('equipmentOther');
+      if (equipmentOtherEl) onboardingData.equipmentOther = equipmentOtherEl.value.trim();
       break;
   }
 }
