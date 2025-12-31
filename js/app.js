@@ -544,6 +544,8 @@ window.alongside = {
   equipmentCategoryBack: onboarding.equipmentCategoryBack,
   toggleEquipmentItem: onboarding.toggleEquipmentItem,
   equipmentOtherDone: onboarding.equipmentOtherDone,
+  // Today view
+  selectWorkout: todayView.selectWorkout,
   // Modules
   store,
   library,
