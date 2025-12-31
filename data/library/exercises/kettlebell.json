@@ -1,1 +1,185 @@
-
+{
+  "id": "kettlebell",
+  "name": "Kettlebell Exercises",
+  "description": "Dynamic strength and power exercises using kettlebells",
+  
+  "exercises": [
+    {
+      "id": "kettlebell-swing",
+      "name": "Kettlebell Swing",
+      "description": "Explosive hip hinge movement. Builds power, cardiovascular fitness, posterior chain strength.",
+      "instructions": [
+        "Stand with feet shoulder-width, kettlebell on ground in front",
+        "Hinge at hips, grab kettlebell with both hands",
+        "Hike kettlebell back between legs like hiking a football",
+        "Explosively drive hips forward, swinging kettlebell up",
+        "Let momentum carry kettlebell to chest/shoulder height",
+        "Don't lift with arms - power comes from hips",
+        "Let kettlebell swing back down, hinge at hips to catch it"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "reps": 15,
+      "repRange": [10, 20],
+      "sets": 3,
+      "caloriesPerMinute": 12,
+      "credits": 80,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "hamstrings", "core", "back", "shoulders"],
+      "movementPattern": "hinge",
+      "equipment": ["kettlebell"],
+      "contraindications": ["back_high", "shoulder_high"],
+      "modifications": {
+        "easier": "Lighter weight, reduce reps, focus on form not speed",
+        "harder": "Heavier weight, single-arm swings, American swing (overhead)"
+      },
+      "conditions": {
+        "lower_back": "Master hip hinge first, start very light, may need to avoid",
+        "shoulder": "Ensure kettlebell not going too high, reduce range"
+      },
+      "videoSearch": "kettlebell swing proper form"
+    },
+    {
+      "id": "goblet-squat-kettlebell",
+      "name": "Kettlebell Goblet Squat",
+      "description": "Front-loaded squat. Builds lower body strength, teaches squat pattern.",
+      "instructions": [
+        "Hold kettlebell by horns at chest height",
+        "Elbows point down, keep bell close to chest",
+        "Feet shoulder-width apart, toes slightly out",
+        "Squat down, elbows track inside knees",
+        "Descend until thighs parallel or below",
+        "Keep chest up, weight in heels",
+        "Drive through heels to stand"
+      ],
+      "duration": 120,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 15],
+      "sets": 3,
+      "caloriesPerMinute": 8,
+      "credits": 60,
+      "energyRequired": "medium",
+      "muscleGroups": ["quads", "glutes", "core"],
+      "movementPattern": "squat",
+      "equipment": ["kettlebell"],
+      "contraindications": ["knee_high", "hip_high"],
+      "modifications": {
+        "easier": "Lighter weight, reduce depth, box squat",
+        "harder": "Heavier weight, pause at bottom, single-leg (pistol squat)"
+      },
+      "conditions": {
+        "knee": "Reduce depth, lighter weight, focus on control",
+        "lower_back": "Front-load helps maintain upright torso",
+        "hip": "Wider stance, reduce depth"
+      },
+      "videoSearch": "kettlebell goblet squat form"
+    },
+    {
+      "id": "turkish-getup",
+      "name": "Turkish Get-Up",
+      "description": "Full-body movement from ground to standing. Builds stability, strength, coordination.",
+      "instructions": [
+        "Lie on back, hold kettlebell in right hand, arm extended",
+        "Bend right knee, foot flat on floor",
+        "Roll onto left elbow, keeping eyes on kettlebell",
+        "Push up to left hand, staying tall",
+        "Lift hips, sweep left leg back to kneeling position",
+        "Stand up while keeping kettlebell overhead",
+        "Reverse the movement to return to start"
+      ],
+      "duration": 180,
+      "durationUnit": "seconds",
+      "reps": 3,
+      "repRange": [2, 5],
+      "repNote": "per side",
+      "sets": 2,
+      "caloriesPerMinute": 7,
+      "credits": 90,
+      "energyRequired": "medium",
+      "muscleGroups": ["full_body", "shoulders", "core", "stability"],
+      "movementPattern": "complex",
+      "equipment": ["kettlebell"],
+      "contraindications": ["shoulder_high", "wrist_high", "balance_severe"],
+      "modifications": {
+        "easier": "Practice without weight first, use shoe as target",
+        "harder": "Heavier weight, increase reps, pause at each position"
+      },
+      "conditions": {
+        "shoulder": "Start very light or bodyweight, may need physio clearance",
+        "wrist": "Use lighter weight, may need wrist supports"
+      },
+      "videoSearch": "turkish get up tutorial beginner"
+    },
+    {
+      "id": "kettlebell-deadlift",
+      "name": "Kettlebell Deadlift",
+      "description": "Hip hinge pattern with kettlebell. Teaches proper lifting mechanics.",
+      "instructions": [
+        "Stand with feet hip-width, kettlebell on ground between feet",
+        "Hinge at hips, push butt back, keep back flat",
+        "Grab kettlebell with both hands",
+        "Drive through heels, extend hips to stand",
+        "Squeeze glutes at top, stand tall",
+        "Lower with control, hinging at hips",
+        "Keep kettlebell close to body throughout"
+      ],
+      "duration": 120,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 12],
+      "sets": 3,
+      "caloriesPerMinute": 7,
+      "credits": 65,
+      "energyRequired": "medium",
+      "muscleGroups": ["hamstrings", "glutes", "back", "core"],
+      "movementPattern": "hinge",
+      "equipment": ["kettlebell"],
+      "contraindications": ["back_high"],
+      "modifications": {
+        "easier": "Elevate kettlebell on blocks, lighter weight",
+        "harder": "Heavier weight, single-leg deadlift, deficit deadlift"
+      },
+      "conditions": {
+        "lower_back": "Focus on hip hinge, keep back neutral, start light"
+      },
+      "videoSearch": "kettlebell deadlift proper form"
+    },
+    {
+      "id": "kettlebell-clean",
+      "name": "Kettlebell Clean",
+      "description": "Explosive pull to rack position. Power development, functional strength.",
+      "instructions": [
+        "Stand with feet shoulder-width, kettlebell on ground",
+        "Hinge to grab kettlebell with one hand",
+        "Swing kettlebell back between legs",
+        "Explosively extend hips, pull kettlebell to shoulder",
+        "Catch in rack position - bell rests on forearm",
+        "Keep wrist straight, elbow close to ribs",
+        "Lower with control and repeat"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "reps": 8,
+      "repRange": [6, 10],
+      "repNote": "per side",
+      "sets": 3,
+      "caloriesPerMinute": 10,
+      "credits": 75,
+      "energyRequired": "high",
+      "muscleGroups": ["full_body", "power", "back", "shoulders"],
+      "movementPattern": "pull",
+      "equipment": ["kettlebell"],
+      "contraindications": ["back_high", "shoulder_high", "wrist_high"],
+      "modifications": {
+        "easier": "Lighter weight, practice rack position first, two-hand clean",
+        "harder": "Heavier weight, double kettlebell clean, clean and press"
+      },
+      "conditions": {
+        "wrist": "Focus on soft catch, may need wrist supports",
+        "shoulder": "Ensure proper rack position, may need lighter weight"
+      },
+      "videoSearch": "kettlebell clean proper form"
+    }
+  ]
+}
