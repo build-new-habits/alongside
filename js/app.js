@@ -536,29 +536,14 @@ window.alongside = {
   toggleDeclaration: onboarding.toggleDeclaration,
   toggleGoal: onboarding.toggleGoal,
   skipOnboarding: onboarding.skip,
-  
-  // Equipment module (NEW - replaces old equipment functions)
-  equipment: {
-    toggleCategory: (id) => {
-      onboarding.equipmentModule.toggleCategory(id, () => onboarding.renderCurrentStep());
-    },
-    doneWithCategory: (id) => {
-      onboarding.equipmentModule.doneWithCategory(id, () => onboarding.renderCurrentStep());
-    },
-    noneInCategory: (id) => {
-      const data = { equipment: store.get('profile.equipment') || ['none'] };
-      onboarding.equipmentModule.noneInCategory(id, data, () => onboarding.renderCurrentStep());
-    },
-    toggleItem: (id) => {
-      const data = { equipment: store.get('profile.equipment') || ['none'] };
-      onboarding.equipmentModule.toggleItem(id, data, () => onboarding.renderCurrentStep());
-    },
-    toggleNoEquipment: () => {
-      const data = { equipment: store.get('profile.equipment') || ['none'] };
-      onboarding.equipmentModule.toggleNoEquipment(data, () => onboarding.renderCurrentStep());
-    }
-  },
-  
+  // Equipment functions (working accordion version)
+  toggleEquipmentCategory: onboarding.toggleEquipmentCategory,
+  toggleNoEquipment: onboarding.toggleNoEquipment,
+  equipmentCategoriesNext: onboarding.equipmentCategoriesNext,
+  equipmentCategoryNext: onboarding.equipmentCategoryNext,
+  equipmentCategoryBack: onboarding.equipmentCategoryBack,
+  toggleEquipmentItem: onboarding.toggleEquipmentItem,
+  equipmentOtherDone: onboarding.equipmentOtherDone,
   // Modules
   store,
   library,
