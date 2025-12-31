@@ -1,1 +1,362 @@
-
+{
+  "id": "dumbbell",
+  "name": "Dumbbell Exercises",
+  "description": "Strength exercises using dumbbells - versatile, accessible, builds functional strength",
+  
+  "exercises": [
+    {
+      "id": "goblet-squat",
+      "name": "Goblet Squat",
+      "description": "Foundational squat holding weight at chest. Builds lower body strength while teaching proper squat mechanics.",
+      "instructions": [
+        "Hold dumbbell at chest height with both hands, vertically",
+        "Feet shoulder-width apart, toes slightly out (10-15 degrees)",
+        "Keep chest proud and shoulders back",
+        "Squat down by pushing hips back, then bending knees",
+        "Descend until thighs parallel or slightly below",
+        "Keep weight in heels, knees tracking over toes",
+        "Drive through heels to stand, exhale on the way up"
+      ],
+      "duration": 180,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 15],
+      "sets": 3,
+      "caloriesPerMinute": 8,
+      "credits": 60,
+      "energyRequired": "medium",
+      "muscleGroups": ["quads", "glutes", "core", "hamstrings"],
+      "movementPattern": "squat",
+      "equipment": ["dumbbells"],
+      "contraindications": ["knee_high", "hip_high"],
+      "modifications": {
+        "easier": "Reduce weight, limit depth to comfortable range, or use chair for balance",
+        "harder": "Increase weight, pause 3 seconds at bottom, or tempo slow (3-1-3)"
+      },
+      "conditions": {
+        "knee": "Limit depth to pain-free range, focus on control over depth",
+        "lower_back": "Keep torso upright, use lighter weight, engage core throughout",
+        "hip": "Widen stance, reduce depth, focus on hip hinge pattern"
+      },
+      "videoSearch": "goblet squat form tutorial"
+    },
+    {
+      "id": "romanian-deadlift",
+      "name": "Romanian Deadlift (RDL)",
+      "description": "Hip hinge movement targeting hamstrings and glutes. Essential for runners and lower back health.",
+      "instructions": [
+        "Hold dumbbells at thighs, feet hip-width apart",
+        "Slight knee bend (soft knees, not locked)",
+        "Hinge at hips, push butt back, keep back flat",
+        "Lower dumbbells down shins until hamstring stretch (not rounding back)",
+        "Feel the stretch in hamstrings, not lower back",
+        "Drive hips forward to stand, squeeze glutes at top",
+        "Keep dumbbells close to legs throughout"
+      ],
+      "duration": 180,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 12],
+      "sets": 3,
+      "caloriesPerMinute": 7,
+      "credits": 70,
+      "energyRequired": "medium",
+      "muscleGroups": ["hamstrings", "glutes", "lower_back", "core"],
+      "movementPattern": "hinge",
+      "equipment": ["dumbbells"],
+      "contraindications": ["back_high", "hamstring_acute"],
+      "modifications": {
+        "easier": "Use lighter weight, reduce range of motion, single-leg with kickstand",
+        "harder": "Increase weight, single-leg RDL, tempo slow (3-1-3)"
+      },
+      "conditions": {
+        "lower_back": "Start very light, focus on hip hinge not back bend, engage core",
+        "hamstring": "Reduce range of motion, stop at first stretch sensation"
+      },
+      "videoSearch": "romanian deadlift form"
+    },
+    {
+      "id": "dumbbell-row",
+      "name": "Single-Arm Dumbbell Row",
+      "description": "Fundamental pulling movement for upper back. Addresses imbalances, builds posture.",
+      "instructions": [
+        "Place one knee and hand on bench for support",
+        "Other foot on ground, hold dumbbell in free hand",
+        "Back flat, core engaged, slight forward lean",
+        "Pull dumbbell to hip, leading with elbow",
+        "Squeeze shoulder blade at top",
+        "Lower with control, full arm extension",
+        "Keep back flat throughout - don't rotate torso"
+      ],
+      "duration": 150,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 12],
+      "repNote": "per arm",
+      "sets": 3,
+      "caloriesPerMinute": 6,
+      "credits": 55,
+      "energyRequired": "medium",
+      "muscleGroups": ["back", "lats", "biceps", "core"],
+      "movementPattern": "pull",
+      "equipment": ["dumbbells", "bench"],
+      "contraindications": ["back_high", "shoulder_high"],
+      "modifications": {
+        "easier": "Reduce weight, use resistance band, reduce range of motion",
+        "harder": "Increase weight, pause at top, slow tempo (3-1-3)"
+      },
+      "conditions": {
+        "lower_back": "Focus on keeping back flat, use bench for support, lighter weight",
+        "shoulder": "Reduce range of motion, focus on scapular retraction not arm pull"
+      },
+      "videoSearch": "single arm dumbbell row form"
+    },
+    {
+      "id": "overhead-press",
+      "name": "Dumbbell Overhead Press",
+      "description": "Vertical pressing movement. Builds strong shoulders. Functional for overhead activities.",
+      "instructions": [
+        "Stand with feet hip-width, hold dumbbells at shoulder height",
+        "Palms facing forward, elbows slightly in front of body",
+        "Brace core, slight knee bend for stability",
+        "Press dumbbells overhead until arms fully extended",
+        "Don't arch your back - keep core tight",
+        "Lower with control back to shoulder height",
+        "Dumbbells should travel slightly back as they go up"
+      ],
+      "duration": 150,
+      "durationUnit": "seconds",
+      "reps": 8,
+      "repRange": [6, 12],
+      "sets": 3,
+      "caloriesPerMinute": 7,
+      "credits": 65,
+      "energyRequired": "medium",
+      "muscleGroups": ["shoulders", "triceps", "core"],
+      "movementPattern": "press",
+      "equipment": ["dumbbells"],
+      "contraindications": ["shoulder_high", "back_high", "elbow_high"],
+      "modifications": {
+        "easier": "Reduce weight, seated press for back support, single-arm",
+        "harder": "Increase weight, standing on one leg, add pause at top"
+      },
+      "conditions": {
+        "shoulder": "Reduce range of motion, ensure pain-free arc, may need physio clearance",
+        "lower_back": "Keep core engaged, don't arch back, may sit for support"
+      },
+      "videoSearch": "dumbbell overhead press form"
+    },
+    {
+      "id": "reverse-lunge-dumbbell",
+      "name": "Dumbbell Reverse Lunge",
+      "description": "Unilateral leg movement with added resistance. Reverse lunge easier on knees than forward lunge.",
+      "instructions": [
+        "Hold dumbbells at sides, feet hip-width apart",
+        "Step back with one leg, landing on ball of foot",
+        "Lower body until front thigh parallel to ground",
+        "Back knee hovers just above ground",
+        "Keep torso upright, core engaged",
+        "Push through front heel to return to start",
+        "Alternate legs or complete all reps on one side"
+      ],
+      "duration": 150,
+      "durationUnit": "seconds",
+      "reps": 8,
+      "repRange": [6, 12],
+      "repNote": "per leg",
+      "sets": 3,
+      "caloriesPerMinute": 8,
+      "credits": 65,
+      "energyRequired": "medium",
+      "muscleGroups": ["quads", "glutes", "hamstrings", "core"],
+      "movementPattern": "lunge",
+      "equipment": ["dumbbells"],
+      "contraindications": ["knee_high", "hip_high", "balance_issues"],
+      "modifications": {
+        "easier": "Reduce weight, hold wall for balance, reduce depth",
+        "harder": "Increase weight, increase step distance, add pulse at bottom"
+      },
+      "conditions": {
+        "knee": "Reduce depth to pain-free range, ensure knee stays over ankle",
+        "balance_issues": "Start without weights, hold wall, reduce step distance"
+      },
+      "videoSearch": "dumbbell reverse lunge form"
+    },
+    {
+      "id": "bicep-curl",
+      "name": "Dumbbell Bicep Curl",
+      "description": "Classic bicep isolation. Simple, effective, straightforward movement.",
+      "instructions": [
+        "Stand with feet hip-width, dumbbells at sides",
+        "Palms facing forward, elbows close to body",
+        "Keep upper arms stationary, curl weights up",
+        "Squeeze biceps at top, don't swing or use momentum",
+        "Lower with control back to start",
+        "Don't let elbows drift forward or back",
+        "Keep wrists straight throughout"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "reps": 12,
+      "repRange": [10, 15],
+      "sets": 3,
+      "caloriesPerMinute": 4,
+      "credits": 35,
+      "energyRequired": "low",
+      "muscleGroups": ["biceps", "forearms"],
+      "movementPattern": "curl",
+      "equipment": ["dumbbells"],
+      "contraindications": ["elbow_high"],
+      "modifications": {
+        "easier": "Reduce weight, alternate arms, use resistance band",
+        "harder": "Increase weight, tempo slow (3-1-3), hammer curl variation"
+      },
+      "conditions": {
+        "elbow": "Reduce weight, focus on controlled movement, may need to avoid",
+        "wrist": "Keep wrists straight, may use straps or different grip"
+      },
+      "videoSearch": "dumbbell bicep curl proper form"
+    },
+    {
+      "id": "lateral-raise",
+      "name": "Dumbbell Lateral Raise",
+      "description": "Shoulder isolation for side delts. Builds shoulder width and stability.",
+      "instructions": [
+        "Stand with feet hip-width, dumbbells at sides",
+        "Slight bend in elbows, palms facing body",
+        "Keep core engaged, don't swing or use momentum",
+        "Raise dumbbells out to sides until shoulder height",
+        "Lead with elbows, not hands - pour a jug motion",
+        "Pause briefly at top",
+        "Lower with control back to sides"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "reps": 12,
+      "repRange": [10, 15],
+      "sets": 3,
+      "caloriesPerMinute": 4,
+      "credits": 35,
+      "energyRequired": "low",
+      "muscleGroups": ["shoulders", "lateral_delts"],
+      "movementPattern": "raise",
+      "equipment": ["dumbbells"],
+      "contraindications": ["shoulder_high", "shoulder_impingement"],
+      "modifications": {
+        "easier": "Reduce weight, use resistance band, reduce range",
+        "harder": "Increase weight, tempo slow (3-1-3), add pause at top"
+      },
+      "conditions": {
+        "shoulder": "Reduce weight and range, stop if painful, may need physio clearance"
+      },
+      "videoSearch": "dumbbell lateral raise proper form"
+    },
+    {
+      "id": "farmers-carry",
+      "name": "Farmer's Carry",
+      "description": "Loaded carry exercise. Functional strength for carrying groceries, luggage. Works everything.",
+      "instructions": [
+        "Hold heavy dumbbells at sides, one in each hand",
+        "Stand tall with shoulders back, core engaged",
+        "Walk forward with steady, controlled steps",
+        "Keep shoulders level - don't let one side sag",
+        "Maintain upright posture throughout",
+        "Breathe steadily, don't hold breath",
+        "Turn around carefully and return to start"
+      ],
+      "duration": 120,
+      "durationUnit": "seconds",
+      "distance": 40,
+      "distanceUnit": "meters",
+      "distanceNote": "or 45 seconds walking",
+      "sets": 3,
+      "caloriesPerMinute": 7,
+      "credits": 55,
+      "energyRequired": "medium",
+      "muscleGroups": ["full_body", "grip", "core", "traps"],
+      "movementPattern": "carry",
+      "equipment": ["dumbbells"],
+      "contraindications": ["shoulder_high", "back_high", "wrist_high"],
+      "modifications": {
+        "easier": "Reduce weight, shorten distance, use kettlebells",
+        "harder": "Increase weight, increase distance, uneven load (one heavy, one light)"
+      },
+      "conditions": {
+        "shoulder": "Reduce weight, keep shoulders packed down",
+        "lower_back": "Lighter weight, focus on core engagement, shorter distance",
+        "wrist": "May use straps, or farmer's walk handles if available"
+      },
+      "videoSearch": "farmers carry proper form"
+    },
+    {
+      "id": "step-up-dumbbell",
+      "name": "Dumbbell Step-Up",
+      "description": "Unilateral leg exercise mimicking stair climbing. Highly functional, builds balance.",
+      "instructions": [
+        "Hold dumbbells at sides, stand facing bench or step",
+        "Step up with one foot, full foot on bench",
+        "Drive through heel to lift body up",
+        "Bring other foot up to meet it",
+        "Step down with control, same leg leads",
+        "Complete all reps on one leg, then switch",
+        "Keep torso upright throughout"
+      ],
+      "duration": 150,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [8, 12],
+      "repNote": "per leg",
+      "sets": 3,
+      "caloriesPerMinute": 8,
+      "credits": 60,
+      "energyRequired": "medium",
+      "muscleGroups": ["quads", "glutes", "hamstrings", "core"],
+      "movementPattern": "squat",
+      "equipment": ["dumbbells", "bench"],
+      "contraindications": ["knee_high", "hip_high", "balance_issues"],
+      "modifications": {
+        "easier": "Reduce weight, lower step height, hold rail",
+        "harder": "Increase weight, higher step, add knee drive at top"
+      },
+      "conditions": {
+        "knee": "Lower step height, reduce weight, ensure full foot on step",
+        "balance_issues": "Start without weight, hold rail, lower step"
+      },
+      "videoSearch": "dumbbell step up proper form"
+    },
+    {
+      "id": "glute-bridge-dumbbell",
+      "name": "Dumbbell Glute Bridge",
+      "description": "Glute activation with added resistance. Hip extension strength for running and lower back health.",
+      "instructions": [
+        "Lie on back, knees bent, feet flat on floor",
+        "Place dumbbell on hips, hold with both hands",
+        "Feet hip-width apart, about a foot from bum",
+        "Push through heels to lift hips off floor",
+        "Squeeze glutes hard at top",
+        "Create straight line from shoulders to knees",
+        "Lower with control and repeat"
+      ],
+      "duration": 120,
+      "durationUnit": "seconds",
+      "reps": 12,
+      "repRange": [10, 15],
+      "sets": 3,
+      "caloriesPerMinute": 6,
+      "credits": 50,
+      "energyRequired": "low",
+      "muscleGroups": ["glutes", "hamstrings", "core"],
+      "movementPattern": "hinge",
+      "equipment": ["dumbbells"],
+      "contraindications": ["back_severe"],
+      "modifications": {
+        "easier": "Reduce weight, reduce range of motion, bodyweight only",
+        "harder": "Increase weight, single leg variation, pause 3 seconds at top"
+      },
+      "conditions": {
+        "lower_back": "Start light, focus on glute squeeze not back arch"
+      },
+      "videoSearch": "dumbbell glute bridge proper form"
+    }
+  ]
+}
