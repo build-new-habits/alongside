@@ -1,6 +1,6 @@
 # Exercise Database Summary
 
-**Last Updated:** December 31, 2024  
+**Last Updated:** December 31, 2025  
 **Status:** 56 exercises created (~37% of target 150)
 
 ---
