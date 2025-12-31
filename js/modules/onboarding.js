@@ -205,7 +205,7 @@ function start() {
     conditionType: 'chronic',
     declarations: [],
     declarationNotes: '',
-    equipment: ['none'],
+    equipment: [],
     equipmentOther: '',    
     goals: []
   };
