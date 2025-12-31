@@ -10,39 +10,19 @@ const defaultState = {
   // User profile
   profile: {
     name: '',
-    age: null,
-    gender: null, // 'male' | 'female' | 'non-binary' | 'prefer-not-to-say'
-    menstrualTracking: false, // Only relevant if gender === 'female'
     conditions: [],
     equipment: [],
     goals: [],
     onboardingComplete: false
   },
   
-  // Today's check-in (ENHANCED)
+  // Today's check-in
   checkin: {
     date: null,
-    // Physical state
-    sleepHours: 7,
-    sleepQuality: 5,
-    hydration: 4,
     energy: 5,
     mood: 5,
-    // Menstrual (if applicable)
-    menstruating: null,
-    menstrualImpact: null, // 'none' | 'light' | 'moderate' | 'heavy'
-    // Conditions (daily updates)
-    conditions: [],
-    // Coaching intensity TODAY
-    coachingIntensity: 'moderate', // 'gentle' | 'moderate' | 'aggressive'
     completed: false
   },
-  
-  // Check-in history (last 90 days)
-  checkinHistory: [],
-  
-  // Burnout detection
-  burnoutDetected: false,
   
   // Today's workout
   workout: {
@@ -63,7 +43,10 @@ const defaultState = {
     totalCredits: 0,
     currentStreak: 0,
     longestStreak: 0
-  }
+  },
+  
+  // Check-in history for burnout detection
+  checkinHistory: []
 };
 
 // In-memory state
@@ -254,31 +237,35 @@ function hasCheckedInToday() {
 }
 
 /**
- * Save today's enhanced check-in
+ * Save today's check-in
  */
-function saveCheckin(checkinData) {
+function saveCheckin(energy, mood, conditions = []) {
   const today = new Date().toDateString();
+  const now = new Date().toISOString();
   
-  // Save current check-in
   state.checkin = {
     date: today,
-    ...checkinData,
+    energy,
+    mood,
+    conditions,
     completed: true
   };
   
-  // Add to history (keep last 90 days)
+  // Add to history for burnout detection
   if (!Array.isArray(state.checkinHistory)) {
     state.checkinHistory = [];
   }
   
   state.checkinHistory.push({
-    date: today,
-    ...checkinData
+    date: now,
+    energy,
+    mood,
+    conditions
   });
   
-  // Trim history to 90 days
-  if (state.checkinHistory.length > 90) {
-    state.checkinHistory = state.checkinHistory.slice(-90);
+  // Keep only last 30 days of history
+  if (state.checkinHistory.length > 30) {
+    state.checkinHistory = state.checkinHistory.slice(-30);
   }
   
   persist();
