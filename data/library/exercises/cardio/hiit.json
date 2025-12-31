@@ -1,0 +1,292 @@
+{
+  "id": "hiit",
+  "name": "High-Intensity Interval Training (HIIT)",
+  "description": "High-intensity bodyweight cardio exercises. Maximum calorie burn, minimal time. NOT for low-energy days.",
+  
+  "exercises": [
+    {
+      "id": "burpee",
+      "name": "Burpee",
+      "description": "Full-body high-intensity movement. The ultimate conditioning exercise. Very challenging.",
+      "instructions": [
+        "Stand with feet shoulder-width apart",
+        "Squat down and place hands on floor",
+        "Jump or step feet back to plank position",
+        "Perform push-up (optional for easier version)",
+        "Jump or step feet forward to hands",
+        "Explode up into jump with arms overhead",
+        "Land softly and immediately go into next rep"
+      ],
+      "duration": 30,
+      "durationUnit": "seconds",
+      "reps": 10,
+      "repRange": [5, 15],
+      "caloriesPerMinute": 14,
+      "credits": 100,
+      "energyRequired": "high",
+      "muscleGroups": ["full_body", "cardio"],
+      "movementPattern": "locomotion",
+      "equipment": ["bodyweight"],
+      "contraindications": ["wrist_high", "shoulder_high", "knee_high", "back_high", "heart_condition", "energy_low"],
+      "modifications": {
+        "easier": "Step back instead of jump, skip push-up, step up instead of jump",
+        "harder": "Add tuck jump at top, add extra push-up, increase speed"
+      },
+      "conditions": {
+        "knee": "High impact - likely skip this",
+        "wrist": "Lots of wrist loading - may need to avoid",
+        "energy_low": "DO NOT do this on low-energy days"
+      },
+      "videoSearch": "burpee proper form modifications"
+    },
+    {
+      "id": "mountain-climbers",
+      "name": "Mountain Climbers",
+      "description": "High-intensity cardio and core combo. Builds endurance and core strength simultaneously.",
+      "instructions": [
+        "Start in push-up position, hands under shoulders",
+        "Keep core tight and body in straight line",
+        "Drive one knee towards chest",
+        "Quickly switch legs, driving other knee forward",
+        "Keep hips low - don't let them pike up",
+        "Move as fast as you can while maintaining form",
+        "Keep hands firmly planted throughout"
+      ],
+      "duration": 30,
+      "durationUnit": "seconds",
+      "reps": 30,
+      "repRange": [20, 40],
+      "repNote": "total (both legs)",
+      "caloriesPerMinute": 12,
+      "credits": 80,
+      "energyRequired": "high",
+      "muscleGroups": ["core", "cardio", "shoulders", "hip_flexors"],
+      "movementPattern": "locomotion",
+      "equipment": ["bodyweight"],
+      "contraindications": ["wrist_high", "shoulder_high", "hip_high", "back_high"],
+      "modifications": {
+        "easier": "Slow pace, step instead of jump, hands elevated on bench",
+        "harder": "Cross knee to opposite elbow, increase speed, add push-up between reps"
+      },
+      "conditions": {
+        "wrist": "Lots of wrist loading - consider elevated surface",
+        "shoulder": "Sustained plank position - may need to modify",
+        "hip": "High hip flexor demand - may aggravate hip issues"
+      },
+      "videoSearch": "mountain climbers proper form"
+    },
+    {
+      "id": "jumping-jacks",
+      "name": "Jumping Jacks",
+      "description": "Classic cardio warm-up. Elevates heart rate, warms whole body. Simple, effective.",
+      "instructions": [
+        "Stand tall with feet together, arms at sides",
+        "Jump feet out wide while raising arms overhead",
+        "Body forms star shape at top",
+        "Jump feet back together while lowering arms",
+        "Keep steady rhythm throughout",
+        "Land softly on balls of feet",
+        "Breathe rhythmically - don't hold breath"
+      ],
+      "duration": 30,
+      "durationUnit": "seconds",
+      "reps": 30,
+      "repRange": [20, 50],
+      "caloriesPerMinute": 10,
+      "credits": 50,
+      "energyRequired": "high",
+      "muscleGroups": ["full_body", "cardio"],
+      "movementPattern": "locomotion",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_high", "ankle_high", "back_high"],
+      "modifications": {
+        "easier": "Step side to side instead of jumping (step jacks)",
+        "harder": "Add squat between each jack, increase speed, add clap overhead"
+      },
+      "conditions": {
+        "knee": "Impact may aggravate - use step jacks",
+        "ankle": "Impact may be problematic",
+        "shoulder": "Overhead arm motion may bother shoulders"
+      },
+      "videoSearch": "jumping jacks proper form"
+    },
+    {
+      "id": "high-knees",
+      "name": "High Knees",
+      "description": "Cardio and hip flexor engagement. Great warm-up or cardio burst. Running in place with attitude.",
+      "instructions": [
+        "Stand tall with feet hip-width apart",
+        "Run in place, driving knees up towards chest",
+        "Aim to get knees to hip height or higher",
+        "Pump arms in running motion",
+        "Stay on balls of feet",
+        "Keep core engaged and posture tall",
+        "Maintain quick tempo - like sprinting in place"
+      ],
+      "duration": 30,
+      "durationUnit": "seconds",
+      "reps": 40,
+      "repRange": [30, 60],
+      "repNote": "total (both legs)",
+      "caloriesPerMinute": 11,
+      "credits": 70,
+      "energyRequired": "high",
+      "muscleGroups": ["cardio", "hip_flexors", "core"],
+      "movementPattern": "locomotion",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_high", "hip_high", "ankle_high"],
+      "modifications": {
+        "easier": "March instead of run, lower knee height, slower pace",
+        "harder": "Increase speed, knee to chest height, add arm drivers overhead"
+      },
+      "conditions": {
+        "knee": "High knee flexion - may aggravate",
+        "hip": "Intense hip flexor work - may be problematic",
+        "ankle": "Lots of impact on balls of feet"
+      },
+      "videoSearch": "high knees exercise proper form"
+    },
+    {
+      "id": "jump-rope",
+      "name": "Jump Rope",
+      "description": "High-intensity cardio. Great calorie burn. Improves coordination. Short duration, high impact.",
+      "instructions": [
+        "Hold rope handles at hip height",
+        "Use wrists to spin rope, not whole arms",
+        "Jump just high enough to clear rope (1 inch)",
+        "Land softly on balls of feet",
+        "Keep elbows close to body",
+        "Maintain steady rhythm - don't rush",
+        "Breathe rhythmically throughout"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "durationNote": "with rest breaks",
+      "caloriesPerMinute": 13,
+      "credits": 70,
+      "energyRequired": "high",
+      "muscleGroups": ["cardio", "calves", "coordination"],
+      "movementPattern": "jumping",
+      "equipment": ["jump_rope"],
+      "contraindications": ["knee_pain", "ankle_pain", "shin_splints"],
+      "modifications": {
+        "easier": "Single bounce (two feet), slower pace, more rest breaks",
+        "harder": "Double unders, single leg hops, increase duration, criss-cross"
+      },
+      "conditions": {
+        "knee": "High impact - may need to skip",
+        "ankle": "Lots of ankle stress - use cautiously",
+        "calf": "Can cause calf tightness or strain",
+        "shin_splints": "Likely avoid - high impact"
+      },
+      "videoSearch": "jump rope proper form beginners"
+    },
+    {
+      "id": "squat-jumps",
+      "name": "Squat Jumps",
+      "description": "Explosive lower body power. Builds leg strength and cardiovascular fitness. Very intense.",
+      "instructions": [
+        "Stand with feet shoulder-width apart",
+        "Squat down until thighs parallel to floor",
+        "Explode up into jump as high as possible",
+        "Swing arms overhead to help drive jump",
+        "Land softly with knees bent, absorbing impact",
+        "Immediately go into next squat",
+        "Focus on soft landings to protect knees"
+      ],
+      "duration": 30,
+      "durationUnit": "seconds",
+      "reps": 12,
+      "repRange": [8, 20],
+      "caloriesPerMinute": 12,
+      "credits": 90,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "glutes", "power", "cardio"],
+      "movementPattern": "squat",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_high", "ankle_high", "hip_high", "back_high"],
+      "modifications": {
+        "easier": "Bodyweight squats (no jump), smaller jump height, more rest between reps",
+        "harder": "Tuck knees to chest mid-air, increase height, continuous reps no pause"
+      },
+      "conditions": {
+        "knee": "Very high impact - likely avoid",
+        "ankle": "High landing forces - risky",
+        "hip": "Explosive hip extension - may aggravate"
+      },
+      "videoSearch": "squat jumps proper form"
+    },
+    {
+      "id": "butt-kicks",
+      "name": "Butt Kicks",
+      "description": "Running drill and cardio exercise. Hamstring engagement, dynamic warm-up or high-intensity work.",
+      "instructions": [
+        "Stand tall, feet hip-width apart",
+        "Run in place, kicking heels up towards butt",
+        "Try to touch butt with heels each rep",
+        "Keep thighs perpendicular to ground",
+        "Pump arms in running motion",
+        "Stay light on balls of feet",
+        "Maintain quick tempo"
+      ],
+      "duration": 30,
+      "durationUnit": "seconds",
+      "reps": 40,
+      "repRange": [30, 60],
+      "repNote": "total (both legs)",
+      "caloriesPerMinute": 10,
+      "credits": 60,
+      "energyRequired": "high",
+      "muscleGroups": ["hamstrings", "cardio", "calves"],
+      "movementPattern": "locomotion",
+      "equipment": ["bodyweight"],
+      "contraindications": ["hamstring_acute", "knee_high", "ankle_high"],
+      "modifications": {
+        "easier": "Slower pace, don't kick as high, march instead of run",
+        "harder": "Increase speed, kick higher, move forward while kicking"
+      },
+      "conditions": {
+        "hamstring": "Active hamstring flexion - may aggravate recent injury",
+        "knee": "Repeated knee flexion - use cautiously",
+        "calf": "High calf demand staying on toes"
+      },
+      "videoSearch": "butt kicks exercise proper form"
+    },
+    {
+      "id": "skater-jumps",
+      "name": "Skater Jumps",
+      "description": "Lateral plyometric movement. Builds power, balance, coordination. Skating motion.",
+      "instructions": [
+        "Stand on right leg, left leg behind right",
+        "Jump laterally to left, landing on left leg",
+        "Right leg swings behind left as you land",
+        "Swing arms across body to help momentum",
+        "Immediately jump back to right side",
+        "Focus on soft, controlled landings",
+        "Move side to side with skating motion"
+      ],
+      "duration": 30,
+      "durationUnit": "seconds",
+      "reps": 20,
+      "repRange": [12, 30],
+      "repNote": "total (both sides)",
+      "caloriesPerMinute": 11,
+      "credits": 85,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "glutes", "balance", "lateral_power"],
+      "movementPattern": "lateral",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_high", "ankle_high", "balance_severe"],
+      "modifications": {
+        "easier": "Step side to side (no jump), reduce distance, slower pace",
+        "harder": "Increase jump distance, faster pace, add light touch down with hand"
+      },
+      "conditions": {
+        "knee": "Lateral forces on knee - high risk",
+        "ankle": "Single-leg landing - high ankle stress",
+        "balance": "Requires good balance - modify if needed"
+      },
+      "videoSearch": "skater jumps proper form"
+    }
+  ]
+}
