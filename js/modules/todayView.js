@@ -34,31 +34,42 @@ let currentWorkout = null;
 async function render(energy = 5, mood = 5) {
   const today = new Date().toDateString();
   
-  // Check if we already have a workout saved for today
-  const savedWorkout = store.get('workout.todayWorkout');
+  // Import Active Coach modules
+  const { generateDailyWorkouts } = await import('./workoutGenerator.js');
+  
+  // Check if we already have workouts saved for today
+  const savedWorkouts = store.get('workout.todayWorkouts');
   const savedDate = store.get('workout.date');
   
-  if (savedWorkout && savedDate === today) {
-    // Use the saved workout
-    currentWorkout = savedWorkout;
+  let workouts;
+  
+  if (savedWorkouts && savedDate === today) {
+    // Use saved workouts
+    workouts = savedWorkouts;
   } else {
-    // Generate a new workout and save it
-    currentWorkout = await coach.buildDailyWorkout({
+    // Generate new workouts
+    const profile = store.get('profile') || {};
+    const checkinData = {
       energy,
       mood,
-      conditions: store.get('profile.conditions') || [],
-      equipment: store.get('profile.equipment') || [],
-      goals: store.get('profile.goals') || []
-    });
+      conditions: profile.conditions || [],
+      equipment: profile.equipment || [],
+      goals: profile.goals || [],
+      sleep: { hours: 7, quality: 4 }, // Default for now
+      hydration: 'ok',
+      menstrualDay: null // TODO: Add menstrual tracking
+    };
     
-    // Save to store so it persists all day
-    if (currentWorkout) {
-      store.set('workout.todayWorkout', currentWorkout);
+    workouts = await generateDailyWorkouts(checkinData);
+    
+    // Save workouts for the day
+    if (workouts) {
+      store.set('workout.todayWorkouts', workouts);
       store.set('workout.date', today);
     }
   }
   
-  if (!currentWorkout) {
+  if (!workouts || !workouts.options || workouts.options.length === 0) {
     return renderError();
   }
   
@@ -70,90 +81,13 @@ async function render(energy = 5, mood = 5) {
     month: 'long' 
   });
   
-  // Calculate totals using economy module for consistent credits
-  const totalDuration = currentWorkout.sections.reduce((sum, section) => {
-    return sum + section.exercises.reduce((s, e) => s + (e.duration || 30), 0);
-  }, 0);
+  // Check if burnout mode
+  if (workouts.burnoutMode) {
+    return renderBurnoutMode(workouts, dateStr);
+  }
   
-  const totalCredits = currentWorkout.sections.reduce((sum, section) => {
-    return sum + section.exercises.reduce((s, e) => s + economy.calculateCredits(e), 0);
-  }, 0);
-  
-  // Get completed exercises
-  const completedToday = store.get('workout.completedExercises') || [];
-  
-  return `
-    <div class="screen screen--active today" id="todayScreen">
-      <!-- Header -->
-      <div class="today__header">
-        <p class="today__date">${dateStr}</p>
-        <h1 class="today__title">${currentWorkout.name}</h1>
-        <div class="today__summary">
-          <span class="today__summary-item">
-            <span>⏱️</span>
-            <span>~${Math.round(totalDuration / 60)} min</span>
-          </span>
-          <span class="today__summary-item">
-            <span>⭐</span>
-            <span>${totalCredits} credits available</span>
-          </span>
-        </div>
-      </div>
-      
-      <!-- Coach Message -->
-      <div class="today__coach">
-        <div class="today__coach-header">
-          <span class="today__coach-avatar">🌱</span>
-          <span class="today__coach-name">Your Coach</span>
-        </div>
-        <p class="today__coach-message">${currentWorkout.coachMessage}</p>
-      </div>
-      
-      <!-- Workout Sections -->
-      ${currentWorkout.sections.map((section, sectionIndex) => `
-        <div class="today__section">
-          <div class="today__section-header">
-            <h2 class="today__section-title">${section.name}</h2>
-            <span class="today__section-count">${section.exercises.length} exercises</span>
-          </div>
-          
-          ${section.exercises.map((exercise, exerciseIndex) => {
-            const isCompleted = completedToday.includes(exercise.id);
-            const icon = PATTERN_ICONS[exercise.movementPattern] || '✨';
-            const duration = exercise.durationUnit === 'seconds' 
-              ? `${exercise.duration}s` 
-              : `${exercise.duration} min`;
-            
-            // Calculate credits using economy module
-            const credits = economy.calculateCredits(exercise);
-            
-            return `
-              <div class="exercise-item ${isCompleted ? 'exercise-item--completed' : ''}"
-                   data-exercise-id="${exercise.id}"
-                   onclick="window.alongside.showExerciseModal('${exercise.id}')">
-                <div class="exercise-item__icon">${icon}</div>
-                <div class="exercise-item__content">
-                  <div class="exercise-item__name">${exercise.name}</div>
-                  <div class="exercise-item__meta">
-                    <span>${duration}</span>
-                    <span class="exercise-item__credits">+${credits}</span>
-                  </div>
-                </div>
-                <div class="exercise-item__check">
-                  ${isCompleted ? '✓' : ''}
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `).join('')}
-      
-      <!-- Skip Option -->
-      <button class="today__skip" onclick="window.alongside.skipToday()">
-        Not feeling it today? That's okay →
-      </button>
-    </div>
-  `;
+  // Render normal 3-option view
+  return renderWorkoutOptions(workouts, dateStr);
 }
 
 /**
@@ -235,11 +169,142 @@ function skipToday() {
   }
 }
 
+/**
+ * Render burnout mode
+ */
+function renderBurnoutMode(workouts, dateStr) {
+  const workout = workouts.options[0]; // Recovery workout
+  
+  return `
+    <div class="screen screen--active today" id="todayScreen">
+      <!-- Burnout Banner -->
+      <div class="burnout-banner">
+        <div class="burnout-banner__icon">🛡️</div>
+        <div class="burnout-banner__content">
+          <h3 class="burnout-banner__title">Recovery Mode</h3>
+          <p class="burnout-banner__message">${workouts.message}</p>
+        </div>
+      </div>
+      
+      <!-- Header -->
+      <div class="today__header">
+        <p class="today__date">${dateStr}</p>
+        <h1 class="today__title">${workout.title}</h1>
+        <p style="color: var(--color-text-muted); margin-top: 8px;">${workout.subtitle}</p>
+      </div>
+      
+      <!-- Coach Message -->
+      <div class="today__coach">
+        <div class="today__coach-header">
+          <span class="today__coach-avatar">🌱</span>
+          <span class="today__coach-name">Your Coach</span>
+        </div>
+        <p class="today__coach-message">${workout.rationale?.primary || 'Rest is the priority today.'}</p>
+      </div>
+      
+      <!-- Recovery Exercises -->
+      <div class="today__section">
+        <div class="today__section-header">
+          <h2 class="today__section-title">Gentle Activities</h2>
+        </div>
+        ${workout.main.map(ex => `
+          <div class="exercise-item">
+            <div class="exercise-item__icon">💚</div>
+            <div class="exercise-item__content">
+              <div class="exercise-item__name">${ex.name}</div>
+              <div class="exercise-item__meta">
+                <span>${ex.durationNote || `${Math.round(ex.duration / 60)} min`}</span>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      
+      <button class="today__skip" onclick="window.alongside.skipToday()">
+        I'm feeling better →
+      </button>
+    </div>
+  `;
+}
+
+/**
+ * Render 3 workout options
+ */
+function renderWorkoutOptions(workouts, dateStr) {
+  return `
+    <div class="screen screen--active today" id="todayScreen">
+      <!-- Header -->
+      <div class="today__header">
+        <p class="today__date">${dateStr}</p>
+        <h1 class="today__title">Choose Your Focus</h1>
+        <p style="color: var(--color-text-muted); margin-top: 8px;">Pick one that feels right today</p>
+      </div>
+      
+      <!-- Workout Options -->
+      <div class="workout-options">
+        ${workouts.options.map((workout, index) => {
+          const icon = index === 0 ? '💪' : index === 1 ? '🧘' : '🏃';
+          return `
+            <div class="workout-card" onclick="window.alongside.selectWorkout(${index})">
+              <div class="workout-card__header">
+                <span class="workout-card__icon">${icon}</span>
+                <h3 class="workout-card__title">${workout.title}</h3>
+              </div>
+              <p class="workout-card__subtitle">${workout.subtitle || ''}</p>
+              
+              <div class="workout-card__stats">
+                <span>⏱️ ~${Math.round(workout.duration / 60)} min</span>
+                <span>⭐ ${workout.totalCredits} credits</span>
+              </div>
+              
+              <!-- Rationale Toggle -->
+              <button class="workout-card__rationale-btn" onclick="event.stopPropagation(); this.nextElementSibling.classList.toggle('hidden')">
+                Why this? ↓
+              </button>
+              <div class="workout-card__rationale hidden">
+                <p><strong>✅ ${workout.rationale?.primary || ''}</strong></p>
+                ${workout.rationale?.conditions?.length ? `
+                  ${workout.rationale.conditions.map(c => `<p>⚠️ ${c}</p>`).join('')}
+                ` : ''}
+                ${workout.rationale?.mood ? `<p>😊 ${workout.rationale.mood}</p>` : ''}
+                ${workout.rationale?.sleep ? `<p>💤 ${workout.rationale.sleep}</p>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      
+      <button class="today__skip" onclick="window.alongside.skipToday()">
+        Not feeling it today? That's okay →
+      </button>
+    </div>
+  `;
+}
+
+/**
+ * Select a workout option
+ */
+function selectWorkout(index) {
+  const workouts = store.get('workout.todayWorkouts');
+  if (!workouts || !workouts.options) return;
+  
+  const selected = workouts.options[index];
+  currentWorkout = selected;
+  
+  // Save selected workout
+  store.set('workout.selectedWorkout', selected);
+  
+  // TODO: Show workout details / execution view
+  alert(`Selected: ${selected.title}
+Next: Build workout execution UI to show exercises one by one`);
+}
+
 export const todayView = {
   render,
   init,
   refresh,
   skipToday,
+  selectWorkout,
   getCurrentWorkout: () => currentWorkout
 };
 
