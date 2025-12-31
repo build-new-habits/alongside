@@ -1,0 +1,281 @@
+{
+  "id": "low-impact",
+  "name": "Low-Impact Cardio",
+  "description": "Gentle cardio options for recovery, low-energy days, or joint-friendly exercise",
+  
+  "exercises": [
+    {
+      "id": "gentle-walk",
+      "name": "Gentle Walk",
+      "description": "Low-intensity walking. Perfect for low-energy days, recovery, or burnout. Movement without stress.",
+      "instructions": [
+        "No warm-up needed - just start walking",
+        "Walk at comfortable, relaxed pace",
+        "Aim for natural arm swing, relaxed shoulders",
+        "Focus on enjoying the movement, not speed or distance",
+        "Breathe naturally through nose if comfortable",
+        "Notice your surroundings - mindful walking",
+        "No pressure to go fast or far - just move"
+      ],
+      "duration": 1200,
+      "durationUnit": "seconds",
+      "durationNote": "20-30 minutes (adjust to energy level)",
+      "caloriesPerMinute": 4,
+      "credits": 40,
+      "energyRequired": "low",
+      "muscleGroups": ["cardio", "legs", "recovery"],
+      "movementPattern": "locomotion",
+      "equipment": ["walking_shoes"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "Shorter duration (10-15 min), slower pace, flat terrain",
+        "harder": "Longer duration (40+ min), add light hills, increase pace slightly"
+      },
+      "conditions": {
+        "burnout": "Perfect for burnout recovery - gentle, no pressure",
+        "energy_low": "Ideal choice when energy is 1-3/10",
+        "mood_low": "Fresh air and movement can help mood without demanding effort"
+      },
+      "videoSearch": "walking for exercise benefits"
+    },
+    {
+      "id": "brisk-walk",
+      "name": "Brisk Walk",
+      "description": "Purposeful walking at faster pace. Good cardio without running impact. Accessible to everyone.",
+      "instructions": [
+        "Start with 5 minutes easy walking to warm up",
+        "Increase pace to brisk walk - breathing harder but can still talk",
+        "Pump arms actively, bent at 90 degrees",
+        "Take purposeful strides, push off with toes",
+        "Keep shoulders back, core engaged",
+        "Maintain steady pace throughout",
+        "Cool down with 5 minutes easy walking"
+      ],
+      "duration": 1800,
+      "durationUnit": "seconds",
+      "durationNote": "30 minutes total",
+      "caloriesPerMinute": 5,
+      "credits": 60,
+      "energyRequired": "medium",
+      "muscleGroups": ["cardio", "legs", "glutes"],
+      "movementPattern": "locomotion",
+      "equipment": ["walking_shoes"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "Reduce pace, shorter duration (20 min), flat terrain",
+        "harder": "Add hills, increase pace to power walk, extend duration (45+ min)"
+      },
+      "conditions": {
+        "knee": "Excellent low-impact option, ensure good shoes",
+        "ankle": "Much easier on ankles than running",
+        "hip": "Gentle on hips, good for mobility"
+      },
+      "videoSearch": "brisk walking technique form"
+    },
+    {
+      "id": "easy-cycling",
+      "name": "Easy Cycling",
+      "description": "Low-impact cardio. Easier on joints than running. Good cross-training for runners.",
+      "instructions": [
+        "Start in easy gear, low resistance",
+        "Spin at comfortable cadence (70-90 rpm)",
+        "Keep effort conversational - should be able to talk",
+        "Maintain steady rhythm throughout",
+        "Keep shoulders relaxed, core engaged",
+        "Adjust seat height so leg nearly straight at bottom of pedal stroke",
+        "Cool down last 5 minutes at very easy pace"
+      ],
+      "duration": 1800,
+      "durationUnit": "seconds",
+      "durationNote": "30 minutes",
+      "caloriesPerMinute": 7,
+      "credits": 70,
+      "energyRequired": "medium",
+      "muscleGroups": ["cardio", "legs", "glutes"],
+      "movementPattern": "cycling",
+      "equipment": ["bicycle", "stationary_bike"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "Lower resistance, shorter duration (15-20 min), flat route",
+        "harder": "Add hills, increase resistance, longer duration (45-60 min)"
+      },
+      "conditions": {
+        "knee": "Generally knee-friendly, adjust seat height properly",
+        "hip": "Low-impact option, check seat position",
+        "lower_back": "Upright bike better than racing position for back issues"
+      },
+      "videoSearch": "cycling for beginners proper form"
+    },
+    {
+      "id": "swimming",
+      "name": "Easy Swimming",
+      "description": "Zero-impact full-body cardio. Perfect for injury recovery. Works everything gently.",
+      "instructions": [
+        "Start with easy freestyle (front crawl)",
+        "Swim at comfortable, sustainable pace",
+        "Focus on smooth strokes, not speed",
+        "Breathe regularly every 2-3 strokes",
+        "Rest at end of pool if needed - no pressure",
+        "Mix strokes if desired (backstroke, breaststroke)",
+        "Stop when form breaks down - quality over quantity"
+      ],
+      "duration": 1200,
+      "durationUnit": "seconds",
+      "durationNote": "20-30 minutes",
+      "caloriesPerMinute": 8,
+      "credits": 75,
+      "energyRequired": "medium",
+      "muscleGroups": ["full_body", "cardio", "shoulders", "core"],
+      "movementPattern": "swimming",
+      "equipment": ["pool", "swimsuit", "goggles"],
+      "contraindications": ["shoulder_severe"],
+      "modifications": {
+        "easier": "Use kickboard (legs only), water walking, shorter duration",
+        "harder": "Increase pace, add intervals, use pull buoy (arms only)"
+      },
+      "conditions": {
+        "knee": "Perfect - zero impact",
+        "ankle": "Excellent option, gentle on joints",
+        "hip": "Water supports body weight, great for hip issues",
+        "shoulder": "May need to avoid if severe shoulder pain, try breaststroke"
+      },
+      "videoSearch": "swimming for exercise freestyle technique"
+    },
+    {
+      "id": "elliptical",
+      "name": "Elliptical Trainer",
+      "description": "Very low-impact cardio machine. Good for bad knees. Can adjust intensity easily.",
+      "instructions": [
+        "Step onto machine, hold handles lightly",
+        "Start at low resistance, comfortable pace",
+        "Use natural stride length - don't overreach",
+        "Keep weight in heels, not toes",
+        "Engage core, stand tall - don't lean on handles",
+        "Push and pull with arms for full-body engagement",
+        "Increase resistance gradually if desired"
+      ],
+      "duration": 1200,
+      "durationUnit": "seconds",
+      "durationNote": "20-30 minutes",
+      "caloriesPerMinute": 7,
+      "credits": 60,
+      "energyRequired": "medium",
+      "muscleGroups": ["cardio", "legs", "full_body"],
+      "movementPattern": "elliptical",
+      "equipment": ["elliptical_machine"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "Lower resistance, shorter duration (15 min), slower pace",
+        "harder": "Higher resistance, longer duration (40 min), add intervals"
+      },
+      "conditions": {
+        "knee": "Excellent choice - very low impact",
+        "hip": "Good option, smooth motion",
+        "ankle": "Easier on ankles than running"
+      },
+      "videoSearch": "elliptical machine proper form"
+    },
+    {
+      "id": "rowing-machine",
+      "name": "Rowing Machine",
+      "description": "Low-impact full-body cardio. Builds strength and endurance. Surprisingly challenging.",
+      "instructions": [
+        "Sit on rower, secure feet in straps",
+        "Start position: shins vertical, arms straight, shoulders forward",
+        "Drive with legs first, then lean back, then pull arms",
+        "Return in reverse: arms extend, lean forward, bend knees",
+        "Keep core engaged throughout",
+        "Smooth rhythm: legs-body-arms, arms-body-legs",
+        "Aim for stroke rate of 20-24 strokes per minute"
+      ],
+      "duration": 1200,
+      "durationUnit": "seconds",
+      "durationNote": "20 minutes",
+      "caloriesPerMinute": 10,
+      "credits": 80,
+      "energyRequired": "medium",
+      "muscleGroups": ["full_body", "back", "legs", "cardio"],
+      "movementPattern": "rowing",
+      "equipment": ["rowing_machine"],
+      "contraindications": ["back_high"],
+      "modifications": {
+        "easier": "Lower resistance (damper 3-5), shorter duration (10-15 min), slower pace",
+        "harder": "Higher resistance (damper 6-8), intervals, longer duration (30-40 min)"
+      },
+      "conditions": {
+        "lower_back": "Can be problematic - focus on leg drive, keep back neutral",
+        "knee": "Generally okay, but high knee flexion at catch",
+        "shoulder": "Pulling motion may aggravate shoulder issues"
+      },
+      "videoSearch": "rowing machine proper technique beginners"
+    },
+    {
+      "id": "step-machine",
+      "name": "Stair Climber / Step Machine",
+      "description": "Continuous stair climbing. Builds leg strength and cardio. Can be intense.",
+      "instructions": [
+        "Step onto machine, hold rails lightly for balance",
+        "Start at low speed setting",
+        "Take full steps - don't stay on toes",
+        "Keep torso upright, don't lean heavily on rails",
+        "Engage glutes with each step",
+        "Maintain steady rhythm",
+        "Increase speed gradually if comfortable"
+      ],
+      "duration": 900,
+      "durationUnit": "seconds",
+      "durationNote": "15-20 minutes",
+      "caloriesPerMinute": 9,
+      "credits": 75,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "glutes", "cardio"],
+      "movementPattern": "stepping",
+      "equipment": ["step_machine"],
+      "contraindications": ["knee_high"],
+      "modifications": {
+        "easier": "Slower speed, shorter duration (10 min), hold rails more",
+        "harder": "Faster speed, longer duration (30 min), minimal rail holding"
+      },
+      "conditions": {
+        "knee": "Can be hard on knees - use cautiously",
+        "hip": "Good for hip strength but can be intense"
+      },
+      "videoSearch": "stair climber machine proper form"
+    },
+    {
+      "id": "water-walking",
+      "name": "Water Walking / Aqua Jogging",
+      "description": "Walking or jogging in water. Zero impact. Great for injury recovery or hot days.",
+      "instructions": [
+        "Enter pool at chest-deep water",
+        "Walk forward using exaggerated arm swings",
+        "Lift knees high with each step - water provides resistance",
+        "Can progress to jogging motion in place or moving",
+        "Water supports your weight - zero joint stress",
+        "Use pool noodle or floatation belt for deeper water",
+        "Cool and refreshing - perfect for hot days"
+      ],
+      "duration": 1200,
+      "durationUnit": "seconds",
+      "durationNote": "20-30 minutes",
+      "caloriesPerMinute": 6,
+      "credits": 65,
+      "energyRequired": "low",
+      "muscleGroups": ["legs", "cardio", "core"],
+      "movementPattern": "locomotion",
+      "equipment": ["pool", "floatation_belt"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "Shallower water, slower pace, more walking breaks",
+        "harder": "Deeper water (more resistance), faster pace, high knees, add webbed gloves"
+      },
+      "conditions": {
+        "knee": "Perfect - zero impact, great for rehab",
+        "ankle": "Excellent for ankle recovery",
+        "hip": "Water supports weight, ideal for hip issues",
+        "lower_back": "Supportive, no impact"
+      },
+      "videoSearch": "water walking aqua jogging benefits"
+    }
+  ]
+}
