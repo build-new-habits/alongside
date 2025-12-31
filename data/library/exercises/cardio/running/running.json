@@ -1,0 +1,209 @@
+{
+  "id": "running",
+  "name": "Running Workouts",
+  "description": "Running-based cardio workouts for all levels - from beginner to advanced",
+  
+  "exercises": [
+    {
+      "id": "easy-run",
+      "name": "Easy Run",
+      "description": "Conversational pace running. Foundation of running fitness. Should be able to talk throughout.",
+      "instructions": [
+        "Start with 5-10 minute walking warm-up",
+        "Begin running at comfortable, conversational pace",
+        "You should be able to speak in full sentences",
+        "Focus on steady breathing rhythm",
+        "Keep shoulders relaxed, arms at 90 degrees",
+        "Land mid-foot, quick cadence (170-180 steps/min)",
+        "Cool down with 5 minutes easy walking"
+      ],
+      "duration": 1800,
+      "durationUnit": "seconds",
+      "durationNote": "30 minutes (adjust to fitness level)",
+      "caloriesPerMinute": 10,
+      "credits": 90,
+      "energyRequired": "medium",
+      "muscleGroups": ["cardio", "legs", "endurance"],
+      "movementPattern": "locomotion",
+      "equipment": ["running_shoes"],
+      "contraindications": ["knee_high", "ankle_high", "back_high"],
+      "modifications": {
+        "easier": "Run-walk intervals (2 min run, 1 min walk), reduce duration",
+        "harder": "Increase duration, add light hills, progressive pace (finish faster)"
+      },
+      "conditions": {
+        "knee": "Soft surfaces if possible, reduce duration, check form",
+        "ankle": "Ensure proper shoes, soft surfaces, consider walk-run",
+        "lower_back": "Focus on core engagement, avoid excessive lean"
+      },
+      "videoSearch": "easy run proper form conversational pace"
+    },
+    {
+      "id": "run-walk-intervals",
+      "name": "Run-Walk Intervals",
+      "description": "Alternating running and walking. Perfect for beginners or recovery. Low-pressure cardio.",
+      "instructions": [
+        "Warm up with 5 minutes walking",
+        "Run for designated time at comfortable pace",
+        "Walk for recovery interval - catch your breath",
+        "Repeat the run-walk cycle",
+        "Common ratios: 1 min run / 2 min walk (beginner)",
+        "As fitness improves: 2 min run / 1 min walk",
+        "Cool down with 5 minutes easy walking"
+      ],
+      "duration": 1200,
+      "durationUnit": "seconds",
+      "durationNote": "20 minutes total (adjust intervals)",
+      "caloriesPerMinute": 8,
+      "credits": 70,
+      "energyRequired": "low",
+      "muscleGroups": ["cardio", "legs"],
+      "movementPattern": "locomotion",
+      "equipment": ["running_shoes"],
+      "contraindications": ["knee_high", "ankle_high"],
+      "modifications": {
+        "easier": "1 min run / 3 min walk, reduce total duration",
+        "harder": "3 min run / 1 min walk, progress to continuous running"
+      },
+      "conditions": {
+        "knee": "Start conservatively, ensure good shoes, flat surfaces",
+        "ankle": "Walk intervals longer, progress slowly"
+      },
+      "videoSearch": "run walk intervals beginner"
+    },
+    {
+      "id": "tempo-run",
+      "name": "Tempo Run",
+      "description": "Comfortably hard pace. Builds speed endurance. Not for low-energy days.",
+      "instructions": [
+        "Warm up with 10-15 minutes easy running",
+        "Increase to tempo pace - comfortably hard effort",
+        "Breathing is labored but controlled",
+        "Can speak short phrases but not full sentences",
+        "Maintain steady pace throughout tempo portion",
+        "Focus on rhythm and relaxation despite effort",
+        "Cool down with 10 minutes easy running"
+      ],
+      "duration": 2400,
+      "durationUnit": "seconds",
+      "durationNote": "20-30 min tempo (with warm-up/cool-down)",
+      "caloriesPerMinute": 12,
+      "credits": 110,
+      "energyRequired": "high",
+      "muscleGroups": ["cardio", "legs", "lactate_threshold"],
+      "movementPattern": "locomotion",
+      "equipment": ["running_shoes"],
+      "contraindications": ["knee_pain", "ankle_pain", "back_pain", "energy_low"],
+      "modifications": {
+        "easier": "Shorter tempo duration (10-15 min), slightly slower pace",
+        "harder": "Longer tempo (30-40 min), slightly faster pace, add hills"
+      },
+      "conditions": {
+        "knee": "Ensure fully warmed up, may need to skip if painful",
+        "ankle": "May need to skip, higher risk at tempo effort"
+      },
+      "videoSearch": "tempo run explained how to"
+    },
+    {
+      "id": "hill-repeats",
+      "name": "Hill Repeats",
+      "description": "Hard uphill efforts. Builds leg power and running strength. High intensity.",
+      "instructions": [
+        "Warm up with 15 minutes easy running on flat",
+        "Find a hill with moderate grade (4-6%)",
+        "Run hard uphill for designated time",
+        "Focus on strong arm drive, quick turnover",
+        "Jog or walk back down for recovery",
+        "Recover fully before next repeat",
+        "Cool down with 10 minutes easy running"
+      ],
+      "duration": 1800,
+      "durationUnit": "seconds",
+      "durationNote": "6-8 x 90 sec hills (with warm-up/cool-down)",
+      "caloriesPerMinute": 14,
+      "credits": 120,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "power", "cardio", "glutes"],
+      "movementPattern": "locomotion",
+      "equipment": ["running_shoes"],
+      "contraindications": ["knee_pain", "ankle_pain", "achilles_issues", "energy_low"],
+      "modifications": {
+        "easier": "4 x 60 sec hills, gentler grade, walk down recovery",
+        "harder": "10 x 2 min hills, steeper grade, shorter recovery"
+      },
+      "conditions": {
+        "knee": "Extra warm-up essential, may need to skip",
+        "ankle": "High risk, likely skip this workout",
+        "calf": "High calf load, stretch well, may avoid"
+      },
+      "videoSearch": "hill repeats running workout"
+    },
+    {
+      "id": "long-slow-run",
+      "name": "Long Slow Run",
+      "description": "Weekly long run. Builds aerobic base. Easy conversational pace. Time on feet matters more than speed.",
+      "instructions": [
+        "No warm-up needed - start very easy",
+        "First 10-15 minutes should feel ridiculously easy",
+        "Settle into comfortable, conversational pace",
+        "Focus on steady effort, not speed",
+        "Stay relaxed - shoulders down, arms loose",
+        "Take walking breaks if needed - no shame",
+        "Last 10 minutes can pick up slightly if feeling good"
+      ],
+      "duration": 3600,
+      "durationUnit": "seconds",
+      "durationNote": "60-90 minutes (build gradually)",
+      "caloriesPerMinute": 10,
+      "credits": 130,
+      "energyRequired": "medium",
+      "muscleGroups": ["cardio", "endurance", "legs", "mental_toughness"],
+      "movementPattern": "locomotion",
+      "equipment": ["running_shoes"],
+      "contraindications": ["knee_high", "ankle_high", "energy_very_low"],
+      "modifications": {
+        "easier": "30-45 minutes, walk breaks encouraged, very slow pace",
+        "harder": "90-120 minutes, progressive pace last 20 min"
+      },
+      "conditions": {
+        "knee": "Soft surfaces ideal, listen to body, cut short if pain",
+        "ankle": "Ensure good shoes, may need walk breaks",
+        "energy_low": "Consider skipping or significantly shortening"
+      },
+      "videoSearch": "long slow run tips beginner"
+    },
+    {
+      "id": "fartlek-run",
+      "name": "Fartlek Run",
+      "description": "Swedish for 'speed play'. Mix fast and easy running based on feel. Unstructured intervals.",
+      "instructions": [
+        "Warm up with 10 minutes easy running",
+        "Pick landmarks ahead (tree, lamp post, corner)",
+        "Surge to that landmark at faster pace",
+        "Recover with easy running until feeling ready",
+        "Repeat surges based on how you feel",
+        "Surges can be 30 seconds to 3 minutes",
+        "Cool down with 10 minutes easy running"
+      ],
+      "duration": 2400,
+      "durationUnit": "seconds",
+      "durationNote": "30-40 minutes total (flexible structure)",
+      "caloriesPerMinute": 11,
+      "credits": 95,
+      "energyRequired": "medium",
+      "muscleGroups": ["cardio", "legs", "speed"],
+      "movementPattern": "locomotion",
+      "equipment": ["running_shoes"],
+      "contraindications": ["knee_pain", "ankle_pain"],
+      "modifications": {
+        "easier": "Shorter surges (30-60 sec), more recovery, fewer surges",
+        "harder": "Longer surges (2-3 min), less recovery, more surges"
+      },
+      "conditions": {
+        "knee": "Listen to body, stop surges if painful",
+        "ankle": "Be cautious with fast efforts"
+      },
+      "videoSearch": "fartlek running workout explained"
+    }
+  ]
+}
