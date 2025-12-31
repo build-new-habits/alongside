@@ -1,0 +1,378 @@
+{
+  "id": "stretching",
+  "name": "Static Stretching",
+  "description": "Post-workout static stretches. Improve flexibility, reduce soreness, aid recovery. Hold gently, don't force.",
+  
+  "exercises": [
+    {
+      "id": "standing-hamstring-stretch",
+      "name": "Standing Hamstring Stretch",
+      "description": "Simple hamstring stretch. Hold gently, don't force. Good post-workout or evening routine.",
+      "instructions": [
+        "Stand with feet hip-width apart",
+        "Extend one leg forward, heel on ground, toes up",
+        "Keep front leg straight (soft knee okay)",
+        "Hinge at hips, lean forward slightly",
+        "Feel stretch in back of front leg (hamstring)",
+        "Keep back straight, don't round spine",
+        "Hold 30-45 seconds, switch legs"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "durationNote": "30 sec per leg",
+      "caloriesPerMinute": 2,
+      "credits": 20,
+      "energyRequired": "low",
+      "muscleGroups": ["hamstrings", "flexibility"],
+      "movementPattern": "stretch",
+      "equipment": ["bodyweight"],
+      "contraindications": ["hamstring_acute"],
+      "modifications": {
+        "easier": "Elevate front foot on low step, reduce range",
+        "harder": "Reach towards toes, increase forward lean, hold longer"
+      },
+      "conditions": {
+        "hamstring": "Gentle stretch okay for chronic tightness, avoid if acute injury",
+        "lower_back": "Keep back straight - don't round to reach toes"
+      },
+      "videoSearch": "standing hamstring stretch proper form"
+    },
+    {
+      "id": "standing-quad-stretch",
+      "name": "Standing Quad Stretch",
+      "description": "Classic quad stretch. Balance exercise too. Hold wall if needed. Gentle hold, no pulling.",
+      "instructions": [
+        "Stand tall, feet hip-width apart",
+        "Bend one knee, grab ankle or foot behind you",
+        "Pull heel gently towards butt",
+        "Keep knees close together (don't let knee flare out)",
+        "Stand tall, don't lean forward",
+        "Feel stretch in front of thigh (quad)",
+        "Hold wall for balance if needed"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "durationNote": "30 sec per leg",
+      "caloriesPerMinute": 2,
+      "credits": 20,
+      "energyRequired": "low",
+      "muscleGroups": ["quads", "hip_flexors", "flexibility"],
+      "movementPattern": "stretch",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_acute"],
+      "modifications": {
+        "easier": "Hold wall for balance, reduce pull on ankle",
+        "harder": "Freestanding balance, gentle push hips forward"
+      },
+      "conditions": {
+        "knee": "Gentle okay for tightness, stop if sharp pain",
+        "hip": "Also stretches hip flexors - beneficial for hip tightness"
+      },
+      "videoSearch": "standing quad stretch proper form"
+    },
+    {
+      "id": "pigeon-pose",
+      "name": "Pigeon Pose",
+      "description": "Deep hip stretch from yoga. Intense but beneficial. Good for runners and desk workers. Be patient with this one.",
+      "instructions": [
+        "Start on hands and knees",
+        "Bring right knee forward between hands",
+        "Extend left leg back, top of foot on floor",
+        "Square hips forward - this is key",
+        "Walk hands forward, lower chest towards floor",
+        "Feel deep stretch in right hip/glute",
+        "Hold 30-60 seconds, switch sides"
+      ],
+      "duration": 120,
+      "durationUnit": "seconds",
+      "durationNote": "60 sec per side",
+      "caloriesPerMinute": 2,
+      "credits": 35,
+      "energyRequired": "low",
+      "muscleGroups": ["hips", "glutes", "flexibility"],
+      "movementPattern": "hip_stretch",
+      "equipment": ["bodyweight", "yoga_mat"],
+      "contraindications": ["hip_acute", "knee_high"],
+      "modifications": {
+        "easier": "Place cushion under hip, stay more upright, reduce front shin angle",
+        "harder": "Bring front shin more parallel to mat edge, lower chest to floor"
+      },
+      "conditions": {
+        "hip": "Deep hip stretch - may be intense, build up gradually",
+        "knee": "Front knee can be uncomfortable - adjust angle",
+        "lower_back": "Can provide lower back relief through hip opening"
+      },
+      "videoSearch": "pigeon pose yoga hip stretch"
+    },
+    {
+      "id": "childs-pose",
+      "name": "Child's Pose",
+      "description": "Resting yoga pose. Gentle, calming. Perfect for burnout days or recovery. No pressure, just rest.",
+      "instructions": [
+        "Start on hands and knees",
+        "Sit hips back towards heels",
+        "Extend arms forward on floor",
+        "Rest forehead on mat",
+        "Let whole body relax and sink",
+        "Breathe deeply and slowly",
+        "Stay as long as feels good - no rush"
+      ],
+      "duration": 180,
+      "durationUnit": "seconds",
+      "durationNote": "1-3 minutes",
+      "caloriesPerMinute": 1,
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["back", "hips", "recovery"],
+      "movementPattern": "resting_stretch",
+      "equipment": ["bodyweight", "yoga_mat"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "Place cushion under forehead, knees wider apart, sit on heels less",
+        "harder": "Walk hands further forward, sink hips deeper"
+      },
+      "conditions": {
+        "lower_back": "Gentle back stretch - very soothing",
+        "knee": "If uncomfortable kneeling, place blanket under knees",
+        "burnout": "Perfect recovery pose - restorative and calming"
+      },
+      "videoSearch": "childs pose yoga proper form"
+    },
+    {
+      "id": "seated-forward-fold",
+      "name": "Seated Forward Fold",
+      "description": "Full posterior chain stretch. Hamstrings, calves, back. Don't force - let gravity do the work.",
+      "instructions": [
+        "Sit on floor, legs extended straight in front",
+        "Flex feet, toes pointing up",
+        "Sit tall, lengthen spine",
+        "Hinge at hips, reach hands towards feet",
+        "Don't round back - keep spine long",
+        "Go only as far as comfortable - feel hamstring stretch",
+        "Relax and breathe, let gravity deepen stretch"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "durationNote": "30-60 sec",
+      "caloriesPerMinute": 2,
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["hamstrings", "calves", "back", "flexibility"],
+      "movementPattern": "stretch",
+      "equipment": ["bodyweight", "yoga_mat"],
+      "contraindications": ["hamstring_acute", "back_severe"],
+      "modifications": {
+        "easier": "Bend knees slightly, use strap around feet, sit on cushion",
+        "harder": "Keep legs completely straight, bring chest to thighs, hold longer"
+      },
+      "conditions": {
+        "hamstring": "Great for chronic tightness, avoid if acute injury",
+        "lower_back": "Keep back neutral - don't force round spine to reach toes"
+      },
+      "videoSearch": "seated forward fold yoga stretch"
+    },
+    {
+      "id": "figure-four-stretch",
+      "name": "Figure-Four Hip Stretch",
+      "description": "Deep glute and hip stretch. Lying version of pigeon pose. Easier on knees than pigeon.",
+      "instructions": [
+        "Lie on back, knees bent, feet flat on floor",
+        "Cross right ankle over left knee",
+        "Thread right hand through legs, both hands behind left thigh",
+        "Gently pull left thigh towards chest",
+        "Feel stretch in right hip/glute",
+        "Keep head and shoulders on floor",
+        "Hold 30-45 seconds, switch sides"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "durationNote": "45 sec per side",
+      "caloriesPerMinute": 2,
+      "credits": 30,
+      "energyRequired": "low",
+      "muscleGroups": ["hips", "glutes", "flexibility"],
+      "movementPattern": "hip_stretch",
+      "equipment": ["bodyweight", "yoga_mat"],
+      "contraindications": ["hip_acute"],
+      "modifications": {
+        "easier": "Keep bottom foot on floor, reduce pull intensity",
+        "harder": "Pull knee closer to chest, flex crossed foot"
+      },
+      "conditions": {
+        "hip": "Excellent hip stretch, especially for runners",
+        "knee": "Easier on knees than pigeon pose",
+        "lower_back": "Can provide lower back relief"
+      },
+      "videoSearch": "figure four hip stretch lying"
+    },
+    {
+      "id": "cat-cow-stretch",
+      "name": "Cat-Cow Stretch",
+      "description": "Gentle spinal mobility. Perfect morning movement or low-energy days. Feels good, very safe.",
+      "instructions": [
+        "Start on hands and knees, wrists under shoulders",
+        "Knees under hips, spine neutral",
+        "Inhale: drop belly, lift chest and tailbone (Cow)",
+        "Look up gently, open chest",
+        "Exhale: round spine, tuck tailbone, drop head (Cat)",
+        "Pull belly to spine, push floor away",
+        "Flow smoothly between positions, 10 cycles"
+      ],
+      "duration": 120,
+      "durationUnit": "seconds",
+      "durationNote": "10-15 cycles",
+      "caloriesPerMinute": 2,
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["spine", "back", "core", "mobility"],
+      "movementPattern": "spinal_flexion",
+      "equipment": ["bodyweight", "yoga_mat"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "Smaller range of motion, slower pace",
+        "harder": "Larger range of motion, hold each position longer"
+      },
+      "conditions": {
+        "lower_back": "Excellent for back stiffness and mobility",
+        "morning_stiffness": "Perfect first movement of the day",
+        "wrist": "Can rest on forearms if wrists uncomfortable"
+      },
+      "videoSearch": "cat cow stretch yoga"
+    },
+    {
+      "id": "chest-doorway-stretch",
+      "name": "Chest Doorway Stretch",
+      "description": "Opens chest and shoulders. Essential for desk workers. Counteracts forward shoulder posture.",
+      "instructions": [
+        "Stand in doorway, feet staggered for stability",
+        "Place forearms on doorframe, elbows at 90 degrees",
+        "Elbows at shoulder height",
+        "Gently lean forward through doorway",
+        "Feel stretch across chest and front of shoulders",
+        "Keep core engaged, don't arch lower back",
+        "Hold 30-45 seconds"
+      ],
+      "duration": 45,
+      "durationUnit": "seconds",
+      "caloriesPerMinute": 2,
+      "credits": 20,
+      "energyRequired": "low",
+      "muscleGroups": ["chest", "shoulders", "flexibility"],
+      "movementPattern": "stretch",
+      "equipment": ["doorway"],
+      "contraindications": ["shoulder_acute"],
+      "modifications": {
+        "easier": "Reduce forward lean, lower elbow position",
+        "harder": "Increase forward lean, hold longer, move elbows higher"
+      },
+      "conditions": {
+        "shoulder": "Good for shoulder mobility, stop if painful",
+        "desk_posture": "Essential stretch for forward shoulder posture",
+        "upper_back": "Helps counteract rounded upper back"
+      },
+      "videoSearch": "doorway chest stretch"
+    },
+    {
+      "id": "hip-flexor-stretch",
+      "name": "Kneeling Hip Flexor Stretch",
+      "description": "Stretches front of hip. Essential for desk workers and runners. Counteracts sitting posture.",
+      "instructions": [
+        "Start in kneeling lunge position",
+        "Back knee on floor (use pad if needed)",
+        "Front foot flat on floor, knee at 90 degrees",
+        "Keep torso upright, engage core",
+        "Gently push hips forward",
+        "Feel stretch in front of back hip",
+        "Hold 30-45 seconds, switch sides"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "durationNote": "45 sec per side",
+      "caloriesPerMinute": 2,
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["hip_flexors", "flexibility"],
+      "movementPattern": "stretch",
+      "equipment": ["bodyweight", "yoga_mat"],
+      "contraindications": ["hip_acute", "knee_high"],
+      "modifications": {
+        "easier": "Reduce forward push, place cushion under back knee",
+        "harder": "Reach overhead with same-side arm, increase forward push"
+      },
+      "conditions": {
+        "hip": "Excellent for hip flexor tightness from sitting",
+        "lower_back": "Tight hip flexors can cause lower back pain - this helps",
+        "knee": "Pad under back knee if uncomfortable"
+      },
+      "videoSearch": "kneeling hip flexor stretch"
+    },
+    {
+      "id": "spinal-twist",
+      "name": "Seated Spinal Twist",
+      "description": "Gentle spinal rotation. Improves thoracic mobility. Feels refreshing for back.",
+      "instructions": [
+        "Sit on floor, legs extended",
+        "Bend right knee, place right foot outside left knee",
+        "Sit tall, lengthen spine",
+        "Twist torso to right, left elbow outside right knee",
+        "Right hand behind you for support",
+        "Look over right shoulder",
+        "Hold 30 seconds, switch sides"
+      ],
+      "duration": 60,
+      "durationUnit": "seconds",
+      "durationNote": "30 sec per side",
+      "caloriesPerMinute": 2,
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["spine", "back", "obliques", "flexibility"],
+      "movementPattern": "rotation",
+      "equipment": ["bodyweight", "yoga_mat"],
+      "contraindications": ["back_severe"],
+      "modifications": {
+        "easier": "Keep bottom leg straight, reduce twist intensity, sit on cushion",
+        "harder": "Deepen twist, bring elbow further around knee"
+      },
+      "conditions": {
+        "lower_back": "Gentle rotation can feel good, avoid if causes pain",
+        "thoracic_spine": "Excellent for upper/mid back mobility",
+        "desk_posture": "Counteracts forward sitting posture"
+      },
+      "videoSearch": "seated spinal twist yoga"
+    },
+    {
+      "id": "calf-stretch-wall",
+      "name": "Calf Stretch Against Wall",
+      "description": "Stretches calf muscles. Essential for runners. Prevents achilles issues.",
+      "instructions": [
+        "Face wall, hands on wall at shoulder height",
+        "Step one foot back, keep it straight",
+        "Front knee bent, back leg straight",
+        "Keep back heel on ground - this is key",
+        "Lean into wall until feel stretch in back calf",
+        "Keep back foot pointing forward, not out",
+        "Hold 30-45 seconds, switch legs"
+      ],
+      "duration": 90,
+      "durationUnit": "seconds",
+      "durationNote": "45 sec per leg",
+      "caloriesPerMinute": 2,
+      "credits": 20,
+      "energyRequired": "low",
+      "muscleGroups": ["calves", "achilles", "flexibility"],
+      "movementPattern": "stretch",
+      "equipment": ["wall"],
+      "contraindications": ["achilles_acute", "calf_acute"],
+      "modifications": {
+        "easier": "Reduce back leg distance, bend back knee slightly",
+        "harder": "Step back leg further, hold longer, add gentle pulses"
+      },
+      "conditions": {
+        "calf": "Essential stretch for calf tightness, avoid if acute strain",
+        "achilles": "Helps prevent achilles issues, especially for runners",
+        "ankle": "Improves ankle mobility"
+      },
+      "videoSearch": "calf stretch wall running"
+    }
+  ]
+}
