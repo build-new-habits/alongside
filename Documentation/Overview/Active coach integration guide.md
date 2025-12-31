@@ -1,6 +1,6 @@
 # Active Coach Integration Guide
 
-**Last Updated:** December 31, 2024  
+**Last Updated:** December 31, 2025  
 **Status:** Ready for integration into app.js
 
 ---
