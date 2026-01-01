@@ -12,7 +12,7 @@
 // - Menstrual cycle awareness (if tracking)
 // ===================================================================
 
-import { store } from './store.js';
+import { store } from '../store.js';
 
 // ===================================================================
 // 1. EXERCISE FILTERING: EQUIPMENT
