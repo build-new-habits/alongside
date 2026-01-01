@@ -50,14 +50,6 @@ async function init() {
     return;
   }
   
-  // Preload exercise sources
-  await Promise.all([
-    library.loadExerciseSource('bodyweight'),
-    library.loadExerciseSource('yoga-poses'),
-    library.loadExerciseSource('breathing'),
-    library.loadExerciseSource('mobility-drills')
-  ]);
-  
   console.log('✅ Library loaded');
   
   // Check if onboarding is needed
@@ -517,6 +509,7 @@ window.alongside = {
   toggleTimeUnit: cards.toggleTimeUnit,
   celebrate,
   skipToday: todayView.skipToday,
+  selectWorkout: todayView.selectWorkout,
   resetApp,
   // Savings functions
   logSaving: savingsTracker.logSaving,
@@ -544,8 +537,6 @@ window.alongside = {
   equipmentCategoryBack: onboarding.equipmentCategoryBack,
   toggleEquipmentItem: onboarding.toggleEquipmentItem,
   equipmentOtherDone: onboarding.equipmentOtherDone,
-  // Today view
-  selectWorkout: todayView.selectWorkout,
   // Modules
   store,
   library,
