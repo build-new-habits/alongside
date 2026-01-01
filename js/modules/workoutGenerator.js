@@ -19,21 +19,6 @@ import {
 } from './activeCoachFilters.js';
 ```
 
-**Change:**
-- `'./store.js'` → `'../store.js'` (go up one directory)
-
----
-
-## 🔍 Your Folder Structure
-```
-js/
-  app.js
-  store.js              ← store is HERE
-  modules/
-    workoutGenerator.js ← This file needs to go UP (..) to find store
-    activeCoachFilters.js
-    todayView.js
-
 // ===================================================================
 // 1. GENERATE DAILY WORKOUTS (MAIN FUNCTION)
 // ===================================================================
