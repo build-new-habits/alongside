@@ -17,7 +17,6 @@ import {
   getExercisesByPattern,
   sortByEnergyMatch 
 } from './activeCoachFilters.js';
-```
 
 // ===================================================================
 // 1. GENERATE DAILY WORKOUTS (MAIN FUNCTION)
