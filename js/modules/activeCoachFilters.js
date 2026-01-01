@@ -313,27 +313,27 @@ export async function getFilteredExercises(checkinData) {
 async function loadAllExercises() {
   const exercises = [];
   
-  // Define all exercise files to load
+  // Define all exercise files to load (matching user's folder structure)
   const files = [
     // Strength
-    '/data/library/exercises/strength/bodyweight.json',
-    '/data/library/exercises/strength/dumbbell.json',
-    '/data/library/exercises/strength/kettlebell.json',
-    '/data/library/exercises/strength/core.json',
-    '/data/library/exercises/strength/resistance-band.json',
+    'data/library/exercises/strength/bodyweight.json',
+    'data/library/exercises/strength/dumbbell.json',
+    'data/library/exercises/strength/kettlebell.json',
+    'data/library/exercises/strength/core.json',
+    'data/library/exercises/strength/resistance-band.json',
     
     // Cardio
-    '/data/library/exercises/cardio/running.json',
-    '/data/library/exercises/cardio/low-impact.json',
-    '/data/library/exercises/cardio/hiit.json',
+    'data/library/exercises/cardio/running.json',
+    'data/library/exercises/cardio/low-impact.json',
+    'data/library/exercises/cardio/hiit.json',
     
     // Mobility
-    '/data/library/exercises/mobility/stretching.json',
-    '/data/library/exercises/mobility/mobility-drills.json',
+    'data/library/exercises/mobility/stretching.json',
+    'data/library/exercises/mobility/mobility-drills.json',
     
     // Recovery
-    '/data/library/exercises/recovery/breathing.json',
-    '/data/library/exercises/recovery/yoga-poses.json'
+    'data/library/exercises/recovery/breathing.json',
+    'data/library/exercises/recovery/yoga-poses.json'
   ];
   
   // Load each file and extract exercises
