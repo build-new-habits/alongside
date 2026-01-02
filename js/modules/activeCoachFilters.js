@@ -316,43 +316,48 @@ async function loadAllExercises() {
   // Define all exercise files to load (matching user's folder structure)
   const files = [
     // Strength
-    'data/library/exercises/strength/bodyweight.json',
-    'data/library/exercises/strength/dumbbell.json',
-    'data/library/exercises/strength/kettlebell.json',
-    'data/library/exercises/strength/core.json',
-    'data/library/exercises/strength/resistance-band.json',
+    { path: 'data/library/exercises/strength/bodyweight.json', category: 'strength' },
+    { path: 'data/library/exercises/strength/dumbbell.json', category: 'strength' },
+    { path: 'data/library/exercises/strength/kettlebell.json', category: 'strength' },
+    { path: 'data/library/exercises/strength/core.json', category: 'strength' },
+    { path: 'data/library/exercises/strength/resistance-band.json', category: 'strength' },
     
     // Cardio
-    'data/library/exercises/cardio/running.json',
-    'data/library/exercises/cardio/low-impact.json',
-    'data/library/exercises/cardio/hiit.json',
+    { path: 'data/library/exercises/cardio/running.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/low-impact.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/hiit.json', category: 'cardio' },
     
     // Mobility
-    'data/library/exercises/mobility/stretching.json',
-    'data/library/exercises/mobility/mobility-drills.json',
+    { path: 'data/library/exercises/mobility/stretching.json', category: 'mobility' },
+    { path: 'data/library/exercises/mobility/mobility-drills.json', category: 'mobility' },
     
     // Recovery
-    'data/library/exercises/recovery/breathing.json',
-    'data/library/exercises/recovery/yoga-poses.json'
+    { path: 'data/library/exercises/recovery/breathing.json', category: 'recovery' },
+    { path: 'data/library/exercises/recovery/yoga-poses.json', category: 'recovery' }
   ];
   
   // Load each file and extract exercises
-  for (const file of files) {
+  for (const fileInfo of files) {
     try {
-      const response = await fetch(file);
+      const response = await fetch(fileInfo.path);
       if (!response.ok) {
-        console.warn(`⚠️ Could not load ${file}`);
+        console.warn(`⚠️ Could not load ${fileInfo.path}`);
         continue;
       }
       
       const data = await response.json();
       
-      // Extract exercises array from file
+      // Extract exercises array from file and add category
       if (data.exercises && Array.isArray(data.exercises)) {
-        exercises.push(...data.exercises);
+        // Add category to each exercise
+        const exercisesWithCategory = data.exercises.map(ex => ({
+          ...ex,
+          category: fileInfo.category
+        }));
+        exercises.push(...exercisesWithCategory);
       }
     } catch (error) {
-      console.warn(`⚠️ Error loading ${file}:`, error);
+      console.warn(`⚠️ Error loading ${fileInfo.path}:`, error);
     }
   }
   
