@@ -953,6 +953,9 @@ export const todayView = {
   completeSet,
   completeCurrentExercise,
   quitWorkout,
+  showDifficultyFeedback,
+  recordDifficulty,
+  saveFeedback,
   getCurrentWorkout: () => currentWorkout
 };
 
