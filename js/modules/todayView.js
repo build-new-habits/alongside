@@ -470,6 +470,9 @@ function renderExerciseExecution(state) {
   const total = state.exercises.length;
   const isLast = state.currentIndex === state.exercises.length - 1;
   
+  // Scroll to top when rendering new exercise
+  window.scrollTo(0, 0);
+  
   // Determine exercise type and display
   const isTimeBase = exercise.duration && !exercise.sets;
   const isRepsBase = exercise.sets && exercise.reps;
@@ -534,14 +537,15 @@ function renderExerciseExecution(state) {
             ` : ''}
           </div>
           
-          <!-- Set Tracker -->
+          <!-- Set Tracker - ENTIRE BOX IS CLICKABLE -->
           <div class="execution-sets" id="setTracker">
             ${Array.from({ length: exercise.sets }, (_, i) => `
-              <div class="execution-set" data-set="${i + 1}">
+              <div class="execution-set" data-set="${i + 1}" 
+                   onclick="window.alongside.completeSet(${i + 1})">
                 <span class="execution-set__number">Set ${i + 1}</span>
-                <button class="execution-set__check" onclick="window.alongside.completeSet(${i + 1})">
+                <div class="execution-set__check">
                   ✓
-                </button>
+                </div>
               </div>
             `).join('')}
           </div>
@@ -552,12 +556,12 @@ function renderExerciseExecution(state) {
       <div class="execution-actions">
         ${isTimeBase ? `
           <button class="execution-button execution-button--secondary" id="skipTimerBtn" 
-                  onclick="window.alongside.completeCurrentExercise()" style="display: none;">
+                  onclick="window.alongside.showDifficultyFeedback()" style="display: none;">
             Done →
           </button>
         ` : `
           <button class="execution-button execution-button--primary" 
-                  onclick="window.alongside.completeCurrentExercise()">
+                  onclick="window.alongside.showDifficultyFeedback()">
             ${isLast ? 'Finish Workout 🎉' : 'Next Exercise →'}
           </button>
         `}
@@ -632,15 +636,187 @@ function completeSet(setNumber) {
 }
 
 /**
- * Complete current exercise and move to next
+ * Show difficulty feedback after exercise
  */
-function completeCurrentExercise() {
+function showDifficultyFeedback() {
   // Clear timer if running
   if (timerInterval) {
     clearInterval(timerInterval);
     timerInterval = null;
   }
   
+  const state = store.get('workout.executionState');
+  const exercise = state.exercises[state.currentIndex];
+  
+  // Scroll to top
+  window.scrollTo(0, 0);
+  
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  main.innerHTML = `
+    <div class="screen screen--active feedback-screen">
+      <div class="feedback-content">
+        <h2 class="feedback-title">How was that?</h2>
+        <p class="feedback-subtitle">${exercise.name}</p>
+        
+        <div class="feedback-options">
+          <button class="feedback-option" onclick="window.alongside.recordDifficulty('too-easy')">
+            <span class="feedback-option__emoji">😌</span>
+            <span class="feedback-option__text">Too Easy</span>
+          </button>
+          
+          <button class="feedback-option" onclick="window.alongside.recordDifficulty('just-right')">
+            <span class="feedback-option__emoji">👍</span>
+            <span class="feedback-option__text">Just Right</span>
+          </button>
+          
+          <button class="feedback-option" onclick="window.alongside.recordDifficulty('challenging')">
+            <span class="feedback-option__emoji">💪</span>
+            <span class="feedback-option__text">Challenging</span>
+          </button>
+          
+          <button class="feedback-option" onclick="window.alongside.recordDifficulty('too-hard')">
+            <span class="feedback-option__emoji">😓</span>
+            <span class="feedback-option__text">Too Hard</span>
+          </button>
+        </div>
+        
+        <button class="feedback-skip" onclick="window.alongside.recordDifficulty('skip')">
+          Skip →
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Record difficulty and handle follow-up
+ */
+function recordDifficulty(difficulty) {
+  const state = store.get('workout.executionState');
+  const exercise = state.exercises[state.currentIndex];
+  
+  if (difficulty === 'too-hard') {
+    // Show follow-up: WHY was it hard?
+    showHardnessReason(exercise, difficulty);
+  } else if (difficulty === 'too-easy') {
+    // Show follow-up: Want to increase difficulty?
+    showEasyFollowup(exercise, difficulty);
+  } else {
+    // Just record and move on
+    saveFeedback(exercise, difficulty, null);
+    completeCurrentExercise();
+  }
+}
+
+/**
+ * Ask WHY exercise was too hard
+ */
+function showHardnessReason(exercise, difficulty) {
+  window.scrollTo(0, 0);
+  
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  main.innerHTML = `
+    <div class="screen screen--active feedback-screen">
+      <div class="feedback-content">
+        <h2 class="feedback-title">What made it hard?</h2>
+        <p class="feedback-subtitle">This helps us adapt future workouts</p>
+        
+        <div class="feedback-reasons">
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'injury')">
+            🤕 Injury or pain
+          </button>
+          
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'discomfort')">
+            😣 Physical discomfort
+          </button>
+          
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'today')">
+            📅 Just today (tired/stressed)
+          </button>
+          
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'hate-it')">
+            🚫 I don't like this exercise
+          </button>
+          
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'too-advanced')">
+            📈 Too advanced for me right now
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Ask if user wants to increase difficulty
+ */
+function showEasyFollowup(exercise, difficulty) {
+  window.scrollTo(0, 0);
+  
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  main.innerHTML = `
+    <div class="screen screen--active feedback-screen">
+      <div class="feedback-content">
+        <h2 class="feedback-title">Want more challenge?</h2>
+        <p class="feedback-subtitle">We can adjust this for next time</p>
+        
+        <div class="feedback-reasons">
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'increase-reps')">
+            ➕ More reps
+          </button>
+          
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'increase-weight')">
+            ⬆️ More weight/resistance
+          </button>
+          
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'increase-sets')">
+            📊 More sets
+          </button>
+          
+          <button class="feedback-reason" onclick="window.alongside.saveFeedback('${exercise.exerciseId || exercise.name}', '${difficulty}', 'keep-same')">
+            👍 Keep it the same
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Save feedback and move to next exercise
+ */
+function saveFeedback(exerciseId, difficulty, reason) {
+  // Get or create feedback history
+  let feedbackHistory = store.get('exerciseFeedback') || [];
+  
+  feedbackHistory.push({
+    exerciseId,
+    difficulty,
+    reason,
+    date: new Date().toISOString()
+  });
+  
+  // Keep last 100 feedback entries
+  if (feedbackHistory.length > 100) {
+    feedbackHistory = feedbackHistory.slice(-100);
+  }
+  
+  store.set('exerciseFeedback', feedbackHistory);
+  
+  // Now complete the exercise
+  completeCurrentExercise();
+}
+
+/**
+ * Complete current exercise and move to next
+ */
+function completeCurrentExercise() {
   const state = store.get('workout.executionState');
   const exercise = state.exercises[state.currentIndex];
   
@@ -657,6 +833,9 @@ function completeCurrentExercise() {
   
   // Save state
   store.set('workout.executionState', state);
+  
+  // Reset set tracker
+  completedSets.clear();
   
   // Check if workout complete
   if (state.currentIndex >= state.exercises.length) {
