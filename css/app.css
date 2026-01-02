@@ -867,3 +867,51 @@ a:focus-visible {
 .workout-card__rationale p:last-child {
   margin-bottom: 0;
 }
+
+/* ============================================
+   Workout Detail View - Stage 1
+   ============================================ */
+
+/* Back Button */
+.back-button {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: var(--text-base);
+  font-weight: 600;
+  padding: var(--space-2) 0;
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+/* Workout Rationale Detail */
+.workout-rationale-detail {
+  line-height: 1.6;
+}
+
+.workout-rationale-detail p {
+  margin: var(--space-2) 0;
+}
+
+.workout-rationale-detail p:first-child {
+  margin-top: 0;
+}
+
+.workout-rationale-detail p:last-child {
+  margin-bottom: 0;
+}
+
+/* Exercise item enhancements for workout detail */
+.exercise-item__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
