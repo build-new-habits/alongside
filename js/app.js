@@ -510,6 +510,7 @@ window.alongside = {
   celebrate,
   skipToday: todayView.skipToday,
   selectWorkout: todayView.selectWorkout,
+  startWorkout: todayView.startWorkout
   resetApp,
   // Savings functions
   logSaving: savingsTracker.logSaving,
