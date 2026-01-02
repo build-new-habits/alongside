@@ -294,9 +294,149 @@ function selectWorkout(index) {
   // Save selected workout
   store.set('workout.selectedWorkout', selected);
   
-  // TODO: Show workout details / execution view
-  alert(`Selected: ${selected.title}
-Next: Build workout execution UI to show exercises one by one`);
+  // Render workout detail view
+  const main = document.getElementById('main');
+  if (main) {
+    main.innerHTML = renderWorkoutDetail(selected);
+  }
+}
+
+/**
+ * Render workout detail view with exercise list
+ */
+function renderWorkoutDetail(workout) {
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long' 
+  });
+  
+  return `
+    <div class="screen screen--active today" id="workoutDetailScreen">
+      <!-- Header -->
+      <div class="today__header">
+        <button class="back-button" onclick="window.alongside.showToday()">
+          ← Back
+        </button>
+        <p class="today__date">${dateStr}</p>
+        <h1 class="today__title">${workout.title}</h1>
+        <p style="color: var(--color-text-muted); margin-top: 8px;">${workout.subtitle || ''}</p>
+        
+        <div class="today__summary">
+          <span class="today__summary-item">
+            <span>⏱️</span>
+            <span>~${Math.round(workout.duration / 60)} min</span>
+          </span>
+          <span class="today__summary-item">
+            <span>⭐</span>
+            <span>${workout.totalCredits} credits</span>
+          </span>
+        </div>
+      </div>
+      
+      <!-- Rationale -->
+      <div class="today__coach">
+        <div class="today__coach-header">
+          <span class="today__coach-avatar">🌱</span>
+          <span class="today__coach-name">Why this workout?</span>
+        </div>
+        <div class="workout-rationale-detail">
+          ${workout.rationale?.primary ? `<p><strong>✅ ${workout.rationale.primary}</strong></p>` : ''}
+          ${workout.rationale?.conditions?.length ? 
+            workout.rationale.conditions.map(c => `<p>⚠️ ${c}</p>`).join('') : ''}
+          ${workout.rationale?.mood ? `<p>😊 ${workout.rationale.mood}</p>` : ''}
+          ${workout.rationale?.sleep ? `<p>💤 ${workout.rationale.sleep}</p>` : ''}
+          ${workout.rationale?.menstrualCycle ? `<p>🌸 ${workout.rationale.menstrualCycle}</p>` : ''}
+        </div>
+      </div>
+      
+      <!-- Warmup Section -->
+      ${workout.warmup && workout.warmup.length > 0 ? `
+        <div class="today__section">
+          <div class="today__section-header">
+            <h2 class="today__section-title">Warmup</h2>
+            <span class="today__section-count">${workout.warmup.length} exercises</span>
+          </div>
+          ${workout.warmup.map(ex => `
+            <div class="exercise-item">
+              <div class="exercise-item__icon">🔥</div>
+              <div class="exercise-item__content">
+                <div class="exercise-item__name">${ex.name}</div>
+                <div class="exercise-item__meta">
+                  <span>${ex.durationNote || `${ex.duration}s`}</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      
+      <!-- Main Exercises -->
+      <div class="today__section">
+        <div class="today__section-header">
+          <h2 class="today__section-title">Main Workout</h2>
+          <span class="today__section-count">${workout.main.length} exercises</span>
+        </div>
+        ${workout.main.map(ex => {
+          const setInfo = ex.sets ? `${ex.sets} sets × ` : '';
+          const repInfo = ex.reps ? `${ex.reps} reps` : '';
+          const durationInfo = ex.duration ? `${Math.round(ex.duration / 60)} min` : ex.durationNote || '';
+          const restInfo = ex.rest ? ` (${ex.rest}s rest)` : '';
+          
+          return `
+            <div class="exercise-item">
+              <div class="exercise-item__icon">💪</div>
+              <div class="exercise-item__content">
+                <div class="exercise-item__name">${ex.name}</div>
+                <div class="exercise-item__meta">
+                  <span>${setInfo}${repInfo}${durationInfo}${restInfo}</span>
+                  ${ex.credits ? `<span class="exercise-item__credits">⭐ ${ex.credits}</span>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      
+      <!-- Cooldown Section -->
+      ${workout.cooldown && workout.cooldown.length > 0 ? `
+        <div class="today__section">
+          <div class="today__section-header">
+            <h2 class="today__section-title">Cooldown</h2>
+            <span class="today__section-count">${workout.cooldown.length} exercises</span>
+          </div>
+          ${workout.cooldown.map(ex => `
+            <div class="exercise-item">
+              <div class="exercise-item__icon">💚</div>
+              <div class="exercise-item__content">
+                <div class="exercise-item__name">${ex.name}</div>
+                <div class="exercise-item__meta">
+                  <span>${ex.durationNote || `${ex.duration}s`}</span>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      
+      <!-- Start Button -->
+      <button class="checkin__submit" onclick="window.alongside.startWorkout()">
+        Start Workout →
+      </button>
+      
+      <button class="today__skip" onclick="window.alongside.showToday()">
+        Choose different workout
+      </button>
+    </div>
+  `;
+}
+
+/**
+ * Start the workout (placeholder for Stage 2)
+ */
+function startWorkout() {
+  alert('Stage 2: Exercise-by-exercise execution coming next!');
 }
 
 export const todayView = {
@@ -305,6 +445,7 @@ export const todayView = {
   refresh,
   skipToday,
   selectWorkout,
+  startWorkout,
   getCurrentWorkout: () => currentWorkout
 };
 
