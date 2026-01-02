@@ -516,6 +516,9 @@ window.alongside = {
   completeSet: todayView.completeSet,
   completeCurrentExercise: todayView.completeCurrentExercise,
   quitWorkout: todayView.quitWorkout,
+  showDifficultyFeedback: todayView.showDifficultyFeedback,
+  recordDifficulty: todayView.recordDifficulty,
+  saveFeedback: todayView.saveFeedback,
   resetApp,
   // Savings functions
   logSaving: savingsTracker.logSaving,
