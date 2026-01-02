@@ -433,10 +433,334 @@ function renderWorkoutDetail(workout) {
 }
 
 /**
- * Start the workout (placeholder for Stage 2)
+ * Start the workout - initialize execution
  */
 function startWorkout() {
-  alert('Stage 2: Exercise-by-exercise execution coming next!');
+  const selected = store.get('workout.selectedWorkout');
+  if (!selected) return;
+  
+  // Build flat exercise list: warmup + main + cooldown
+  const allExercises = [
+    ...selected.warmup.map(ex => ({ ...ex, section: 'warmup' })),
+    ...selected.main.map(ex => ({ ...ex, section: 'main' })),
+    ...selected.cooldown.map(ex => ({ ...ex, section: 'cooldown' }))
+  ];
+  
+  // Initialize workout state
+  const workoutState = {
+    exercises: allExercises,
+    currentIndex: 0,
+    completedExercises: [],
+    totalCredits: 0,
+    startTime: Date.now()
+  };
+  
+  store.set('workout.executionState', workoutState);
+  
+  // Render first exercise
+  renderExerciseExecution(workoutState);
+}
+
+/**
+ * Render exercise execution view
+ */
+function renderExerciseExecution(state) {
+  const exercise = state.exercises[state.currentIndex];
+  const progress = state.currentIndex + 1;
+  const total = state.exercises.length;
+  const isLast = state.currentIndex === state.exercises.length - 1;
+  
+  // Determine exercise type and display
+  const isTimeBase = exercise.duration && !exercise.sets;
+  const isRepsBase = exercise.sets && exercise.reps;
+  
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  main.innerHTML = `
+    <div class="screen screen--active workout-execution" id="workoutExecutionScreen">
+      <!-- Progress Header -->
+      <div class="execution-header">
+        <div class="execution-progress">
+          <span class="execution-progress__text">${progress} of ${total}</span>
+          <div class="execution-progress__bar">
+            <div class="execution-progress__fill" style="width: ${(progress / total) * 100}%"></div>
+          </div>
+        </div>
+        <button class="execution-quit" onclick="window.alongside.quitWorkout()">
+          ✕ Quit
+        </button>
+      </div>
+      
+      <!-- Section Badge -->
+      <div class="execution-section-badge ${exercise.section}">
+        ${exercise.section === 'warmup' ? '🔥 Warmup' : 
+          exercise.section === 'main' ? '💪 Main Workout' : 
+          '💚 Cooldown'}
+      </div>
+      
+      <!-- Exercise Info -->
+      <div class="execution-exercise">
+        <h1 class="execution-exercise__name">${exercise.name}</h1>
+        
+        ${isTimeBase ? `
+          <!-- Time-based exercise -->
+          <div class="execution-timer" id="timer">
+            <div class="execution-timer__display" id="timerDisplay">
+              ${formatTime(exercise.duration)}
+            </div>
+            <div class="execution-timer__label">seconds</div>
+          </div>
+          <button class="execution-button execution-button--start" id="startTimerBtn" 
+                  onclick="window.alongside.startTimer(${exercise.duration})">
+            ▶ Start
+          </button>
+        ` : ''}
+        
+        ${isRepsBase ? `
+          <!-- Reps-based exercise -->
+          <div class="execution-reps">
+            <div class="execution-reps__target">
+              <span class="execution-reps__sets">${exercise.sets}</span>
+              <span class="execution-reps__label">sets</span>
+              <span class="execution-reps__times">×</span>
+              <span class="execution-reps__count">${exercise.reps}</span>
+              <span class="execution-reps__label">reps</span>
+            </div>
+            ${exercise.rest ? `
+              <div class="execution-reps__rest">
+                Rest: ${exercise.rest}s between sets
+              </div>
+            ` : ''}
+          </div>
+          
+          <!-- Set Tracker -->
+          <div class="execution-sets" id="setTracker">
+            ${Array.from({ length: exercise.sets }, (_, i) => `
+              <div class="execution-set" data-set="${i + 1}">
+                <span class="execution-set__number">Set ${i + 1}</span>
+                <button class="execution-set__check" onclick="window.alongside.completeSet(${i + 1})">
+                  ✓
+                </button>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+      
+      <!-- Action Buttons -->
+      <div class="execution-actions">
+        ${isTimeBase ? `
+          <button class="execution-button execution-button--secondary" id="skipTimerBtn" 
+                  onclick="window.alongside.completeCurrentExercise()" style="display: none;">
+            Done →
+          </button>
+        ` : `
+          <button class="execution-button execution-button--primary" 
+                  onclick="window.alongside.completeCurrentExercise()">
+            ${isLast ? 'Finish Workout 🎉' : 'Next Exercise →'}
+          </button>
+        `}
+      </div>
+      
+      <!-- Credits Preview -->
+      ${exercise.credits ? `
+        <div class="execution-credits">
+          <span>⭐ ${exercise.credits} credits</span>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+/**
+ * Start timer for time-based exercise
+ */
+let timerInterval = null;
+function startTimer(duration) {
+  let remaining = duration;
+  const display = document.getElementById('timerDisplay');
+  const startBtn = document.getElementById('startTimerBtn');
+  const skipBtn = document.getElementById('skipTimerBtn');
+  
+  if (!display || !startBtn) return;
+  
+  // Hide start button, show skip button
+  startBtn.style.display = 'none';
+  if (skipBtn) skipBtn.style.display = 'block';
+  
+  // Clear any existing timer
+  if (timerInterval) clearInterval(timerInterval);
+  
+  // Start countdown
+  timerInterval = setInterval(() => {
+    remaining--;
+    display.textContent = formatTime(remaining);
+    
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      // Auto-complete when timer finishes
+      setTimeout(() => {
+        completeCurrentExercise();
+      }, 500);
+    }
+  }, 1000);
+}
+
+/**
+ * Complete a set (for reps-based exercises)
+ */
+let completedSets = new Set();
+function completeSet(setNumber) {
+  completedSets.add(setNumber);
+  
+  // Update UI
+  const setEl = document.querySelector(`[data-set="${setNumber}"]`);
+  if (setEl) {
+    setEl.classList.add('execution-set--completed');
+  }
+  
+  // Check if all sets completed
+  const state = store.get('workout.executionState');
+  const exercise = state.exercises[state.currentIndex];
+  
+  if (completedSets.size >= exercise.sets) {
+    // All sets done - enable next button (already visible)
+    completedSets.clear();
+  }
+}
+
+/**
+ * Complete current exercise and move to next
+ */
+function completeCurrentExercise() {
+  // Clear timer if running
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  
+  const state = store.get('workout.executionState');
+  const exercise = state.exercises[state.currentIndex];
+  
+  // Add to completed
+  state.completedExercises.push(exercise);
+  
+  // Add credits
+  if (exercise.credits) {
+    state.totalCredits += exercise.credits;
+  }
+  
+  // Move to next exercise
+  state.currentIndex++;
+  
+  // Save state
+  store.set('workout.executionState', state);
+  
+  // Check if workout complete
+  if (state.currentIndex >= state.exercises.length) {
+    completeWorkout(state);
+  } else {
+    // Render next exercise
+    renderExerciseExecution(state);
+  }
+}
+
+/**
+ * Quit workout early
+ */
+function quitWorkout() {
+  if (confirm('Are you sure you want to quit? Your progress will be saved.')) {
+    // Clear timer
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    
+    const state = store.get('workout.executionState');
+    
+    // Save partial credits
+    if (state.totalCredits > 0) {
+      store.set('credits.balance', store.get('credits.balance') + state.totalCredits);
+    }
+    
+    // Clear execution state
+    store.set('workout.executionState', null);
+    
+    // Return to today view
+    const checkinData = store.get('checkin');
+    showToday(checkinData.energy, checkinData.mood);
+  }
+}
+
+/**
+ * Complete entire workout
+ */
+function completeWorkout(state) {
+  const endTime = Date.now();
+  const duration = Math.round((endTime - state.startTime) / 1000 / 60); // minutes
+  
+  // Award credits
+  store.set('credits.balance', store.get('credits.balance') + state.totalCredits);
+  
+  // Update stats
+  const stats = store.get('stats') || {};
+  stats.totalWorkouts = (stats.totalWorkouts || 0) + 1;
+  stats.totalCredits = (stats.totalCredits || 0) + state.totalCredits;
+  store.set('stats', stats);
+  
+  // Clear execution state
+  store.set('workout.executionState', null);
+  
+  // Show celebration
+  const main = document.getElementById('main');
+  if (main) {
+    main.innerHTML = `
+      <div class="screen screen--active workout-complete">
+        <div class="workout-complete__content">
+          <div class="workout-complete__emoji">🎉</div>
+          <h1 class="workout-complete__title">Workout Complete!</h1>
+          <div class="workout-complete__stats">
+            <div class="workout-complete__stat">
+              <div class="workout-complete__stat-value">${state.completedExercises.length}</div>
+              <div class="workout-complete__stat-label">exercises</div>
+            </div>
+            <div class="workout-complete__stat">
+              <div class="workout-complete__stat-value">${duration}</div>
+              <div class="workout-complete__stat-label">minutes</div>
+            </div>
+            <div class="workout-complete__stat">
+              <div class="workout-complete__stat-value">⭐ ${state.totalCredits}</div>
+              <div class="workout-complete__stat-label">credits earned</div>
+            </div>
+          </div>
+          <button class="checkin__submit" onclick="window.alongside.showToday()">
+            Done →
+          </button>
+        </div>
+      </div>
+    `;
+  }
+  
+  // Trigger confetti celebration
+  if (window.alongside.celebrate) {
+    setTimeout(() => {
+      window.alongside.celebrate(state.totalCredits);
+    }, 500);
+  }
+}
+
+/**
+ * Helper: Format seconds to display time
+ */
+function formatTime(seconds) {
+  if (seconds >= 60) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+  return seconds.toString();
 }
 
 export const todayView = {
@@ -446,6 +770,10 @@ export const todayView = {
   skipToday,
   selectWorkout,
   startWorkout,
+  startTimer,
+  completeSet,
+  completeCurrentExercise,
+  quitWorkout,
   getCurrentWorkout: () => currentWorkout
 };
 
