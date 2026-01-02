@@ -508,9 +508,14 @@ window.alongside = {
   updateCreditsPreview: cards.updateCreditsPreview,
   toggleTimeUnit: cards.toggleTimeUnit,
   celebrate,
+  // Today view
   skipToday: todayView.skipToday,
   selectWorkout: todayView.selectWorkout,
   startWorkout: todayView.startWorkout,
+  startTimer: todayView.startTimer,
+  completeSet: todayView.completeSet,
+  completeCurrentExercise: todayView.completeCurrentExercise,
+  quitWorkout: todayView.quitWorkout,
   resetApp,
   // Savings functions
   logSaving: savingsTracker.logSaving,
