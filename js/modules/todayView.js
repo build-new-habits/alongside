@@ -1,452 +1,246 @@
-/* ============================================
-   Workout Execution - Stage 2
-   ============================================ */
+/**
+ * Alongside - Today's Workout View
+ * Shows the coach-generated workout for today
+ */
 
-/* Execution Screen */
-.workout-execution {
-  padding: var(--space-4);
-  max-width: var(--max-width);
-  margin: 0 auto;
+import { store } from '../store.js';
+import { coach } from './coach.js';
+import { library } from './libraryLoader.js';
+import { checkin } from './checkin.js';
+import { economy } from './economy.js';
+
+// Pattern icons
+const PATTERN_ICONS = {
+  hinge: '🏋️',
+  squat: '🏋️',
+  lunge: '🏋️',
+  push: '💪',
+  pull: '💪',
+  carry: '🎒',
+  rotation: '🔄',
+  mobility: '🧘',
+  stability: '⚖️',
+  locomotion: '🏃',
+  recovery: '💚',
+  breathing: '🌬️'
+};
+
+// Store the current workout
+let currentWorkout = null;
+
+/**
+ * Render the today screen
+ */
+async function render(energy = 5, mood = 5) {
+  const today = new Date().toDateString();
+  
+  // Check if we already have a workout saved for today
+  const savedWorkout = store.get('workout.todayWorkout');
+  const savedDate = store.get('workout.date');
+  
+  if (savedWorkout && savedDate === today) {
+    // Use the saved workout
+    currentWorkout = savedWorkout;
+  } else {
+    // Generate a new workout and save it
+    currentWorkout = await coach.buildDailyWorkout({
+      energy,
+      mood,
+      conditions: store.get('profile.conditions') || [],
+      equipment: store.get('profile.equipment') || [],
+      goals: store.get('profile.goals') || []
+    });
+    
+    // Save to store so it persists all day
+    if (currentWorkout) {
+      store.set('workout.todayWorkout', currentWorkout);
+      store.set('workout.date', today);
+    }
+  }
+  
+  if (!currentWorkout) {
+    return renderError();
+  }
+  
+  // Get today's date formatted
+  const todayDate = new Date();
+  const dateStr = todayDate.toLocaleDateString('en-GB', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long' 
+  });
+  
+  // Calculate totals using economy module for consistent credits
+  const totalDuration = currentWorkout.sections.reduce((sum, section) => {
+    return sum + section.exercises.reduce((s, e) => s + (e.duration || 30), 0);
+  }, 0);
+  
+  const totalCredits = currentWorkout.sections.reduce((sum, section) => {
+    return sum + section.exercises.reduce((s, e) => s + economy.calculateCredits(e), 0);
+  }, 0);
+  
+  // Get completed exercises
+  const completedToday = store.get('workout.completedExercises') || [];
+  
+  return `
+    <div class="screen screen--active today" id="todayScreen">
+      <!-- Header -->
+      <div class="today__header">
+        <p class="today__date">${dateStr}</p>
+        <h1 class="today__title">${currentWorkout.name}</h1>
+        <div class="today__summary">
+          <span class="today__summary-item">
+            <span>⏱️</span>
+            <span>~${Math.round(totalDuration / 60)} min</span>
+          </span>
+          <span class="today__summary-item">
+            <span>⭐</span>
+            <span>${totalCredits} credits available</span>
+          </span>
+        </div>
+      </div>
+      
+      <!-- Coach Message -->
+      <div class="today__coach">
+        <div class="today__coach-header">
+          <span class="today__coach-avatar">🌱</span>
+          <span class="today__coach-name">Your Coach</span>
+        </div>
+        <p class="today__coach-message">${currentWorkout.coachMessage}</p>
+      </div>
+      
+      <!-- Workout Sections -->
+      ${currentWorkout.sections.map((section, sectionIndex) => `
+        <div class="today__section">
+          <div class="today__section-header">
+            <h2 class="today__section-title">${section.name}</h2>
+            <span class="today__section-count">${section.exercises.length} exercises</span>
+          </div>
+          
+          ${section.exercises.map((exercise, exerciseIndex) => {
+            const isCompleted = completedToday.includes(exercise.id);
+            const icon = PATTERN_ICONS[exercise.movementPattern] || '✨';
+            const duration = exercise.durationUnit === 'seconds' 
+              ? `${exercise.duration}s` 
+              : `${exercise.duration} min`;
+            
+            // Calculate credits using economy module
+            const credits = economy.calculateCredits(exercise);
+            
+            return `
+              <div class="exercise-item ${isCompleted ? 'exercise-item--completed' : ''}"
+                   data-exercise-id="${exercise.id}"
+                   onclick="window.alongside.showExerciseModal('${exercise.id}')">
+                <div class="exercise-item__icon">${icon}</div>
+                <div class="exercise-item__content">
+                  <div class="exercise-item__name">${exercise.name}</div>
+                  <div class="exercise-item__meta">
+                    <span>${duration}</span>
+                    <span class="exercise-item__credits">+${credits}</span>
+                  </div>
+                </div>
+                <div class="exercise-item__check">
+                  ${isCompleted ? '✓' : ''}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `).join('')}
+      
+      <!-- Skip Option -->
+      <button class="today__skip" onclick="window.alongside.skipToday()">
+        Not feeling it today? That's okay →
+      </button>
+    </div>
+  `;
 }
 
-/* Execution Header */
-.execution-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-5);
+/**
+ * Render error state
+ */
+function renderError() {
+  return `
+    <div class="screen screen--active today" id="todayScreen">
+      <div class="today__header">
+        <h1 class="today__title">Oops!</h1>
+      </div>
+      <div class="today__coach">
+        <div class="today__coach-header">
+          <span class="today__coach-avatar">🌱</span>
+          <span class="today__coach-name">Your Coach</span>
+        </div>
+        <p class="today__coach-message">
+          I couldn't load your workout right now. Let's try refreshing the page, 
+          or you can browse exercises manually.
+        </p>
+      </div>
+      <button class="checkin__submit" onclick="location.reload()">
+        Refresh
+      </button>
+    </div>
+  `;
 }
 
-.execution-progress {
-  flex: 1;
+/**
+ * Initialize today view
+ */
+function init() {
+  // Nothing needed for now - click handlers are inline
 }
 
-.execution-progress__text {
-  display: block;
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-2);
-}
-
-.execution-progress__bar {
-  height: 8px;
-  background: var(--color-surface);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.execution-progress__fill {
-  height: 100%;
-  background: var(--color-primary);
-  transition: width 0.3s ease;
-}
-
-.execution-quit {
-  background: none;
-  border: none;
-  color: var(--color-text-muted);
-  font-size: var(--text-sm);
-  padding: var(--space-2);
-  cursor: pointer;
-  margin-left: var(--space-4);
-}
-
-.execution-quit:hover {
-  color: var(--color-danger);
-}
-
-/* Section Badge */
-.execution-section-badge {
-  display: inline-block;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-full);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  margin-bottom: var(--space-4);
-}
-
-.execution-section-badge.warmup {
-  background: var(--color-warning-bg);
-  color: var(--color-warning);
-}
-
-.execution-section-badge.main {
-  background: var(--color-primary);
-  color: white;
-}
-
-.execution-section-badge.cooldown {
-  background: var(--color-success-bg);
-  color: var(--color-success);
-}
-
-/* Exercise Info */
-.execution-exercise {
-  text-align: center;
-  margin-bottom: var(--space-6);
-}
-
-.execution-exercise__name {
-  font-size: var(--text-3xl);
-  font-weight: 700;
-  margin-bottom: var(--space-5);
-  line-height: 1.2;
-}
-
-/* Timer Display */
-.execution-timer {
-  margin: var(--space-6) 0;
-}
-
-.execution-timer__display {
-  font-size: 5rem;
-  font-weight: 700;
-  font-family: var(--font-mono);
-  color: var(--color-primary);
-  line-height: 1;
-  margin-bottom: var(--space-2);
-}
-
-.execution-timer__label {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-/* Reps Display */
-.execution-reps {
-  margin: var(--space-6) 0;
-}
-
-.execution-reps__target {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-3);
-}
-
-.execution-reps__sets,
-.execution-reps__count {
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  font-family: var(--font-mono);
-}
-
-.execution-reps__times {
-  font-size: var(--text-2xl);
-  color: var(--color-text-muted);
-}
-
-.execution-reps__label {
-  font-size: var(--text-base);
-  color: var(--color-text-muted);
-}
-
-.execution-reps__rest {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  margin-top: var(--space-2);
-}
-
-/* Set Tracker */
-.execution-sets {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin: var(--space-5) 0;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.execution-set {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-4);
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-  border: 2px solid var(--color-border);
-  transition: all 0.2s;
-  cursor: pointer;
-  min-height: 64px; /* Larger tap target */
-  user-select: none;
-}
-
-.execution-set:hover {
-  border-color: var(--color-success);
-  background: var(--color-success-bg);
-  transform: scale(1.02);
-}
-
-.execution-set:active {
-  transform: scale(0.98);
-}
-
-.execution-set--completed {
-  background: var(--color-success-bg);
-  border-color: var(--color-success);
-}
-
-.execution-set__number {
-  font-weight: 600;
-  font-size: var(--text-lg);
-}
-
-.execution-set__check {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid var(--color-border);
-  background: none;
-  color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  font-size: 1.5rem;
-  pointer-events: none; /* Box handles clicks */
-}
-
-.execution-set:hover .execution-set__check {
-  border-color: var(--color-success);
-  background: var(--color-success-bg);
-}
-
-.execution-set--completed .execution-set__check {
-  background: var(--color-success);
-  border-color: var(--color-success);
-  color: white;
-}
-
-/* Action Buttons */
-.execution-actions {
-  margin: var(--space-6) 0;
-}
-
-.execution-button {
-  width: 100%;
-  padding: var(--space-4) var(--space-5);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-height: 56px;
-}
-
-.execution-button--start {
-  background: var(--color-success);
-  color: white;
-}
-
-.execution-button--start:hover {
-  background: #16a34a;
-  transform: scale(1.02);
-}
-
-.execution-button--primary {
-  background: var(--color-primary);
-  color: white;
-}
-
-.execution-button--primary:hover {
-  background: var(--color-primary-hover);
-}
-
-.execution-button--secondary {
-  background: var(--color-surface);
-  color: var(--color-text);
-  border: 2px solid var(--color-border);
-  margin-top: var(--space-3);
-}
-
-/* Credits Preview */
-.execution-credits {
-  text-align: center;
-  font-size: var(--text-lg);
-  color: var(--color-success);
-  font-weight: 600;
-  margin-top: var(--space-4);
-}
-
-/* Workout Complete Screen */
-.workout-complete {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  text-align: center;
-  padding: var(--space-6);
-}
-
-.workout-complete__content {
-  max-width: 500px;
-}
-
-.workout-complete__emoji {
-  font-size: 5rem;
-  margin-bottom: var(--space-4);
-  animation: bounce 0.6s ease-out;
-}
-
-.workout-complete__title {
-  font-size: var(--text-3xl);
-  font-weight: 700;
-  margin-bottom: var(--space-5);
-}
-
-.workout-complete__stats {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-5);
-  margin-bottom: var(--space-6);
-}
-
-.workout-complete__stat {
-  text-align: center;
-}
-
-.workout-complete__stat-value {
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--color-primary);
-  margin-bottom: var(--space-1);
-}
-
-.workout-complete__stat-label {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-@keyframes bounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
-/* ============================================
-   Difficulty Feedback Screens
-   ============================================ */
-
-.feedback-screen {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 70vh;
-  padding: var(--space-6);
-}
-
-.feedback-content {
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-}
-
-.feedback-title {
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  margin-bottom: var(--space-2);
-}
-
-.feedback-subtitle {
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-6);
-}
-
-.feedback-options {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
-}
-
-@media (min-width: 600px) {
-  .feedback-options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+/**
+ * Refresh the view (after completing an exercise)
+ */
+async function refresh() {
+  const checkinData = store.get('checkin');
+  const energy = checkinData?.energy || 5;
+  const mood = checkinData?.mood || 5;
+  
+  const main = document.getElementById('main');
+  if (main) {
+    main.innerHTML = await render(energy, mood);
   }
 }
 
-.feedback-option {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-5);
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3);
-  min-height: 100px;
-  justify-content: center;
+/**
+ * Handle skip today
+ */
+function skipToday() {
+  // Show a gentle message
+  const main = document.getElementById('main');
+  if (main) {
+    main.innerHTML = `
+      <div class="screen screen--active today" id="todayScreen">
+        <div class="today__header" style="text-align: center; padding-top: 60px;">
+          <span style="font-size: 4rem; display: block; margin-bottom: 20px;">💚</span>
+          <h1 class="today__title">Rest is productive too</h1>
+        </div>
+        <div class="today__coach">
+          <div class="today__coach-header">
+            <span class="today__coach-avatar">🌱</span>
+            <span class="today__coach-name">Your Coach</span>
+          </div>
+          <p class="today__coach-message">
+            Taking a rest day is part of the process. Your body and mind need recovery 
+            to grow stronger. See you tomorrow when you're ready.
+          </p>
+        </div>
+        <button class="checkin__submit" style="background: var(--color-surface); color: var(--color-text);" 
+                onclick="window.alongside.showCheckin()">
+          ← Actually, let me try
+        </button>
+      </div>
+    `;
+  }
 }
 
-.feedback-option:hover {
-  border-color: var(--color-primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-}
+export const todayView = {
+  render,
+  init,
+  refresh,
+  skipToday,
+  getCurrentWorkout: () => currentWorkout
+};
 
-.feedback-option:active {
-  transform: translateY(0);
-}
-
-.feedback-option__emoji {
-  font-size: 2.5rem;
-}
-
-.feedback-option__text {
-  font-weight: 600;
-  font-size: var(--text-lg);
-}
-
-.feedback-skip {
-  background: none;
-  border: none;
-  color: var(--color-text-muted);
-  padding: var(--space-3);
-  cursor: pointer;
-  font-size: var(--text-base);
-  margin-top: var(--space-2);
-}
-
-.feedback-skip:hover {
-  color: var(--color-text);
-  text-decoration: underline;
-}
-
-/* Reason buttons */
-.feedback-reasons {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
-}
-
-.feedback-reason {
-  background: var(--color-surface);
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: var(--text-lg);
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  min-height: 64px; /* Larger tap target */
-}
-
-.feedback-reason:hover {
-  border-color: var(--color-primary);
-  background: var(--color-surface-raised);
-  transform: translateX(4px);
-}
-
-.feedback-reason:active {
-  transform: translateX(2px);
-}
+export default todayView;
