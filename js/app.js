@@ -6,7 +6,7 @@
 import { store } from './store.js';
 import { library } from './modules/libraryLoader.js';
 import { coach } from './modules/coach.js';
-import { checkin } from './modules/checkin.js';
+import { checkinEnhanced } from './modules/checkin-enhanced.js';
 import { todayView } from './modules/todayView.js';
 import { cards } from './modules/cards.js';
 import { economy } from './modules/economy.js';
@@ -546,6 +546,13 @@ window.alongside = {
   equipmentCategoryBack: onboarding.equipmentCategoryBack,
   toggleEquipmentItem: onboarding.toggleEquipmentItem,
   equipmentOtherDone: onboarding.equipmentOtherDone,
+  // Check-in methods
+  renderCheckin: checkinEnhanced.render,
+  initCheckin: checkinEnhanced.init,
+  adjustSleepHours: checkinEnhanced.adjustSleepHours,
+  selectHydration: checkinEnhanced.selectHydration,
+  setConditionImpact: checkinEnhanced.setConditionImpact,
+  skipCheckin: checkinEnhanced.skipCheckin
   // Modules
   store,
   library,
