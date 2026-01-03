@@ -361,7 +361,12 @@ export const store = {
   saveCheckin,
   addCredits,
   completeExercise,
-  isExerciseCompletedToday
+  isExerciseCompletedToday,
+  saveCheckinEnhanced,
+  addCheckinToHistory,
+  getCheckinHistory,
+  detectBurnout,
+  getBurnoutAdaptation
 };
 
 export default store;
