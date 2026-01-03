@@ -1,639 +1,710 @@
 /**
- * Alongside - Enhanced Daily Check-In Module
- * Captures comprehensive daily state with smart branching
+ * Alongside - Enhanced Check-in Module
+ * Comprehensive daily assessment: Energy, Mood, Sleep, Hydration, Condition Pain
  * 
- * FIXED: Condition names now display correctly (was showing "undefined")
+ * ADHD-FRIENDLY DESIGN:
+ * - Visual sliders with immediate feedback
+ * - Clear descriptions (no medical jargon)
+ * - < 90 seconds to complete
+ * - Skip option for overwhelm days
+ * - Compassionate language throughout
  */
 
 import { store } from '../store.js';
 
-// CONDITIONS array - matches onboarding.js
-const CONDITIONS = [
-  { id: 'lower-back', name: 'Lower Back', icon: '🔙', area: 'back' },
-  { id: 'upper-back', name: 'Upper Back', icon: '🔙', area: 'back' },
-  { id: 'neck', name: 'Neck', icon: '🧣', area: 'neck' },
-  { id: 'shoulder', name: 'Shoulder', icon: '💪', area: 'shoulder' },
-  { id: 'elbow', name: 'Elbow', icon: '💪', area: 'elbow' },
-  { id: 'wrist', name: 'Wrist', icon: '✋', area: 'wrist' },
-  { id: 'hip', name: 'Hip', icon: '🦴', area: 'hip' },
-  { id: 'knee', name: 'Knee', icon: '🦵', area: 'knee' },
-  { id: 'ankle', name: 'Ankle', icon: '🦶', area: 'ankle' },
-  { id: 'hamstring', name: 'Hamstring', icon: '🦵', area: 'hamstring' },
-  { id: 'calf', name: 'Calf', icon: '🦵', area: 'calf' },
-  { id: 'shin', name: 'Shin Splints', icon: '🦵', area: 'shin' },
-  { id: 'foot', name: 'Foot / Plantar', icon: '🦶', area: 'foot' }
-];
+// ============================================================================
+// DESCRIPTIVE LABELS (Compassionate, Non-Judgmental)
+// ============================================================================
 
-// Current check-in values
-let currentValues = {
-  sleepHours: 7,
-  sleepQuality: 5,
-  hydration: 4,
+const ENERGY_DESCRIPTIONS = {
+  1: "Exhausted — rest is the priority today",
+  2: "Very tired — gentle movement only",
+  3: "Low energy — let's keep it light",
+  4: "Below average — we'll pace ourselves",
+  5: "Moderate — steady does it",
+  6: "Pretty good — some options opening up",
+  7: "Good energy — nice foundation to work with",
+  8: "High energy — feeling capable today",
+  9: "Very high — lots to work with!",
+  10: "Peak energy — make it count!"
+};
+
+const MOOD_DESCRIPTIONS = {
+  1: "Really struggling — be gentle with yourself",
+  2: "Quite low — small wins matter today",
+  3: "Feeling down — movement might help",
+  4: "A bit flat — that's okay",
+  5: "Neutral — neither up nor down",
+  6: "Reasonably okay — something to build on",
+  7: "Feeling positive — good headspace",
+  8: "Good mood — energy to spare",
+  9: "Really good — momentum on your side",
+  10: "Excellent — everything's clicking"
+};
+
+const SLEEP_QUALITY_DESCRIPTIONS = {
+  1: "Terrible — barely slept",
+  2: "Poor — very restless",
+  3: "Okay — some interruptions",
+  4: "Good — mostly solid",
+  5: "Excellent — deep and restorative"
+};
+
+const HYDRATION_LEVELS = {
+  'under': { label: 'Under-hydrated', color: 'var(--color-warning)', icon: '🚰', description: 'Less than usual' },
+  'adequate': { label: 'Adequate', color: 'var(--color-info)', icon: '💧', description: 'Normal intake' },
+  'well': { label: 'Well-hydrated', color: 'var(--color-success)', icon: '✨', description: 'Plenty of water' }
+};
+
+const PAIN_DESCRIPTIONS = {
+  0: "No pain",
+  1: "Barely noticeable",
+  2: "Mild — slightly aware",
+  3: "Mild — somewhat aware",
+  4: "Moderate — hard to ignore",
+  5: "Moderate — quite noticeable",
+  6: "Significant — affecting movement",
+  7: "Significant — limiting activities",
+  8: "Severe — major impact",
+  9: "Severe — very limiting",
+  10: "Extreme — unable to use"
+};
+
+const FUNCTIONAL_IMPACT = {
+  'none': { label: 'No limitation', color: 'var(--color-success)' },
+  'some': { label: 'Some limitation', color: 'var(--color-info)' },
+  'major': { label: 'Major limitation', color: 'var(--color-warning)' }
+};
+
+// Condition display names and icons (from onboarding)
+const CONDITION_INFO = {
+  'lower-back': { name: 'Lower Back', icon: '🔙' },
+  'upper-back': { name: 'Upper Back', icon: '🔙' },
+  'neck': { name: 'Neck', icon: '🧣' },
+  'shoulder': { name: 'Shoulder', icon: '💪' },
+  'elbow': { name: 'Elbow', icon: '💪' },
+  'wrist': { name: 'Wrist', icon: '✋' },
+  'hip': { name: 'Hip', icon: '🦴' },
+  'knee': { name: 'Knee', icon: '🦵' },
+  'ankle': { name: 'Ankle', icon: '🦶' },
+  'hamstring': { name: 'Hamstring', icon: '🦵' },
+  'calf': { name: 'Calf', icon: '🦵' },
+  'shin': { name: 'Shin Splints', icon: '🦵' },
+  'foot': { name: 'Foot / Plantar', icon: '🦶' }
+};
+
+// ============================================================================
+// STATE
+// ============================================================================
+
+let checkinState = {
   energy: 5,
   mood: 5,
-  menstruating: null,
-  menstrualImpact: null,
-  coachingIntensity: 'moderate',
-  conditions: []
+  sleepHours: 7,
+  sleepQuality: 3,
+  hydration: 'adequate',
+  conditions: [], // Array of { id, pain, impact }
+  menstrualDay: null, // 1-35 if tracking
+  completed: false
 };
 
-// Descriptive labels for sliders
-const SLEEP_QUALITY_LABELS = {
-  1: "Terrible - barely slept",
-  2: "Very poor - restless",
-  3: "Poor - disrupted",
-  4: "Below average",
-  5: "Average",
-  6: "Decent",
-  7: "Good",
-  8: "Very good",
-  9: "Excellent",
-  10: "Perfect - refreshed"
-};
-
-const ENERGY_LABELS = {
-  1: "Exhausted - rest is priority",
-  2: "Very tired - gentle only",
-  3: "Low energy - keep it light",
-  4: "Below average - pace yourself",
-  5: "Moderate - steady does it",
-  6: "Good - ready to work",
-  7: "Strong - feeling capable",
-  8: "Very strong - ready to push",
-  9: "Excellent - high capacity",
-  10: "Peak energy - make it count!"
-};
-
-const MOOD_LABELS = {
-  1: "Really struggling - be gentle",
-  2: "Quite low - small wins matter",
-  3: "Feeling down - movement might help",
-  4: "Below average - not great",
-  5: "Okay - neutral",
-  6: "Pretty good - stable",
-  7: "Good - positive",
-  8: "Very good - upbeat",
-  9: "Excellent - feeling great",
-  10: "Amazing - thriving!"
-};
-
-const COACHING_INTENSITY = {
-  gentle: {
-    emoji: '🌱',
-    label: 'Gentle',
-    description: 'Listen to my body, prioritize recovery. Encourage me without pressure.'
-  },
-  moderate: {
-    emoji: '💪',
-    label: 'Moderate',
-    description: 'Balanced approach. Give me options and gentle nudges toward my goal.'
-  },
-  aggressive: {
-    emoji: '🔥',
-    label: 'Aggressive',
-    description: 'Push me! Keep me accountable. I want to work hard today.'
-  }
-};
+// ============================================================================
+// RENDER FUNCTIONS
+// ============================================================================
 
 /**
- * Render the complete check-in flow
+ * Main render function - assembles complete check-in screen
  */
 function render() {
-  // Check if user has female profile and menstrual tracking enabled
   const profile = store.get('profile') || {};
-  const hasMenstrualTracking = profile.gender === 'female' && profile.menstrualTracking === true;
-  const hasConditions = (profile.conditions || []).length > 0;
+  const userConditions = profile.conditions || [];
+  const menstrualTracking = profile.menstrualTracking || false;
+  
+  // Initialize condition states if not already set
+  if (checkinState.conditions.length === 0 && userConditions.length > 0) {
+    checkinState.conditions = userConditions.map(c => ({
+      id: c.id,
+      pain: 3, // Default: mild awareness
+      impact: 'some'
+    }));
+  }
   
   return `
-    <div class="screen screen--active checkin" id="checkinScreen">
-      <!-- Header -->
-      <div class="checkin__header">
-        <h1 class="checkin__title">Daily Check-In</h1>
-        <p class="checkin__subtitle">Help me understand how you're feeling today</p>
+    <div class="screen screen--active checkin checkin--enhanced" id="checkinScreen">
+      ${renderGreeting()}
+      ${renderEnergySlider()}
+      ${renderMoodSlider()}
+      ${renderSleepInputs()}
+      ${renderHydrationSelector()}
+      ${userConditions.length > 0 ? renderConditionPainTracking(userConditions) : ''}
+      ${menstrualTracking ? renderMenstrualDayInput() : ''}
+      ${renderSubmitButton()}
+      ${renderSkipOption()}
+    </div>
+  `;
+}
+
+/**
+ * Greeting section
+ */
+function renderGreeting() {
+  const profile = store.get('profile') || {};
+  const name = profile.name || 'there';
+  const today = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+  
+  return `
+    <div class="checkin__greeting">
+      <span class="checkin__wave">👋</span>
+      <h1 class="checkin__title">Good morning, ${name}</h1>
+      <p class="checkin__subtitle">${today} — Let's see how you're doing today</p>
+    </div>
+  `;
+}
+
+/**
+ * Energy slider (1-10)
+ */
+function renderEnergySlider() {
+  return `
+    <div class="checkin__slider-group">
+      <div class="checkin__slider-label">
+        <span class="checkin__slider-title">⚡ Energy Level</span>
+        <span class="checkin__slider-value" id="energyValue">${checkinState.energy}</span>
       </div>
-      
-      <!-- Check-in Form -->
-      <div class="checkin__form">
-        
-        <!-- Section 1: Sleep -->
-        <div class="checkin__section">
-          <div class="checkin__section-header">
-            <span class="checkin__section-icon">😴</span>
-            <h2 class="checkin__section-title">Sleep</h2>
-          </div>
-          
-          <div class="checkin__field">
-            <label class="checkin__label">
-              <span>Hours of sleep</span>
-              <span class="checkin__value" id="sleepHoursValue">${currentValues.sleepHours}h</span>
-            </label>
-            <input type="range" 
-                   class="checkin__slider" 
-                   id="sleepHours"
-                   min="4" 
-                   max="11" 
-                   value="${currentValues.sleepHours}"
-                   oninput="window.alongside.updateSleepHours(this.value)">
-            <div class="checkin__slider-labels">
-              <span>4h</span>
-              <span>11h+</span>
-            </div>
-          </div>
-          
-          <div class="checkin__field">
-            <label class="checkin__label">
-              <span>Sleep quality</span>
-              <span class="checkin__value" id="sleepQualityValue">${SLEEP_QUALITY_LABELS[currentValues.sleepQuality]}</span>
-            </label>
-            <input type="range" 
-                   class="checkin__slider" 
-                   id="sleepQuality"
-                   min="1" 
-                   max="10" 
-                   value="${currentValues.sleepQuality}"
-                   oninput="window.alongside.updateSleepQuality(this.value)">
-            <div class="checkin__slider-labels">
-              <span>Terrible</span>
-              <span>Perfect</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Section 2: Hydration -->
-        <div class="checkin__section">
-          <div class="checkin__section-header">
-            <span class="checkin__section-icon">💧</span>
-            <h2 class="checkin__section-title">Hydration</h2>
-          </div>
-          
-          <div class="checkin__field">
-            <label class="checkin__label">
-              <span>Glasses of water today</span>
-              <span class="checkin__value" id="hydrationValue">${currentValues.hydration} glasses</span>
-            </label>
-            <input type="range" 
-                   class="checkin__slider" 
-                   id="hydration"
-                   min="0" 
-                   max="12" 
-                   value="${currentValues.hydration}"
-                   oninput="window.alongside.updateHydration(this.value)">
-            <div class="checkin__slider-labels">
-              <span>0</span>
-              <span>12+</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Section 3: Energy & Mood -->
-        <div class="checkin__section">
-          <div class="checkin__section-header">
-            <span class="checkin__section-icon">⚡</span>
-            <h2 class="checkin__section-title">Energy & Mood</h2>
-          </div>
-          
-          <div class="checkin__field">
-            <label class="checkin__label">
-              <span>Energy level</span>
-              <span class="checkin__value" id="energyValue">${ENERGY_LABELS[currentValues.energy]}</span>
-            </label>
-            <input type="range" 
-                   class="checkin__slider" 
-                   id="energy"
-                   min="1" 
-                   max="10" 
-                   value="${currentValues.energy}"
-                   oninput="window.alongside.updateEnergy(this.value)">
-            <div class="checkin__slider-labels">
-              <span>Exhausted</span>
-              <span>Peak</span>
-            </div>
-          </div>
-          
-          <div class="checkin__field">
-            <label class="checkin__label">
-              <span>Mood</span>
-              <span class="checkin__value" id="moodValue">${MOOD_LABELS[currentValues.mood]}</span>
-            </label>
-            <input type="range" 
-                   class="checkin__slider" 
-                   id="mood"
-                   min="1" 
-                   max="10" 
-                   value="${currentValues.mood}"
-                   oninput="window.alongside.updateMood(this.value)">
-            <div class="checkin__slider-labels">
-              <span>Struggling</span>
-              <span>Thriving</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Section 4: Menstrual Cycle (Conditional) -->
-        ${hasMenstrualTracking ? renderMenstrualSection() : ''}
-        
-        <!-- Section 5: Conditions (Conditional) -->
-        ${hasConditions ? renderConditionsSection() : ''}
-        
-        <!-- Section 6: Coaching Intensity -->
-        <div class="checkin__section">
-          <div class="checkin__section-header">
-            <span class="checkin__section-icon">🎯</span>
-            <h2 class="checkin__section-title">How should I coach you today?</h2>
-          </div>
-          
-          <div class="checkin__coaching-options">
-            ${Object.entries(COACHING_INTENSITY).map(([key, config]) => `
-              <button class="checkin__coaching-btn ${currentValues.coachingIntensity === key ? 'checkin__coaching-btn--active' : ''}"
-                      onclick="window.alongside.selectCoachingIntensity('${key}')">
-                <span class="checkin__coaching-emoji">${config.emoji}</span>
-                <span class="checkin__coaching-label">${config.label}</span>
-                <p class="checkin__coaching-desc">${config.description}</p>
-              </button>
-            `).join('')}
-          </div>
-        </div>
-        
-      </div>
-      
-      <!-- Submit Button -->
-      <div class="checkin__actions">
-        <button class="checkin__submit-btn" onclick="window.alongside.submitCheckin()">
-          Start Today's Workout →
-        </button>
+      <p class="checkin__slider-description" id="energyDesc">
+        ${ENERGY_DESCRIPTIONS[checkinState.energy]}
+      </p>
+      <input 
+        type="range" 
+        min="1" 
+        max="10" 
+        value="${checkinState.energy}" 
+        class="checkin__slider" 
+        id="energySlider"
+        aria-label="Energy level from 1 to 10"
+      >
+      <div class="checkin__scale">
+        <span>Exhausted</span>
+        <span>Peak</span>
       </div>
     </div>
   `;
 }
 
 /**
- * Render menstrual tracking section (conditional)
+ * Mood slider (1-10)
  */
-function renderMenstrualSection() {
+function renderMoodSlider() {
+  return `
+    <div class="checkin__slider-group">
+      <div class="checkin__slider-label">
+        <span class="checkin__slider-title">🧠 Mood</span>
+        <span class="checkin__slider-value" id="moodValue">${checkinState.mood}</span>
+      </div>
+      <p class="checkin__slider-description" id="moodDesc">
+        ${MOOD_DESCRIPTIONS[checkinState.mood]}
+      </p>
+      <input 
+        type="range" 
+        min="1" 
+        max="10" 
+        value="${checkinState.mood}" 
+        class="checkin__slider" 
+        id="moodSlider"
+        aria-label="Mood from 1 to 10"
+      >
+      <div class="checkin__scale">
+        <span>Struggling</span>
+        <span>Great</span>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Sleep inputs (hours + quality)
+ */
+function renderSleepInputs() {
   return `
     <div class="checkin__section">
       <div class="checkin__section-header">
-        <span class="checkin__section-icon">🌸</span>
-        <h2 class="checkin__section-title">Menstrual Cycle</h2>
+        <span class="checkin__section-icon">😴</span>
+        <h3 class="checkin__section-title">Sleep Last Night</h3>
       </div>
       
-      <div class="checkin__field">
-        <label class="checkin__label">
-          <span>Are you menstruating today?</span>
-        </label>
-        <div class="checkin__button-group">
-          <button 
-            class="checkin__option-btn"
-            data-menstruating="false"
-            onclick="window.alongside.selectMenstrual(false)">
-            No
-          </button>
-          <button 
-            class="checkin__option-btn"
-            data-menstruating="true"
-            onclick="window.alongside.selectMenstrual(true)">
-            Yes
-          </button>
+      <div class="checkin__sleep-row">
+        <div class="checkin__sleep-hours">
+          <label class="checkin__label" for="sleepHours">Hours slept</label>
+          <div class="checkin__number-input">
+            <button class="checkin__number-btn" onclick="window.alongside.adjustSleepHours(-0.5)" aria-label="Decrease sleep hours">−</button>
+            <input 
+              type="number" 
+              id="sleepHours" 
+              class="checkin__number-value"
+              value="${checkinState.sleepHours}"
+              min="0"
+              max="16"
+              step="0.5"
+              aria-label="Hours of sleep"
+            >
+            <button class="checkin__number-btn" onclick="window.alongside.adjustSleepHours(0.5)" aria-label="Increase sleep hours">+</button>
+          </div>
+        </div>
+        
+        <div class="checkin__sleep-quality">
+          <label class="checkin__label" for="sleepQuality">Quality</label>
+          <div class="checkin__quality-value" id="sleepQualityLabel">
+            ${SLEEP_QUALITY_DESCRIPTIONS[checkinState.sleepQuality]}
+          </div>
         </div>
       </div>
       
-      <div class="checkin__menstrual-impact" id="menstrualImpact" style="display: none;">
-        <label class="checkin__label">
-          <span>How is it affecting you today?</span>
-        </label>
-        <div class="checkin__button-group">
-          <button 
-            class="checkin__option-btn checkin__option-btn--small"
-            onclick="window.alongside.selectMenstrualImpact('none')">
-            No impact
-          </button>
-          <button 
-            class="checkin__option-btn checkin__option-btn--small"
-            onclick="window.alongside.selectMenstrualImpact('light')">
-            Light
-          </button>
-          <button 
-            class="checkin__option-btn checkin__option-btn--small"
-            onclick="window.alongside.selectMenstrualImpact('moderate')">
-            Moderate
-          </button>
-          <button 
-            class="checkin__option-btn checkin__option-btn--small"
-            onclick="window.alongside.selectMenstrualImpact('heavy')">
-            Heavy
-          </button>
-        </div>
+      <input 
+        type="range" 
+        min="1" 
+        max="5" 
+        value="${checkinState.sleepQuality}" 
+        class="checkin__slider checkin__slider--compact" 
+        id="sleepQualitySlider"
+        aria-label="Sleep quality from 1 to 5"
+      >
+      <div class="checkin__scale checkin__scale--compact">
+        <span>Terrible</span>
+        <span>Excellent</span>
       </div>
     </div>
   `;
 }
 
 /**
- * Render conditions update section (conditional)
- * FIXED: Now looks up condition names from CONDITIONS array
+ * Hydration selector (3 levels)
  */
-function renderConditionsSection() {
-  const conditions = store.get('profile.conditions') || [];
+function renderHydrationSelector() {
+  return `
+    <div class="checkin__section">
+      <div class="checkin__section-header">
+        <span class="checkin__section-icon">💧</span>
+        <h3 class="checkin__section-title">Hydration Today</h3>
+      </div>
+      
+      <div class="checkin__hydration-options">
+        ${Object.entries(HYDRATION_LEVELS).map(([key, info]) => `
+          <button 
+            class="checkin__hydration-option ${checkinState.hydration === key ? 'checkin__hydration-option--selected' : ''}"
+            onclick="window.alongside.selectHydration('${key}')"
+            aria-label="${info.label}"
+            aria-pressed="${checkinState.hydration === key}"
+          >
+            <span class="checkin__hydration-icon">${info.icon}</span>
+            <span class="checkin__hydration-label">${info.label}</span>
+            <span class="checkin__hydration-desc">${info.description}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Per-condition pain tracking
+ */
+function renderConditionPainTracking(userConditions) {
+  if (userConditions.length === 0) return '';
   
   return `
     <div class="checkin__section">
       <div class="checkin__section-header">
         <span class="checkin__section-icon">🩹</span>
-        <h2 class="checkin__section-title">How are your conditions today?</h2>
+        <h3 class="checkin__section-title">How are your areas today?</h3>
       </div>
+      <p class="checkin__section-hint">Help me adapt exercises to what you can do today</p>
       
-      ${conditions.map(condition => {
-        // FIX: Look up the condition name from CONDITIONS array
-        const conditionInfo = CONDITIONS.find(c => c.id === condition.id);
-        const conditionName = conditionInfo?.name || condition.id;
-        const conditionIcon = conditionInfo?.icon || '🩹';
-        
-        return `
-        <div class="checkin__condition" data-condition-id="${condition.id}">
-          <div class="checkin__condition-header">
-            <span class="checkin__condition-icon">${conditionIcon}</span>
-            <span class="checkin__condition-name">${conditionName}</span>
-            <span class="checkin__condition-area">${formatArea(condition.area)}</span>
-          </div>
-          
-          <div class="checkin__field">
-            <label class="checkin__label">
-              <span>Pain Level</span>
-              <span class="checkin__value" id="pain-${condition.id}">0/10</span>
-            </label>
-            <input 
-              type="range" 
-              class="checkin__slider" 
-              data-condition="${condition.id}"
-              data-type="pain"
-              min="0" 
-              max="10" 
-              value="0"
-              oninput="window.alongside.updateCondition('${condition.id}', 'pain', this.value)">
-            <div class="checkin__slider-labels">
-              <span>None</span>
-              <span>Severe</span>
-            </div>
-          </div>
-          
-          <div class="checkin__field">
-            <label class="checkin__label">
-              <span>Difficulty Level</span>
-              <span class="checkin__value" id="difficulty-${condition.id}">0/10</span>
-            </label>
-            <input 
-              type="range" 
-              class="checkin__slider"
-              data-condition="${condition.id}"
-              data-type="difficulty"
-              min="0" 
-              max="10" 
-              value="0"
-              oninput="window.alongside.updateCondition('${condition.id}', 'difficulty', this.value)">
-            <div class="checkin__slider-labels">
-              <span>Easy</span>
-              <span>Very Hard</span>
-            </div>
-          </div>
-        </div>
-        `;
-      }).join('')}
+      <div class="checkin__conditions">
+        ${userConditions.map(condition => renderConditionItem(condition)).join('')}
+      </div>
     </div>
   `;
 }
 
 /**
- * Format area name for display
+ * Individual condition pain tracker
  */
-function formatArea(area) {
-  if (!area) return '';
-  return area.charAt(0).toUpperCase() + area.slice(1);
-}
-
-/**
- * Update sleep hours value
- */
-function updateSleepHours(value) {
-  currentValues.sleepHours = parseInt(value);
-  const label = document.getElementById('sleepHoursValue');
-  if (label) label.textContent = `${value}h`;
-}
-
-/**
- * Update sleep quality value
- */
-function updateSleepQuality(value) {
-  currentValues.sleepQuality = parseInt(value);
-  const label = document.getElementById('sleepQualityValue');
-  if (label) label.textContent = SLEEP_QUALITY_LABELS[value];
-}
-
-/**
- * Update hydration value
- */
-function updateHydration(value) {
-  currentValues.hydration = parseInt(value);
-  const label = document.getElementById('hydrationValue');
-  if (label) label.textContent = `${value} glasses`;
-}
-
-/**
- * Update energy value
- */
-function updateEnergy(value) {
-  currentValues.energy = parseInt(value);
-  const label = document.getElementById('energyValue');
-  if (label) label.textContent = ENERGY_LABELS[value];
-}
-
-/**
- * Update mood value
- */
-function updateMood(value) {
-  currentValues.mood = parseInt(value);
-  const label = document.getElementById('moodValue');
-  if (label) label.textContent = MOOD_LABELS[value];
-}
-
-/**
- * Select menstrual status
- */
-function selectMenstrual(isMenstruating) {
-  currentValues.menstruating = isMenstruating;
+function renderConditionItem(condition) {
+  const info = CONDITION_INFO[condition.id] || { name: condition.id, icon: '🩹' };
+  const conditionState = checkinState.conditions.find(c => c.id === condition.id) || 
+                         { id: condition.id, pain: 3, impact: 'some' };
   
-  // Update button states
-  const buttons = document.querySelectorAll('[data-menstruating]');
-  buttons.forEach(btn => {
-    const btnValue = btn.getAttribute('data-menstruating') === 'true';
-    if (btnValue === isMenstruating) {
-      btn.classList.add('checkin__option-btn--active');
-    } else {
-      btn.classList.remove('checkin__option-btn--active');
-    }
+  return `
+    <div class="checkin__condition-item" data-condition-id="${condition.id}">
+      <div class="checkin__condition-header">
+        <div class="checkin__condition-name">
+          <span class="checkin__condition-icon">${info.icon}</span>
+          <span>${info.name}</span>
+        </div>
+        <span class="checkin__condition-pain-value" id="pain-${condition.id}">
+          Pain: ${conditionState.pain}/10
+        </span>
+      </div>
+      
+      <p class="checkin__condition-desc" id="painDesc-${condition.id}">
+        ${PAIN_DESCRIPTIONS[conditionState.pain]}
+      </p>
+      
+      <input 
+        type="range" 
+        min="0" 
+        max="10" 
+        value="${conditionState.pain}" 
+        class="checkin__slider checkin__slider--compact" 
+        id="painSlider-${condition.id}"
+        data-condition-id="${condition.id}"
+        aria-label="Pain level for ${info.name} from 0 to 10"
+      >
+      <div class="checkin__scale checkin__scale--compact">
+        <span>None</span>
+        <span>Extreme</span>
+      </div>
+      
+      <div class="checkin__condition-impact">
+        <span class="checkin__label">Functional impact:</span>
+        <div class="checkin__impact-options">
+          ${Object.entries(FUNCTIONAL_IMPACT).map(([key, impactInfo]) => `
+            <button 
+              class="checkin__impact-btn ${conditionState.impact === key ? 'checkin__impact-btn--selected' : ''}"
+              onclick="window.alongside.setConditionImpact('${condition.id}', '${key}')"
+              aria-label="${impactInfo.label}"
+              aria-pressed="${conditionState.impact === key}"
+            >
+              ${impactInfo.label}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Menstrual cycle day input (if tracking enabled)
+ */
+function renderMenstrualDayInput() {
+  const currentDay = checkinState.menstrualDay || 1;
+  const phase = getMenstrualPhase(currentDay);
+  
+  return `
+    <div class="checkin__section">
+      <div class="checkin__section-header">
+        <span class="checkin__section-icon">🌙</span>
+        <h3 class="checkin__section-title">Cycle Tracking</h3>
+      </div>
+      
+      <div class="checkin__menstrual-input">
+        <label class="checkin__label" for="menstrualDay">
+          Day of cycle (1-35)
+        </label>
+        <input 
+          type="number" 
+          id="menstrualDay" 
+          class="checkin__input"
+          value="${currentDay}"
+          min="1"
+          max="35"
+          aria-label="Day of menstrual cycle"
+        >
+        <p class="checkin__menstrual-phase">
+          Current phase: <strong>${phase}</strong>
+        </p>
+      </div>
+      
+      <p class="checkin__hint">
+        💡 This helps adjust workout intensity to your hormonal cycle
+      </p>
+    </div>
+  `;
+}
+
+/**
+ * Submit button
+ */
+function renderSubmitButton() {
+  return `
+    <button class="checkin__submit" id="checkinSubmit">
+      Show me today's workout →
+    </button>
+  `;
+}
+
+/**
+ * Skip option (for overwhelm days)
+ */
+function renderSkipOption() {
+  return `
+    <button class="checkin__skip" onclick="window.alongside.skipCheckin()">
+      Skip check-in today
+    </button>
+  `;
+}
+
+// ============================================================================
+// EVENT HANDLERS
+// ============================================================================
+
+/**
+ * Initialize all event listeners
+ */
+function init() {
+  // Energy slider
+  const energySlider = document.getElementById('energySlider');
+  if (energySlider) {
+    energySlider.addEventListener('input', (e) => {
+      checkinState.energy = parseInt(e.target.value);
+      document.getElementById('energyValue').textContent = checkinState.energy;
+      document.getElementById('energyDesc').textContent = ENERGY_DESCRIPTIONS[checkinState.energy];
+    });
+  }
+  
+  // Mood slider
+  const moodSlider = document.getElementById('moodSlider');
+  if (moodSlider) {
+    moodSlider.addEventListener('input', (e) => {
+      checkinState.mood = parseInt(e.target.value);
+      document.getElementById('moodValue').textContent = checkinState.mood;
+      document.getElementById('moodDesc').textContent = MOOD_DESCRIPTIONS[checkinState.mood];
+    });
+  }
+  
+  // Sleep hours input
+  const sleepHoursInput = document.getElementById('sleepHours');
+  if (sleepHoursInput) {
+    sleepHoursInput.addEventListener('change', (e) => {
+      checkinState.sleepHours = parseFloat(e.target.value);
+    });
+  }
+  
+  // Sleep quality slider
+  const sleepQualitySlider = document.getElementById('sleepQualitySlider');
+  if (sleepQualitySlider) {
+    sleepQualitySlider.addEventListener('input', (e) => {
+      checkinState.sleepQuality = parseInt(e.target.value);
+      document.getElementById('sleepQualityLabel').textContent = 
+        SLEEP_QUALITY_DESCRIPTIONS[checkinState.sleepQuality];
+    });
+  }
+  
+  // Menstrual day input (if present)
+  const menstrualDayInput = document.getElementById('menstrualDay');
+  if (menstrualDayInput) {
+    menstrualDayInput.addEventListener('change', (e) => {
+      const day = parseInt(e.target.value);
+      if (day >= 1 && day <= 35) {
+        checkinState.menstrualDay = day;
+        // Update phase display
+        const phase = getMenstrualPhase(day);
+        const phaseEl = document.querySelector('.checkin__menstrual-phase strong');
+        if (phaseEl) {
+          phaseEl.textContent = phase;
+        }
+      }
+    });
+  }
+  
+  // Condition pain sliders
+  const painSliders = document.querySelectorAll('[id^="painSlider-"]');
+  painSliders.forEach(slider => {
+    slider.addEventListener('input', (e) => {
+      const conditionId = e.target.dataset.conditionId;
+      const pain = parseInt(e.target.value);
+      
+      // Update state
+      const condState = checkinState.conditions.find(c => c.id === conditionId);
+      if (condState) {
+        condState.pain = pain;
+      }
+      
+      // Update UI
+      document.getElementById(`pain-${conditionId}`).textContent = `Pain: ${pain}/10`;
+      document.getElementById(`painDesc-${conditionId}`).textContent = PAIN_DESCRIPTIONS[pain];
+    });
   });
   
-  // Show/hide impact section
-  const impactSection = document.getElementById('menstrualImpact');
-  if (impactSection) {
-    impactSection.style.display = isMenstruating ? 'block' : 'none';
-  }
-  
-  // Reset impact if "No"
-  if (!isMenstruating) {
-    currentValues.menstrualImpact = null;
+  // Submit button
+  const submitBtn = document.getElementById('checkinSubmit');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', handleSubmit);
   }
 }
 
 /**
- * Select menstrual impact level
+ * Handle check-in submission
  */
-function selectMenstrualImpact(impact) {
-  currentValues.menstrualImpact = impact;
+function handleSubmit() {
+  checkinState.completed = true;
   
-  // Update button states
-  const buttons = document.querySelectorAll('#menstrualImpact .checkin__option-btn');
-  buttons.forEach(btn => {
-    if (btn.textContent.trim().toLowerCase().includes(impact)) {
-      btn.classList.add('checkin__option-btn--active');
-    } else {
-      btn.classList.remove('checkin__option-btn--active');
-    }
-  });
-}
-
-/**
- * Select coaching intensity
- */
-function selectCoachingIntensity(intensity) {
-  currentValues.coachingIntensity = intensity;
+  // Save to store with ALL data
+  store.saveCheckinEnhanced(checkinState);
   
-  // Update button states
-  const buttons = document.querySelectorAll('.checkin__coaching-btn');
-  buttons.forEach(btn => {
-    if (btn.onclick.toString().includes(`'${intensity}'`)) {
-      btn.classList.add('checkin__coaching-btn--active');
-    } else {
-      btn.classList.remove('checkin__coaching-btn--active');
-    }
-  });
-}
-
-/**
- * Update condition pain/difficulty
- */
-function updateCondition(conditionId, type, value) {
-  // Find or create condition entry
-  let conditionEntry = currentValues.conditions.find(c => c.id === conditionId);
-  if (!conditionEntry) {
-    conditionEntry = { id: conditionId, pain: 0, difficulty: 0 };
-    currentValues.conditions.push(conditionEntry);
-  }
+  // Add to check-in history for burnout detection
+  store.addCheckinToHistory(checkinState);
   
-  // Update the value
-  conditionEntry[type] = parseInt(value);
+  // Scroll to top
+  window.scrollTo(0, 0);
   
-  // Update the label
-  const label = document.getElementById(`${type}-${conditionId}`);
-  if (label) label.textContent = `${value}/10`;
-}
-
-/**
- * Submit check-in and save to store
- */
-function submitCheckin() {
-  const checkinData = {
-    timestamp: new Date().toISOString(),
-    sleepHours: currentValues.sleepHours,
-    sleepQuality: currentValues.sleepQuality,
-    hydration: currentValues.hydration,
-    energy: currentValues.energy,
-    mood: currentValues.mood,
-    menstruating: currentValues.menstruating,
-    menstrualImpact: currentValues.menstrualImpact,
-    coachingIntensity: currentValues.coachingIntensity,
-    conditions: currentValues.conditions
-  };
-  
-  // Save to store
-  store.saveCheckin(checkinData);
-  
-  // Detect burnout
-  detectBurnout();
-  
-  // Show confetti
-  if (window.alongside?.triggerConfetti) {
-    window.alongside.triggerConfetti();
-  }
-  
-  // Navigate to Today view
+  // Navigate to today's workout view
   if (window.alongside?.showToday) {
     window.alongside.showToday();
   }
 }
 
 /**
- * Detect potential burnout patterns
+ * Skip check-in (use defaults)
  */
-function detectBurnout() {
-  const history = store.get('checkinHistory') || [];
-  if (history.length < 3) return;
-  
-  const recent = history.slice(-7);
-  
-  const avgEnergy = recent.reduce((sum, c) => sum + (c.energy || 5), 0) / recent.length;
-  const avgMood = recent.reduce((sum, c) => sum + (c.mood || 5), 0) / recent.length;
-  const avgSleepQuality = recent.reduce((sum, c) => sum + (c.sleepQuality || 5), 0) / recent.length;
-  
-  const isBurnout = avgEnergy < 4 && avgMood < 4 && avgSleepQuality < 5;
-  
-  if (isBurnout && !store.get('burnoutDetected')) {
-    store.set('burnoutDetected', true);
-    store.set('burnoutDetectedDate', new Date().toISOString());
-  } else if (!isBurnout && store.get('burnoutDetected')) {
-    store.set('burnoutDetected', false);
+function skipCheckin() {
+  if (confirm('Skip today\'s check-in? We\'ll use moderate defaults for your workout.')) {
+    // Use default values
+    const defaults = {
+      energy: 5,
+      mood: 5,
+      sleepHours: 7,
+      sleepQuality: 3,
+      hydration: 'adequate',
+      conditions: checkinState.conditions.map(c => ({ ...c, pain: 3, impact: 'some' })),
+      menstrualDay: checkinState.menstrualDay,
+      completed: true,
+      skipped: true
+    };
+    
+    store.saveCheckinEnhanced(defaults);
+    
+    window.scrollTo(0, 0);
+    
+    if (window.alongside?.showToday) {
+      window.alongside.showToday();
+    }
+  }
+}
+
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+
+/**
+ * Adjust sleep hours (for +/- buttons)
+ */
+function adjustSleepHours(amount) {
+  const input = document.getElementById('sleepHours');
+  if (input) {
+    let newValue = parseFloat(input.value) + amount;
+    newValue = Math.max(0, Math.min(16, newValue)); // Clamp 0-16
+    input.value = newValue;
+    checkinState.sleepHours = newValue;
   }
 }
 
 /**
- * Show the check-in screen
+ * Select hydration level
  */
-function show() {
-  const main = document.getElementById('main');
-  if (!main) return;
+function selectHydration(level) {
+  checkinState.hydration = level;
   
-  // Reset current values to defaults
-  currentValues = {
-    sleepHours: 7,
-    sleepQuality: 5,
-    hydration: 4,
-    energy: 5,
-    mood: 5,
-    menstruating: null,
-    menstrualImpact: null,
-    coachingIntensity: 'moderate',
-    conditions: []
-  };
+  // Update button states
+  document.querySelectorAll('.checkin__hydration-option').forEach(btn => {
+    btn.classList.remove('checkin__hydration-option--selected');
+    btn.setAttribute('aria-pressed', 'false');
+  });
   
-  main.innerHTML = render();
-  
-  // Scroll to top
-  window.scrollTo(0, 0);
+  const selectedBtn = document.querySelector(`[onclick*="'${level}'"]`);
+  if (selectedBtn) {
+    selectedBtn.classList.add('checkin__hydration-option--selected');
+    selectedBtn.setAttribute('aria-pressed', 'true');
+  }
 }
 
-// Export
-export const checkin = {
-  show,
+/**
+ * Set condition functional impact
+ */
+function setConditionImpact(conditionId, impact) {
+  const condState = checkinState.conditions.find(c => c.id === conditionId);
+  if (condState) {
+    condState.impact = impact;
+  }
+  
+  // Update button states for this condition
+  const conditionEl = document.querySelector(`[data-condition-id="${conditionId}"]`);
+  if (conditionEl) {
+    conditionEl.querySelectorAll('.checkin__impact-btn').forEach(btn => {
+      btn.classList.remove('checkin__impact-btn--selected');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+    
+    const selectedBtn = conditionEl.querySelector(`[onclick*="'${impact}'"]`);
+    if (selectedBtn) {
+      selectedBtn.classList.add('checkin__impact-btn--selected');
+      selectedBtn.setAttribute('aria-pressed', 'true');
+    }
+  }
+}
+
+/**
+ * Determine menstrual cycle phase from day number
+ * Based on standard 28-day cycle (adjustable)
+ */
+function getMenstrualPhase(day) {
+  if (day >= 1 && day <= 5) return 'Menstrual';
+  if (day >= 6 && day <= 13) return 'Follicular';
+  if (day >= 14 && day <= 16) return 'Ovulatory';
+  if (day >= 17 && day <= 28) return 'Luteal';
+  // Extended cycles
+  if (day > 28) return 'Luteal (Extended)';
+  return 'Unknown';
+}
+
+/**
+ * Get current check-in values
+ */
+function getValues() {
+  return { ...checkinState };
+}
+
+/**
+ * Reset state (for new day)
+ */
+function resetState() {
+  const profile = store.get('profile') || {};
+  const userConditions = profile.conditions || [];
+  
+  checkinState = {
+    energy: 5,
+    mood: 5,
+    sleepHours: 7,
+    sleepQuality: 3,
+    hydration: 'adequate',
+    conditions: userConditions.map(c => ({
+      id: c.id,
+      pain: 3,
+      impact: 'some'
+    })),
+    menstrualDay: checkinState.menstrualDay, // Preserve from previous day
+    completed: false
+  };
+}
+
+// ============================================================================
+// EXPORTS
+// ============================================================================
+
+export const checkinEnhanced = {
   render,
-  updateSleepHours,
-  updateSleepQuality,
-  updateHydration,
-  updateEnergy,
-  updateMood,
-  selectMenstrual,
-  selectMenstrualImpact,
-  selectCoachingIntensity,
-  updateCondition,
-  submitCheckin
+  init,
+  getValues,
+  resetState,
+  adjustSleepHours,
+  selectHydration,
+  setConditionImpact,
+  skipCheckin,
+  ENERGY_DESCRIPTIONS,
+  MOOD_DESCRIPTIONS,
+  SLEEP_QUALITY_DESCRIPTIONS,
+  PAIN_DESCRIPTIONS
 };
 
-export default checkin;
+export default checkinEnhanced;
