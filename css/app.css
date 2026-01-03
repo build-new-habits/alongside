@@ -9,14 +9,14 @@
    ============================================ */
 :root {
   /* Colors - Backgrounds */
-  --color-bg: #0f172a;                    /* Same as bg-primary */
+  --color-bg: #0f172a; 
   --color-bg-primary: #0F172A;
   --color-bg-secondary: #1E293B;
   --color-bg-tertiary: #334155;
   
   /* Surfaces (legacy names - same as backgrounds) */
-  --color-surface: #1e293b;               /* Same as bg-secondary */
-  --color-surface-raised: #334155;        /* Same as bg-tertiary */
+  --color-surface: #1e293b; 
+  --color-surface-raised: #334155; 
   
   /* Borders */
   --color-border: #475569;
