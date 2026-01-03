@@ -3,7 +3,7 @@
  * Initializes modules and handles navigation
  */
 
-import { store } from './store.js';
+import { store } from '../store.js';
 import { library } from './modules/libraryLoader.js';
 import { coach } from './modules/coach.js';
 import { checkinEnhanced } from './modules/checkin-enhanced.js';
