@@ -3,7 +3,7 @@
    ============================================ */
 
 /* Execution Screen */
-workout-execution {
+.workout-execution {
   padding: var(--space-4);
   max-width: var(--max-width);
   margin: 0 auto;
