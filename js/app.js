@@ -552,7 +552,7 @@ window.alongside = {
   adjustSleepHours: checkinEnhanced.adjustSleepHours,
   selectHydration: checkinEnhanced.selectHydration,
   setConditionImpact: checkinEnhanced.setConditionImpact,
-  skipCheckin: checkinEnhanced.skipCheckin,  // <-- ADDED COMMA HERE!
+  skipCheckin: checkinEnhanced.skipCheckin, 
   // Modules
   store,
   library,
