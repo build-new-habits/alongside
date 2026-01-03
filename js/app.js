@@ -1,6 +1,7 @@
 /**
  * Alongside - Main App Orchestrator
  * Initializes modules and handles navigation
+ * CORRECTED VERSION - Uses checkinEnhanced instead of checkin
  */
 
 import { store } from './store.js';
@@ -79,8 +80,8 @@ function showCheckin() {
   const main = document.getElementById('main');
   if (!main) return;
   
-  main.innerHTML = checkin.render();
-  checkin.init();
+  main.innerHTML = checkinEnhanced.render();  // ✅ FIXED
+  checkinEnhanced.init();                      // ✅ FIXED
   currentScreen = 'checkin';
   
   // Update nav
@@ -490,10 +491,7 @@ function showError(message) {
 window.alongside = {
   onGenderChange: onboarding.onGenderChange,
   onMenstrualTrackingChange: onboarding.onMenstrualTrackingChange,
-  selectMenstrual: checkin.selectMenstrual,
-  selectMenstrualImpact: checkin.selectMenstrualImpact,
-  selectCoachingIntensity: checkin.selectCoachingIntensity,
-  submitCheckin: checkin.submitCheckin,
+  // OLD check-in methods removed - using checkinEnhanced now
   showCheckin,
   showToday,
   showBrowse,
@@ -538,7 +536,7 @@ window.alongside = {
   toggleDeclaration: onboarding.toggleDeclaration,
   toggleGoal: onboarding.toggleGoal,
   skipOnboarding: onboarding.skip,
-  // Equipment functions (working accordion version)
+  // Equipment functions
   toggleEquipmentCategory: onboarding.toggleEquipmentCategory,
   toggleNoEquipment: onboarding.toggleNoEquipment,
   equipmentCategoriesNext: onboarding.equipmentCategoriesNext,
@@ -546,13 +544,13 @@ window.alongside = {
   equipmentCategoryBack: onboarding.equipmentCategoryBack,
   toggleEquipmentItem: onboarding.toggleEquipmentItem,
   equipmentOtherDone: onboarding.equipmentOtherDone,
-  // Check-in methods (NEW - ENHANCED)
+  // Enhanced Check-in methods
   renderCheckin: checkinEnhanced.render,
   initCheckin: checkinEnhanced.init,
   adjustSleepHours: checkinEnhanced.adjustSleepHours,
   selectHydration: checkinEnhanced.selectHydration,
   setConditionImpact: checkinEnhanced.setConditionImpact,
-  skipCheckin: checkinEnhanced.skipCheckin, 
+  skipCheckin: checkinEnhanced.skipCheckin,
   // Modules
   store,
   library,
