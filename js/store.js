@@ -13,6 +13,7 @@ const defaultState = {
     conditions: [],
     equipment: [],
     goals: [],
+    menstrualTracking: false,
     onboardingComplete: false
   },
   
@@ -21,8 +22,17 @@ const defaultState = {
     date: null,
     energy: 5,
     mood: 5,
-    completed: false
+    sleepHours: 7,
+    sleepQuality: 3,
+    hydration: 'adequate',
+    conditions: [],
+    menstrualDay: null,
+    completed: false,
+    skipped: false
   },
+
+  //Check-in history for burnout detection
+  checkinHistory: [],
   
   // Today's workout
   workout: {
