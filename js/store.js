@@ -1,6 +1,7 @@
 /**
  * Alongside - State Management Store
  * LocalStorage-backed reactive state
+ * ENHANCED VERSION - With burnout detection and comprehensive check-in
  */
 
 const STORAGE_KEY = 'alongside_data';
@@ -17,7 +18,7 @@ const defaultState = {
     onboardingComplete: false
   },
   
-  // Today's check-in
+  // Today's check-in - ENHANCED
   checkin: {
     date: null,
     energy: 5,
@@ -30,13 +31,16 @@ const defaultState = {
     completed: false,
     skipped: false
   },
-
-  //Check-in history for burnout detection
+  
+  // Check-in history for burnout detection
   checkinHistory: [],
   
   // Today's workout
   workout: {
     date: null,
+    todayWorkouts: [],
+    selectedWorkout: null,
+    executionState: null,
     exercises: [],
     completedExercises: []
   },
@@ -55,8 +59,8 @@ const defaultState = {
     longestStreak: 0
   },
   
-  // Check-in history for burnout detection
-  checkinHistory: []
+  // Exercise feedback
+  exerciseFeedback: []
 };
 
 // In-memory state
@@ -108,6 +112,9 @@ function checkDailyReset() {
   if (state.workout.date !== today) {
     state.workout = {
       date: null,
+      todayWorkouts: [],
+      selectedWorkout: null,
+      executionState: null,
       exercises: [],
       completedExercises: []
     };
@@ -247,39 +254,220 @@ function hasCheckedInToday() {
 }
 
 /**
- * Save today's check-in
+ * Save today's check-in (LEGACY - for backward compatibility)
  */
-function saveCheckin(energy, mood, conditions = []) {
+function saveCheckin(energy, mood) {
   const today = new Date().toDateString();
-  const now = new Date().toISOString();
   
   state.checkin = {
     date: today,
     energy,
     mood,
-    conditions,
-    completed: true
+    sleepHours: 7,
+    sleepQuality: 3,
+    hydration: 'adequate',
+    conditions: [],
+    menstrualDay: null,
+    completed: true,
+    skipped: false
   };
   
-  // Add to history for burnout detection
+  persist();
+  notify();
+}
+
+/**
+ * Save enhanced check-in with all data
+ */
+function saveCheckinEnhanced(checkinData) {
+  const today = new Date().toDateString();
+  
+  state.checkin = {
+    date: today,
+    energy: checkinData.energy,
+    mood: checkinData.mood,
+    sleepHours: checkinData.sleepHours,
+    sleepQuality: checkinData.sleepQuality,
+    hydration: checkinData.hydration,
+    conditions: checkinData.conditions || [],
+    menstrualDay: checkinData.menstrualDay || null,
+    completed: true,
+    skipped: checkinData.skipped || false
+  };
+  
+  persist();
+  notify();
+}
+
+/**
+ * Add today's check-in to history (for burnout detection)
+ * Keeps last 30 days
+ */
+function addCheckinToHistory(checkinData) {
+  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+  
+  // Ensure history array exists
   if (!Array.isArray(state.checkinHistory)) {
     state.checkinHistory = [];
   }
   
+  // Add today's data
   state.checkinHistory.push({
-    date: now,
-    energy,
-    mood,
-    conditions
+    date: today,
+    energy: checkinData.energy,
+    mood: checkinData.mood,
+    sleepQuality: checkinData.sleepQuality,
+    avgConditionPain: calculateAverageConditionPain(checkinData.conditions),
+    skipped: checkinData.skipped || false
   });
   
-  // Keep only last 30 days of history
+  // Keep only last 30 days
   if (state.checkinHistory.length > 30) {
     state.checkinHistory = state.checkinHistory.slice(-30);
   }
   
   persist();
   notify();
+}
+
+/**
+ * Calculate average pain across all conditions
+ */
+function calculateAverageConditionPain(conditions) {
+  if (!conditions || conditions.length === 0) return 0;
+  
+  const totalPain = conditions.reduce((sum, c) => sum + (c.pain || 0), 0);
+  return Math.round(totalPain / conditions.length);
+}
+
+/**
+ * Get check-in history (last N days)
+ */
+function getCheckinHistory(days = 7) {
+  if (!Array.isArray(state.checkinHistory)) {
+    return [];
+  }
+  
+  return state.checkinHistory.slice(-days);
+}
+
+/**
+ * Detect burnout patterns from check-in history
+ * Returns: { detected: boolean, patterns: string[], severity: 'low'|'moderate'|'high' }
+ */
+function detectBurnout() {
+  const history = getCheckinHistory(7); // Last 7 days
+  
+  if (history.length < 3) {
+    return { detected: false, patterns: [], severity: 'low' };
+  }
+  
+  const patterns = [];
+  let severityScore = 0;
+  
+  // Pattern 1: Consecutive low energy (3+ days with energy ≤3)
+  const consecutiveLowEnergy = getConsecutiveCount(history, 'energy', (val) => val <= 3);
+  if (consecutiveLowEnergy >= 3) {
+    patterns.push('consecutive-low-energy');
+    severityScore += 2;
+  }
+  
+  // Pattern 2: Low energy trend (7-day average <4)
+  const avgEnergy = calculateAverage(history, 'energy');
+  if (avgEnergy < 4) {
+    patterns.push('low-energy-trend');
+    severityScore += 1;
+  }
+  
+  // Pattern 3: Consecutive low mood (3+ days with mood ≤4)
+  const consecutiveLowMood = getConsecutiveCount(history, 'mood', (val) => val <= 4);
+  if (consecutiveLowMood >= 3) {
+    patterns.push('consecutive-low-mood');
+    severityScore += 2;
+  }
+  
+  // Pattern 4: Poor sleep pattern (3+ days with quality ≤2)
+  const poorSleepDays = history.filter(d => d.sleepQuality <= 2).length;
+  if (poorSleepDays >= 3) {
+    patterns.push('poor-sleep-pattern');
+    severityScore += 1;
+  }
+  
+  // Pattern 5: High pain pattern (3+ days with avg pain ≥6)
+  const highPainDays = history.filter(d => d.avgConditionPain >= 6).length;
+  if (highPainDays >= 3) {
+    patterns.push('pain-flare');
+    severityScore += 2;
+  }
+  
+  // Pattern 6: Combined low energy AND low mood
+  const combinedLowDays = history.filter(d => d.energy <= 3 && d.mood <= 4).length;
+  if (combinedLowDays >= 2) {
+    patterns.push('energy-mood-crash');
+    severityScore += 3;
+  }
+  
+  // Determine severity
+  let severity = 'low';
+  if (severityScore >= 5) severity = 'high';
+  else if (severityScore >= 3) severity = 'moderate';
+  
+  const detected = patterns.length > 0;
+  
+  return { detected, patterns, severity };
+}
+
+/**
+ * Helper: Get consecutive count of days matching condition
+ */
+function getConsecutiveCount(history, field, condition) {
+  let maxConsecutive = 0;
+  let currentConsecutive = 0;
+  
+  for (let i = history.length - 1; i >= 0; i--) {
+    if (condition(history[i][field])) {
+      currentConsecutive++;
+      maxConsecutive = Math.max(maxConsecutive, currentConsecutive);
+    } else {
+      currentConsecutive = 0;
+    }
+  }
+  
+  return maxConsecutive;
+}
+
+/**
+ * Helper: Calculate average of a field over history
+ */
+function calculateAverage(history, field) {
+  if (history.length === 0) return 0;
+  
+  const sum = history.reduce((total, day) => total + (day[field] || 0), 0);
+  return sum / history.length;
+}
+
+/**
+ * Get burnout-safe workout recommendations
+ * Returns: { mode: 'recovery' | 'normal', message: string }
+ */
+function getBurnoutAdaptation() {
+  const burnout = detectBurnout();
+  
+  if (!burnout.detected) {
+    return { mode: 'normal', message: null };
+  }
+  
+  let message = '';
+  
+  if (burnout.severity === 'high') {
+    message = 'You\'ve been running on low reserves lately. Today, we\'re prioritizing rest and gentle movement. Your wellbeing matters more than any workout goal.';
+  } else if (burnout.severity === 'moderate') {
+    message = 'I\'ve noticed your energy and mood have been lower recently. Let\'s keep today\'s workout gentle and restorative.';
+  } else {
+    message = 'You might be feeling a bit depleted. I\'ll suggest lighter options today.';
+  }
+  
+  return { mode: 'recovery', message, patterns: burnout.patterns, severity: burnout.severity };
 }
 
 /**
@@ -317,6 +505,9 @@ function completeExercise(exerciseId, credits) {
   if (state.workout.date !== today) {
     state.workout = {
       date: today,
+      todayWorkouts: state.workout.todayWorkouts || [],
+      selectedWorkout: state.workout.selectedWorkout || null,
+      executionState: state.workout.executionState || null,
       exercises: state.workout.exercises || [],
       completedExercises: []
     };
@@ -359,14 +550,14 @@ export const store = {
   reset,
   hasCheckedInToday,
   saveCheckin,
-  addCredits,
-  completeExercise,
-  isExerciseCompletedToday,
   saveCheckinEnhanced,
   addCheckinToHistory,
   getCheckinHistory,
   detectBurnout,
-  getBurnoutAdaptation
+  getBurnoutAdaptation,
+  addCredits,
+  completeExercise,
+  isExerciseCompletedToday
 };
 
 export default store;
