@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2024-12-15",
+  "lastUpdated": "2025-01-04",
   
   "categories": [
     {
@@ -115,6 +115,66 @@
   
   "exerciseSources": [
     {
+      "id": "cardio/easy-run",
+      "name": "Easy Run",
+      "path": "exercises/cardio/easy-run.json"
+    },
+    {
+      "id": "cardio/hiit",
+      "name": "HIIT Exercises",
+      "path": "exercises/cardio/hiit.json"
+    },
+    {
+      "id": "cardio/low-impact",
+      "name": "Low Impact Cardio",
+      "path": "exercises/cardio/low-impact.json"
+    },
+    {
+      "id": "cardio/running",
+      "name": "Running Drills",
+      "path": "exercises/cardio/running.json"
+    },
+    {
+      "id": "cardio/walk-run-intervals",
+      "name": "Walk-Run Intervals",
+      "path": "exercises/cardio/walk-run-intervals.json"
+    },
+    {
+      "id": "mindfulness/box-breathing",
+      "name": "Box Breathing",
+      "path": "exercises/mindfulness/box-breathing.json"
+    },
+    {
+      "id": "mobility/mobility-drills",
+      "name": "Mobility Drills",
+      "path": "exercises/mobility/mobility-drills.json"
+    },
+    {
+      "id": "mobility/morning-mobility",
+      "name": "Morning Mobility",
+      "path": "exercises/mobility/morning-mobility.json"
+    },
+    {
+      "id": "mobility/stretching",
+      "name": "Stretching Exercises",
+      "path": "exercises/mobility/stretching.json"
+    },
+    {
+      "id": "recovery/breathing",
+      "name": "Breathing Exercises",
+      "path": "exercises/recovery/breathing.json"
+    },
+    {
+      "id": "recovery/gentle-stretch",
+      "name": "Gentle Stretching",
+      "path": "exercises/recovery/gentle-stretch.json"
+    },
+    {
+      "id": "recovery/yoga-poses",
+      "name": "Yoga Poses",
+      "path": "exercises/recovery/yoga-poses.json"
+    },
+    {
       "id": "strength/bodyweight",
       "name": "Bodyweight Exercises",
       "path": "exercises/strength/bodyweight.json"
@@ -135,44 +195,14 @@
       "path": "exercises/strength/kettlebell.json"
     },
     {
-      "id": "strength/resistance-band",
-      "name": "Resistance Band Exercises",
-      "path": "exercises/strength/resistance-band.json"
+      "id": "workouts/quick-home-7min",
+      "name": "Quick 7-Minute Home Workout",
+      "path": "exercises/workouts/quick-home-7min.json"
     },
     {
-      "id": "recovery/yoga-poses",
-      "name": "Yoga Poses",
-      "path": "exercises/recovery/yoga-poses.json"
-    },
-    {
-      "id": "recovery/breathing",
-      "name": "Breathing Exercises",
-      "path": "exercises/recovery/breathing.json"
-    },
-    {
-      "id": "mobility/mobility-drills",
-      "name": "Mobility Drills",
-      "path": "exercises/mobility/mobility-drills.json"
-    },
-    {
-      "id": "mobility/stretching",
-      "name": "Stretching Exercises",
-      "path": "exercises/mobility/stretching.json"
-    },
-    {
-      "id": "cardio/hiit",
-      "name": "HIIT Exercises",
-      "path": "exercises/cardio/hiit.json"
-    },
-    {
-      "id": "cardio/low-impact",
-      "name": "Low Impact Cardio",
-      "path": "exercises/cardio/low-impact.json"
-    },
-    {
-      "id": "cardio/running",
-      "name": "Running Drills",
-      "path": "exercises/cardio/running.json"
+      "id": "yoga/morning-flow",
+      "name": "Morning Yoga Flow",
+      "path": "exercises/yoga/morning-flow.json"
     }
   ]
 }
