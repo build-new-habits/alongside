@@ -115,34 +115,64 @@
   
   "exerciseSources": [
     {
-      "id": "bodyweight",
+      "id": "strength/bodyweight",
       "name": "Bodyweight Exercises",
-      "path": "exercises/bodyweight.json"
+      "path": "exercises/strength/bodyweight.json"
     },
     {
-      "id": "kettlebell",
-      "name": "Kettlebell Exercises",
-      "path": "exercises/kettlebell.json"
+      "id": "strength/core",
+      "name": "Core Exercises",
+      "path": "exercises/strength/core.json"
     },
     {
-      "id": "dumbbell",
+      "id": "strength/dumbbell",
       "name": "Dumbbell Exercises",
-      "path": "exercises/dumbbell.json"
+      "path": "exercises/strength/dumbbell.json"
     },
     {
-      "id": "yoga-poses",
+      "id": "strength/kettlebell",
+      "name": "Kettlebell Exercises",
+      "path": "exercises/strength/kettlebell.json"
+    },
+    {
+      "id": "strength/resistance-band",
+      "name": "Resistance Band Exercises",
+      "path": "exercises/strength/resistance-band.json"
+    },
+    {
+      "id": "recovery/yoga-poses",
       "name": "Yoga Poses",
-      "path": "exercises/yoga-poses.json"
+      "path": "exercises/recovery/yoga-poses.json"
     },
     {
-      "id": "mobility-drills",
-      "name": "Mobility Drills",
-      "path": "exercises/mobility-drills.json"
-    },
-    {
-      "id": "breathing",
+      "id": "recovery/breathing",
       "name": "Breathing Exercises",
-      "path": "exercises/breathing.json"
+      "path": "exercises/recovery/breathing.json"
+    },
+    {
+      "id": "mobility/mobility-drills",
+      "name": "Mobility Drills",
+      "path": "exercises/mobility/mobility-drills.json"
+    },
+    {
+      "id": "mobility/stretching",
+      "name": "Stretching Exercises",
+      "path": "exercises/mobility/stretching.json"
+    },
+    {
+      "id": "cardio/hiit",
+      "name": "HIIT Exercises",
+      "path": "exercises/cardio/hiit.json"
+    },
+    {
+      "id": "cardio/low-impact",
+      "name": "Low Impact Cardio",
+      "path": "exercises/cardio/low-impact.json"
+    },
+    {
+      "id": "cardio/running",
+      "name": "Running Drills",
+      "path": "exercises/cardio/running.json"
     }
   ]
 }
