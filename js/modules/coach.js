@@ -115,7 +115,12 @@ async function buildDailyWorkout(context) {
   
   // Get all available exercises
   const allExercises = [];
-  const sources = ['bodyweight', 'yoga-poses', 'breathing', 'mobility-drills'];
+  const sources = [
+    'strength/bodyweight', 
+    'recovery/yoga-poses', 
+    'recovery/breathing', 
+    'mobility/mobility-drills'
+  ];
   
   for (const sourceId of sources) {
     const source = await library.loadExerciseSource(sourceId);
