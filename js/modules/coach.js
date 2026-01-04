@@ -114,13 +114,40 @@ async function buildDailyWorkout(context) {
   const config = WORKOUT_CONFIGS[tier];
   
   // Get all available exercises
-  const allExercises = [];
-  const sources = [
-    'strength/bodyweight', 
-    'recovery/yoga-poses', 
-    'recovery/breathing', 
-    'mobility/mobility-drills'
-  ];
+const allExercises = [];
+const sources = [  
+  // Cardio exercises
+  'cardio/easy-run',
+  'cardio/hiit',
+  'cardio/low-impact',
+  'cardio/running',
+  'cardio/walk-run-intervals',
+  
+  // Mindfulness exercises
+  'mindfulness/box-breathing',
+  
+  // Mobility exercises
+  'mobility/mobility-drills',
+  'mobility/morning-mobility',
+  'mobility/stretching',
+  
+  // Recovery exercises
+  'recovery/breathing', 
+  'recovery/gentle-stretch',
+  'recovery/yoga-poses', 
+  
+  // Strength exercises
+  'strength/bodyweight',
+  'strength/core',
+  'strength/dumbbell',
+  'strength/kettlebell',
+  
+  // Workouts
+  'workouts/quick-home-7min',
+  
+  // Yoga exercises
+  'yoga/morning-flow'
+];
   
   for (const sourceId of sources) {
     const source = await library.loadExerciseSource(sourceId);
