@@ -537,7 +537,7 @@ function init() {
 /**
  * Handle check-in submission
  */
-function handleSubmit() {
+async function handleSubmit() {
   checkinState.completed = true;
   
   // Save to store with ALL data
@@ -549,9 +549,9 @@ function handleSubmit() {
   // Scroll to top
   window.scrollTo(0, 0);
   
-  // Navigate to today's workout view
-  if (window.alongside?.showToday) {
-    window.alongside.showToday();
+  // Navigate to workout options screen (NEW - Active Coach)
+  if (window.alongside?.showWorkoutOptions) {
+    await window.alongside.showWorkoutOptions(checkinState);
   }
 }
 
