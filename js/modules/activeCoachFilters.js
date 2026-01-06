@@ -1,5 +1,5 @@
 // ===================================================================
-// ACTIVE COACH: SMART FILTERING ENGINE
+// ACTIVE COACH: SMART FILTERING ENGINE (IMPROVED)
 // ===================================================================
 // This module filters exercises based on user context to generate
 // personalized workout recommendations.
@@ -8,7 +8,7 @@
 // - User's current state (energy, mood, sleep) drives recommendations
 // - Conditions filtered for safety (never recommend unsafe exercises)
 // - Equipment filtered for availability
-// - Energy matched to user's capacity
+// - Energy matched to user's capacity (FLEXIBLE MATCHING)
 // - Menstrual cycle awareness (if tracking)
 // ===================================================================
 
@@ -51,13 +51,13 @@ export function filterByConditions(exercises, activeConditions) {
       const difficulty = condition.difficulty;
       
       // BLOCK if severe pain (8-10) and exercise contraindicated
-      if (pain >= 8 && exercise.contraindications.includes(conditionId)) {
+      if (pain >= 8 && exercise.contraindications && exercise.contraindications.includes(conditionId)) {
         safetyLevel = 'blocked';
         warnings.push(`⛔ Blocked: ${conditionId} pain too high (${pain}/10)`);
       }
       
       // CAUTION if moderate pain (5-7) and exercise could aggravate
-      else if (pain >= 5 && exercise.contraindications.includes(conditionId)) {
+      else if (pain >= 5 && exercise.contraindications && exercise.contraindications.includes(conditionId)) {
         if (safetyLevel !== 'blocked') {
           safetyLevel = 'caution';
         }
@@ -80,10 +80,10 @@ export function filterByConditions(exercises, activeConditions) {
 }
 
 // ===================================================================
-// 3. EXERCISE FILTERING: ENERGY MATCHING
+// 3. EXERCISE FILTERING: ENERGY MATCHING (IMPROVED - MORE FLEXIBLE)
 // ===================================================================
 // Match exercises to user's current energy level (1-10)
-// Energy delta: how far exercise is from user's current state
+// UPDATED: More flexible matching to give better variety
 
 export function filterByEnergy(exercises, userEnergy) {
   return exercises.map(exercise => {
@@ -99,14 +99,20 @@ export function filterByEnergy(exercises, userEnergy) {
     // Calculate energy delta
     const delta = Math.abs(exerciseEnergy - userEnergy);
     
-    // Prioritize exercises within ±2 of user's energy
+    // MORE FLEXIBLE: ±3 instead of ±2, and always keep low-energy for warmup/recovery
     let priority;
-    if (delta <= 2) {
-      priority = 'high'; // Perfect match
-    } else if (delta <= 4) {
-      priority = 'medium'; // Acceptable
+    if (delta <= 3) {
+      priority = 'high'; // Perfect match (was ±2, now ±3)
+    } else if (delta <= 6) {
+      priority = 'medium'; // Acceptable (was ±4, now ±6)
     } else {
       priority = 'low'; // Too far from current energy
+    }
+    
+    // SPECIAL RULE: Always keep low-energy exercises for warmup/cooldown/recovery
+    // Even if user has high energy, they might need gentle exercises for balance
+    if (exercise.energyRequired === 'low' && userEnergy >= 5) {
+      priority = 'medium'; // Keep for warmup/recovery
     }
     
     return {
@@ -115,7 +121,7 @@ export function filterByEnergy(exercises, userEnergy) {
       energyDelta: delta,
       exerciseEnergy
     };
-  }).filter(ex => ex.energyMatch !== 'low'); // Remove energy mismatches
+  }).filter(ex => ex.energyMatch !== 'low'); // Remove extreme mismatches only
 }
 
 // ===================================================================
@@ -217,7 +223,7 @@ export function detectBurnout(checkinHistory) {
   const chronicLowEnergy = avgEnergy < 4;
   
   // Pattern 4: Sleep disruption - Quality ≤2 for 3+ days
-  const poorSleepStreak = last3Days.every(day => day.sleep && day.sleep.quality <= 2);
+  const poorSleepStreak = last3Days.every(day => day.sleepQuality && day.sleepQuality <= 2);
   
   // Pattern 5: Pain flare - Any condition pain ≥8 for 2+ consecutive days
   const painFlare = last3Days.slice(-2).some(day => 
@@ -262,6 +268,8 @@ export async function getFilteredExercises(checkinData) {
   // Load all exercise databases
   const allExercises = await loadAllExercises();
   
+  console.log(`📚 Loaded ${allExercises.length} total exercises`);
+  
   // Check for burnout FIRST
   const burnoutDetected = detectBurnout(checkinHistory);
   
@@ -281,14 +289,14 @@ export async function getFilteredExercises(checkinData) {
   let filtered = allExercises;
   
   // 1. Filter by equipment
-  filtered = filterByEquipment(filtered, profile.equipment);
+  filtered = filterByEquipment(filtered, profile.equipment || []);
   console.log(`✅ Equipment filter: ${filtered.length} exercises available`);
   
   // 2. Filter by conditions (SAFETY CRITICAL)
-  filtered = filterByConditions(filtered, checkinData.conditions);
+  filtered = filterByConditions(filtered, checkinData.conditions || []);
   console.log(`✅ Condition safety filter: ${filtered.length} exercises safe`);
   
-  // 3. Filter by energy level
+  // 3. Filter by energy level (IMPROVED - MORE FLEXIBLE)
   filtered = filterByEnergy(filtered, checkinData.energy);
   console.log(`✅ Energy match filter: ${filtered.length} exercises matched`);
   
@@ -361,7 +369,6 @@ async function loadAllExercises() {
     }
   }
   
-  console.log(`📚 Loaded ${exercises.length} total exercises`);
   return exercises;
 }
 
@@ -381,7 +388,7 @@ export function getExercisesByPattern(exercises, pattern) {
 
 // Get exercises by muscle group
 export function getExercisesByMuscleGroup(exercises, muscleGroup) {
-  return exercises.filter(ex => ex.muscleGroups.includes(muscleGroup));
+  return exercises.filter(ex => ex.muscleGroups && ex.muscleGroups.includes(muscleGroup));
 }
 
 // Sort exercises by energy match (high priority first)
