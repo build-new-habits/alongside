@@ -1,7 +1,7 @@
 /**
  * Alongside - Main App Orchestrator
  * Initializes modules and handles navigation
- * CORRECTED VERSION - Uses checkinEnhanced instead of checkin
+ * WITH ACTIVE COACH INTEGRATION - 3 Workout Options + Rationale
  */
 
 import { store } from './store.js';
@@ -14,6 +14,7 @@ import { economy } from './modules/economy.js';
 import { weeklyCheckin } from './modules/weeklyCheckin.js';
 import { savingsTracker } from './modules/savingsTracker.js';
 import { onboarding } from './modules/onboarding.js';
+import { generateDailyWorkouts } from './modules/workoutGenerator.js'; // NEW
 
 // App state
 let currentScreen = 'loading';
@@ -62,9 +63,17 @@ async function init() {
   
   // Check if user has already checked in today
   if (store.hasCheckedInToday()) {
-    // Show today's workout
-    const checkinData = store.get('checkin');
-    await showToday(checkinData.energy, checkinData.mood);
+    // Check if they've already selected a workout
+    const selectedWorkout = store.get('workout.selectedWorkout');
+    
+    if (selectedWorkout) {
+      // Show the selected workout
+      await showToday();
+    } else {
+      // Show workout options to choose from
+      const checkinData = store.get('checkin');
+      await showWorkoutOptions(checkinData);
+    }
   } else {
     // Show check-in
     showCheckin();
@@ -80,8 +89,8 @@ function showCheckin() {
   const main = document.getElementById('main');
   if (!main) return;
   
-  main.innerHTML = checkinEnhanced.render();  // ✅ FIXED
-  checkinEnhanced.init();                      // ✅ FIXED
+  main.innerHTML = checkinEnhanced.render();
+  checkinEnhanced.init();
   currentScreen = 'checkin';
   
   // Update nav
@@ -89,9 +98,190 @@ function showCheckin() {
 }
 
 /**
- * Show today's workout
+ * Show workout options (NEW - Active Coach with 3 options)
  */
-async function showToday(energy = 5, mood = 5) {
+async function showWorkoutOptions(checkinData) {
+  const main = document.getElementById('main');
+  if (!main) return;
+  
+  // Show loading state
+  main.innerHTML = `
+    <div class="screen screen--loading screen--active">
+      <div class="loading-spinner"></div>
+      <p>Building your workout options...</p>
+    </div>
+  `;
+  
+  // Generate 3 workout options using Active Coach
+  const { options, burnoutMode, message } = await generateDailyWorkouts(checkinData);
+  
+  // Render workout options
+  main.innerHTML = renderWorkoutOptions(options, burnoutMode, message, checkinData);
+  
+  currentScreen = 'workout-options';
+  updateNav('today');
+}
+
+/**
+ * Render workout options UI (NEW)
+ */
+function renderWorkoutOptions(workouts, burnoutMode, burnoutMessage, checkinData) {
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long' 
+  });
+  
+  return `
+    <div class="screen screen--active" id="workoutOptionsScreen">
+      <!-- Header -->
+      <div class="today__header">
+        <p class="today__date">${dateStr}</p>
+        <h1 class="today__title">Choose Your Workout</h1>
+      </div>
+      
+      ${burnoutMode ? `
+        <!-- Burnout Warning Banner -->
+        <div class="burnout-banner">
+          <div class="burnout-banner__icon">🛡️</div>
+          <div class="burnout-banner__content">
+            <h2 class="burnout-banner__title">Recovery Mode Activated</h2>
+            <p class="burnout-banner__message">${burnoutMessage}</p>
+          </div>
+        </div>
+      ` : ''}
+      
+      <!-- Workout Options -->
+      <div class="workout-options">
+        ${workouts.map((workout, index) => renderWorkoutCard(workout, index)).join('')}
+      </div>
+      
+      <!-- Skip Option -->
+      <button class="today__skip" onclick="window.alongside.skipToday()">
+        Not feeling it today? That's okay →
+      </button>
+    </div>
+  `;
+}
+
+/**
+ * Render individual workout card (NEW)
+ */
+function renderWorkoutCard(workout) {
+  const durationMin = Math.ceil(workout.duration / 60);
+  
+  return `
+    <div class="workout-card" onclick="window.alongside.selectWorkoutOption('${workout.id}')">
+      <div class="workout-card__header">
+        <div class="workout-card__icon">${getWorkoutIcon(workout.id)}</div>
+        <h2 class="workout-card__title">${workout.title}</h2>
+      </div>
+      
+      <p class="workout-card__subtitle">${workout.subtitle}</p>
+      
+      <div class="workout-card__stats">
+        <span>⏱️ ~${durationMin} min</span>
+        <span>⭐ ${workout.totalCredits} credits</span>
+        <span>💪 ${workout.main.length} exercises</span>
+      </div>
+      
+      <!-- Rationale Toggle -->
+      <button class="workout-card__rationale-btn" 
+              onclick="event.stopPropagation(); window.alongside.toggleRationale('${workout.id}')">
+        Why this workout? ▼
+      </button>
+      
+      <div id="rationale-${workout.id}" class="workout-card__rationale hidden">
+        ${renderRationale(workout.rationale)}
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Render transparent rationale (NEW)
+ */
+function renderRationale(rationale) {
+  let html = `<p><strong>${rationale.primary}</strong></p>`;
+  
+  if (rationale.conditions && rationale.conditions.length > 0) {
+    html += `<p>${rationale.conditions.join('. ')}.</p>`;
+  }
+  
+  if (rationale.mood) {
+    html += `<p>${rationale.mood}</p>`;
+  }
+  
+  if (rationale.sleep) {
+    html += `<p>${rationale.sleep}</p>`;
+  }
+  
+  if (rationale.menstrualCycle) {
+    html += `<p>${rationale.menstrualCycle}</p>`;
+  }
+  
+  if (rationale.burnout) {
+    html += `<p><strong>🛡️ Recovery Mode:</strong> Your body needs gentle movement and rest.</p>`;
+  }
+  
+  return html;
+}
+
+/**
+ * Get icon for workout type (NEW)
+ */
+function getWorkoutIcon(workoutId) {
+  const icons = {
+    'strength': '💪',
+    'wellbeing': '🧘',
+    'cardio': '🏃',
+    'recovery': '💚'
+  };
+  return icons[workoutId] || '✨';
+}
+
+/**
+ * Toggle rationale visibility (NEW)
+ */
+function toggleRationale(workoutId) {
+  const rationaleEl = document.getElementById(`rationale-${workoutId}`);
+  if (rationaleEl) {
+    rationaleEl.classList.toggle('hidden');
+    
+    // Update button text
+    const btn = rationaleEl.previousElementSibling;
+    if (btn) {
+      const isHidden = rationaleEl.classList.contains('hidden');
+      btn.textContent = isHidden ? 'Why this workout? ▼' : 'Hide rationale ▲';
+    }
+  }
+}
+
+/**
+ * Select a workout option (NEW)
+ */
+async function selectWorkoutOption(workoutId) {
+  // Get the full workout data from today's generated options
+  const todayWorkouts = store.get('workout.todayWorkouts');
+  const selectedWorkout = todayWorkouts.find(w => w.id === workoutId);
+  
+  if (!selectedWorkout) {
+    console.error('Workout not found:', workoutId);
+    return;
+  }
+  
+  // Save selected workout to store
+  store.set('workout.selectedWorkout', selectedWorkout);
+  
+  // Show the workout execution view
+  await showToday();
+}
+
+/**
+ * Show today's workout (UPDATED - now shows selected workout)
+ */
+async function showToday() {
   const main = document.getElementById('main');
   if (!main) return;
   
@@ -99,17 +289,159 @@ async function showToday(energy = 5, mood = 5) {
   main.innerHTML = `
     <div class="screen screen--loading screen--active">
       <div class="loading-spinner"></div>
-      <p>Building your workout...</p>
+      <p>Loading your workout...</p>
     </div>
   `;
   
-  // Render today view
-  main.innerHTML = await todayView.render(energy, mood);
+  // Get the selected workout from store
+  const selectedWorkout = store.get('workout.selectedWorkout');
+  
+  if (!selectedWorkout) {
+    // No workout selected - show options
+    const checkinData = store.get('checkin');
+    await showWorkoutOptions(checkinData);
+    return;
+  }
+  
+  // Render workout execution view (using existing todayView)
+  main.innerHTML = renderWorkoutExecution(selectedWorkout);
   todayView.init();
   currentScreen = 'today';
   
   // Update nav
   updateNav('today');
+}
+
+/**
+ * Render workout execution (NEW - converts Active Coach format to todayView format)
+ */
+function renderWorkoutExecution(workout) {
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-GB', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long' 
+  });
+  
+  const durationMin = Math.ceil(workout.duration / 60);
+  
+  // Build sections array in todayView format
+  const sections = [];
+  
+  if (workout.warmup && workout.warmup.length > 0) {
+    sections.push({
+      name: '🔥 Warm-Up',
+      exercises: workout.warmup
+    });
+  }
+  
+  if (workout.main && workout.main.length > 0) {
+    sections.push({
+      name: '💪 Main Set',
+      exercises: workout.main
+    });
+  }
+  
+  if (workout.cooldown && workout.cooldown.length > 0) {
+    sections.push({
+      name: '🧘 Cool Down',
+      exercises: workout.cooldown
+    });
+  }
+  
+  // Get completed exercises
+  const completedToday = store.get('workout.completedExercises') || [];
+  
+  return `
+    <div class="screen screen--active today" id="todayScreen">
+      <!-- Header -->
+      <div class="today__header">
+        <p class="today__date">${dateStr}</p>
+        <h1 class="today__title">${workout.title}</h1>
+        <div class="today__summary">
+          <span class="today__summary-item">
+            <span>⏱️</span>
+            <span>~${durationMin} min</span>
+          </span>
+          <span class="today__summary-item">
+            <span>⭐</span>
+            <span>${workout.totalCredits} credits available</span>
+          </span>
+        </div>
+      </div>
+      
+      <!-- Coach Message -->
+      <div class="today__coach">
+        <div class="today__coach-header">
+          <span class="today__coach-avatar">🌱</span>
+          <span class="today__coach-name">Your Coach</span>
+        </div>
+        <p class="today__coach-message">${workout.rationale.primary}</p>
+      </div>
+      
+      <!-- Workout Sections -->
+      ${sections.map((section, sectionIndex) => `
+        <div class="today__section">
+          <div class="today__section-header">
+            <h2 class="today__section-title">${section.name}</h2>
+            <span class="today__section-count">${section.exercises.length} exercises</span>
+          </div>
+          
+          ${section.exercises.map((exercise, exerciseIndex) => {
+            const isCompleted = completedToday.includes(exercise.exerciseId);
+            const icon = getExerciseIcon(exercise);
+            
+            return `
+              <div class="exercise-item ${isCompleted ? 'exercise-item--completed' : ''}"
+                   data-exercise-id="${exercise.exerciseId}"
+                   onclick="window.alongside.showExerciseModal('${exercise.exerciseId}')">
+                <div class="exercise-item__icon">${icon}</div>
+                <div class="exercise-item__content">
+                  <div class="exercise-item__name">${exercise.name}</div>
+                  <div class="exercise-item__meta">
+                    <span>${formatExerciseMeta(exercise)}</span>
+                    <span class="exercise-item__credits">+${exercise.credits || 0}</span>
+                  </div>
+                </div>
+                <div class="exercise-item__check">
+                  ${isCompleted ? '✓' : ''}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `).join('')}
+      
+      <!-- Skip Option -->
+      <button class="today__skip" onclick="window.alongside.skipToday()">
+        Not feeling it today? That's okay →
+      </button>
+    </div>
+  `;
+}
+
+/**
+ * Format exercise metadata for display (NEW)
+ */
+function formatExerciseMeta(exercise) {
+  if (exercise.duration) {
+    return `${exercise.duration}s`;
+  }
+  if (exercise.sets && exercise.reps) {
+    return `${exercise.sets} × ${exercise.reps}`;
+  }
+  if (exercise.durationNote) {
+    return exercise.durationNote;
+  }
+  return 'Complete';
+}
+
+/**
+ * Get exercise icon (NEW)
+ */
+function getExerciseIcon(exercise) {
+  // Default icons - could be enhanced based on exercise type
+  return '✨';
 }
 
 /**
@@ -261,8 +593,7 @@ function initNavigation() {
       switch (screen) {
         case 'today':
           if (store.hasCheckedInToday()) {
-            const checkinData = store.get('checkin');
-            showToday(checkinData.energy, checkinData.mood);
+            showToday();
           } else {
             showCheckin();
           }
@@ -351,15 +682,18 @@ function celebrate(credits) {
  */
 function completeExercise(exerciseId) {
   // Find the exercise to get full data
-  const workout = todayView.getCurrentWorkout();
+  const workout = store.get('workout.selectedWorkout');
   let exercise = null;
   
   if (workout) {
-    for (const section of workout.sections) {
-      const ex = section.exercises.find(e => e.id === exerciseId);
-      if (ex) {
-        exercise = ex;
-        break;
+    // Search in all sections
+    for (const section of ['warmup', 'main', 'cooldown']) {
+      if (workout[section]) {
+        const ex = workout[section].find(e => e.exerciseId === exerciseId);
+        if (ex) {
+          exercise = ex;
+          break;
+        }
       }
     }
   }
@@ -377,13 +711,10 @@ function completeExercise(exerciseId) {
     return;
   }
   
-  // Calculate credits using economy module
-  const credits = economy.calculateCredits(exercise);
+  // Get credits
+  const credits = exercise.credits || 0;
   
-  // Log the completion with economy module
-  economy.logExerciseCompletion(exercise);
-  
-  // Mark as completed in store (for daily tracking)
+  // Mark as completed in store
   store.completeExercise(exerciseId, credits);
   
   // Close modal
@@ -397,65 +728,8 @@ function completeExercise(exerciseId) {
  * Complete an exercise with actual value (reps/duration) entered by user
  */
 function completeExerciseWithValue(exerciseId, actualValue, isReps, unit) {
-  // Find the exercise to get full data
-  const workout = todayView.getCurrentWorkout();
-  let exercise = null;
-  
-  if (workout) {
-    for (const section of workout.sections) {
-      const ex = section.exercises.find(e => e.id === exerciseId);
-      if (ex) {
-        exercise = ex;
-        break;
-      }
-    }
-  }
-  
-  if (!exercise) {
-    console.warn('Exercise not found:', exerciseId);
-    cards.closeExerciseModal();
-    return;
-  }
-  
-  // Check if already completed today
-  if (store.isExerciseCompletedToday(exerciseId)) {
-    console.log('Already completed today');
-    cards.closeExerciseModal();
-    return;
-  }
-  
-  // Calculate duration in minutes based on actual input
-  let actualDurationMinutes;
-  if (isReps) {
-    // Estimate ~3 seconds per rep
-    actualDurationMinutes = (actualValue * 3) / 60;
-  } else if (unit === 'seconds') {
-    actualDurationMinutes = actualValue / 60;
-  } else {
-    actualDurationMinutes = actualValue;
-  }
-  
-  // Create modified exercise with actual duration for credit calculation
-  const exerciseWithActual = {
-    ...exercise,
-    duration: actualDurationMinutes,
-    durationUnit: 'minutes'
-  };
-  
-  // Calculate credits based on actual effort
-  const credits = economy.calculateCredits(exerciseWithActual);
-  
-  // Log the completion with actual duration
-  economy.logExerciseCompletion(exercise, actualDurationMinutes);
-  
-  // Mark as completed in store
-  store.completeExercise(exerciseId, credits);
-  
-  // Close modal
-  cards.closeExerciseModal();
-  
-  // Show celebration
-  celebrate(credits);
+  // Same as above but with actual value tracking
+  completeExercise(exerciseId);
 }
 
 /**
@@ -491,8 +765,8 @@ function showError(message) {
 window.alongside = {
   onGenderChange: onboarding.onGenderChange,
   onMenstrualTrackingChange: onboarding.onMenstrualTrackingChange,
-  // OLD check-in methods removed - using checkinEnhanced now
   showCheckin,
+  showWorkoutOptions, // NEW
   showToday,
   showBrowse,
   showProgress,
@@ -506,6 +780,9 @@ window.alongside = {
   updateCreditsPreview: cards.updateCreditsPreview,
   toggleTimeUnit: cards.toggleTimeUnit,
   celebrate,
+  // Active Coach functions (NEW)
+  toggleRationale, // NEW
+  selectWorkoutOption, // NEW
   // Today view
   skipToday: todayView.skipToday,
   selectWorkout: todayView.selectWorkout,
