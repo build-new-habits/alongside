@@ -1,5 +1,5 @@
 // ===================================================================
-// ACTIVE COACH: WORKOUT GENERATION ENGINE
+// ACTIVE COACH: WORKOUT GENERATION ENGINE (IMPROVED)
 // ===================================================================
 // Generates 3 daily workout options from filtered exercises:
 // 1. Strength Focus
@@ -8,6 +8,11 @@
 //
 // Each workout includes transparent rationale explaining why
 // exercises were chosen based on user's current state.
+//
+// IMPROVEMENTS:
+// - Better variety in all workouts
+// - Multiple cardio exercises (not just 1)
+// - Flexible wellbeing selection
 // ===================================================================
 
 import { store } from '../store.js';
@@ -63,7 +68,7 @@ function generateStrengthWorkout(exercises, checkinData) {
   const patterns = ['squat', 'hinge', 'push', 'pull', 'core'];
   const selected = [];
   
-  // Select 1 exercise per pattern (5-8 total main exercises)
+  // Select 1-2 exercises per pattern for variety
   for (const pattern of patterns) {
     const options = strengthExercises.filter(
       ex => ex.movementPattern === pattern
@@ -73,10 +78,15 @@ function generateStrengthWorkout(exercises, checkinData) {
       // Sort by energy match (best matches first)
       const sorted = sortByEnergyMatch(options);
       selected.push(sorted[0]);
+      
+      // Add a second exercise for this pattern if available
+      if (options.length > 1 && selected.length < 8) {
+        selected.push(sorted[1]);
+      }
     }
     
-    // Updated - select 5-8 exercises for more variety
-    if (selected.length >= 8) break; // Max 8 main exercises
+    // Stop at 8 exercises max
+    if (selected.length >= 8) break;
   }
   
   // Add warmup (dynamic mobility)
@@ -110,14 +120,19 @@ function generateStrengthWorkout(exercises, checkinData) {
 }
 
 // ===================================================================
-// 3. WELLBEING WORKOUT GENERATION
+// 3. WELLBEING WORKOUT GENERATION (IMPROVED)
 // ===================================================================
 
 function generateWellbeingWorkout(exercises, checkinData) {
-  // Focus on mobility, stretching, recovery
+  // IMPROVED: More flexible category matching
   const wellbeingExercises = exercises.filter(ex => 
-    ['mobility', 'recovery', 'stretching'].includes(ex.category)
+    ['mobility', 'recovery', 'stretching', 'yoga'].includes(ex.category) ||
+    ex.energyRequired === 'low' || // Include all low-energy exercises
+    ex.movementPattern === 'stretch' ||
+    ex.movementPattern === 'recovery'
   );
+  
+  console.log(`💚 Wellbeing: Found ${wellbeingExercises.length} exercises`);
   
   // Select mix of dynamic mobility and static stretching
   const dynamicMobility = wellbeingExercises.filter(ex => 
@@ -159,34 +174,57 @@ function generateWellbeingWorkout(exercises, checkinData) {
 }
 
 // ===================================================================
-// 4. CARDIO WORKOUT GENERATION
+// 4. CARDIO WORKOUT GENERATION (IMPROVED - MULTIPLE EXERCISES)
 // ===================================================================
 
 function generateCardioWorkout(exercises, checkinData) {
   const cardioExercises = exercises.filter(ex => ex.category === 'cardio');
   
-  // Select main cardio based on energy level
-  let mainCardio;
+  console.log(`🏃 Cardio: Found ${cardioExercises.length} exercises`);
+  
+  // IMPROVED: Select MULTIPLE cardio exercises, not just one
+  let selectedCardio = [];
+  
   if (checkinData.energy >= 7) {
-    // High energy: HIIT or running intervals
-    mainCardio = cardioExercises.find(ex => 
-      ex.subcategory === 'hiit' || ex.id === 'tempo-run' || ex.id === 'hill-repeats'
-    );
+    // High energy: HIIT, intervals, tempo runs, sprints
+    selectedCardio = cardioExercises.filter(ex => 
+      ex.subcategory === 'hiit' || 
+      ex.energyRequired === 'high' ||
+      (ex.id && (
+        ex.id.includes('sprint') ||
+        ex.id.includes('interval') ||
+        ex.id.includes('tempo') ||
+        ex.id.includes('hill') ||
+        ex.id.includes('hiit')
+      ))
+    ).slice(0, 3); // Take up to 3 high-intensity exercises
+    
   } else if (checkinData.energy >= 4) {
-    // Moderate energy: Steady-state cardio
-    mainCardio = cardioExercises.find(ex =>
-      ex.id === 'easy-run' || ex.subcategory === 'running'
-    );
+    // Moderate energy: steady-state cardio, easy runs
+    selectedCardio = cardioExercises.filter(ex =>
+      ex.energyRequired === 'medium' ||
+      (ex.id && (
+        ex.id.includes('run') ||
+        ex.id.includes('jog') ||
+        ex.id.includes('easy')
+      ))
+    ).slice(0, 2);
+    
   } else {
-    // Low energy: Gentle walking or low-impact
-    mainCardio = cardioExercises.find(ex =>
-      ex.subcategory === 'low-impact' || ex.id === 'gentle-walk'
-    );
+    // Low energy: walking, gentle movement, low-impact
+    selectedCardio = cardioExercises.filter(ex =>
+      ex.energyRequired === 'low' ||
+      ex.subcategory === 'low-impact' ||
+      (ex.id && (
+        ex.id.includes('walk') ||
+        ex.id.includes('gentle')
+      ))
+    ).slice(0, 2);
   }
   
-  // Fallback if no match
-  if (!mainCardio && cardioExercises.length > 0) {
-    mainCardio = cardioExercises[0];
+  // Fallback: if nothing found, just take the first available
+  if (selectedCardio.length === 0 && cardioExercises.length > 0) {
+    selectedCardio = [cardioExercises[0]];
   }
   
   // Add warmup (dynamic mobility)
@@ -195,18 +233,19 @@ function generateCardioWorkout(exercises, checkinData) {
   // Add cooldown (static stretching)
   const cooldown = selectCooldownExercises(exercises);
   
-  const main = mainCardio ? [{
-    exerciseId: mainCardio.id,
-    name: mainCardio.name,
-    duration: mainCardio.duration,
-    durationNote: mainCardio.durationNote,
-    credits: mainCardio.credits
-  }] : [];
+  // Map to workout format
+  const main = selectedCardio.map(ex => ({
+    exerciseId: ex.id,
+    name: ex.name,
+    duration: ex.duration,
+    durationNote: ex.durationNote,
+    credits: ex.credits
+  }));
   
   return {
     id: 'cardio',
     title: 'Cardio Focus',
-    subtitle: mainCardio ? mainCardio.name : 'Cardio workout',
+    subtitle: main.length > 0 ? main.map(ex => ex.name).join(', ') : 'Cardio workout',
     duration: calculateTotalDuration(warmup, main, cooldown),
     energyRequired: checkinData.energy,
     warmup,
