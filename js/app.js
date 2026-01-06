@@ -114,6 +114,9 @@ async function showWorkoutOptions(checkinData) {
   
   // Generate 3 workout options using Active Coach
   const { options, burnoutMode, message } = await generateDailyWorkouts(checkinData);
+    
+  // SAVE TO STORE - ADD THIS LINE
+  store.set('workout.todayWorkouts', options);
   
   // Render workout options
   main.innerHTML = renderWorkoutOptions(options, burnoutMode, message, checkinData);
