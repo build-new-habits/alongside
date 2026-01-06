@@ -63,7 +63,7 @@ function generateStrengthWorkout(exercises, checkinData) {
   const patterns = ['squat', 'hinge', 'push', 'pull', 'core'];
   const selected = [];
   
-  // Select 1 exercise per pattern (3-4 total main exercises)
+  // Select 1 exercise per pattern (5-8 total main exercises)
   for (const pattern of patterns) {
     const options = strengthExercises.filter(
       ex => ex.movementPattern === pattern
@@ -75,8 +75,8 @@ function generateStrengthWorkout(exercises, checkinData) {
       selected.push(sorted[0]);
     }
     
-  // Updated - select 5-6 exercises for more variety
-  if (selected.length >= 8) break; // Max 8 main exercises
+    // Updated - select 5-8 exercises for more variety
+    if (selected.length >= 8) break; // Max 8 main exercises
   }
   
   // Add warmup (dynamic mobility)
@@ -113,19 +113,25 @@ function generateStrengthWorkout(exercises, checkinData) {
 // 3. WELLBEING WORKOUT GENERATION
 // ===================================================================
 
+function generateWellbeingWorkout(exercises, checkinData) {
+  // Focus on mobility, stretching, recovery
+  const wellbeingExercises = exercises.filter(ex => 
+    ['mobility', 'recovery', 'stretching'].includes(ex.category)
+  );
+  
   // Select mix of dynamic mobility and static stretching
   const dynamicMobility = wellbeingExercises.filter(ex => 
     ex.movementPattern === 'dynamic' || ex.subcategory === 'dynamic'
-  ).slice(0, 4);  // CHANGED: from 3 to 4
-
+  ).slice(0, 4);
+  
   const staticStretching = wellbeingExercises.filter(ex =>
     ex.movementPattern === 'stretch' || ex.subcategory === 'static'
-  ).slice(0, 6);  // CHANGED: from 4 to 6
-
+  ).slice(0, 6);
+  
   const breathwork = wellbeingExercises.filter(ex =>
     ex.subcategory === 'breathwork' || ex.movementPattern === 'breathing'
-  ).slice(0, 2);  // CHANGED: from 1 to 2
-
+  ).slice(0, 2);
+  
   const main = [
     ...dynamicMobility,
     ...staticStretching,
@@ -137,7 +143,7 @@ function generateStrengthWorkout(exercises, checkinData) {
     durationNote: ex.durationNote,
     credits: ex.credits
   }));
-
+  
   return {
     id: 'wellbeing',
     title: 'Wellbeing Focus',
@@ -361,9 +367,9 @@ function addRationale(workout, checkinData) {
   }
   
   // Sleep quality
-  if (checkinData.sleep && checkinData.sleep.quality >= 4) {
-    rationale.sleep = `Well-rested from ${checkinData.sleep.hours}h sleep`;
-  } else if (checkinData.sleep && checkinData.sleep.quality <= 2) {
+  if (checkinData.sleepQuality >= 4) {
+    rationale.sleep = `Well-rested from ${checkinData.sleepHours}h sleep`;
+  } else if (checkinData.sleepQuality <= 2) {
     rationale.sleep = 'Poor sleep - taking it easier today';
   }
   
