@@ -1,1 +1,278 @@
-
+{
+  "id": "resistance-band",
+  "name": "Resistance Band Exercises",
+  "description": "Strength exercises using resistance bands",
+  "equipment": ["resistance-band"],
+  "exercises": [
+    {
+      "id": "band-squat",
+      "name": "Banded Squat",
+      "description": "Squat with resistance band around thighs for glute activation",
+      "instructions": "Place band above knees. Squat down, pushing knees out against band resistance. Stand back up.",
+      "duration": 45,
+      "durationNote": "45 seconds",
+      "repRange": [12, 15],
+      "sets": 3,
+      "rest": 60,
+      "credits": 40,
+      "energyRequired": "medium",
+      "muscleGroups": ["glutes", "quads", "core"],
+      "movementPattern": "squat",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["knee_severe", "hip_severe"],
+      "modifications": {
+        "easier": "Use lighter band or no band",
+        "harder": "Add pause at bottom, use heavier band"
+      },
+      "conditions": {
+        "knee_moderate": "Use lighter band, don't squat as deep",
+        "hip_moderate": "Focus on form, use lighter resistance"
+      },
+      "videoSearchTerm": "resistance band squat tutorial"
+    },
+    {
+      "id": "band-chest-press",
+      "name": "Banded Chest Press",
+      "description": "Chest press using resistance band anchored behind you",
+      "instructions": "Anchor band behind you at chest height. Press forward, squeezing chest at the top.",
+      "duration": 45,
+      "durationNote": "45 seconds",
+      "repRange": [10, 15],
+      "sets": 3,
+      "rest": 60,
+      "credits": 45,
+      "energyRequired": "medium",
+      "muscleGroups": ["chest", "triceps", "shoulders"],
+      "movementPattern": "push",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["shoulder_severe", "wrist_severe"],
+      "modifications": {
+        "easier": "Use lighter band, press from knees",
+        "harder": "Slow tempo, add pause at peak contraction"
+      },
+      "conditions": {
+        "shoulder_moderate": "Reduce range of motion, lighter band",
+        "wrist_moderate": "Focus on wrist position, neutral grip"
+      },
+      "videoSearchTerm": "resistance band chest press"
+    },
+    {
+      "id": "band-row",
+      "name": "Banded Row",
+      "description": "Rowing motion with resistance band",
+      "instructions": "Anchor band in front at chest height. Pull band to chest, squeezing shoulder blades together.",
+      "duration": 45,
+      "durationNote": "45 seconds",
+      "repRange": [12, 15],
+      "sets": 3,
+      "rest": 60,
+      "credits": 45,
+      "energyRequired": "medium",
+      "muscleGroups": ["back", "biceps", "rear-delts"],
+      "movementPattern": "pull",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["shoulder_severe", "elbow_severe"],
+      "modifications": {
+        "easier": "Use lighter band, seated position",
+        "harder": "Single arm rows, add pause at peak"
+      },
+      "conditions": {
+        "shoulder_moderate": "Reduce range, focus on squeezing shoulder blades",
+        "lower_back_moderate": "Maintain neutral spine, engage core"
+      },
+      "videoSearchTerm": "resistance band row exercise"
+    },
+    {
+      "id": "band-lateral-raise",
+      "name": "Banded Lateral Raise",
+      "description": "Shoulder lateral raise with resistance band",
+      "instructions": "Stand on band, raise arms out to sides to shoulder height. Control descent.",
+      "duration": 40,
+      "durationNote": "40 seconds",
+      "repRange": [12, 15],
+      "sets": 3,
+      "rest": 45,
+      "credits": 35,
+      "energyRequired": "medium",
+      "muscleGroups": ["shoulders", "traps"],
+      "movementPattern": "push",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["shoulder_severe"],
+      "modifications": {
+        "easier": "Lighter band, smaller range of motion",
+        "harder": "Slower tempo, hold at top"
+      },
+      "conditions": {
+        "shoulder_moderate": "Reduce height, focus on control",
+        "neck_moderate": "Keep neck relaxed, don't shrug"
+      },
+      "videoSearchTerm": "resistance band lateral raise"
+    },
+    {
+      "id": "band-bicep-curl",
+      "name": "Banded Bicep Curl",
+      "description": "Bicep curls using resistance band",
+      "instructions": "Stand on band, curl handles up to shoulders. Keep elbows stable.",
+      "duration": 40,
+      "durationNote": "40 seconds",
+      "repRange": [12, 15],
+      "sets": 3,
+      "rest": 45,
+      "credits": 30,
+      "energyRequired": "low",
+      "muscleGroups": ["biceps", "forearms"],
+      "movementPattern": "pull",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["elbow_severe", "wrist_severe"],
+      "modifications": {
+        "easier": "Lighter band, alternate arms",
+        "harder": "Slower tempo, hold at peak"
+      },
+      "conditions": {
+        "elbow_moderate": "Reduce range, focus on controlled movement",
+        "wrist_moderate": "Neutral wrist position"
+      },
+      "videoSearchTerm": "resistance band bicep curl"
+    },
+    {
+      "id": "band-tricep-extension",
+      "name": "Banded Tricep Extension",
+      "description": "Overhead tricep extension with resistance band",
+      "instructions": "Anchor band low, hold overhead, extend arms fully. Control descent.",
+      "duration": 40,
+      "durationNote": "40 seconds",
+      "repRange": [12, 15],
+      "sets": 3,
+      "rest": 45,
+      "credits": 35,
+      "energyRequired": "medium",
+      "muscleGroups": ["triceps", "core"],
+      "movementPattern": "push",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["shoulder_severe", "elbow_severe"],
+      "modifications": {
+        "easier": "Lighter band, bent over position",
+        "harder": "Single arm, slower tempo"
+      },
+      "conditions": {
+        "shoulder_moderate": "Reduce overhead range",
+        "elbow_moderate": "Don't lock out completely"
+      },
+      "videoSearchTerm": "resistance band tricep extension"
+    },
+    {
+      "id": "band-glute-bridge",
+      "name": "Banded Glute Bridge",
+      "description": "Hip bridge with resistance band around thighs",
+      "instructions": "Band above knees, bridge hips up, squeeze glutes. Push knees out.",
+      "duration": 45,
+      "durationNote": "45 seconds",
+      "repRange": [15, 20],
+      "sets": 3,
+      "rest": 45,
+      "credits": 40,
+      "energyRequired": "medium",
+      "muscleGroups": ["glutes", "hamstrings", "core"],
+      "movementPattern": "hinge",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["lower_back_severe"],
+      "modifications": {
+        "easier": "Single leg option, lighter band",
+        "harder": "Hold at top for 3 seconds, heavier band"
+      },
+      "conditions": {
+        "lower_back_moderate": "Focus on glute activation, not overextending",
+        "knee_moderate": "Lighter band, controlled movement"
+      },
+      "videoSearchTerm": "banded glute bridge"
+    },
+    {
+      "id": "band-clamshells",
+      "name": "Banded Clamshells",
+      "description": "Hip abduction exercise with resistance band",
+      "instructions": "Band around thighs, lie on side, knees bent. Lift top knee while keeping feet together.",
+      "duration": 40,
+      "durationNote": "40 seconds each side",
+      "repRange": [15, 20],
+      "sets": 3,
+      "rest": 30,
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["glutes", "hip-abductors"],
+      "movementPattern": "stability",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["hip_severe"],
+      "modifications": {
+        "easier": "Lighter band, smaller movement",
+        "harder": "Heavier band, hold at top"
+      },
+      "conditions": {
+        "hip_moderate": "Go slow, focus on control",
+        "lower_back_moderate": "Keep core engaged"
+      },
+      "videoSearchTerm": "resistance band clamshells"
+    },
+    {
+      "id": "band-pallof-press",
+      "name": "Banded Pallof Press",
+      "description": "Anti-rotation core exercise",
+      "instructions": "Band anchored at chest height. Hold with both hands, press forward resisting rotation.",
+      "duration": 40,
+      "durationNote": "40 seconds each side",
+      "repRange": [10, 12],
+      "sets": 3,
+      "rest": 45,
+      "credits": 40,
+      "energyRequired": "medium",
+      "muscleGroups": ["core", "obliques"],
+      "movementPattern": "core",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["shoulder_severe", "lower_back_severe"],
+      "modifications": {
+        "easier": "Lighter band, half kneeling position",
+        "harder": "Split stance, slower tempo"
+      },
+      "conditions": {
+        "lower_back_moderate": "Keep core braced, neutral spine",
+        "shoulder_moderate": "Reduce range if needed"
+      },
+      "videoSearchTerm": "pallof press resistance band"
+    },
+    {
+      "id": "band-pull-apart",
+      "name": "Banded Pull-Apart",
+      "description": "Rear delt and upper back activation",
+      "instructions": "Hold band with arms extended. Pull apart stretching band across chest. Squeeze shoulder blades.",
+      "duration": 40,
+      "durationNote": "40 seconds",
+      "repRange": [15, 20],
+      "sets": 3,
+      "rest": 30,
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["rear-delts", "upper-back", "traps"],
+      "movementPattern": "pull",
+      "category": "strength",
+      "equipment": ["resistance-band"],
+      "contraindications": ["shoulder_severe"],
+      "modifications": {
+        "easier": "Lighter band, hands closer together",
+        "harder": "Heavier band, slower tempo"
+      },
+      "conditions": {
+        "shoulder_moderate": "Small movements, focus on squeeze",
+        "upper_back_moderate": "Keep shoulders down, controlled"
+      },
+      "videoSearchTerm": "resistance band pull apart"
+    }
+  ]
+}
