@@ -19,9 +19,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Restores mental energy", "Equivalent to short nap for cognition", "Doesn't affect nighttime sleep", "Reduces cortisol"],
-      "bestUsedFor": "Afternoon energy dip, post-training recovery, when exhausted but can't nap",
-      "scienceBacked": "Dr. Huberman (Stanford neuroscientist) - proven to restore dopamine and cognitive function",
       "videoSearchTerm": "nsdr protocol huberman 10 minutes"
     },
     {
@@ -37,9 +34,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Deep nervous system recovery", "Improves learning and memory", "Reduces stress hormones", "Can replace daytime nap"],
-      "bestUsedFor": "Recovery days, between training blocks, when mentally fried",
-      "restorative": "More restorative than meditation, doesn't require focus like meditation does",
       "videoSearchTerm": "nsdr 20 minute protocol"
     },
     {
@@ -55,9 +49,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Profound physical and mental rest", "Activates parasympathetic nervous system", "Reduces accumulated fatigue", "Improves HRV"],
-      "bestUsedFor": "Weekly recovery sessions, evening relaxation, burnout recovery",
-      "tradition": "Yoga nidra is ancient practice, NSDR is modern scientific validation of the same process",
       "videoSearchTerm": "yoga nidra nsdr 30 minutes"
     }
   ]
