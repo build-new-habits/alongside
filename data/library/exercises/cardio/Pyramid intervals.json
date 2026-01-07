@@ -1,0 +1,125 @@
+{
+  "id": "pyramid-intervals",
+  "name": "Pyramid Intervals",
+  "description": "Progressive interval training that builds up in duration, then back down: 1-2-3-2-1 minute work intervals with equal rest",
+  "category": "cardio",
+  "subcategory": "intervals",
+  "level": "intermediate",
+  "exercises": [
+    {
+      "id": "pyramid-run-1-2-3-2-1",
+      "name": "Pyramid Running Intervals",
+      "description": "Running intervals building from 1 to 3 minutes, then back down",
+      "instructions": "1min hard, 1min easy, 2min hard, 2min easy, 3min hard, 3min easy, 2min hard, 2min easy, 1min hard. Total: 15min.",
+      "duration": 900,
+      "durationNote": "15 minutes total",
+      "credits": 150,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe", "hip_severe"],
+      "modifications": {
+        "easier": "Walk during easy intervals, jog during hard intervals",
+        "harder": "Sprint during hard intervals, jog during easy intervals"
+      },
+      "conditions": {
+        "knee_moderate": "Run on soft surface, reduce intensity",
+        "ankle_moderate": "Focus on even terrain, controlled pace"
+      },
+      "videoSearchTerm": "pyramid interval running workout"
+    },
+    {
+      "id": "pyramid-bike-intervals",
+      "name": "Pyramid Bike Intervals",
+      "description": "Cycling intervals with progressive duration (indoor or outdoor)",
+      "instructions": "1min high resistance, 1min easy spin, 2min high, 2min easy, 3min high, 3min easy, 2min high, 2min easy, 1min high.",
+      "duration": 900,
+      "durationNote": "15 minutes total",
+      "credits": 140,
+      "energyRequired": "high",
+      "muscleGroups": ["quads", "glutes", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bike"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "Lower resistance, seated position",
+        "harder": "Maximum resistance, standing climbs on hard intervals"
+      },
+      "conditions": {
+        "knee_moderate": "Lower resistance, maintain smooth pedaling",
+        "lower_back_moderate": "Check bike fit, engage core"
+      },
+      "videoSearchTerm": "indoor cycling pyramid intervals"
+    },
+    {
+      "id": "pyramid-rowing-intervals",
+      "name": "Pyramid Rowing Intervals",
+      "description": "Progressive rowing intervals building intensity",
+      "instructions": "1min hard rowing, 1min easy, 2min hard, 2min easy, 3min hard, 3min easy, 2min hard, 2min easy, 1min hard.",
+      "duration": 900,
+      "durationNote": "15 minutes total",
+      "credits": 160,
+      "energyRequired": "high",
+      "muscleGroups": ["full-body", "cardio"],
+      "movementPattern": "pull",
+      "equipment": ["rowing-machine"],
+      "contraindications": ["lower_back_severe", "knee_severe"],
+      "modifications": {
+        "easier": "Reduce stroke rate, focus on form",
+        "harder": "Maximum stroke rate, 2K race pace on hard intervals"
+      },
+      "conditions": {
+        "lower_back_moderate": "Focus on leg drive, hinge at hips not spine",
+        "knee_moderate": "Reduce leg drive, focus on upper body pull"
+      },
+      "videoSearchTerm": "rowing machine pyramid workout"
+    },
+    {
+      "id": "pyramid-bodyweight-cardio",
+      "name": "Pyramid Bodyweight Cardio",
+      "description": "No-equipment cardio pyramid: alternating exercises",
+      "instructions": "1min burpees, 1min march in place, 2min high knees, 2min march, 3min jumping jacks, 3min march, 2min high knees, 2min march, 1min burpees.",
+      "duration": 900,
+      "durationNote": "15 minutes total",
+      "credits": 145,
+      "energyRequired": "high",
+      "muscleGroups": ["full-body", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "shoulder_severe"],
+      "modifications": {
+        "easier": "Step-touch instead of jumping jacks, step-back burpees",
+        "harder": "Tuck jumps instead of jacks, full burpees with push-up"
+      },
+      "conditions": {
+        "knee_moderate": "Low-impact modifications for all exercises",
+        "shoulder_moderate": "Skip burpees, substitute high knees"
+      },
+      "videoSearchTerm": "bodyweight pyramid interval training"
+    },
+    {
+      "id": "pyramid-sprint-intervals",
+      "name": "Pyramid Sprint Intervals",
+      "description": "Progressive sprint efforts for advanced runners",
+      "instructions": "30s sprint, 30s walk, 1min sprint, 1min walk, 90s sprint, 90s walk, 2min sprint, 2min walk, 90s sprint, 90s walk, 1min sprint, 1min walk, 30s sprint.",
+      "duration": 840,
+      "durationNote": "14 minutes total",
+      "credits": 170,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "Reduce sprint intensity to hard run (80% effort)",
+        "harder": "True maximum sprint (95-100% effort)"
+      },
+      "conditions": {
+        "hamstring_moderate": "Warm up thoroughly, reduce sprint intensity",
+        "knee_moderate": "Run on track or soft surface, focus on form"
+      },
+      "videoSearchTerm": "pyramid sprint workout"
+    }
+  ]
+}
