@@ -1,0 +1,154 @@
+{
+  "id": "hill-repeats",
+  "name": "Hill Repeats",
+  "description": "Running uphill intervals that build leg strength, power, and running economy. One of the most effective workouts for improving speed and preventing injury.",
+  "category": "cardio",
+  "subcategory": "intervals",
+  "level": "intermediate",
+  "exercises": [
+    {
+      "id": "short-hill-repeats-8x30s",
+      "name": "Short Hill Sprints (8 x 30s)",
+      "description": "Maximum effort hill sprints for explosive power",
+      "instructions": "Find a steep hill. 10min easy warmup. Then 8 rounds of: 30s maximum effort uphill sprint, walk/jog down for full recovery (2-3min). 5min cooldown.",
+      "duration": 1800,
+      "durationNote": "30 minutes total (including warmup/recovery)",
+      "credits": 180,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "quads", "calves", "hamstrings"],
+      "movementPattern": "explosive",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "calf_severe", "achilles_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "6 x 30s, or reduce effort to 85-90%",
+        "harder": "10 x 30s, or find steeper hill"
+      },
+      "conditions": {
+        "calf_moderate": "Reduce to 6 reps, focus on shorter ground contact time",
+        "hamstring_moderate": "Thorough warmup, monitor tightness closely"
+      },
+      "hillGuidance": "Hill should be steep enough that you can't sprint at full speed - about 6-8% gradient ideal. Focus on powerful knee drive and forward lean.",
+      "videoSearchTerm": "hill sprint intervals"
+    },
+    {
+      "id": "medium-hill-repeats-6x90s",
+      "name": "Medium Hill Repeats (6 x 90s)",
+      "description": "Classic hill workout for strength endurance",
+      "instructions": "10min easy warmup. Then 6 rounds of: 90s hard effort uphill, jog/walk down slowly for full recovery (3-4min). 5min cooldown.",
+      "duration": 2400,
+      "durationNote": "40 minutes total",
+      "credits": 200,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "quads", "calves", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "calf_severe", "achilles_severe"],
+      "modifications": {
+        "easier": "4-5 x 90s, or reduce to 60s intervals",
+        "harder": "8 x 90s, or 6 x 2min"
+      },
+      "conditions": {
+        "knee_moderate": "Choose gradual hill (4-5% gradient), reduce to 5 reps",
+        "calf_moderate": "6 x 60s instead, warm up calves thoroughly"
+      },
+      "hillGuidance": "Effort should be 85-90% max. Moderate gradient (5-6%). Focus on maintaining form - don't let hips drop backward.",
+      "videoSearchTerm": "hill repeat workout"
+    },
+    {
+      "id": "long-hill-repeats-4x3min",
+      "name": "Long Hill Repeats (4 x 3min)",
+      "description": "Sustained hill efforts for mental and physical toughness",
+      "instructions": "10min easy warmup. Then 4 rounds of: 3min steady-hard effort uphill, walk/jog down for full recovery (4-5min). 5min cooldown.",
+      "duration": 2700,
+      "durationNote": "45 minutes total",
+      "credits": 220,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "quads", "hamstrings", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hip_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "4 x 2min, or 3 x 3min",
+        "harder": "5 x 3min, or 4 x 4min"
+      },
+      "conditions": {
+        "knee_moderate": "Use gradual gradient, monitor pain closely",
+        "hamstring_moderate": "Focus on upright posture, don't overstride"
+      },
+      "hillGuidance": "This is about sustainable power. Effort: 80-85% max. Gradient: 4-5%. Focus on rhythm and breathing. This is tough mentally!",
+      "videoSearchTerm": "long hill intervals running"
+    },
+    {
+      "id": "hill-progression-workout",
+      "name": "Hill Progression Workout",
+      "description": "Building hill efforts: 1min, 2min, 3min, 2min, 1min",
+      "instructions": "10min easy warmup. Then: 1min uphill hard, recover down, 2min uphill, recover, 3min uphill, recover, 2min uphill, recover, 1min uphill. 5min cooldown.",
+      "duration": 2400,
+      "durationNote": "40 minutes total",
+      "credits": 210,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "quads", "calves", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "calf_severe"],
+      "modifications": {
+        "easier": "30s, 1min, 90s, 1min, 30s pyramid",
+        "harder": "Add a 4min interval at the peak"
+      },
+      "conditions": {
+        "knee_moderate": "Stay on gradual hills, take extra recovery between reps"
+      },
+      "hillGuidance": "Start controlled on the 1min, save energy for the 3min effort. This teaches pacing on hills.",
+      "videoSearchTerm": "pyramid hill workout"
+    },
+    {
+      "id": "rolling-hills-tempo",
+      "name": "Rolling Hills Tempo",
+      "description": "Continuous tempo effort on hilly terrain",
+      "instructions": "10min flat easy warmup. Then 20min tempo effort on rolling hills - maintain effort (not pace) throughout. Push the uphills, control the downhills. 5min flat cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 230,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "quads", "calves", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "calf_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "15min on gentler hills",
+        "harder": "25min on steeper terrain"
+      },
+      "conditions": {
+        "knee_moderate": "Focus on controlled downhill running, lean forward",
+        "calf_moderate": "Stay on moderate gradients, avoid very steep climbs"
+      },
+      "hillGuidance": "This simulates race conditions. Effort stays constant, pace varies. Don't hammer downhills - let gravity do the work.",
+      "videoSearchTerm": "tempo run on hills"
+    },
+    {
+      "id": "downhill-speed-intervals",
+      "name": "Downhill Speed Intervals",
+      "description": "Controlled downhill running for speed development and eccentric strength (ADVANCED)",
+      "instructions": "10min easy warmup. Find gradual downhill (2-4% grade). 6 x 90s fast but controlled downhill running, walk back up for recovery. 5min cooldown. CAUTION: Very demanding on quads.",
+      "duration": 2400,
+      "durationNote": "40 minutes total",
+      "credits": 190,
+      "energyRequired": "high",
+      "muscleGroups": ["quads", "calves", "core"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "quad_severe", "shin_severe"],
+      "modifications": {
+        "easier": "4 x 60s on very gentle downhill",
+        "harder": "8 x 90s, or slightly steeper gradient"
+      },
+      "conditions": {
+        "knee_moderate": "AVOID - too much eccentric load",
+        "quad_moderate": "Not recommended - will cause severe DOMS"
+      },
+      "hillGuidance": "IMPORTANT: Stay controlled, don't overstride. Lean forward slightly, quick cadence. This is for advanced runners only - causes significant muscle damage.",
+      "recoveryNote": "Plan 2-3 days of easy running after this workout. Quads will be very sore.",
+      "videoSearchTerm": "downhill running technique"
+    }
+  ]
+}
