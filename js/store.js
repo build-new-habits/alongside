@@ -1,7 +1,7 @@
 /**
  * Alongside - State Management Store
  * LocalStorage-backed reactive state
- * ENHANCED VERSION - With burnout detection and comprehensive check-in
+ * ENHANCED VERSION - With burnout detection, comprehensive check-in, and goal system
  */
 
 const STORAGE_KEY = 'alongside_data';
@@ -15,7 +15,17 @@ const defaultState = {
     equipment: [],
     goals: [],
     menstrualTracking: false,
-    onboardingComplete: false
+    onboardingComplete: false,
+    
+    // NEW: Fitness Level
+    fitnessLevel: null, // 'beginner' | 'intermediate' | 'advanced'
+    
+    // NEW: User Preferences
+    preferences: {
+      cardioType: null, // 'running' | 'hiit' | 'mixed' | 'low-impact'
+      exerciseBlacklist: [], // Exercise IDs user never wants to see
+      yogaStyle: null // 'power' | 'restorative' | 'mixed'
+    }
   },
   
   // Today's check-in - ENHANCED
