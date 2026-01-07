@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2025-01-04",
+  "version": "1.0.1",
+  "lastUpdated": "2025-01-07",
   
   "categories": [
     {
@@ -32,7 +32,12 @@
         "easy-run.json",
         "steady-run.json",
         "tempo-run.json",
-        "intervals.json"
+        "intervals.json",
+        "long-slow-run.json",
+        "hill-repeats.json",
+        "recovery-run.json",
+        "pyramid-intervals.json",
+        "fartlek.json"
       ]
     },
     {
@@ -94,7 +99,8 @@
         "box-breathing.json",
         "4-7-8-breathing.json",
         "body-scan.json",
-        "5min-meditation.json"
+        "5min-meditation.json",
+        "nsdr.json"
       ]
     },
     {
@@ -140,9 +146,64 @@
       "path": "exercises/cardio/walk-run-intervals.json"
     },
     {
+      "id": "cardio/tabata-intervals",
+      "name": "Tabata Intervals",
+      "path": "exercises/cardio/tabata-intervals.json"
+    },
+    {
+      "id": "cardio/pyramid-intervals",
+      "name": "Pyramid Intervals",
+      "path": "exercises/cardio/pyramid-intervals.json"
+    },
+    {
+      "id": "cardio/tempo-run",
+      "name": "Tempo Runs",
+      "path": "exercises/cardio/tempo-run.json"
+    },
+    {
+      "id": "cardio/long-slow-run",
+      "name": "Long Slow Distance Runs",
+      "path": "exercises/cardio/long-slow-run.json"
+    },
+    {
+      "id": "cardio/hill-repeats",
+      "name": "Hill Repeats",
+      "path": "exercises/cardio/hill-repeats.json"
+    },
+    {
+      "id": "cardio/recovery-run",
+      "name": "Recovery Runs",
+      "path": "exercises/cardio/recovery-run.json"
+    },
+    {
+      "id": "cardio/fartlek",
+      "name": "Fartlek Training",
+      "path": "exercises/cardio/fartlek.json"
+    },
+    {
       "id": "mindfulness/box-breathing",
       "name": "Box Breathing",
       "path": "exercises/mindfulness/box-breathing.json"
+    },
+    {
+      "id": "mindfulness/4-7-8-breathing",
+      "name": "4-7-8 Breathing",
+      "path": "exercises/mindfulness/4-7-8-breathing.json"
+    },
+    {
+      "id": "mindfulness/5min-meditation",
+      "name": "Quick Meditations",
+      "path": "exercises/mindfulness/5min-meditation.json"
+    },
+    {
+      "id": "mindfulness/body-scan",
+      "name": "Body Scan Meditations",
+      "path": "exercises/mindfulness/body-scan.json"
+    },
+    {
+      "id": "mindfulness/nsdr",
+      "name": "NSDR (Non-Sleep Deep Rest)",
+      "path": "exercises/mindfulness/nsdr.json"
     },
     {
       "id": "mobility/mobility-drills",
@@ -158,6 +219,16 @@
       "id": "mobility/stretching",
       "name": "Stretching Exercises",
       "path": "exercises/mobility/stretching.json"
+    },
+    {
+      "id": "mobility/ankle-mobility",
+      "name": "Ankle Mobility Drills",
+      "path": "exercises/mobility/ankle-mobility.json"
+    },
+    {
+      "id": "mobility/hip-mobility",
+      "name": "Hip Mobility Drills",
+      "path": "exercises/mobility/hip-mobility.json"
     },
     {
       "id": "recovery/breathing",
@@ -193,6 +264,11 @@
       "id": "strength/kettlebell",
       "name": "Kettlebell Exercises",
       "path": "exercises/strength/kettlebell.json"
+    },
+    {
+      "id": "strength/resistance-band",
+      "name": "Resistance Band Exercises",
+      "path": "exercises/strength/resistance-band.json"
     },
     {
       "id": "workouts/quick-home-7min",
