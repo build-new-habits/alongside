@@ -1,114 +1,154 @@
 {
   "id": "walk-run-intervals",
   "name": "Walk-Run Intervals",
-  "description": "Gentle introduction to running. Alternating walking and jogging builds fitness without overwhelming.",
-  "category": "running",
-  "duration": 20,
-  "energyRequired": [3, 7],
-  "equipment": ["running_shoes"],
-  "goals": ["first_5k", "running", "beginner", "returning_runner"],
-  "contraindications": ["knee_high", "ankle_high", "hip_high"],
-  
-  "coach": {
-    "intro": "This walk-run session is how every runner starts — or returns. The walking isn't rest, it's part of the training. No shame, just smart progression.",
-    "motivation": "Every runner you've ever admired started exactly like this. One foot in front of the other.",
-    "completion": "Fantastic work. You're a runner now. Doesn't matter how fast."
-  },
-  
-  "structure": [
+  "description": "Beginner-friendly cardio that alternates walking and running. Perfect for building endurance gradually. Foundation of Couch to 5K programs.",
+  "category": "cardio",
+  "subcategory": "intervals",
+  "level": "beginner",
+  "exercises": [
     {
-      "type": "segment",
-      "name": "Warm-Up Walk",
-      "activity": "walk",
-      "duration": 180,
-      "notes": "Start with 3 minutes of brisk walking"
+      "id": "week1-walk-run",
+      "name": "Week 1: Walk-Run (1min run / 2min walk)",
+      "description": "Entry-level intervals - building confidence and base fitness",
+      "instructions": "5min easy walk warmup. Then 8 rounds of: 1min easy jog, 2min walk. Finish with 3min cooldown walk. Total: 32min.",
+      "duration": 1920,
+      "durationNote": "32 minutes total",
+      "credits": 100,
+      "energyRequired": "low",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe"],
+      "modifications": {
+        "easier": "30s jog, 2.5min walk",
+        "harder": "1min jog, 90s walk"
+      },
+      "conditions": {
+        "knee_moderate": "Focus on soft surface, reduce to 6 rounds if needed",
+        "shin_moderate": "Increase cadence (quick steps), avoid overstriding"
+      },
+      "paceGuidance": "Jog should be VERY easy - barely faster than walking. Focus on completing the time, not the speed.",
+      "progressionNote": "Repeat this 2-3 times per week for 2 weeks before progressing.",
+      "videoSearchTerm": "couch to 5k week 1"
     },
     {
-      "type": "segment",
-      "name": "Jog 1",
-      "activity": "run",
-      "intensity": "easy",
-      "duration": 60,
-      "notes": "1 minute easy jog. Slow is fine. Just not walking."
+      "id": "week3-walk-run",
+      "name": "Week 3: Walk-Run (2min run / 1.5min walk)",
+      "description": "Building run intervals - increasing running time",
+      "instructions": "5min walk warmup. Then 6 rounds of: 2min easy jog, 1.5min walk. Finish with 3min walk cooldown. Total: 29min.",
+      "duration": 1740,
+      "durationNote": "29 minutes total",
+      "credits": 120,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "90s jog, 2min walk",
+        "harder": "2min jog, 1min walk"
+      },
+      "conditions": {
+        "knee_moderate": "Monitor pain during jog intervals, walk extra if needed"
+      },
+      "paceGuidance": "Still very easy pace - you should be able to hold a conversation during the jog intervals.",
+      "progressionNote": "When this feels comfortable, you're ready for longer intervals.",
+      "videoSearchTerm": "couch to 5k week 3"
     },
     {
-      "type": "segment",
-      "name": "Walk 1",
-      "activity": "walk",
-      "duration": 90,
-      "notes": "90 seconds walking recovery. Keep moving."
+      "id": "week5-walk-run",
+      "name": "Week 5: Walk-Run (5min run / 2min walk)",
+      "description": "Extended running intervals - building endurance",
+      "instructions": "5min walk warmup. Then 4 rounds of: 5min easy jog, 2min walk. Finish with 3min walk cooldown. Total: 36min.",
+      "duration": 2160,
+      "durationNote": "36 minutes total",
+      "credits": 150,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hip_severe"],
+      "modifications": {
+        "easier": "4min jog, 2.5min walk",
+        "harder": "5min jog, 90s walk"
+      },
+      "conditions": {
+        "knee_moderate": "If pain appears during 5min intervals, walk earlier"
+      },
+      "paceGuidance": "Focus on completing the 5min intervals comfortably. Pace should still be conversational.",
+      "progressionNote": "This is a big step - don't rush it. Repeat 2-3 times before progressing.",
+      "videoSearchTerm": "couch to 5k week 5"
     },
     {
-      "type": "segment",
-      "name": "Jog 2",
-      "activity": "run",
-      "intensity": "easy",
-      "duration": 60,
-      "notes": "1 minute jog"
+      "id": "week7-walk-run",
+      "name": "Week 7: Walk-Run (10min run / 2min walk)",
+      "description": "Long running intervals - approaching continuous running",
+      "instructions": "5min walk warmup. Then 3 rounds of: 10min easy jog, 2min walk. Finish with 3min walk cooldown. Total: 44min.",
+      "duration": 2640,
+      "durationNote": "44 minutes total",
+      "credits": 180,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "8min jog, 2min walk x 3",
+        "harder": "12min jog, 90s walk x 3"
+      },
+      "conditions": {
+        "any_moderate": "10min is a long interval - monitor any discomfort closely"
+      },
+      "paceGuidance": "Pace yourself - the second and third 10min intervals should feel the same as the first. Don't start too fast.",
+      "progressionNote": "Once this feels manageable, you're close to running continuously for 20min+",
+      "videoSearchTerm": "couch to 5k week 7"
     },
     {
-      "type": "segment",
-      "name": "Walk 2",
-      "activity": "walk",
-      "duration": 90,
-      "notes": "90 seconds walk"
+      "id": "week9-continuous-20min",
+      "name": "Week 9: 20-Minute Continuous Run",
+      "description": "First continuous run - no walk breaks!",
+      "instructions": "5min walk warmup. Then 20min continuous easy jog - NO WALK BREAKS. Finish with 5min walk cooldown. Total: 30min.",
+      "duration": 1800,
+      "durationNote": "30 minutes total",
+      "credits": 200,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "15min continuous, or add one 30s walk break at 10min mark",
+        "harder": "25min continuous run"
+      },
+      "conditions": {
+        "any_moderate": "This is a milestone workout - only attempt if previous weeks went well"
+      },
+      "paceGuidance": "Start slow! Many people fail this by starting too fast. The goal is to complete 20min without stopping, not to run fast.",
+      "milestone": "This is a HUGE achievement! Most people can't run 20min continuously. Celebrate this!",
+      "videoSearchTerm": "first continuous 20 minute run"
     },
     {
-      "type": "segment",
-      "name": "Jog 3",
-      "activity": "run",
-      "intensity": "easy",
-      "duration": 60,
-      "notes": "1 minute jog"
-    },
-    {
-      "type": "segment",
-      "name": "Walk 3",
-      "activity": "walk",
-      "duration": 90,
-      "notes": "90 seconds walk"
-    },
-    {
-      "type": "segment",
-      "name": "Jog 4",
-      "activity": "run",
-      "intensity": "easy",
-      "duration": 60,
-      "notes": "1 minute jog"
-    },
-    {
-      "type": "segment",
-      "name": "Walk 4",
-      "activity": "walk",
-      "duration": 90,
-      "notes": "90 seconds walk"
-    },
-    {
-      "type": "segment",
-      "name": "Jog 5",
-      "activity": "run",
-      "intensity": "easy",
-      "duration": 60,
-      "notes": "Final jog interval"
-    },
-    {
-      "type": "segment",
-      "name": "Cool-Down Walk",
-      "activity": "walk",
-      "duration": 180,
-      "notes": "3 minutes easy walking to cool down"
+      "id": "advanced-walk-run-recovery",
+      "name": "Walk-Run Recovery Session",
+      "description": "For experienced runners recovering from injury or returning after break",
+      "instructions": "30min total: alternate 3min easy jog, 1min walk throughout. Focus on form and comfort, not speed.",
+      "duration": 1800,
+      "durationNote": "30 minutes",
+      "credits": 110,
+      "energyRequired": "low",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "2min jog, 1min walk",
+        "harder": "4min jog, 1min walk"
+      },
+      "conditions": {
+        "returning_from_injury": "Perfect protocol for testing fitness after time off"
+      },
+      "purpose": "Walk breaks allow experienced runners to monitor how body responds without risking re-injury. Also useful after illness or long break.",
+      "videoSearchTerm": "return to running after injury"
     }
-  ],
-  
-  "progression": {
-    "week1_2": "1 min jog / 90 sec walk × 5",
-    "week3_4": "90 sec jog / 60 sec walk × 6",
-    "week5_6": "2 min jog / 60 sec walk × 5",
-    "week7_8": "3 min jog / 30 sec walk × 4",
-    "week9_10": "5 min jog / 30 sec walk × 3",
-    "beyond": "Continuous easy running"
-  },
-  
-  "estimatedCalories": 140,
-  "credits": 100
+  ]
 }
