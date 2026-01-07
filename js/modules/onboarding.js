@@ -2,10 +2,11 @@
  * Alongside Onboarding  
  * First-time user setup flow
  * 
- * FIXES APPLIED:
- * - Bug 1: Gender dropdown no longer resets name/age (saves before re-render)
- * - Bug 2: Scroll to top on Continue button
- * - Bug 4: Expanded equipment list (26 items)
+ * UPDATES APPLIED:
+ * - Added Step 7: Fitness Level selection
+ * - Added Step 8: Cardio Preferences + Exercise Blacklist
+ * - Updated TOTAL_STEPS from 7 to 9
+ * - Bug fixes: Gender dropdown, scroll to top, expanded equipment
  */
 
 import { store } from '../store.js';
@@ -141,25 +142,52 @@ const GOALS = [
   { id: 'build-habit', name: 'Build exercise habit', icon: '📅' }
 ];
 
-// "Anything to declare" - non-physical conditions
-const DECLARATIONS = [
-  { id: 'digestive', name: 'Digestive issues', icon: '🫃', description: 'IBS, Colitis, etc.' },
-  { id: 'migraines', name: 'Migraines / headaches', icon: '🤕', description: 'Frequent or chronic' },
-  { id: 'fatigue', name: 'Chronic fatigue', icon: '😴', description: 'Persistent tiredness' },
-  { id: 'anxiety', name: 'Anxiety / stress sensitivity', icon: '😰', description: 'Affects energy & focus' },
-  { id: 'menstrual', name: 'Menstrual cycle', icon: '🌙', description: 'Energy varies with cycle' },
-  { id: 'medication', name: 'Medication effects', icon: '💊', description: 'Affects energy or movement' },
-  { id: 'breathing', name: 'Breathing / asthma', icon: '🌬️', description: 'Affects cardio capacity' },
-  { id: 'sleep', name: 'Sleep disorder', icon: '😵', description: 'Insomnia, apnea, etc.' }
+// NEW: Fitness Level Options
+const FITNESS_LEVELS = [
+  { 
+    id: 'beginner', 
+    name: 'Beginner', 
+    icon: '🌱', 
+    description: 'New to exercise or returning after a break' 
+  },
+  { 
+    id: 'intermediate', 
+    name: 'Intermediate', 
+    icon: '💪', 
+    description: 'Regular exerciser, comfortable with basics' 
+  },
+  { 
+    id: 'advanced', 
+    name: 'Advanced', 
+    icon: '🏆', 
+    description: 'Experienced, can handle high intensity' 
+  }
+];
+
+// NEW: Cardio Type Preferences
+const CARDIO_TYPES = [
+  { id: 'running', name: 'Running', icon: '🏃', description: 'Jogging, tempo runs, intervals' },
+  { id: 'hiit', name: 'HIIT', icon: '🔥', description: 'High-intensity interval training' },
+  { id: 'mixed', name: 'Mixed', icon: '🌊', description: 'I like variety in my cardio' },
+  { id: 'low-impact', name: 'Low-Impact', icon: '🚶', description: 'Walking, cycling, swimming' }
+];
+
+// NEW: Exercise Blacklist Options
+const BLACKLIST_OPTIONS = [
+  { id: 'burpee', name: 'Burpees', icon: '💥' },
+  { id: 'mountain-climber', name: 'Mountain Climbers', icon: '⛰️' },
+  { id: 'jumping-jack', name: 'Jumping Jacks', icon: '🤸' },
+  { id: 'jump-squat', name: 'Jump Squats', icon: '💫' },
+  { id: 'high-knee', name: 'High Knees', icon: '🦵' }
 ];
 
 // Current step in onboarding
 let currentStep = 1;
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 9; // UPDATED from 7 to 9
 
 // Equipment sub-navigation
-let equipmentSubStep = 'categories'; // 'categories' | 'category-id' | 'done'
-let selectedCategories = []; // Track which categories user selected
+let equipmentSubStep = 'categories';
+let selectedCategories = [];
 
 // Collected data
 let onboardingData = {
@@ -176,7 +204,10 @@ let onboardingData = {
   declarationNotes: '',
   equipment: ['none'],
   equipmentOther: '',
-  goals: []
+  goals: [],
+  fitnessLevel: null, // NEW
+  cardioType: null, // NEW
+  exerciseBlacklist: [] // NEW
 };
 
 /**
@@ -207,7 +238,10 @@ function start() {
     declarationNotes: '',
     equipment: [],
     equipmentOther: '',    
-    goals: []
+    goals: [],
+    fitnessLevel: null, // NEW
+    cardioType: null, // NEW
+    exerciseBlacklist: [] // NEW
   };
   renderCurrentStep();
 }
@@ -242,6 +276,20 @@ function renderCurrentStep() {
     case 6:
       main.innerHTML = renderGoals();
       break;
+    case 7:
+      main.innerHTML = renderFitnessLevel(); // NEW
+      break;
+    case 8:
+      main.innerHTML = renderCardioPreferences(); // NEW
+      break;
+    case 9:
+      main.innerHTML = renderCoachSummary(); // MOVED from case 7
+      break;
+    default:
+      completeOnboarding();
+  }
+}
+
     case 7:
       main.innerHTML = renderCoachSummary();
       break;
@@ -952,66 +1000,44 @@ function renderCoachSummary() {
         const item = category.items.find(item => item.id === e);
         if (item) itemName = item.name;
       });
-      return itemName;
-    });
-    
-    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;  // ✅ BACKTICKS
-  } else {
-    message += `We'll focus on bodyweight exercises you can do anywhere. `;  // ✅ BACKTICKS
-  }
-  
-  // Goals
-  if (goals.length > 0) {
-    const goalNames = goals.map(g => {
-      const info = GOALS.find(gi => gi.id === g);
-      return info?.name || g;
-    });
-    message += `Your focus is on ${goalNames.join(', ').toLowerCase()}. `;
-  }
-  
-  message += `I'll build each workout with all of this in mind.`;
-  
+
+/**
+ * Step 7: Fitness Level (NEW)
+ */
+function renderFitnessLevel() {
   return `
     <div class="screen screen--active onboarding">
-      <div class="onboarding__content onboarding__content--centered">
-        <div class="onboarding__coach-summary">
-          <span class="onboarding__coach-avatar">🌱</span>
-          <h2 class="onboarding__coach-title">Your Coach</h2>
-          <p class="onboarding__coach-message">${message}</p>
+      <div class="onboarding__header">
+        <button class="onboarding__back" onclick="window.alongside.onboardingBack()">← Back</button>
+        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
+      </div>
+      
+      <div class="onboarding__content">
+        <h2 class="onboarding__title">What's your current fitness level?</h2>
+        <p class="onboarding__subtitle">This helps us match exercise difficulty</p>
+        
+        <div class="onboarding__options">
+          ${FITNESS_LEVELS.map(level => `
+            <button class="onboarding__option onboarding__option--wide ${onboardingData.fitnessLevel === level.id ? 'onboarding__option--selected' : ''}"
+                    onclick="window.alongside.selectFitnessLevel('${level.id}')">
+              <span class="onboarding__option-icon">${level.icon}</span>
+              <div class="onboarding__option-text">
+                <span class="onboarding__option-name">${level.name}</span>
+                <span class="onboarding__option-desc">${level.description}</span>
+              </div>
+              <span class="onboarding__option-check">${onboardingData.fitnessLevel === level.id ? '✓' : ''}</span>
+            </button>
+          `).join('')}
         </div>
         
-        <div class="onboarding__summary-details">
-          ${conditions.length > 0 ? `
-            <div class="onboarding__summary-item">
-              <span class="onboarding__summary-icon">🩹</span>
-              <span>${conditions.length} area${conditions.length > 1 ? 's' : ''} to protect</span>
-            </div>
-          ` : ''}
-          
-          ${declarations.length > 0 ? `
-            <div class="onboarding__summary-item">
-              <span class="onboarding__summary-icon">💚</span>
-              <span>${declarations.length} other factor${declarations.length > 1 ? 's' : ''} noted</span>
-            </div>
-          ` : ''}
-          
-          <div class="onboarding__summary-item">
-            <span class="onboarding__summary-icon">🏠</span>
-            <span>${equipment.length > 0 ? equipment.length + ' equipment item' + (equipment.length > 1 ? 's' : '') : 'Bodyweight only'}</span>
-          </div>
-          
-          <div class="onboarding__summary-item">
-            <span class="onboarding__summary-icon">🎯</span>
-            <span>${goals.length} goal${goals.length > 1 ? 's' : ''} set</span>
-          </div>
-        </div>
+        <p class="onboarding__hint">
+          💡 Don't worry - you can always adjust this later based on how workouts feel
+        </p>
         
-        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.onboardingNext()">
-          Let's go! →
-        </button>
-        
-        <button class="onboarding__btn onboarding__btn--secondary" onclick="window.alongside.onboardingBack()" style="margin-top: var(--space-3);">
-          ← Go back and edit
+        <button class="onboarding__btn onboarding__btn--primary" 
+                onclick="window.alongside.onboardingNext()"
+                ${!onboardingData.fitnessLevel ? 'disabled' : ''}>
+          Continue →
         </button>
       </div>
       
@@ -1023,76 +1049,61 @@ function renderCoachSummary() {
 }
 
 /**
- * Go to next step
- * FIX #2: Added scroll to top
+ * Step 8: Cardio Preferences (NEW)
  */
-function next() {
-  saveCurrentStepData();
-  
-  // Don't advance main step if still in equipment sub-flow
-  if (currentStep === 5 && equipmentSubStep !== 'categories') {
-    return;
-  }
-  
-  currentStep++;
-  
-  if (currentStep > TOTAL_STEPS) {
-    completeOnboarding();
-  } else {
-    renderCurrentStep();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-}
-
-/**
- * Go to previous step
- */
-function back() {
-  // If in equipment sub-flow, use equipment-specific back
-  if (currentStep === 5 && equipmentSubStep !== 'categories') {
-    equipmentCategoryBack();
-    return;
-  }
-  
-  if (currentStep > 1) {
-    currentStep--;
-    renderCurrentStep();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-}
-
-/**
- * Save data from current step
- */
-function saveCurrentStepData() {
-  switch (currentStep) {
-    case 2:
-      const nameEl = document.getElementById('onboardingName');
-      const ageEl = document.getElementById('onboardingAge');
-      const genderEl = document.getElementById('onboardingGender');
-      const menstrualEl = document.getElementById('onboardingMenstrualTracking');
-      const weightEl = document.getElementById('onboardingWeight');
-      const goalWeightEl = document.getElementById('onboardingGoalWeight');
-      const unitEl = document.getElementById('onboardingWeightUnit');
+function renderCardioPreferences() {
+  return `
+    <div class="screen screen--active onboarding">
+      <div class="onboarding__header">
+        <button class="onboarding__back" onclick="window.alongside.onboardingBack()">← Back</button>
+        <span class="onboarding__step">Step ${currentStep} of ${TOTAL_STEPS}</span>
+      </div>
       
-      if (nameEl) onboardingData.name = nameEl.value.trim();
-      if (ageEl) onboardingData.age = parseInt(ageEl.value) || null;
-      if (genderEl) onboardingData.gender = genderEl.value || null;
-      if (menstrualEl) onboardingData.menstrualTracking = menstrualEl.checked;
-      if (weightEl) onboardingData.weight = parseFloat(weightEl.value) || null;
-      if (goalWeightEl) onboardingData.goalWeight = parseFloat(goalWeightEl.value) || null;
-      if (unitEl) onboardingData.weightUnit = unitEl.value;
-      break;
-    case 4:
-      const notesEl = document.getElementById('declarationNotes');
-      if (notesEl) onboardingData.declarationNotes = notesEl.value.trim();
-      break;
-  }
+      <div class="onboarding__content">
+        <h2 class="onboarding__title">What type of cardio do you prefer?</h2>
+        <p class="onboarding__subtitle">We'll prioritize exercises that match your style</p>
+        
+        <div class="onboarding__options">
+          ${CARDIO_TYPES.map(type => `
+            <button class="onboarding__option onboarding__option--wide ${onboardingData.cardioType === type.id ? 'onboarding__option--selected' : ''}"
+                    onclick="window.alongside.selectCardioType('${type.id}')">
+              <span class="onboarding__option-icon">${type.icon}</span>
+              <div class="onboarding__option-text">
+                <span class="onboarding__option-name">${type.name}</span>
+                <span class="onboarding__option-desc">${type.description}</span>
+              </div>
+              <span class="onboarding__option-check">${onboardingData.cardioType === type.id ? '✓' : ''}</span>
+            </button>
+          `).join('')}
+        </div>
+        
+        <div class="onboarding__field" style="margin-top: var(--space-4);">
+          <label class="onboarding__label">Any exercises you want to avoid? <span class="onboarding__optional">(optional)</span></label>
+          <div class="onboarding__options onboarding__options--grid">
+            ${BLACKLIST_OPTIONS.map(exercise => `
+              <button class="onboarding__option ${onboardingData.exerciseBlacklist.includes(exercise.id) ? 'onboarding__option--selected' : ''}"
+                      onclick="window.alongside.toggleBlacklistExercise('${exercise.id}')">
+                <span class="onboarding__option-icon">${exercise.icon}</span>
+                <span class="onboarding__option-name">${exercise.name}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+        
+        <button class="onboarding__btn onboarding__btn--primary" 
+                onclick="window.alongside.onboardingNext()"
+                ${!onboardingData.cardioType ? 'disabled' : ''}>
+          Continue →
+        </button>
+      </div>
+      
+      <div class="onboarding__progress">
+        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
+      </div>
+    </div>
+  `;
 }
 
-/**
- * Toggle a declaration selection
- */
 function toggleDeclaration(declarationId) {
   // Ensure declarations array exists
   if (!onboardingData.declarations) {
@@ -1242,6 +1253,35 @@ function toggleGoal(goalId) {
 }
 
 /**
+ * Select fitness level (NEW)
+ */
+function selectFitnessLevel(level) {
+  onboardingData.fitnessLevel = level;
+  renderCurrentStep();
+}
+
+/**
+ * Select cardio type preference (NEW)
+ */
+function selectCardioType(type) {
+  onboardingData.cardioType = type;
+  renderCurrentStep();
+}
+
+/**
+ * Toggle exercise in blacklist (NEW)
+ */
+function toggleBlacklistExercise(exerciseId) {
+  const index = onboardingData.exerciseBlacklist.indexOf(exerciseId);
+  if (index > -1) {
+    onboardingData.exerciseBlacklist.splice(index, 1);
+  } else {
+    onboardingData.exerciseBlacklist.push(exerciseId);
+  }
+  renderCurrentStep();
+}
+
+/**
  * Complete onboarding and save to store
  */
 function completeOnboarding() {
@@ -1271,6 +1311,12 @@ function completeOnboarding() {
   
   store.set('profile.equipment', onboardingData.equipment);
   store.set('profile.goals', onboardingData.goals);
+  
+  // NEW: Save fitness level and preferences
+  store.set('profile.fitnessLevel', onboardingData.fitnessLevel);
+  store.set('profile.preferences.cardioType', onboardingData.cardioType);
+  store.set('profile.preferences.exerciseBlacklist', onboardingData.exerciseBlacklist);
+  
   store.set('profile.onboardingComplete', true);
   store.set('profile.onboardingDate', new Date().toISOString());
   
@@ -1312,7 +1358,6 @@ export const onboarding = {
   toggleGoal,
   onGenderChange,
   onMenstrualTrackingChange,
-  // NEW EQUIPMENT FUNCTIONS
   toggleEquipmentCategory,
   toggleNoEquipment,
   equipmentCategoriesNext,
@@ -1320,11 +1365,17 @@ export const onboarding = {
   equipmentCategoryBack,
   toggleEquipmentItem,
   equipmentOtherDone,
+  selectFitnessLevel, // NEW
+  selectCardioType, // NEW
+  toggleBlacklistExercise, // NEW
   skip,
   CONDITIONS,
   DECLARATIONS,
-  EQUIPMENT_CATEGORIES, // CHANGED from EQUIPMENT
-  GOALS
+  EQUIPMENT_CATEGORIES,
+  GOALS,
+  FITNESS_LEVELS, // NEW
+  CARDIO_TYPES, // NEW
+  BLACKLIST_OPTIONS // NEW
 };
 
 export default onboarding;
