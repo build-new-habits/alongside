@@ -19,9 +19,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Releases physical tension", "Improves body awareness", "Reduces chronic pain perception", "Aids sleep onset"],
-      "bestUsedFor": "Before bed, desk breaks, after workouts",
-      "scienceBacked": "MBSR protocol, proven for pain management and stress",
       "videoSearchTerm": "10 minute body scan meditation"
     },
     {
@@ -37,9 +34,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Deep physical relaxation", "Interrupts pain-tension cycle", "Improves sleep quality", "Reduces rumination"],
-      "bestUsedFor": "Evening relaxation, chronic pain management, insomnia",
-      "mbsrStandard": "This is the classic MBSR body scan used in clinical settings",
       "videoSearchTerm": "20 minute body scan MBSR"
     },
     {
@@ -55,9 +49,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Falls asleep faster", "Interrupts pre-sleep anxiety", "Releases physical holding", "Better sleep quality"],
-      "bestUsedFor": "Insomnia, racing thoughts at bedtime, chronic sleep issues",
-      "guidance": "It's OK to fall asleep - that's the goal. If you wake up later, start again from wherever you remember",
       "videoSearchTerm": "body scan for sleep"
     },
     {
@@ -73,9 +64,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Desk-friendly practice", "Releases postural tension", "Mental reset during workday"],
-      "bestUsedFor": "Work breaks, when lying down isn't possible, midday reset",
-      "discrete": "Can be done in office with eyes open if needed",
       "videoSearchTerm": "seated body scan meditation"
     }
   ]
