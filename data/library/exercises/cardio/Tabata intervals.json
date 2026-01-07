@@ -1,0 +1,156 @@
+{
+  "id": "tabata-intervals",
+  "name": "Tabata Intervals",
+  "description": "High-intensity interval training using the Tabata protocol: 20 seconds maximum effort, 10 seconds rest, repeated for 8 rounds (4 minutes total per exercise)",
+  "category": "cardio",
+  "subcategory": "hiit",
+  "level": "intermediate",
+  "exercises": [
+    {
+      "id": "tabata-burpees",
+      "name": "Tabata Burpees",
+      "description": "Full-body explosive movement combining squat, plank, and jump",
+      "instructions": "20s max effort burpees, 10s rest. Repeat 8 times (4 min total). Count total reps.",
+      "duration": 240,
+      "durationNote": "4 minutes (8 rounds)",
+      "repRange": [40, 60],
+      "credits": 120,
+      "energyRequired": "high",
+      "muscleGroups": ["full-body", "cardio"],
+      "movementPattern": "explosive",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "shoulder_severe", "lower_back_severe", "wrist_severe"],
+      "modifications": {
+        "easier": "Step back instead of jump back, no jump at top",
+        "harder": "Add push-up at bottom, tuck jump at top"
+      },
+      "conditions": {
+        "knee_moderate": "Step back and forward instead of jumping",
+        "shoulder_moderate": "Skip push-up portion, focus on squat-jump",
+        "wrist_moderate": "Use fists instead of flat palms in plank"
+      },
+      "videoSearchTerm": "tabata burpees tutorial"
+    },
+    {
+      "id": "tabata-mountain-climbers",
+      "name": "Tabata Mountain Climbers",
+      "description": "High-intensity core and cardio exercise in plank position",
+      "instructions": "20s maximum speed mountain climbers, 10s rest. Repeat 8 times. Keep hips level.",
+      "duration": 240,
+      "durationNote": "4 minutes (8 rounds)",
+      "repRange": [80, 120],
+      "credits": 100,
+      "energyRequired": "high",
+      "muscleGroups": ["core", "shoulders", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["shoulder_severe", "wrist_severe", "lower_back_severe"],
+      "modifications": {
+        "easier": "Slower pace, hands on bench instead of floor",
+        "harder": "Cross-body mountain climbers, faster pace"
+      },
+      "conditions": {
+        "wrist_moderate": "Use fists or parallettes",
+        "shoulder_moderate": "Reduce range, focus on form over speed",
+        "lower_back_moderate": "Engage core tightly, slow down if form breaks"
+      },
+      "videoSearchTerm": "mountain climbers proper form"
+    },
+    {
+      "id": "tabata-jump-squats",
+      "name": "Tabata Jump Squats",
+      "description": "Explosive lower body power development",
+      "instructions": "20s max jump squats, 10s rest. Repeat 8 times. Land softly, full squat depth.",
+      "duration": 240,
+      "durationNote": "4 minutes (8 rounds)",
+      "repRange": [40, 60],
+      "credits": 110,
+      "energyRequired": "high",
+      "muscleGroups": ["quads", "glutes", "calves", "cardio"],
+      "movementPattern": "squat",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe", "lower_back_severe"],
+      "modifications": {
+        "easier": "Bodyweight squats (no jump), or half-height jumps",
+        "harder": "Tuck jumps, or add 180-degree rotation"
+      },
+      "conditions": {
+        "knee_moderate": "Reduce jump height, focus on soft landing",
+        "ankle_moderate": "Quarter-height jumps, land on balls of feet"
+      },
+      "videoSearchTerm": "jump squat technique"
+    },
+    {
+      "id": "tabata-high-knees",
+      "name": "Tabata High Knees",
+      "description": "Running in place with maximum knee drive",
+      "instructions": "20s maximum speed high knees, 10s rest. Repeat 8 times. Drive knees to hip height.",
+      "duration": 240,
+      "durationNote": "4 minutes (8 rounds)",
+      "repRange": [100, 160],
+      "credits": 100,
+      "energyRequired": "high",
+      "muscleGroups": ["hip-flexors", "quads", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hip_severe"],
+      "modifications": {
+        "easier": "March in place with controlled knee lifts",
+        "harder": "Add forward movement, or increase speed"
+      },
+      "conditions": {
+        "knee_moderate": "Reduce knee height, focus on controlled movement",
+        "hip_moderate": "Slower pace, maintain form"
+      },
+      "videoSearchTerm": "high knees running drill"
+    },
+    {
+      "id": "tabata-skaters",
+      "name": "Tabata Skater Jumps",
+      "description": "Lateral power and balance exercise mimicking speed skating",
+      "instructions": "20s max skater jumps, 10s rest. Repeat 8 times. Jump side-to-side, land on single leg.",
+      "duration": 240,
+      "durationNote": "4 minutes (8 rounds)",
+      "repRange": [40, 60],
+      "credits": 110,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "quads", "adductors", "cardio"],
+      "movementPattern": "lateral",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe"],
+      "modifications": {
+        "easier": "Step side-to-side instead of jumping",
+        "harder": "Increase distance, add floor touch"
+      },
+      "conditions": {
+        "knee_moderate": "Smaller jumps, soft landing",
+        "ankle_moderate": "Focus on stability, reduce speed"
+      },
+      "videoSearchTerm": "skater jumps exercise"
+    },
+    {
+      "id": "tabata-battle-ropes",
+      "name": "Tabata Battle Ropes",
+      "description": "Upper body cardio with ropes (if available) or shadowboxing alternative",
+      "instructions": "20s max effort waves/punches, 10s rest. Repeat 8 times. If no ropes: fast shadowboxing.",
+      "duration": 240,
+      "durationNote": "4 minutes (8 rounds)",
+      "credits": 100,
+      "energyRequired": "high",
+      "muscleGroups": ["shoulders", "arms", "core", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["battle-ropes", "bodyweight"],
+      "contraindications": ["shoulder_severe", "elbow_severe"],
+      "modifications": {
+        "easier": "Slower pace, alternating waves instead of simultaneous",
+        "harder": "Add squat or lunge while doing waves",
+        "noEquipment": "Fast shadowboxing with jabs and crosses"
+      },
+      "conditions": {
+        "shoulder_moderate": "Smaller range of motion, controlled pace",
+        "elbow_moderate": "Avoid full extension, focus on controlled movement"
+      },
+      "videoSearchTerm": "battle ropes tabata workout"
+    }
+  ]
+}
