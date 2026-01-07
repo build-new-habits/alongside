@@ -1,1 +1,128 @@
-
+{
+  "id": "tempo-run",
+  "name": "Tempo Runs",
+  "description": "Sustained hard-effort runs at 'comfortably hard' pace (about 80-85% max effort). Builds lactate threshold and mental toughness.",
+  "category": "cardio",
+  "subcategory": "running",
+  "level": "intermediate",
+  "exercises": [
+    {
+      "id": "tempo-20min",
+      "name": "20-Minute Tempo Run",
+      "description": "Classic tempo: 10min easy warmup, 20min tempo pace, 5min cooldown",
+      "instructions": "Warm up 10min easy running. Then 20min at tempo pace (conversation is difficult but possible). Cool down 5min easy.",
+      "duration": 2100,
+      "durationNote": "35 minutes total (includes warmup/cooldown)",
+      "credits": 200,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe", "hip_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "15min tempo instead of 20min",
+        "harder": "25-30min tempo, or slightly faster pace"
+      },
+      "conditions": {
+        "knee_moderate": "Run on soft surface, reduce pace slightly",
+        "hamstring_moderate": "Thorough warmup, back off if tightness appears"
+      },
+      "paceGuidance": "Should feel 'comfortably hard' - you can say a few words but not hold a conversation. About 80-85% max effort.",
+      "videoSearchTerm": "tempo run pacing guide"
+    },
+    {
+      "id": "cruise-intervals",
+      "name": "Cruise Intervals (Tempo Segments)",
+      "description": "Broken tempo: 4 x 5min at tempo pace with 1min easy between",
+      "instructions": "10min easy warmup. Then 4 rounds of: 5min tempo, 1min easy jog. Finish with 5min cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 190,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe"],
+      "modifications": {
+        "easier": "3 x 5min instead of 4, or 4 x 4min",
+        "harder": "5 x 5min, or 4 x 6min tempo segments"
+      },
+      "conditions": {
+        "knee_moderate": "Use recovery jog to assess knee, stop if pain develops",
+        "calf_moderate": "Stay on flat terrain, avoid hills"
+      },
+      "paceGuidance": "Same tempo pace as continuous tempo, but broken into segments makes it more manageable mentally.",
+      "videoSearchTerm": "cruise interval running workout"
+    },
+    {
+      "id": "progressive-tempo",
+      "name": "Progressive Tempo Run",
+      "description": "Build pace gradually throughout the tempo portion",
+      "instructions": "10min easy warmup. Then 20min progressive: start at easy tempo (75% effort), gradually increase to hard tempo (85% effort) by end. 5min cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 210,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "15min progressive instead of 20min",
+        "harder": "25min progressive, finish at threshold pace (90% effort)"
+      },
+      "conditions": {
+        "hamstring_moderate": "Focus on gradual progression, don't surge too hard at end"
+      },
+      "paceGuidance": "Start controlled, every 5min increase pace slightly. Should finish strong but not sprinting.",
+      "videoSearchTerm": "progressive tempo run"
+    },
+    {
+      "id": "tempo-hill-run",
+      "name": "Tempo Hill Run",
+      "description": "Tempo effort on rolling hills - builds power and strength",
+      "instructions": "10min flat easy warmup. Then 20min tempo pace on rolling hills. Maintain effort (not pace) on uphills. 5min flat cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 220,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "quads", "calves", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "calf_severe", "achilles_severe"],
+      "modifications": {
+        "easier": "15min on gentler hills",
+        "harder": "25min on steeper terrain"
+      },
+      "conditions": {
+        "calf_moderate": "Stay on gradual hills, avoid steep climbs",
+        "knee_moderate": "Focus on controlled downhill running, lean forward slightly"
+      },
+      "paceGuidance": "Pace will slow on uphills - that's fine. Maintain effort level. Don't sprint downhills, stay controlled.",
+      "videoSearchTerm": "hill tempo running workout"
+    },
+    {
+      "id": "tempo-fartlek",
+      "name": "Tempo Fartlek",
+      "description": "Unstructured tempo with surges and recoveries based on feel",
+      "instructions": "10min easy warmup. Then 20min: vary between tempo pace and slightly faster surges (30-60s), with brief easy jogs to recover. Stay in tempo zone overall. 5min cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 200,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "Smaller surges, more recovery time",
+        "harder": "Longer surges (90-120s), less recovery"
+      },
+      "conditions": {
+        "hamstring_moderate": "Keep surges controlled, no sprinting"
+      },
+      "paceGuidance": "Play with pace - surge to next tree/lamppost, recover briefly, surge again. Overall average should be tempo effort.",
+      "videoSearchTerm": "fartlek tempo run"
+    }
+  ]
+}
