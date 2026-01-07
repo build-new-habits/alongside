@@ -1,0 +1,169 @@
+{
+  "id": "fartlek",
+  "name": "Fartlek Training",
+  "description": "Swedish for 'speed play' - unstructured intervals based on feel, landmarks, or time. Mix of fast and slow running without rigid structure. Great for mental freshness.",
+  "category": "cardio",
+  "subcategory": "intervals",
+  "level": "intermediate",
+  "exercises": [
+    {
+      "id": "classic-fartlek-30min",
+      "name": "Classic Fartlek (30min)",
+      "description": "Traditional unstructured fartlek - pick targets and surge",
+      "instructions": "10min easy warmup. Then 20min: surge to landmarks (trees, lampposts, etc) at varying speeds, recover between. No set intervals - just play. 5min cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 170,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "15min fartlek portion with gentler surges",
+        "harder": "25min fartlek with more/longer surges"
+      },
+      "conditions": {
+        "hamstring_moderate": "Keep surges controlled, avoid maximum sprints"
+      },
+      "mentalBenefit": "Breaking from structured training. Makes running playful and fun again. Great when feeling mentally stale.",
+      "paceGuidance": "No rules! Some surges can be 10s, some 2min. Some fast, some moderate. Just listen to your body and play.",
+      "videoSearchTerm": "fartlek training explained"
+    },
+    {
+      "id": "lamp-post-fartlek",
+      "name": "Lamp Post Fartlek",
+      "description": "Structured fartlek using lamp posts as markers",
+      "instructions": "10min warmup. Then: sprint 2 lamp posts, jog 3 lamp posts. Repeat for 20min. Cooldown 5min.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 165,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "Sprint 1 lamp post, jog 4",
+        "harder": "Sprint 3 lamp posts, jog 2"
+      },
+      "conditions": {
+        "knee_moderate": "Use 'stride' instead of sprint - 85% effort",
+        "hamstring_moderate": "Reduce sprint portion, thorough warmup"
+      },
+      "paceGuidance": "Sprint = 90-95% effort. Jog = very easy, full recovery. Let heart rate settle between surges.",
+      "videoSearchTerm": "lamp post running intervals"
+    },
+    {
+      "id": "1-2-3-fartlek",
+      "name": "1-2-3 Minute Fartlek",
+      "description": "Semi-structured fartlek with ascending intervals",
+      "instructions": "10min warmup. Then repeat 3 times: 1min hard, 1min easy, 2min hard, 2min easy, 3min hard, 3min easy (18min total). Cooldown 5min.",
+      "duration": 1980,
+      "durationNote": "33 minutes total",
+      "credits": 180,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "Repeat sequence twice instead of 3 times",
+        "harder": "Add a 4min surge at the end of each set"
+      },
+      "conditions": {
+        "any_moderate": "Monitor during 3min efforts - these are tough"
+      },
+      "paceGuidance": "Hard = 85-90% effort, sustainable but challenging. Easy = very easy jog for full recovery.",
+      "videoSearchTerm": "fartlek 1-2-3 intervals"
+    },
+    {
+      "id": "hill-fartlek",
+      "name": "Hill Fartlek",
+      "description": "Fartlek on rolling terrain - surge the uphills, recover on flats/downs",
+      "instructions": "10min flat warmup. Then 20min: attack every uphill you encounter at hard effort, recover on flats and downhills. 5min flat cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 190,
+      "energyRequired": "high",
+      "muscleGroups": ["glutes", "quads", "calves", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "calf_severe", "achilles_severe"],
+      "modifications": {
+        "easier": "15min on gentler hills, moderate effort on uphills",
+        "harder": "25min on steeper terrain"
+      },
+      "conditions": {
+        "calf_moderate": "Stay on gradual hills, focus on form over power",
+        "knee_moderate": "Control downhills carefully, don't bomb down"
+      },
+      "terrainGuidance": "Perfect for naturally hilly routes. Each hill is different, keeps it interesting. Great for trail runners.",
+      "videoSearchTerm": "hill fartlek workout"
+    },
+    {
+      "id": "song-fartlek",
+      "name": "Music-Based Fartlek",
+      "description": "Use your playlist to structure intervals",
+      "instructions": "10min warmup. Then 20min: during upbeat/fast songs run hard, during slower songs jog easy. Let the music dictate effort. 5min cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 160,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight", "headphones"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "Match pace to music tempo instead of effort",
+        "harder": "Sprint during choruses, recover during verses"
+      },
+      "mentalBenefit": "Makes intervals feel less structured. Great if you love running with music. Can be very motivating.",
+      "paceGuidance": "Hard songs = 80-90% effort. Easy songs = conversation pace. Natural variety in song lengths creates variable intervals.",
+      "playlistTip": "Create a playlist alternating fast and slow songs for automatic structure.",
+      "videoSearchTerm": "music based interval running"
+    },
+    {
+      "id": "partner-fartlek",
+      "name": "Partner Fartlek",
+      "description": "Run with a partner, take turns leading surges",
+      "instructions": "10min warmup together. Then 20min: partners alternate calling out surges (duration and effort). Follow leader's pace, then swap leader. 5min cooldown.",
+      "duration": 2100,
+      "durationNote": "35 minutes total",
+      "credits": 175,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "Leader must call out efforts in advance ('60s surge in 3, 2, 1...')",
+        "harder": "Surprise surges with no warning"
+      },
+      "socialBenefit": "Makes running social and competitive (friendly). Great workout date or training session with friends.",
+      "paceGuidance": "Leaders should match surges to their partner's fitness level. This is collaborative, not cutthroat.",
+      "videoSearchTerm": "partner fartlek training"
+    },
+    {
+      "id": "recovery-fartlek",
+      "name": "Recovery Fartlek",
+      "description": "Very easy fartlek for active recovery - just playing with pace",
+      "instructions": "25min total: mostly easy running with occasional 10-20s pickups to 'tempo' pace (not sprints). Focus on form and feeling smooth, not speed.",
+      "duration": 1500,
+      "durationNote": "25 minutes total",
+      "credits": 100,
+      "energyRequired": "low",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "20min with even gentler pickups",
+        "harder": "30min with more frequent pickups"
+      },
+      "purpose": "Teaches running economy and smooth pace changes without fatigue. Great for recovery days when you want movement variety.",
+      "paceGuidance": "Base pace = very easy recovery pace. Pickups = just a bit faster, focusing on efficient form. Nothing hard.",
+      "videoSearchTerm": "easy fartlek recovery"
+    }
+  ]
+}
