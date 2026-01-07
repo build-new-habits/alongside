@@ -1,1 +1,70 @@
-
+{
+  "id": "ankle-mobility",
+  "name": "Ankle Mobility Drills",
+  "description": "Essential for runners, walkers, and anyone with knee/hip issues. Poor ankle mobility causes compensation patterns up the chain.",
+  "category": "mobility",
+  "subcategory": "joint-specific",
+  "level": "all",
+  "exercises": [
+    {
+      "id": "ankle-circles",
+      "name": "Ankle Circles",
+      "duration": 120,
+      "durationNote": "2 minutes (1min each direction)",
+      "credits": 15,
+      "energyRequired": "low",
+      "instructions": "Seated or standing. Lift one foot, draw circles with toes. 30s clockwise, 30s counter-clockwise. Switch feet.",
+      "muscleGroups": ["ankles", "calves"],
+      "movementPattern": "mobility",
+      "equipment": ["bodyweight"],
+      "contraindications": ["ankle_severe"],
+      "benefits": ["Improves ankle range of motion", "Reduces stiffness", "Warms up for exercise"],
+      "videoSearchTerm": "ankle circles mobility"
+    },
+    {
+      "id": "ankle-dorsiflexion-wall",
+      "name": "Wall Ankle Dorsiflexion",
+      "duration": 180,
+      "durationNote": "3 minutes (90s each side)",
+      "credits": 20,
+      "energyRequired": "low",
+      "instructions": "Face wall, place one foot forward. Drive knee over toes toward wall without lifting heel. Feel stretch in calf/Achilles. Critical for squat depth.",
+      "muscleGroups": ["ankles", "calves", "achilles"],
+      "movementPattern": "mobility",
+      "equipment": ["bodyweight", "wall"],
+      "contraindications": ["achilles_severe"],
+      "benefits": ["Improves squat depth", "Prevents knee compensation", "Essential for runners"],
+      "videoSearchTerm": "wall ankle mobility test"
+    },
+    {
+      "id": "heel-walks-toe-walks",
+      "name": "Heel Walks + Toe Walks",
+      "duration": 180,
+      "durationNote": "3 minutes (alternating)",
+      "credits": 25,
+      "energyRequired": "low",
+      "instructions": "Walk 20 steps on heels (toes up). Walk 20 steps on toes (heels up). Alternate. Strengthens and mobilizes ankles.",
+      "muscleGroups": ["ankles", "calves", "shin"],
+      "movementPattern": "mobility",
+      "equipment": ["bodyweight"],
+      "contraindications": ["ankle_severe", "achilles_severe"],
+      "benefits": ["Strengthens ankles", "Prevents shin splints", "Improves balance"],
+      "videoSearchTerm": "heel toe walk exercise"
+    },
+    {
+      "id": "calf-stretch-bent-knee",
+      "name": "Bent-Knee Calf Stretch (Soleus)",
+      "duration": 120,
+      "durationNote": "2 minutes (1min each leg)",
+      "credits": 20,
+      "energyRequired": "low",
+      "instructions": "Stand facing wall. Step one foot back, bend both knees. Keep back heel down. Targets soleus (deep calf) and improves ankle flexion.",
+      "muscleGroups": ["soleus", "ankles"],
+      "movementPattern": "stretch",
+      "equipment": ["bodyweight", "wall"],
+      "contraindications": [],
+      "benefits": ["Improves ankle mobility", "Different from straight-leg calf stretch", "Essential for ankle dorsiflexion"],
+      "videoSearchTerm": "soleus stretch bent knee"
+    }
+  ]
+}
