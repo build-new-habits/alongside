@@ -13,6 +13,7 @@
 // - Better variety in all workouts
 // - Multiple cardio exercises (not just 1)
 // - Flexible wellbeing selection
+// - FIXED: Now includes running exercises properly
 // ===================================================================
 
 import { store } from '../store.js';
@@ -126,31 +127,35 @@ function generateStrengthWorkout(exercises, checkinData) {
 function generateWellbeingWorkout(exercises, checkinData) {
   // IMPROVED: More flexible category matching
   const wellbeingExercises = exercises.filter(ex => 
-    ['mobility', 'recovery', 'stretching', 'yoga'].includes(ex.category) ||
+    ['mobility', 'recovery', 'stretching', 'yoga', 'mindfulness'].includes(ex.category) ||
     ex.energyRequired === 'low' || // Include all low-energy exercises
     ex.movementPattern === 'stretch' ||
+    ex.movementPattern === 'breathing' ||
+    ex.movementPattern === 'stillness' ||
     ex.movementPattern === 'recovery'
   );
   
   console.log(`💚 Wellbeing: Found ${wellbeingExercises.length} exercises`);
   
-  // Select mix of dynamic mobility and static stretching
+  // Select mix of dynamic mobility, meditation, and static stretching
   const dynamicMobility = wellbeingExercises.filter(ex => 
     ex.movementPattern === 'dynamic' || ex.subcategory === 'dynamic'
-  ).slice(0, 4);
+  ).slice(0, 3);
+  
+  const mindfulness = wellbeingExercises.filter(ex =>
+    ex.category === 'mindfulness' || 
+    ex.movementPattern === 'breathing' ||
+    ex.movementPattern === 'stillness'
+  ).slice(0, 2);
   
   const staticStretching = wellbeingExercises.filter(ex =>
     ex.movementPattern === 'stretch' || ex.subcategory === 'static'
-  ).slice(0, 6);
-  
-  const breathwork = wellbeingExercises.filter(ex =>
-    ex.subcategory === 'breathwork' || ex.movementPattern === 'breathing'
-  ).slice(0, 2);
+  ).slice(0, 4);
   
   const main = [
     ...dynamicMobility,
-    ...staticStretching,
-    ...breathwork
+    ...mindfulness,
+    ...staticStretching
   ].map(ex => ({
     exerciseId: ex.id,
     name: ex.name,
@@ -162,7 +167,7 @@ function generateWellbeingWorkout(exercises, checkinData) {
   return {
     id: 'wellbeing',
     title: 'Wellbeing Focus',
-    subtitle: 'Mobility, stretching & recovery',
+    subtitle: 'Mobility, mindfulness & recovery',
     duration: calculateTotalDuration([], main, []),
     energyRequired: checkinData.energy,
     warmup: [],
@@ -174,57 +179,82 @@ function generateWellbeingWorkout(exercises, checkinData) {
 }
 
 // ===================================================================
-// 4. CARDIO WORKOUT GENERATION (IMPROVED - MULTIPLE EXERCISES)
+// 4. CARDIO WORKOUT GENERATION (FIXED - INCLUDES RUNNING!)
 // ===================================================================
 
 function generateCardioWorkout(exercises, checkinData) {
   const cardioExercises = exercises.filter(ex => ex.category === 'cardio');
   
-  console.log(`🏃 Cardio: Found ${cardioExercises.length} exercises`);
+  console.log(`🏃 Cardio: Found ${cardioExercises.length} total cardio exercises`);
   
-  // IMPROVED: Select MULTIPLE cardio exercises, not just one
+  // FIXED: Select MULTIPLE cardio exercises with better filtering
   let selectedCardio = [];
   
   if (checkinData.energy >= 7) {
-    // High energy: HIIT, intervals, tempo runs, sprints
+    // High energy: ANY high-energy cardio (HIIT, running, intervals)
     selectedCardio = cardioExercises.filter(ex => 
-      ex.subcategory === 'hiit' || 
-      ex.energyRequired === 'high' ||
+      ex.energyRequired === 'high' ||  // PRIMARY FILTER - catches all high-energy
+      ex.subcategory === 'hiit' ||
+      ex.subcategory === 'intervals' ||
+      ex.subcategory === 'running' ||  // NEW: Include running exercises!
       (ex.id && (
         ex.id.includes('sprint') ||
         ex.id.includes('interval') ||
         ex.id.includes('tempo') ||
+        ex.id.includes('tabata') ||
+        ex.id.includes('pyramid') ||
         ex.id.includes('hill') ||
+        ex.id.includes('fartlek') ||
         ex.id.includes('hiit')
       ))
-    ).slice(0, 3); // Take up to 3 high-intensity exercises
+    );
+    
+    console.log(`🔥 High energy filter matched: ${selectedCardio.length} exercises`);
+    
+    // Take best 2-3 exercises
+    selectedCardio = selectedCardio.slice(0, 3);
     
   } else if (checkinData.energy >= 4) {
-    // Moderate energy: steady-state cardio, easy runs
+    // Moderate energy: steady-state cardio, easy runs, moderate efforts
     selectedCardio = cardioExercises.filter(ex =>
       ex.energyRequired === 'medium' ||
+      ex.subcategory === 'running' ||  // Include all running (will get easy runs)
       (ex.id && (
         ex.id.includes('run') ||
         ex.id.includes('jog') ||
-        ex.id.includes('easy')
+        ex.id.includes('easy') ||
+        ex.id.includes('steady') ||
+        ex.id.includes('walk-run')
       ))
     ).slice(0, 2);
+    
+    console.log(`⚡ Medium energy filter matched: ${selectedCardio.length} exercises`);
     
   } else {
     // Low energy: walking, gentle movement, low-impact
     selectedCardio = cardioExercises.filter(ex =>
       ex.energyRequired === 'low' ||
       ex.subcategory === 'low-impact' ||
+      ex.subcategory === 'recovery' ||
       (ex.id && (
         ex.id.includes('walk') ||
-        ex.id.includes('gentle')
+        ex.id.includes('gentle') ||
+        ex.id.includes('recovery')
       ))
     ).slice(0, 2);
+    
+    console.log(`🚶 Low energy filter matched: ${selectedCardio.length} exercises`);
   }
   
   // Fallback: if nothing found, just take the first available
   if (selectedCardio.length === 0 && cardioExercises.length > 0) {
+    console.warn('⚠️ No cardio matched filters, using fallback');
     selectedCardio = [cardioExercises[0]];
+  }
+  
+  // Log what we selected
+  if (selectedCardio.length > 0) {
+    console.log(`✅ Selected cardio exercises: ${selectedCardio.map(ex => ex.name).join(', ')}`);
   }
   
   // Add warmup (dynamic mobility)
@@ -263,7 +293,7 @@ function generateCardioWorkout(exercises, checkinData) {
 function generateRecoveryWorkout(exercises, checkinData) {
   // Only gentle recovery exercises
   const recoveryExercises = exercises.filter(ex =>
-    ['recovery', 'mobility', 'stretching'].includes(ex.category) &&
+    ['recovery', 'mobility', 'stretching', 'mindfulness'].includes(ex.category) &&
     ex.energyRequired === 'low'
   );
   
