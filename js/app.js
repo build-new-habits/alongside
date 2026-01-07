@@ -848,4 +848,4 @@ if (document.readyState === 'loading') {
   init();
 }
 
-export { init };# 🔧 APP.JS FIX - Add 3 New Functions
+export { init };
