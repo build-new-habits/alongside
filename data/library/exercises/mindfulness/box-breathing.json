@@ -19,25 +19,13 @@
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "modifications": {
-        "easier": "3-3-3-3 pattern if 4 feels uncomfortable",
-        "harder": "5-5-5-5 or 6-6-6-6 pattern for deeper practice"
-      },
-      "benefits": [
-        "Reduces anxiety and stress",
-        "Calms nervous system activation",
-        "Improves focus and mental clarity",
-        "Lowers heart rate and blood pressure"
-      ],
-      "bestUsedFor": "Before stressful situations, after intense workouts, when feeling anxious, before bed",
-      "scienceBacked": "Activates parasympathetic nervous system, proven effective for stress reduction",
       "videoSearchTerm": "box breathing tutorial"
     },
     {
       "id": "box-breathing-5-5-5-5",
       "name": "Extended Box Breathing (5-5-5-5)",
       "description": "Longer holds for deeper relaxation",
-      "instructions": "Inhale 5 counts, hold 5, exhale 5, hold 5. Repeat for 8 minutes. Stay relaxed throughout - don't force.",
+      "instructions": "Inhale 5 counts, hold 5, exhale 5, hold 5. Repeat for 8 minutes. Stay relaxed throughout - do not force.",
       "duration": 480,
       "durationNote": "8 minutes (about 15 cycles)",
       "credits": 40,
@@ -45,21 +33,7 @@
       "muscleGroups": ["diaphragm"],
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
-      "contraindications": ["severe_anxiety", "panic_disorder"],
-      "modifications": {
-        "easier": "Return to 4-4-4-4 if 5 feels too long",
-        "harder": "Progress to 6-6-6-6 over time"
-      },
-      "conditions": {
-        "anxiety": "If this increases anxiety, try shorter counts or skip the holds"
-      },
-      "benefits": [
-        "Deeper parasympathetic activation",
-        "Enhanced mental calm",
-        "Improved breath control",
-        "Builds breathwork capacity"
-      ],
-      "bestUsedFor": "Deep relaxation, meditation preparation, sleep onset",
+      "contraindications": [],
       "videoSearchTerm": "extended box breathing"
     },
     {
@@ -75,18 +49,6 @@
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "modifications": {
-        "easier": "3-3-3 pattern",
-        "harder": "5-5-5 or 6-6-6 pattern"
-      },
-      "benefits": [
-        "Quick stress reduction",
-        "Maintains alertness while calming",
-        "Easier for beginners (no bottom hold)",
-        "Combat-tested effectiveness"
-      ],
-      "bestUsedFor": "Pre-performance anxiety, acute stress, when you need to stay alert but calm",
-      "usedBy": "Navy SEALs, first responders, athletes before competition",
       "videoSearchTerm": "tactical breathing navy seal"
     },
     {
@@ -102,18 +64,6 @@
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "modifications": {
-        "easier": "3-2-5-2 pattern",
-        "harder": "5-2-8-2 pattern"
-      },
-      "benefits": [
-        "Extended exhale activates vagus nerve strongly",
-        "Deeper relaxation than box breathing",
-        "Particularly effective for sleep onset",
-        "Reduces heart rate more than equal breathing"
-      ],
-      "bestUsedFor": "Evening relaxation, pre-sleep, deep stress relief",
-      "scienceBacked": "Longer exhale stimulates vagus nerve, proven anxiety reducer",
       "videoSearchTerm": "rectangle breathing extended exhale"
     },
     {
@@ -128,19 +78,7 @@
       "muscleGroups": ["diaphragm"],
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
-      "contraindications": ["hyperventilation_tendency"],
-      "modifications": {
-        "easier": "Slower: 5-0-5-0 pattern",
-        "harder": "Faster: 3-0-3-0 pattern (be careful not to hyperventilate)"
-      },
-      "benefits": [
-        "Increases alertness and energy",
-        "Oxygenates body",
-        "Clears mental fog",
-        "Good morning practice"
-      ],
-      "bestUsedFor": "Morning wake-up, mid-afternoon energy dip, before focus work",
-      "caution": "Don't go too fast - should never feel lightheaded or tingly",
+      "contraindications": [],
       "videoSearchTerm": "energizing breathwork morning"
     },
     {
@@ -156,18 +94,6 @@
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "modifications": {
-        "easier": "Start with 5 minutes",
-        "harder": "Extend to 20 minutes for deep practice"
-      },
-      "benefits": [
-        "Optimizes heart rate variability (HRV)",
-        "Balances autonomic nervous system",
-        "Scientifically proven stress reducer",
-        "Improves emotional regulation"
-      },
-      "bestUsedFor": "Daily practice, building stress resilience, HRV training",
-      "scienceBacked": "Research shows 6 breaths/min optimizes HRV and nervous system balance",
       "videoSearchTerm": "coherent breathing 5-5"
     }
   ]
