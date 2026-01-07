@@ -19,16 +19,13 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Builds focus", "Reduces anxiety", "Creates mental space", "Foundation for longer practice"],
-      "bestUsedFor": "Morning routine, work breaks, building meditation habit",
-      "guidedOption": "Can use app like Headspace/Calm for guidance",
       "videoSearchTerm": "5 minute breath meditation"
     },
     {
       "id": "morning-intention-meditation",
       "name": "Morning Intention Setting (5min)",
       "description": "Start the day with clarity and purpose",
-      "instructions": "Sit quietly. Take 3 deep breaths. Ask: What matters most today? What's one thing I can let go of? Sit with whatever arises.",
+      "instructions": "Sit quietly. Take 3 deep breaths. Ask: What matters most today? What is one thing I can let go of? Sit with whatever arises.",
       "duration": 300,
       "durationNote": "5 minutes",
       "credits": 30,
@@ -37,9 +34,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Clarity on priorities", "Reduces overwhelm", "Starts day mindfully"],
-      "bestUsedFor": "Morning routine, before checking phone, with coffee",
-      "journalPrompt": "Optional: write down what came up",
       "videoSearchTerm": "morning intention meditation"
     },
     {
@@ -55,16 +49,13 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Releases physical tension", "Builds body awareness", "Prevents pain buildup"],
-      "bestUsedFor": "Desk breaks, after workouts, evening wind-down",
-      "adhdFriendly": "Shorter than full body scan, more accessible",
       "videoSearchTerm": "5 minute body check in meditation"
     },
     {
       "id": "gratitude-meditation-5min",
       "name": "Gratitude Practice (5min)",
-      "description": "Shift perspective by focusing on what's working",
-      "instructions": "Sit comfortably. Bring to mind 3 things you're grateful for today. Can be tiny (warm shower) or big (health). Feel the appreciation.",
+      "description": "Shift perspective by focusing on what is working",
+      "instructions": "Sit comfortably. Bring to mind 3 things you are grateful for today. Can be tiny (warm shower) or big (health). Feel the appreciation.",
       "duration": 300,
       "durationNote": "5 minutes",
       "credits": 30,
@@ -73,9 +64,6 @@
       "movementPattern": "stillness",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Improves mood", "Builds resilience", "Shifts from scarcity to abundance mindset"],
-      "bestUsedFor": "Difficult days, before bed, when feeling stuck",
-      "scienceBacked": "Gratitude practice proven to improve wellbeing and sleep",
       "videoSearchTerm": "gratitude meditation 5 minutes"
     },
     {
@@ -91,9 +79,6 @@
       "movementPattern": "walking",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Meditation for active minds", "Combines movement and mindfulness", "Accessible for ADHD"],
-      "bestUsedFor": "When restless, garden/nature walks, phone-free time",
-      "adhdFriendly": "Movement helps focus, easier than sitting meditation",
       "videoSearchTerm": "walking meditation practice"
     }
   ]
