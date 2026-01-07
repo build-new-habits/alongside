@@ -19,9 +19,6 @@
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "benefits": ["Falls asleep faster", "Reduces anxiety instantly", "Calms racing thoughts", "Lowers blood pressure"],
-      "bestUsedFor": "Sleep onset, panic attacks, pre-sleep routine, acute stress",
-      "scienceBacked": "Extended exhale activates parasympathetic system, clinically proven for anxiety",
       "videoSearchTerm": "4-7-8 breathing andrew weil"
     },
     {
@@ -37,8 +34,6 @@
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "bestUsedFor": "Severe insomnia, high anxiety, post-workout wind-down",
-      "caution": "May feel lightheaded - normal. If uncomfortable, return to 4 cycles.",
       "videoSearchTerm": "4-7-8 breathing sleep"
     },
     {
@@ -54,8 +49,6 @@
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "bestUsedFor": "Nightly sleep routine, chronic insomnia support",
-      "combinedBenefit": "Breathing calms nervous system, body scan releases physical tension",
       "videoSearchTerm": "4-7-8 breathing bedtime routine"
     },
     {
@@ -71,8 +64,6 @@
       "movementPattern": "breathing",
       "equipment": ["bodyweight"],
       "contraindications": [],
-      "bestUsedFor": "Meeting anxiety, social situations, unexpected stress",
-      "discrete": "Can be done sitting at desk, in car, before presentations",
       "videoSearchTerm": "quick 4-7-8 breathing"
     }
   ]
