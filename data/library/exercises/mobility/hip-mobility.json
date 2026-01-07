@@ -1,1 +1,85 @@
-
+{
+  "id": "hip-mobility",
+  "name": "Hip Mobility Drills",
+  "description": "Critical for runners, desk workers, and anyone with lower back pain. Tight hips affect everything above and below.",
+  "category": "mobility",
+  "subcategory": "joint-specific",
+  "level": "all",
+  "exercises": [
+    {
+      "id": "90-90-hip-stretch",
+      "name": "90-90 Hip Stretch",
+      "duration": 180,
+      "durationNote": "3 minutes (90s each side)",
+      "credits": 25,
+      "energyRequired": "low",
+      "instructions": "Sit with front leg bent 90°, back leg bent 90°. Sit tall. Lean forward over front leg. Switches internal/external rotation. Essential hip opener.",
+      "muscleGroups": ["hips", "glutes"],
+      "movementPattern": "mobility",
+      "equipment": ["bodyweight"],
+      "contraindications": ["hip_severe"],
+      "benefits": ["Improves hip internal/external rotation", "Reduces lower back pain", "Essential for desk workers"],
+      "videoSearchTerm": "90-90 hip stretch"
+    },
+    {
+      "id": "worlds-greatest-stretch",
+      "name": "World's Greatest Stretch",
+      "duration": 240,
+      "durationNote": "4 minutes (2min each side)",
+      "credits": 35,
+      "energyRequired": "low",
+      "instructions": "Lunge position. Elbow to inside of front foot (hip flexor). Rotate and reach up (thoracic rotation). Drop back knee for deeper hip flexor stretch. Comprehensive warmup.",
+      "muscleGroups": ["hips", "hip-flexors", "thoracic-spine"],
+      "movementPattern": "mobility",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "benefits": ["Multi-plane hip mobility", "Thoracic rotation", "Perfect pre-workout drill"],
+      "videoSearchTerm": "worlds greatest stretch"
+    },
+    {
+      "id": "fire-hydrants",
+      "name": "Fire Hydrants",
+      "duration": 120,
+      "durationNote": "2 minutes (1min each side)",
+      "credits": 20,
+      "energyRequired": "low",
+      "instructions": "On hands and knees. Lift one knee out to side (like dog at fire hydrant). Slow and controlled. Activates hip abductors.",
+      "muscleGroups": ["hip-abductors", "glutes"],
+      "movementPattern": "mobility",
+      "equipment": ["bodyweight"],
+      "contraindications": ["hip_severe"],
+      "benefits": ["Activates lazy glutes", "Improves hip stability", "Prevents IT band issues"],
+      "videoSearchTerm": "fire hydrant exercise"
+    },
+    {
+      "id": "pigeon-pose",
+      "name": "Pigeon Pose (Hip Opener)",
+      "duration": 180,
+      "durationNote": "3 minutes (90s each side)",
+      "credits": 30,
+      "energyRequired": "low",
+      "instructions": "From hands and knees, bring one knee forward between hands, extend back leg. Sink hips down. Deep external rotator stretch. Modify with cushion under hip.",
+      "muscleGroups": ["hips", "glutes", "external-rotators"],
+      "movementPattern": "stretch",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hip_severe"],
+      "benefits": ["Deep hip opener", "Releases piriformis", "Improves hip external rotation"],
+      "videoSearchTerm": "pigeon pose yoga"
+    },
+    {
+      "id": "leg-swings",
+      "name": "Dynamic Leg Swings",
+      "duration": 180,
+      "durationNote": "3 minutes (all directions)",
+      "credits": 25,
+      "energyRequired": "low",
+      "instructions": "Hold wall. Swing one leg: forward/back (20 reps), side-to-side (20 reps), circles (10 each direction). Dynamic hip warmup.",
+      "muscleGroups": ["hips", "hip-flexors"],
+      "movementPattern": "dynamic",
+      "equipment": ["bodyweight", "wall"],
+      "contraindications": [],
+      "benefits": ["Warms up hips dynamically", "Improves range of motion", "Perfect pre-run drill"],
+      "videoSearchTerm": "dynamic leg swings"
+    }
+  ]
+}
