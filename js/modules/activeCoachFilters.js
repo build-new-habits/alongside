@@ -247,7 +247,7 @@ export function filterForRecoveryMode(exercises) {
     if (exercise.energyRequired !== 'low') return false;
     
     // Recovery categories only
-    const recoveryCategories = ['recovery', 'mobility', 'stretching', 'breathing', 'yoga'];
+    const recoveryCategories = ['recovery', 'mobility', 'stretching', 'breathing', 'yoga', 'mindfulness'];
     if (!recoveryCategories.includes(exercise.category)) return false;
     
     return true;
@@ -314,14 +314,14 @@ export async function getFilteredExercises(checkinData) {
 }
 
 // ===================================================================
-// 7. EXERCISE DATABASE LOADER
+// 7. EXERCISE DATABASE LOADER (UPDATED WITH ALL NEW FILES)
 // ===================================================================
 // Loads all exercise JSON files from organized structure
 
 async function loadAllExercises() {
   const exercises = [];
   
-  // Define all exercise files to load (matching user's folder structure)
+  // Define all exercise files to load - UPDATED WITH 16 NEW FILES
   const files = [
     // Strength
     { path: 'data/library/exercises/strength/bodyweight.json', category: 'strength' },
@@ -330,14 +330,31 @@ async function loadAllExercises() {
     { path: 'data/library/exercises/strength/core.json', category: 'strength' },
     { path: 'data/library/exercises/strength/resistance-band.json', category: 'strength' },
     
-    // Cardio
+    // Cardio - UPDATED WITH 8 NEW FILES
     { path: 'data/library/exercises/cardio/running.json', category: 'cardio' },
     { path: 'data/library/exercises/cardio/low-impact.json', category: 'cardio' },
     { path: 'data/library/exercises/cardio/hiit.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/tabata-intervals.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/pyramid-intervals.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/tempo-run.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/long-slow-run.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/hill-repeats.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/recovery-run.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/walk-run-intervals.json', category: 'cardio' },
+    { path: 'data/library/exercises/cardio/fartlek.json', category: 'cardio' },
     
-    // Mobility
+    // Mindfulness - NEW CATEGORY WITH 5 FILES
+    { path: 'data/library/exercises/mindfulness/box-breathing.json', category: 'mindfulness' },
+    { path: 'data/library/exercises/mindfulness/4-7-8-breathing.json', category: 'mindfulness' },
+    { path: 'data/library/exercises/mindfulness/5min-meditation.json', category: 'mindfulness' },
+    { path: 'data/library/exercises/mindfulness/body-scan.json', category: 'mindfulness' },
+    { path: 'data/library/exercises/mindfulness/nsdr.json', category: 'mindfulness' },
+    
+    // Mobility - UPDATED WITH 2 NEW FILES
     { path: 'data/library/exercises/mobility/stretching.json', category: 'mobility' },
     { path: 'data/library/exercises/mobility/mobility-drills.json', category: 'mobility' },
+    { path: 'data/library/exercises/mobility/ankle-mobility.json', category: 'mobility' },
+    { path: 'data/library/exercises/mobility/hip-mobility.json', category: 'mobility' },
     
     // Recovery
     { path: 'data/library/exercises/recovery/breathing.json', category: 'recovery' },
