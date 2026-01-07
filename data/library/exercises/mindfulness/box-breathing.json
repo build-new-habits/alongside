@@ -1,64 +1,174 @@
 {
-  "id": "box-breathing-session",
-  "name": "Box Breathing Session",
-  "description": "5-minute guided breathing for calm, focus, and stress relief. Used by Navy SEALs and executives alike.",
+  "id": "box-breathing",
+  "name": "Box Breathing & Structured Breathwork",
+  "description": "Structured breathing patterns that calm the nervous system, reduce anxiety, and improve focus. Used by Navy SEALs, athletes, and meditation practitioners.",
   "category": "mindfulness",
-  "duration": 5,
-  "energyRequired": [1, 3],
-  "equipment": [],
-  "goals": ["stress_relief", "focus", "anxiety", "sleep_prep", "calm"],
-  "contraindications": [],
-  
-  "coach": {
-    "intro": "Find a comfortable position — sitting or lying down. Close your eyes if that feels okay. We're going to breathe in a simple box pattern: 4 counts in, 4 counts hold, 4 counts out, 4 counts hold.",
-    "motivation": "Your breath is the one thing you can always control. Let's use it.",
-    "completion": "Notice how you feel now compared to 5 minutes ago. That's your nervous system shifting. You can access this anytime you need it."
-  },
-  
-  "structure": [
+  "subcategory": "breathwork",
+  "level": "all",
+  "exercises": [
     {
-      "type": "instruction",
-      "text": "Get comfortable. Sit or lie down. Let your shoulders drop.",
-      "duration": 15
+      "id": "box-breathing-4-4-4-4",
+      "name": "Box Breathing (4-4-4-4)",
+      "description": "Equal parts breathing: inhale, hold, exhale, hold - all for 4 counts",
+      "instructions": "Sit comfortably. Inhale through nose for 4 counts, hold for 4, exhale through mouth for 4, hold empty for 4. Repeat for 5 minutes.",
+      "duration": 300,
+      "durationNote": "5 minutes (about 15 cycles)",
+      "credits": 30,
+      "energyRequired": "low",
+      "muscleGroups": ["diaphragm"],
+      "movementPattern": "breathing",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "3-3-3-3 pattern if 4 feels uncomfortable",
+        "harder": "5-5-5-5 or 6-6-6-6 pattern for deeper practice"
+      },
+      "benefits": [
+        "Reduces anxiety and stress",
+        "Calms nervous system activation",
+        "Improves focus and mental clarity",
+        "Lowers heart rate and blood pressure"
+      ],
+      "bestUsedFor": "Before stressful situations, after intense workouts, when feeling anxious, before bed",
+      "scienceBacked": "Activates parasympathetic nervous system, proven effective for stress reduction",
+      "videoSearchTerm": "box breathing tutorial"
     },
     {
-      "type": "instruction", 
-      "text": "Close your eyes if comfortable. Take one natural breath.",
-      "duration": 10
+      "id": "box-breathing-5-5-5-5",
+      "name": "Extended Box Breathing (5-5-5-5)",
+      "description": "Longer holds for deeper relaxation",
+      "instructions": "Inhale 5 counts, hold 5, exhale 5, hold 5. Repeat for 8 minutes. Stay relaxed throughout - don't force.",
+      "duration": 480,
+      "durationNote": "8 minutes (about 15 cycles)",
+      "credits": 40,
+      "energyRequired": "low",
+      "muscleGroups": ["diaphragm"],
+      "movementPattern": "breathing",
+      "equipment": ["bodyweight"],
+      "contraindications": ["severe_anxiety", "panic_disorder"],
+      "modifications": {
+        "easier": "Return to 4-4-4-4 if 5 feels too long",
+        "harder": "Progress to 6-6-6-6 over time"
+      },
+      "conditions": {
+        "anxiety": "If this increases anxiety, try shorter counts or skip the holds"
+      },
+      "benefits": [
+        "Deeper parasympathetic activation",
+        "Enhanced mental calm",
+        "Improved breath control",
+        "Builds breathwork capacity"
+      ],
+      "bestUsedFor": "Deep relaxation, meditation preparation, sleep onset",
+      "videoSearchTerm": "extended box breathing"
     },
     {
-      "type": "exercise",
-      "ref": "breathing/box-breathing",
-      "duration": 250,
-      "notes": "10 complete cycles of box breathing",
-      "guided": true,
-      "cues": [
-        { "time": 0, "text": "Breathe in... 2... 3... 4..." },
-        { "time": 4, "text": "Hold... 2... 3... 4..." },
-        { "time": 8, "text": "Breathe out... 2... 3... 4..." },
-        { "time": 12, "text": "Hold empty... 2... 3... 4..." }
-      ]
+      "id": "tactical-breathing",
+      "name": "Tactical Breathing (4-4-4)",
+      "description": "Navy SEAL breathing technique - no bottom hold",
+      "instructions": "Inhale 4 counts, hold 4, exhale 4. NO hold at bottom - immediately begin next inhale. Repeat for 5 minutes.",
+      "duration": 300,
+      "durationNote": "5 minutes",
+      "credits": 30,
+      "energyRequired": "low",
+      "muscleGroups": ["diaphragm"],
+      "movementPattern": "breathing",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "3-3-3 pattern",
+        "harder": "5-5-5 or 6-6-6 pattern"
+      },
+      "benefits": [
+        "Quick stress reduction",
+        "Maintains alertness while calming",
+        "Easier for beginners (no bottom hold)",
+        "Combat-tested effectiveness"
+      ],
+      "bestUsedFor": "Pre-performance anxiety, acute stress, when you need to stay alert but calm",
+      "usedBy": "Navy SEALs, first responders, athletes before competition",
+      "videoSearchTerm": "tactical breathing navy seal"
     },
     {
-      "type": "instruction",
-      "text": "Return to natural breathing. Notice how your body feels.",
-      "duration": 15
+      "id": "rectangle-breathing-4-2-6-2",
+      "name": "Rectangle Breathing (4-2-6-2)",
+      "description": "Uneven pattern with extended exhale for deeper calm",
+      "instructions": "Inhale 4, hold 2, exhale 6, hold 2. Repeat for 8 minutes. Focus on slow, controlled exhale.",
+      "duration": 480,
+      "durationNote": "8 minutes",
+      "credits": 40,
+      "energyRequired": "low",
+      "muscleGroups": ["diaphragm"],
+      "movementPattern": "breathing",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "3-2-5-2 pattern",
+        "harder": "5-2-8-2 pattern"
+      },
+      "benefits": [
+        "Extended exhale activates vagus nerve strongly",
+        "Deeper relaxation than box breathing",
+        "Particularly effective for sleep onset",
+        "Reduces heart rate more than equal breathing"
+      ],
+      "bestUsedFor": "Evening relaxation, pre-sleep, deep stress relief",
+      "scienceBacked": "Longer exhale stimulates vagus nerve, proven anxiety reducer",
+      "videoSearchTerm": "rectangle breathing extended exhale"
     },
     {
-      "type": "instruction",
-      "text": "When you're ready, gently open your eyes.",
-      "duration": 10
+      "id": "morning-energizing-breath",
+      "name": "Energizing Breath Pattern (4-0-4-0)",
+      "description": "No holds, continuous breathing for energy and alertness",
+      "instructions": "Sit upright. Continuous breathing: inhale 4, exhale 4, no pauses. Slightly faster than resting pace. 5 minutes total.",
+      "duration": 300,
+      "durationNote": "5 minutes",
+      "credits": 25,
+      "energyRequired": "low",
+      "muscleGroups": ["diaphragm"],
+      "movementPattern": "breathing",
+      "equipment": ["bodyweight"],
+      "contraindications": ["hyperventilation_tendency"],
+      "modifications": {
+        "easier": "Slower: 5-0-5-0 pattern",
+        "harder": "Faster: 3-0-3-0 pattern (be careful not to hyperventilate)"
+      },
+      "benefits": [
+        "Increases alertness and energy",
+        "Oxygenates body",
+        "Clears mental fog",
+        "Good morning practice"
+      ],
+      "bestUsedFor": "Morning wake-up, mid-afternoon energy dip, before focus work",
+      "caution": "Don't go too fast - should never feel lightheaded or tingly",
+      "videoSearchTerm": "energizing breathwork morning"
+    },
+    {
+      "id": "coherent-breathing",
+      "name": "Coherent Breathing (5-5)",
+      "description": "5 seconds in, 5 seconds out - optimal heart rate variability",
+      "instructions": "Inhale gently for 5 seconds, exhale gently for 5 seconds. No holds. Aim for about 6 breaths per minute. Continue for 10 minutes.",
+      "duration": 600,
+      "durationNote": "10 minutes (about 60 breaths)",
+      "credits": 50,
+      "energyRequired": "low",
+      "muscleGroups": ["diaphragm"],
+      "movementPattern": "breathing",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "Start with 5 minutes",
+        "harder": "Extend to 20 minutes for deep practice"
+      },
+      "benefits": [
+        "Optimizes heart rate variability (HRV)",
+        "Balances autonomic nervous system",
+        "Scientifically proven stress reducer",
+        "Improves emotional regulation"
+      },
+      "bestUsedFor": "Daily practice, building stress resilience, HRV training",
+      "scienceBacked": "Research shows 6 breaths/min optimizes HRV and nervous system balance",
+      "videoSearchTerm": "coherent breathing 5-5"
     }
-  ],
-  
-  "benefits": [
-    "Activates parasympathetic nervous system",
-    "Reduces cortisol and stress hormones",
-    "Improves focus and mental clarity",
-    "Lowers blood pressure",
-    "Can be done anywhere, anytime"
-  ],
-  
-  "estimatedCalories": 5,
-  "credits": 50
+  ]
 }
