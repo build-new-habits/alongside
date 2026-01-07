@@ -1,0 +1,154 @@
+
+{
+  "id": "long-slow-run",
+  "name": "Long Slow Distance Runs",
+  "description": "Endurance-building runs at easy, conversational pace. Builds aerobic base and mental resilience. The foundation of any running program.",
+  "category": "cardio",
+  "subcategory": "running",
+  "level": "beginner",
+  "exercises": [
+    {
+      "id": "lsd-30min",
+      "name": "30-Minute Easy Run",
+      "description": "Entry-level long run at truly easy pace",
+      "instructions": "Run 30min at easy, conversational pace. You should be able to speak full sentences. Effort: 60-70% max.",
+      "duration": 1800,
+      "durationNote": "30 minutes",
+      "credits": 150,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe"],
+      "modifications": {
+        "easier": "20min, or add walk breaks every 5min",
+        "harder": "40min at same easy pace"
+      },
+      "conditions": {
+        "knee_moderate": "Run on soft surface, reduce to 20-25min if needed",
+        "shin_moderate": "Avoid concrete, focus on cadence (170-180 steps/min)"
+      },
+      "paceGuidance": "Conversation test: can you speak full sentences easily? If not, slow down. Many runners run their easy runs too hard.",
+      "videoSearchTerm": "easy pace running guide"
+    },
+    {
+      "id": "lsd-45min",
+      "name": "45-Minute Easy Run",
+      "description": "Standard long run for intermediate runners",
+      "instructions": "Run 45min at easy pace. Focus on staying relaxed. Breathing should be comfortable throughout.",
+      "duration": 2700,
+      "durationNote": "45 minutes",
+      "credits": 200,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hip_severe"],
+      "modifications": {
+        "easier": "35-40min, or walk 1min every 10min",
+        "harder": "60min at same easy pace"
+      },
+      "conditions": {
+        "knee_moderate": "Monitor discomfort, stay on soft surfaces",
+        "hip_moderate": "Focus on hip mobility in warmup, stay on flat terrain"
+      },
+      "paceGuidance": "This is your 'all day' pace - you could theoretically run at this pace for hours. 60-70% max effort.",
+      "videoSearchTerm": "long slow distance running"
+    },
+    {
+      "id": "lsd-60min",
+      "name": "60-Minute Easy Run",
+      "description": "Classic hour-long Sunday run",
+      "instructions": "Run 60min at easy, sustainable pace. This is about time on feet, not speed. Stay aerobic.",
+      "duration": 3600,
+      "durationNote": "60 minutes (1 hour)",
+      "credits": 250,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "ankle_severe", "hip_severe"],
+      "modifications": {
+        "easier": "50min, or add 30s walk breaks every 10min",
+        "harder": "75min at same pace"
+      },
+      "conditions": {
+        "knee_moderate": "Break into 2 x 30min with 2min walk in middle",
+        "hamstring_moderate": "Thorough warmup, stop if tightness develops"
+      },
+      "paceGuidance": "Heart rate should stay in Zone 2 (conversational). If you can't talk easily, you're going too hard.",
+      "videoSearchTerm": "60 minute easy run"
+    },
+    {
+      "id": "lsd-90min",
+      "name": "90-Minute Long Run",
+      "description": "Extended endurance builder for advanced runners",
+      "instructions": "Run 90min at easy pace. Bring water/nutrition. Focus on relaxed form throughout. This builds serious aerobic base.",
+      "duration": 5400,
+      "durationNote": "90 minutes (1.5 hours)",
+      "credits": 350,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hip_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "75min, or 60min with 5min walk in middle",
+        "harder": "2 hours at same pace"
+      },
+      "conditions": {
+        "knee_moderate": "Only attempt if 60min runs are pain-free",
+        "hip_moderate": "Regular walk breaks (1min walk per 15min run)"
+      },
+      "paceGuidance": "This should feel EASY throughout. The goal is aerobic adaptation, not speed. Many runners fail long runs by starting too fast.",
+      "videoSearchTerm": "90 minute long run training"
+    },
+    {
+      "id": "progression-long-run",
+      "name": "Progression Long Run",
+      "description": "Start easy, finish at steady pace - builds endurance and speed",
+      "instructions": "60min total: First 40min easy pace, final 20min gradually build to steady/moderate pace (still aerobic, but noticeably faster).",
+      "duration": 3600,
+      "durationNote": "60 minutes",
+      "credits": 270,
+      "energyRequired": "high",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "hamstring_severe"],
+      "modifications": {
+        "easier": "50min total with 10min progression",
+        "harder": "75min with 25min progression"
+      },
+      "conditions": {
+        "hamstring_moderate": "Keep progression gradual, don't surge hard"
+      },
+      "paceGuidance": "First 40min: conversational. Final 20min: build to 'steady' - still sustainable but you feel it. Not a race finish!",
+      "videoSearchTerm": "progression long run"
+    },
+    {
+      "id": "out-and-back-exploration",
+      "name": "Out-and-Back Exploration Run",
+      "description": "Mental reset run - explore new routes at easy pace",
+      "instructions": "45-60min easy run exploring a new route. Run out for 20-30min, turn around, return. No watch-watching - just enjoy the run.",
+      "duration": 2700,
+      "durationNote": "45-60 minutes",
+      "credits": 200,
+      "energyRequired": "medium",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "30min out-and-back (15min each way)",
+        "harder": "Explore hilly terrain for added challenge"
+      },
+      "conditions": {
+        "any_moderate": "Stay on known safe terrain if dealing with pain"
+      },
+      "paceGuidance": "This is about mental refreshment and exploration, not performance. Leave your watch at home if possible. Run by feel.",
+      "mentalBenefit": "Breaking routine and exploring new routes has huge mental health benefits. Great for motivation.",
+      "videoSearchTerm": "exploration run benefits"
+    }
+  ]
+}
