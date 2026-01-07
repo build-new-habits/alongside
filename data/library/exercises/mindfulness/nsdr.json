@@ -1,1 +1,64 @@
-
+{
+  "id": "nsdr",
+  "name": "NSDR (Non-Sleep Deep Rest)",
+  "description": "Neuroscience-backed recovery protocol by Dr. Andrew Huberman. Combines body scan, breath work, and guided relaxation for deep nervous system recovery.",
+  "category": "mindfulness",
+  "subcategory": "recovery",
+  "level": "beginner",
+  "exercises": [
+    {
+      "id": "nsdr-10min",
+      "name": "NSDR Protocol (10min)",
+      "description": "Quick nervous system reset - equivalent to 60-90min of sleep for cognitive function",
+      "instructions": "Lie flat. Progressive muscle relaxation from feet to head. Long exhale breathing. Allow mind to drift but stay awake. Body gets deep rest.",
+      "duration": 600,
+      "durationNote": "10 minutes",
+      "credits": 50,
+      "energyRequired": "low",
+      "muscleGroups": [],
+      "movementPattern": "stillness",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "benefits": ["Restores mental energy", "Equivalent to short nap for cognition", "Doesn't affect nighttime sleep", "Reduces cortisol"],
+      "bestUsedFor": "Afternoon energy dip, post-training recovery, when exhausted but can't nap",
+      "scienceBacked": "Dr. Huberman (Stanford neuroscientist) - proven to restore dopamine and cognitive function",
+      "videoSearchTerm": "nsdr protocol huberman 10 minutes"
+    },
+    {
+      "id": "nsdr-20min",
+      "name": "Extended NSDR (20min)",
+      "description": "Full protocol for deep recovery",
+      "instructions": "Lie down. Systematic relaxation of all body parts (2min each area). Focus on long exhales. Stay at edge of sleep without crossing over. Body recovery without actual sleep.",
+      "duration": 1200,
+      "durationNote": "20 minutes",
+      "credits": 70,
+      "energyRequired": "low",
+      "muscleGroups": [],
+      "movementPattern": "stillness",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "benefits": ["Deep nervous system recovery", "Improves learning and memory", "Reduces stress hormones", "Can replace daytime nap"],
+      "bestUsedFor": "Recovery days, between training blocks, when mentally fried",
+      "restorative": "More restorative than meditation, doesn't require focus like meditation does",
+      "videoSearchTerm": "nsdr 20 minute protocol"
+    },
+    {
+      "id": "nsdr-yoga-nidra",
+      "name": "NSDR / Yoga Nidra Hybrid (30min)",
+      "description": "Traditional yoga nidra format with NSDR principles",
+      "instructions": "Lie in savasana. Guided body awareness, breath awareness, visualization. Aim is deep rest while remaining conscious. Traditional practice meets modern neuroscience.",
+      "duration": 1800,
+      "durationNote": "30 minutes",
+      "credits": 80,
+      "energyRequired": "low",
+      "muscleGroups": [],
+      "movementPattern": "stillness",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "benefits": ["Profound physical and mental rest", "Activates parasympathetic nervous system", "Reduces accumulated fatigue", "Improves HRV"],
+      "bestUsedFor": "Weekly recovery sessions, evening relaxation, burnout recovery",
+      "tradition": "Yoga nidra is ancient practice, NSDR is modern scientific validation of the same process",
+      "videoSearchTerm": "yoga nidra nsdr 30 minutes"
+    }
+  ]
+}
