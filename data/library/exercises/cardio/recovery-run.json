@@ -1,0 +1,142 @@
+{
+  "id": "recovery-run",
+  "name": "Recovery Runs & Active Recovery",
+  "description": "Gentle movement sessions designed to promote recovery without adding training stress. The hardest runs to do properly because they feel 'too easy'.",
+  "category": "cardio",
+  "subcategory": "recovery",
+  "level": "all",
+  "exercises": [
+    {
+      "id": "easy-recovery-jog-20min",
+      "name": "20-Minute Recovery Jog",
+      "description": "Ultra-easy running for active recovery",
+      "instructions": "Run 20min at truly easy pace. Should feel EFFORTLESS. If in doubt, slow down more. This is about movement, not training.",
+      "duration": 1200,
+      "durationNote": "20 minutes",
+      "credits": 80,
+      "energyRequired": "low",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe", "any_acute_injury"],
+      "modifications": {
+        "easier": "15min, or add 30s walk breaks every 5min",
+        "harder": "25min at same very easy pace (NOT faster)"
+      },
+      "conditions": {
+        "knee_moderate": "Only if pain-free, otherwise substitute walk",
+        "any_moderate": "Listen to body - recovery runs should never hurt"
+      },
+      "paceGuidance": "This should be your slowest running pace. You could run at this pace while having a phone conversation. Many runners skip these or run them too hard.",
+      "purpose": "Promotes blood flow for recovery without adding stress. Key to high mileage training.",
+      "videoSearchTerm": "recovery run pace"
+    },
+    {
+      "id": "walk-jog-recovery",
+      "name": "Walk-Jog Recovery Mix",
+      "description": "Alternating walking and very easy jogging",
+      "instructions": "20min total: alternate 2min easy jog, 1min walk. Repeat throughout. Focus on loosening up, not training.",
+      "duration": 1200,
+      "durationNote": "20 minutes",
+      "credits": 70,
+      "energyRequired": "low",
+      "muscleGroups": ["legs", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["knee_severe"],
+      "modifications": {
+        "easier": "1min jog, 2min walk",
+        "harder": "3min jog, 1min walk (still very easy pace)"
+      },
+      "conditions": {
+        "any_moderate": "Perfect for testing how injuries feel with minimal stress"
+      },
+      "paceGuidance": "Jog portions should be barely faster than walking. This is movement therapy, not cardio training.",
+      "videoSearchTerm": "walk jog intervals"
+    },
+    {
+      "id": "morning-shakeout",
+      "name": "Morning Shake-Out Run",
+      "description": "10-15min easy run to wake up the body (great before race days)",
+      "instructions": "10-15min very easy running. No hills, no tempo, no goals. Just gentle movement to activate muscles and loosen up.",
+      "duration": 900,
+      "durationNote": "10-15 minutes",
+      "credits": 50,
+      "energyRequired": "low",
+      "muscleGroups": ["legs"],
+      "movementPattern": "cardio",
+      "equipment": ["bodyweight"],
+      "contraindications": ["any_acute_injury"],
+      "modifications": {
+        "easier": "10min very gentle jog",
+        "harder": "15min with a few 10s strides at the end (only if feeling good)"
+      },
+      "purpose": "Used by elite runners on race morning or rest days. Wakes the body up, promotes blood flow, no fatigue added.",
+      "timing": "Great for morning of race day, or day after hard workout",
+      "videoSearchTerm": "shakeout run explained"
+    },
+    {
+      "id": "pool-running",
+      "name": "Deep Water Running",
+      "description": "Zero-impact running in deep water with flotation vest",
+      "instructions": "20-30min running motion in deep water. Use flotation belt. Maintain upright posture, mimic running form. Can be easy or hard depending on effort.",
+      "duration": 1800,
+      "durationNote": "20-30 minutes",
+      "credits": 100,
+      "energyRequired": "low",
+      "muscleGroups": ["full-body", "cardio"],
+      "movementPattern": "cardio",
+      "equipment": ["pool", "flotation-belt"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "20min very easy effort",
+        "harder": "Include 30s hard efforts every 3min"
+      },
+      "benefits": "Perfect for injury recovery - maintains fitness with zero impact. Also great for recovery between hard training blocks.",
+      "technique": "Stay upright, don't lean forward. Mimic running motion. Focus on bringing knees up and pushing legs back.",
+      "videoSearchTerm": "aqua jogging deep water running"
+    },
+    {
+      "id": "recovery-walk-30min",
+      "name": "30-Minute Recovery Walk",
+      "description": "Simple walking for active recovery",
+      "instructions": "Walk 30min at comfortable pace. No power walking, no hills. Just easy, enjoyable movement. Great for rest days.",
+      "duration": 1800,
+      "durationNote": "30 minutes",
+      "credits": 60,
+      "energyRequired": "low",
+      "muscleGroups": ["legs"],
+      "movementPattern": "walking",
+      "equipment": ["bodyweight"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "20min walk",
+        "harder": "45min walk on gentle terrain"
+      },
+      "benefits": "Promotes recovery without any training stress. Aids digestion, mental health, sleep quality. Underrated by many runners.",
+      "mentalHealth": "Great for thinking time, audiobooks, or social connection. Walking is not 'doing nothing' - it's active recovery.",
+      "videoSearchTerm": "benefits of walking for runners"
+    },
+    {
+      "id": "gentle-bike-spin",
+      "name": "Gentle Bike Spin",
+      "description": "Easy cycling for active recovery (low impact)",
+      "instructions": "20-30min very easy cycling. Low resistance, high cadence (80-90 RPM). Should feel like you're spinning your legs out, not training.",
+      "duration": 1800,
+      "durationNote": "20-30 minutes",
+      "credits": 70,
+      "energyRequired": "low",
+      "muscleGroups": ["quads", "glutes"],
+      "movementPattern": "cardio",
+      "equipment": ["bike"],
+      "contraindications": [],
+      "modifications": {
+        "easier": "15min on flat terrain",
+        "harder": "30min with gentle rolling hills"
+      },
+      "benefits": "Great for runner recovery - works muscles differently, zero impact. Promotes blood flow to legs.",
+      "technique": "Keep resistance low. This should feel easy throughout. Focus on smooth pedaling, not power.",
+      "videoSearchTerm": "recovery cycling for runners"
+    }
+  ]
+}
