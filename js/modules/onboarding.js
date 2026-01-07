@@ -2,11 +2,11 @@
  * Alongside Onboarding  
  * First-time user setup flow
  * 
- * UPDATES APPLIED:
+ * UPDATES APPLIED (Jan 2026):
  * - Added Step 7: Fitness Level selection
  * - Added Step 8: Cardio Preferences + Exercise Blacklist
  * - Updated TOTAL_STEPS from 7 to 9
- * - Bug fixes: Gender dropdown, scroll to top, expanded equipment
+ * - Previous fixes: Gender dropdown, scroll to top, expanded equipment
  */
 
 import { store } from '../store.js';
@@ -129,7 +129,6 @@ const EQUIPMENT_CATEGORIES = [
     ]
   }
 ];
-
 // Goal options
 const GOALS = [
   { id: 'lose-weight', name: 'Lose weight', icon: '⚖️' },
@@ -181,9 +180,21 @@ const BLACKLIST_OPTIONS = [
   { id: 'high-knee', name: 'High Knees', icon: '🦵' }
 ];
 
+// "Anything to declare" - non-physical conditions
+const DECLARATIONS = [
+  { id: 'digestive', name: 'Digestive issues', icon: '🫃', description: 'IBS, Colitis, etc.' },
+  { id: 'migraines', name: 'Migraines / headaches', icon: '🤕', description: 'Frequent or chronic' },
+  { id: 'fatigue', name: 'Chronic fatigue', icon: '😴', description: 'Persistent tiredness' },
+  { id: 'anxiety', name: 'Anxiety / stress sensitivity', icon: '😰', description: 'Affects energy & focus' },
+  { id: 'menstrual', name: 'Menstrual cycle', icon: '🌙', description: 'Energy varies with cycle' },
+  { id: 'medication', name: 'Medication effects', icon: '💊', description: 'Affects energy or movement' },
+  { id: 'breathing', name: 'Breathing / asthma', icon: '🌬️', description: 'Affects cardio capacity' },
+  { id: 'sleep', name: 'Sleep disorder', icon: '😵', description: 'Insomnia, apnea, etc.' }
+];
+
 // Current step in onboarding
 let currentStep = 1;
-const TOTAL_STEPS = 9; // UPDATED from 7 to 9
+const TOTAL_STEPS = 9; // UPDATED from 7
 
 // Equipment sub-navigation
 let equipmentSubStep = 'categories';
@@ -290,24 +301,6 @@ function renderCurrentStep() {
   }
 }
 
-    case 7:
-      main.innerHTML = renderCoachSummary();
-      break;
-    default:
-      completeOnboarding();
-  }
-}
-
-/**
- * Step 1: Welcome
- */
-function renderWelcome() {
-  return `
-    <div class="screen screen--active onboarding">
-      <div class="onboarding__content onboarding__content--centered">
-        <span class="onboarding__hero-icon">🌱</span>
-        <h1 class="onboarding__title">Welcome to Alongside</h1>
-        <p class="onboarding__subtitle">
           Your compassionate fitness coach that adapts to your life, 
           not the other way around.
         </p>
@@ -1104,6 +1097,147 @@ function renderCardioPreferences() {
   `;
 }
 
+      return itemName;
+    });
+    
+    message += `You've got ${equipNames.join(' and ').toLowerCase()} to work with. `;  // ✅ BACKTICKS
+  } else {
+    message += `We'll focus on bodyweight exercises you can do anywhere. `;  // ✅ BACKTICKS
+  }
+  
+  // Goals
+  if (goals.length > 0) {
+    const goalNames = goals.map(g => {
+      const info = GOALS.find(gi => gi.id === g);
+      return info?.name || g;
+    });
+    message += `Your focus is on ${goalNames.join(', ').toLowerCase()}. `;
+  }
+  
+  message += `I'll build each workout with all of this in mind.`;
+  
+  return `
+    <div class="screen screen--active onboarding">
+      <div class="onboarding__content onboarding__content--centered">
+        <div class="onboarding__coach-summary">
+          <span class="onboarding__coach-avatar">🌱</span>
+          <h2 class="onboarding__coach-title">Your Coach</h2>
+          <p class="onboarding__coach-message">${message}</p>
+        </div>
+        
+        <div class="onboarding__summary-details">
+          ${conditions.length > 0 ? `
+            <div class="onboarding__summary-item">
+              <span class="onboarding__summary-icon">🩹</span>
+              <span>${conditions.length} area${conditions.length > 1 ? 's' : ''} to protect</span>
+            </div>
+          ` : ''}
+          
+          ${declarations.length > 0 ? `
+            <div class="onboarding__summary-item">
+              <span class="onboarding__summary-icon">💚</span>
+              <span>${declarations.length} other factor${declarations.length > 1 ? 's' : ''} noted</span>
+            </div>
+          ` : ''}
+          
+          <div class="onboarding__summary-item">
+            <span class="onboarding__summary-icon">🏠</span>
+            <span>${equipment.length > 0 ? equipment.length + ' equipment item' + (equipment.length > 1 ? 's' : '') : 'Bodyweight only'}</span>
+          </div>
+          
+          <div class="onboarding__summary-item">
+            <span class="onboarding__summary-icon">🎯</span>
+            <span>${goals.length} goal${goals.length > 1 ? 's' : ''} set</span>
+          </div>
+        </div>
+        
+        <button class="onboarding__btn onboarding__btn--primary" onclick="window.alongside.onboardingNext()">
+          Let's go! →
+        </button>
+        
+        <button class="onboarding__btn onboarding__btn--secondary" onclick="window.alongside.onboardingBack()" style="margin-top: var(--space-3);">
+          ← Go back and edit
+        </button>
+      </div>
+      
+      <div class="onboarding__progress">
+        <div class="onboarding__progress-bar" style="width: ${(currentStep / TOTAL_STEPS) * 100}%"></div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Go to next step
+ * FIX #2: Added scroll to top
+ */
+function next() {
+  saveCurrentStepData();
+  
+  // Don't advance main step if still in equipment sub-flow
+  if (currentStep === 5 && equipmentSubStep !== 'categories') {
+    return;
+  }
+  
+  currentStep++;
+  
+  if (currentStep > TOTAL_STEPS) {
+    completeOnboarding();
+  } else {
+    renderCurrentStep();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+/**
+ * Go to previous step
+ */
+function back() {
+  // If in equipment sub-flow, use equipment-specific back
+  if (currentStep === 5 && equipmentSubStep !== 'categories') {
+    equipmentCategoryBack();
+    return;
+  }
+  
+  if (currentStep > 1) {
+    currentStep--;
+    renderCurrentStep();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+/**
+ * Save data from current step
+ */
+function saveCurrentStepData() {
+  switch (currentStep) {
+    case 2:
+      const nameEl = document.getElementById('onboardingName');
+      const ageEl = document.getElementById('onboardingAge');
+      const genderEl = document.getElementById('onboardingGender');
+      const menstrualEl = document.getElementById('onboardingMenstrualTracking');
+      const weightEl = document.getElementById('onboardingWeight');
+      const goalWeightEl = document.getElementById('onboardingGoalWeight');
+      const unitEl = document.getElementById('onboardingWeightUnit');
+      
+      if (nameEl) onboardingData.name = nameEl.value.trim();
+      if (ageEl) onboardingData.age = parseInt(ageEl.value) || null;
+      if (genderEl) onboardingData.gender = genderEl.value || null;
+      if (menstrualEl) onboardingData.menstrualTracking = menstrualEl.checked;
+      if (weightEl) onboardingData.weight = parseFloat(weightEl.value) || null;
+      if (goalWeightEl) onboardingData.goalWeight = parseFloat(goalWeightEl.value) || null;
+      if (unitEl) onboardingData.weightUnit = unitEl.value;
+      break;
+    case 4:
+      const notesEl = document.getElementById('declarationNotes');
+      if (notesEl) onboardingData.declarationNotes = notesEl.value.trim();
+      break;
+  }
+}
+
+/**
+ * Toggle a declaration selection
+ */
 function toggleDeclaration(declarationId) {
   // Ensure declarations array exists
   if (!onboardingData.declarations) {
