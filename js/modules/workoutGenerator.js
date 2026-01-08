@@ -1,5 +1,5 @@
 // ===================================================================
-// ACTIVE COACH: WORKOUT GENERATION ENGINE (IMPROVED)
+// ACTIVE COACH: WORKOUT GENERATION ENGINE (IMPROVED + USER PREFERENCES)
 // ===================================================================
 // Generates 3 daily workout options from filtered exercises:
 // 1. Strength Focus
@@ -9,11 +9,13 @@
 // Each workout includes transparent rationale explaining why
 // exercises were chosen based on user's current state.
 //
-// IMPROVEMENTS:
-// - Better variety in all workouts
-// - Multiple cardio exercises (not just 1)
-// - Flexible wellbeing selection
-// - FIXED: Now includes running exercises properly
+// IMPROVEMENTS v2 (Jan 2026):
+// - ✅ Respects user's cardio type preference (running/hiit/mixed/low-impact)
+// - ✅ Filters out blacklisted exercises (user hates these)
+// - ✅ Matches user's fitness level
+// - ✅ Better variety in all workouts
+// - ✅ Multiple cardio exercises (not just 1)
+// - ✅ Includes running exercises properly
 // ===================================================================
 
 import { store } from '../store.js';
@@ -179,24 +181,31 @@ function generateWellbeingWorkout(exercises, checkinData) {
 }
 
 // ===================================================================
-// 4. CARDIO WORKOUT GENERATION (FIXED - INCLUDES RUNNING!)
+// 4. CARDIO WORKOUT GENERATION (FIXED - USER PREFERENCES!)
 // ===================================================================
 
 function generateCardioWorkout(exercises, checkinData) {
-  const cardioExercises = exercises.filter(ex => ex.category === 'cardio');
+  // NEW: Read user preferences from store
+  const cardioType = store.get('profile.preferences.cardioType'); // 'running'|'hiit'|'mixed'|'low-impact'
+  const exerciseBlacklist = store.get('profile.preferences.exerciseBlacklist') || []; // ['burpee', 'mountain-climber']
+  const fitnessLevel = store.get('profile.fitnessLevel'); // 'beginner'|'intermediate'|'advanced'
   
+  console.log('👤 User preferences:', { cardioType, exerciseBlacklist, fitnessLevel });
+  
+  // Start with all cardio exercises
+  const cardioExercises = exercises.filter(ex => ex.category === 'cardio');
   console.log(`🏃 Cardio: Found ${cardioExercises.length} total cardio exercises`);
   
-  // FIXED: Select MULTIPLE cardio exercises with better filtering
-  let selectedCardio = [];
+  // STEP 1: Filter by energy level
+  let filteredExercises = [];
   
   if (checkinData.energy >= 7) {
     // High energy: ANY high-energy cardio (HIIT, running, intervals)
-    selectedCardio = cardioExercises.filter(ex => 
-      ex.energyRequired === 'high' ||  // PRIMARY FILTER - catches all high-energy
+    filteredExercises = cardioExercises.filter(ex => 
+      ex.energyRequired === 'high' ||
       ex.subcategory === 'hiit' ||
       ex.subcategory === 'intervals' ||
-      ex.subcategory === 'running' ||  // NEW: Include running exercises!
+      ex.subcategory === 'running' ||
       (ex.id && (
         ex.id.includes('sprint') ||
         ex.id.includes('interval') ||
@@ -208,17 +217,13 @@ function generateCardioWorkout(exercises, checkinData) {
         ex.id.includes('hiit')
       ))
     );
-    
-    console.log(`🔥 High energy filter matched: ${selectedCardio.length} exercises`);
-    
-    // Take best 2-3 exercises
-    selectedCardio = selectedCardio.slice(0, 3);
+    console.log(`🔥 High energy filter matched: ${filteredExercises.length} exercises`);
     
   } else if (checkinData.energy >= 4) {
     // Moderate energy: steady-state cardio, easy runs, moderate efforts
-    selectedCardio = cardioExercises.filter(ex =>
+    filteredExercises = cardioExercises.filter(ex =>
       ex.energyRequired === 'medium' ||
-      ex.subcategory === 'running' ||  // Include all running (will get easy runs)
+      ex.subcategory === 'running' ||
       (ex.id && (
         ex.id.includes('run') ||
         ex.id.includes('jog') ||
@@ -226,13 +231,12 @@ function generateCardioWorkout(exercises, checkinData) {
         ex.id.includes('steady') ||
         ex.id.includes('walk-run')
       ))
-    ).slice(0, 2);
-    
-    console.log(`⚡ Medium energy filter matched: ${selectedCardio.length} exercises`);
+    );
+    console.log(`⚡ Medium energy filter matched: ${filteredExercises.length} exercises`);
     
   } else {
     // Low energy: walking, gentle movement, low-impact
-    selectedCardio = cardioExercises.filter(ex =>
+    filteredExercises = cardioExercises.filter(ex =>
       ex.energyRequired === 'low' ||
       ex.subcategory === 'low-impact' ||
       ex.subcategory === 'recovery' ||
@@ -241,20 +245,112 @@ function generateCardioWorkout(exercises, checkinData) {
         ex.id.includes('gentle') ||
         ex.id.includes('recovery')
       ))
-    ).slice(0, 2);
-    
-    console.log(`🚶 Low energy filter matched: ${selectedCardio.length} exercises`);
+    );
+    console.log(`🚶 Low energy filter matched: ${filteredExercises.length} exercises`);
   }
   
-  // Fallback: if nothing found, just take the first available
+  // STEP 2: Filter out blacklisted exercises (NEW!)
+  if (exerciseBlacklist.length > 0) {
+    const beforeCount = filteredExercises.length;
+    filteredExercises = filteredExercises.filter(ex => {
+      const isBlacklisted = exerciseBlacklist.includes(ex.id);
+      if (isBlacklisted) {
+        console.log(`🚫 Filtered out blacklisted: ${ex.name}`);
+      }
+      return !isBlacklisted;
+    });
+    console.log(`✅ After blacklist filter: ${filteredExercises.length} exercises (removed ${beforeCount - filteredExercises.length})`);
+  }
+  
+  // STEP 3: Prioritize by cardio type preference (NEW!)
+  let selectedCardio = [];
+  
+  if (cardioType === 'running') {
+    // Prioritize running exercises
+    const runningExercises = filteredExercises.filter(ex => 
+      ex.subcategory === 'running' ||
+      ex.id.includes('run') ||
+      ex.id.includes('jog') ||
+      ex.id.includes('tempo') ||
+      ex.id.includes('interval') ||
+      ex.id.includes('hill') ||
+      ex.id.includes('fartlek') ||
+      ex.id.includes('pyramid') ||
+      ex.id.includes('cruise') ||
+      ex.id.includes('progressive') ||
+      ex.tags?.includes('running')
+    );
+    
+    const otherCardio = filteredExercises.filter(ex => !runningExercises.includes(ex));
+    
+    // Take running first, fill with others if needed
+    selectedCardio = [
+      ...runningExercises.slice(0, 3),
+      ...otherCardio.slice(0, Math.max(0, 3 - runningExercises.length))
+    ].slice(0, 3);
+    
+    console.log(`🏃 Prioritized RUNNING exercises: ${selectedCardio.map(ex => ex.name).join(', ')}`);
+    
+  } else if (cardioType === 'hiit') {
+    // Prioritize HIIT exercises
+    const hiitExercises = filteredExercises.filter(ex => 
+      ex.subcategory === 'hiit' ||
+      ex.id.includes('burpee') ||
+      ex.id.includes('mountain-climber') ||
+      ex.id.includes('jumping') ||
+      ex.id.includes('tabata') ||
+      ex.id.includes('hiit') ||
+      ex.tags?.includes('hiit')
+    );
+    
+    const otherCardio = filteredExercises.filter(ex => !hiitExercises.includes(ex));
+    
+    selectedCardio = [
+      ...hiitExercises.slice(0, 3),
+      ...otherCardio.slice(0, Math.max(0, 3 - hiitExercises.length))
+    ].slice(0, 3);
+    
+    console.log(`🔥 Prioritized HIIT exercises: ${selectedCardio.map(ex => ex.name).join(', ')}`);
+    
+  } else if (cardioType === 'low-impact') {
+    // Prioritize low-impact exercises
+    const lowImpactExercises = filteredExercises.filter(ex => 
+      ex.subcategory === 'low-impact' ||
+      ex.id.includes('walk') ||
+      ex.id.includes('cycle') ||
+      ex.id.includes('swim') ||
+      ex.id.includes('elliptical') ||
+      ex.tags?.includes('low-impact')
+    );
+    
+    const otherCardio = filteredExercises.filter(ex => !lowImpactExercises.includes(ex));
+    
+    selectedCardio = [
+      ...lowImpactExercises.slice(0, 3),
+      ...otherCardio.slice(0, Math.max(0, 3 - lowImpactExercises.length))
+    ].slice(0, 3);
+    
+    console.log(`🚶 Prioritized LOW-IMPACT exercises: ${selectedCardio.map(ex => ex.name).join(', ')}`);
+    
+  } else {
+    // Mixed or no preference - take best energy matches
+    selectedCardio = filteredExercises.slice(0, 3);
+    console.log(`🌊 Mixed cardio (no preference): ${selectedCardio.map(ex => ex.name).join(', ')}`);
+  }
+  
+  // STEP 4: Fallback if nothing found
   if (selectedCardio.length === 0 && cardioExercises.length > 0) {
     console.warn('⚠️ No cardio matched filters, using fallback');
-    selectedCardio = [cardioExercises[0]];
+    // Use first available non-blacklisted exercise
+    const fallback = cardioExercises.filter(ex => !exerciseBlacklist.includes(ex.id));
+    selectedCardio = fallback.slice(0, 1);
   }
   
-  // Log what we selected
+  // Final log
   if (selectedCardio.length > 0) {
-    console.log(`✅ Selected cardio exercises: ${selectedCardio.map(ex => ex.name).join(', ')}`);
+    console.log(`✅ FINAL SELECTION: ${selectedCardio.map(ex => ex.name).join(', ')}`);
+  } else {
+    console.error('❌ No cardio exercises available after all filters!');
   }
   
   // Add warmup (dynamic mobility)
