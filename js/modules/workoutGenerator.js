@@ -16,6 +16,9 @@
 // - ✅ Better variety in all workouts
 // - ✅ Multiple cardio exercises (not just 1)
 // - ✅ Includes running exercises properly
+//
+// FIX (Jan 20, 2026):
+// - ✅ PRESERVES FULL EXERCISE DATA (instructions, description, modifications)
 // ===================================================================
 
 import { store } from '../store.js';
@@ -99,13 +102,13 @@ function generateStrengthWorkout(exercises, checkinData) {
   const cooldown = selectCooldownExercises(exercises);
   
   // Calculate sets/reps based on energy
+  // FIX: Spread full exercise object (...ex) to preserve instructions
   const main = selected.map(ex => ({
+    ...ex,  // <-- PRESERVES ALL EXERCISE DATA (instructions, description, modifications)
     exerciseId: ex.id,
-    name: ex.name,
     sets: calculateSets(ex, checkinData),
     reps: calculateReps(ex, checkinData),
-    rest: calculateRest(ex, checkinData),
-    credits: ex.credits
+    rest: calculateRest(ex, checkinData)
   }));
   
   return {
@@ -154,16 +157,14 @@ function generateWellbeingWorkout(exercises, checkinData) {
     ex.movementPattern === 'stretch' || ex.subcategory === 'static'
   ).slice(0, 4);
   
+  // FIX: Spread full exercise object (...ex) to preserve instructions
   const main = [
     ...dynamicMobility,
     ...mindfulness,
     ...staticStretching
   ].map(ex => ({
-    exerciseId: ex.id,
-    name: ex.name,
-    duration: ex.duration,
-    durationNote: ex.durationNote,
-    credits: ex.credits
+    ...ex,  // <-- PRESERVES ALL EXERCISE DATA
+    exerciseId: ex.id
   }));
   
   return {
@@ -359,13 +360,10 @@ function generateCardioWorkout(exercises, checkinData) {
   // Add cooldown (static stretching)
   const cooldown = selectCooldownExercises(exercises);
   
-  // Map to workout format
+  // FIX: Spread full exercise object (...ex) to preserve instructions
   const main = selectedCardio.map(ex => ({
-    exerciseId: ex.id,
-    name: ex.name,
-    duration: ex.duration,
-    durationNote: ex.durationNote,
-    credits: ex.credits
+    ...ex,  // <-- PRESERVES ALL EXERCISE DATA
+    exerciseId: ex.id
   }));
   
   return {
@@ -393,12 +391,10 @@ function generateRecoveryWorkout(exercises, checkinData) {
     ex.energyRequired === 'low'
   );
   
+  // FIX: Spread full exercise object (...ex) to preserve instructions
   const main = recoveryExercises.slice(0, 5).map(ex => ({
-    exerciseId: ex.id,
-    name: ex.name,
-    duration: ex.duration,
-    durationNote: ex.durationNote,
-    credits: ex.credits
+    ...ex,  // <-- PRESERVES ALL EXERCISE DATA
+    exerciseId: ex.id
   }));
   
   return {
@@ -429,9 +425,10 @@ function selectWarmupExercises(exercises) {
     (ex.subcategory === 'dynamic' || ex.movementPattern === 'dynamic')
   );
   
+  // FIX: Spread full exercise object (...ex) to preserve instructions
   return mobility.slice(0, 3).map(ex => ({
+    ...ex,  // <-- PRESERVES ALL EXERCISE DATA
     exerciseId: ex.id,
-    name: ex.name,
     duration: 30,
     durationNote: '30 seconds each'
   }));
@@ -444,9 +441,10 @@ function selectCooldownExercises(exercises) {
     (ex.subcategory === 'static' || ex.movementPattern === 'stretch')
   );
   
+  // FIX: Spread full exercise object (...ex) to preserve instructions
   return stretching.slice(0, 3).map(ex => ({
+    ...ex,  // <-- PRESERVES ALL EXERCISE DATA
     exerciseId: ex.id,
-    name: ex.name,
     duration: 30,
     durationNote: '30 seconds each'
   }));
