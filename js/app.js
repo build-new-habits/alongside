@@ -2,11 +2,15 @@
  * Alongside - Main App Orchestrator
  * Initializes modules and handles navigation
  * WITH ACTIVE COACH INTEGRATION - 3 Workout Options + Rationale
+ * 
+ * FIXES (Jan 20, 2026):
+ * - ✅ Time display always in minutes (not seconds)
+ * - ✅ Connected exercise detail modal from todayView
+ * - ✅ Better exercise meta formatting
  */
 
 import { store } from './store.js';
 import { library } from './modules/libraryLoader.js';
-import { coach } from './modules/coach.js';
 import { checkinEnhanced } from './modules/checkin-enhanced.js';
 import { todayView } from './modules/todayView.js';
 import { cards } from './modules/cards.js';
@@ -14,10 +18,85 @@ import { economy } from './modules/economy.js';
 import { weeklyCheckin } from './modules/weeklyCheckin.js';
 import { savingsTracker } from './modules/savingsTracker.js';
 import { onboarding } from './modules/onboarding.js';
-import { generateDailyWorkouts } from './modules/workoutGenerator.js'; // NEW
+import { generateDailyWorkouts } from './modules/workoutGenerator.js';
 
 // App state
 let currentScreen = 'loading';
+
+// Pattern icons for exercises
+const PATTERN_ICONS = {
+  hinge: '🏋️',
+  squat: '🏋️',
+  lunge: '🏋️',
+  push: '💪',
+  pull: '💪',
+  carry: '🎒',
+  rotation: '🔄',
+  mobility: '🧘',
+  stability: '⚖️',
+  locomotion: '🏃',
+  recovery: '💚',
+  breathing: '🌬️',
+  stretch: '🧘',
+  stillness: '🧘',
+  core: '⚖️'
+};
+
+// ===================================================================
+// HELPER: Format seconds to minutes display
+// ===================================================================
+function formatDuration(seconds) {
+  if (!seconds || seconds <= 0) return '~1 min';
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 1) return '~1 min';
+  return `~${minutes} min`;
+}
+
+// ===================================================================
+// HELPER: Get exercise duration in seconds
+// ===================================================================
+function getExerciseDuration(exercise) {
+  if (exercise.sets && exercise.reps) {
+    const repTime = exercise.sets * exercise.reps * 3;
+    const restTime = (exercise.sets - 1) * (exercise.rest || 60);
+    return repTime + restTime;
+  }
+  return exercise.duration || 30;
+}
+
+// ===================================================================
+// HELPER: Format exercise metadata for display
+// ===================================================================
+function formatExerciseMeta(exercise) {
+  // For strength exercises with sets/reps
+  if (exercise.sets && exercise.reps) {
+    const rest = exercise.rest || 60;
+    const totalSeconds = getExerciseDuration(exercise);
+    return `${exercise.sets} × ${exercise.reps} • Rest ${rest}s • ${formatDuration(totalSeconds)}`;
+  }
+  
+  // For timed exercises - ALWAYS show in minutes
+  if (exercise.duration) {
+    return formatDuration(exercise.duration);
+  }
+  
+  // For exercises with duration note
+  if (exercise.durationNote) {
+    return exercise.durationNote;
+  }
+  
+  return '~1 min';
+}
+
+// ===================================================================
+// HELPER: Get exercise icon
+// ===================================================================
+function getExerciseIcon(exercise) {
+  if (exercise.movementPattern && PATTERN_ICONS[exercise.movementPattern]) {
+    return PATTERN_ICONS[exercise.movementPattern];
+  }
+  return '✨';
+}
 
 /**
  * Initialize the app
@@ -98,7 +177,7 @@ function showCheckin() {
 }
 
 /**
- * Show workout options (NEW - Active Coach with 3 options)
+ * Show workout options (Active Coach with 3 options)
  */
 async function showWorkoutOptions(checkinData) {
   const main = document.getElementById('main');
@@ -115,7 +194,7 @@ async function showWorkoutOptions(checkinData) {
   // Generate 3 workout options using Active Coach
   const { options, burnoutMode, message } = await generateDailyWorkouts(checkinData);
     
-  // SAVE TO STORE - ADD THIS LINE
+  // Save to store
   store.set('workout.todayWorkouts', options);
   
   // Render workout options
@@ -126,7 +205,7 @@ async function showWorkoutOptions(checkinData) {
 }
 
 /**
- * Render workout options UI (NEW)
+ * Render workout options UI
  */
 function renderWorkoutOptions(workouts, burnoutMode, burnoutMessage, checkinData) {
   const today = new Date();
@@ -169,10 +248,10 @@ function renderWorkoutOptions(workouts, burnoutMode, burnoutMessage, checkinData
 }
 
 /**
- * Render individual workout card (NEW)
+ * Render individual workout card
  */
 function renderWorkoutCard(workout) {
-  const durationMin = Math.ceil(workout.duration / 60);
+  const durationMin = formatDuration(workout.duration);
   
   return `
     <div class="workout-card" onclick="window.alongside.selectWorkoutOption('${workout.id}')">
@@ -184,7 +263,7 @@ function renderWorkoutCard(workout) {
       <p class="workout-card__subtitle">${workout.subtitle}</p>
       
       <div class="workout-card__stats">
-        <span>⏱️ ~${durationMin} min</span>
+        <span>⏱️ ${durationMin}</span>
         <span>⭐ ${workout.totalCredits} credits</span>
         <span>💪 ${workout.main.length} exercises</span>
       </div>
@@ -203,7 +282,7 @@ function renderWorkoutCard(workout) {
 }
 
 /**
- * Render transparent rationale (NEW)
+ * Render transparent rationale
  */
 function renderRationale(rationale) {
   let html = `<p><strong>${rationale.primary}</strong></p>`;
@@ -232,7 +311,7 @@ function renderRationale(rationale) {
 }
 
 /**
- * Get icon for workout type (NEW)
+ * Get icon for workout type
  */
 function getWorkoutIcon(workoutId) {
   const icons = {
@@ -245,7 +324,7 @@ function getWorkoutIcon(workoutId) {
 }
 
 /**
- * Toggle rationale visibility (NEW)
+ * Toggle rationale visibility
  */
 function toggleRationale(workoutId) {
   const rationaleEl = document.getElementById(`rationale-${workoutId}`);
@@ -262,7 +341,7 @@ function toggleRationale(workoutId) {
 }
 
 /**
- * Select a workout option (NEW)
+ * Select a workout option
  */
 async function selectWorkoutOption(workoutId) {
   // Get the full workout data from today's generated options
@@ -282,7 +361,7 @@ async function selectWorkoutOption(workoutId) {
 }
 
 /**
- * Show today's workout (UPDATED - now shows selected workout)
+ * Show today's workout (uses todayView module)
  */
 async function showToday() {
   const main = document.getElementById('main');
@@ -306,145 +385,17 @@ async function showToday() {
     return;
   }
   
-  // Render workout execution view (using existing todayView)
-  main.innerHTML = renderWorkoutExecution(selectedWorkout);
+  // Use todayView module to render
+  const checkinData = store.get('checkin');
+  main.innerHTML = await todayView.render(checkinData?.energy || 5, checkinData?.mood || 5);
   todayView.init();
   currentScreen = 'today';
   
+  // Scroll to top
+  window.scrollTo(0, 0);
+  
   // Update nav
   updateNav('today');
-}
-
-/**
- * Render workout execution (NEW - converts Active Coach format to todayView format)
- */
-function renderWorkoutExecution(workout) {
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('en-GB', { 
-    weekday: 'long', 
-    day: 'numeric', 
-    month: 'long' 
-  });
-  
-  const durationMin = Math.ceil(workout.duration / 60);
-  
-  // Build sections array in todayView format
-  const sections = [];
-  
-  if (workout.warmup && workout.warmup.length > 0) {
-    sections.push({
-      name: '🔥 Warm-Up',
-      exercises: workout.warmup
-    });
-  }
-  
-  if (workout.main && workout.main.length > 0) {
-    sections.push({
-      name: '💪 Main Set',
-      exercises: workout.main
-    });
-  }
-  
-  if (workout.cooldown && workout.cooldown.length > 0) {
-    sections.push({
-      name: '🧘 Cool Down',
-      exercises: workout.cooldown
-    });
-  }
-  
-  // Get completed exercises
-  const completedToday = store.get('workout.completedExercises') || [];
-  
-  return `
-    <div class="screen screen--active today" id="todayScreen">
-      <!-- Header -->
-      <div class="today__header">
-        <p class="today__date">${dateStr}</p>
-        <h1 class="today__title">${workout.title}</h1>
-        <div class="today__summary">
-          <span class="today__summary-item">
-            <span>⏱️</span>
-            <span>~${durationMin} min</span>
-          </span>
-          <span class="today__summary-item">
-            <span>⭐</span>
-            <span>${workout.totalCredits} credits available</span>
-          </span>
-        </div>
-      </div>
-      
-      <!-- Coach Message -->
-      <div class="today__coach">
-        <div class="today__coach-header">
-          <span class="today__coach-avatar">🌱</span>
-          <span class="today__coach-name">Your Coach</span>
-        </div>
-        <p class="today__coach-message">${workout.rationale.primary}</p>
-      </div>
-      
-      <!-- Workout Sections -->
-      ${sections.map((section, sectionIndex) => `
-        <div class="today__section">
-          <div class="today__section-header">
-            <h2 class="today__section-title">${section.name}</h2>
-            <span class="today__section-count">${section.exercises.length} exercises</span>
-          </div>
-          
-          ${section.exercises.map((exercise, exerciseIndex) => {
-            const isCompleted = completedToday.includes(exercise.exerciseId);
-            const icon = getExerciseIcon(exercise);
-            
-            return `
-              <div class="exercise-item ${isCompleted ? 'exercise-item--completed' : ''}"
-                   data-exercise-id="${exercise.exerciseId}"
-                   onclick="window.alongside.showExerciseModal('${exercise.exerciseId}')">
-                <div class="exercise-item__icon">${icon}</div>
-                <div class="exercise-item__content">
-                  <div class="exercise-item__name">${exercise.name}</div>
-                  <div class="exercise-item__meta">
-                    <span>${formatExerciseMeta(exercise)}</span>
-                    <span class="exercise-item__credits">+${exercise.credits || 0}</span>
-                  </div>
-                </div>
-                <div class="exercise-item__check">
-                  ${isCompleted ? '✓' : ''}
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `).join('')}
-      
-      <!-- Skip Option -->
-      <button class="today__skip" onclick="window.alongside.skipToday()">
-        Not feeling it today? That's okay →
-      </button>
-    </div>
-  `;
-}
-
-/**
- * Format exercise metadata for display (NEW)
- */
-function formatExerciseMeta(exercise) {
-  if (exercise.duration) {
-    return `${exercise.duration}s`;
-  }
-  if (exercise.sets && exercise.reps) {
-    return `${exercise.sets} × ${exercise.reps}`;
-  }
-  if (exercise.durationNote) {
-    return exercise.durationNote;
-  }
-  return 'Complete';
-}
-
-/**
- * Get exercise icon (NEW)
- */
-function getExerciseIcon(exercise) {
-  // Default icons - could be enhanced based on exercise type
-  return '✨';
 }
 
 /**
@@ -454,114 +405,109 @@ async function showBrowse() {
   const main = document.getElementById('main');
   if (!main) return;
   
-  // Get all exercises
-  const allExercises = [];
-  
-  const sources = ['bodyweight', 'yoga-poses', 'breathing', 'mobility-drills'];
-  for (const sourceId of sources) {
-    const source = await library.loadExerciseSource(sourceId);
-    if (source && source.exercises) {
-      allExercises.push(...source.exercises);
-    }
-  }
-  
   main.innerHTML = `
     <div class="screen screen--active browse" id="browseScreen">
-      <div class="browse__header">
-        <h1 class="browse__title">Exercise Library</h1>
-        <div class="browse__filters">
-          <button class="browse__filter browse__filter--active" data-filter="all">All</button>
-          <button class="browse__filter" data-filter="low">Low Energy</button>
-          <button class="browse__filter" data-filter="medium">Medium</button>
-          <button class="browse__filter" data-filter="high">High Energy</button>
-        </div>
+      <div class="today__header">
+        <h1 class="today__title">Exercise Library</h1>
       </div>
-      <div class="exercise-grid" id="exerciseGrid">
-        ${allExercises.map(ex => cards.renderExerciseCard(ex)).join('')}
+      <div class="today__coach">
+        <p class="today__coach-message">
+          Coming soon: Browse all exercises by category, search, and filter.
+        </p>
       </div>
     </div>
   `;
-  
-  // Init filter buttons
-  initBrowseFilters(allExercises);
   
   currentScreen = 'browse';
   updateNav('browse');
 }
 
 /**
- * Initialize browse filter buttons
- */
-function initBrowseFilters(allExercises) {
-  const filterBtns = document.querySelectorAll('.browse__filter');
-  const grid = document.getElementById('exerciseGrid');
-  
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Update active state
-      filterBtns.forEach(b => b.classList.remove('browse__filter--active'));
-      btn.classList.add('browse__filter--active');
-      
-      // Filter exercises
-      const filter = btn.dataset.filter;
-      let filtered = allExercises;
-      
-      if (filter !== 'all') {
-        filtered = allExercises.filter(ex => ex.energyRequired === filter);
-      }
-      
-      // Re-render grid
-      grid.innerHTML = filtered.map(ex => cards.renderExerciseCard(ex)).join('');
-    });
-  });
-}
-
-/**
- * Show savings/progress screen
+ * Show progress screen
  */
 function showProgress() {
   const main = document.getElementById('main');
   if (!main) return;
   
-  // Initialize savings if needed
-  savingsTracker.init();
+  const stats = store.get('stats') || {};
+  const credits = store.get('credits') || { balance: 0, history: [] };
   
-  // Render savings tracker
-  main.innerHTML = savingsTracker.render();
+  main.innerHTML = `
+    <div class="screen screen--active progress" id="progressScreen">
+      <div class="today__header">
+        <h1 class="today__title">Your Progress</h1>
+      </div>
+      
+      <div class="today__coach">
+        <div class="today__coach-header">
+          <span class="today__coach-avatar">📊</span>
+          <span class="today__coach-name">Stats Overview</span>
+        </div>
+        
+        <div class="progress-stats">
+          <div class="progress-stat">
+            <span class="progress-stat__value">${stats.totalWorkouts || 0}</span>
+            <span class="progress-stat__label">Workouts</span>
+          </div>
+          <div class="progress-stat">
+            <span class="progress-stat__value">${credits.balance || 0}</span>
+            <span class="progress-stat__label">Credits</span>
+          </div>
+          <div class="progress-stat">
+            <span class="progress-stat__value">${stats.currentStreak || 0}</span>
+            <span class="progress-stat__label">Day Streak</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="today__section">
+        <h2 class="today__section-title">Recent Activity</h2>
+        <p class="today__coach-message">
+          More detailed progress tracking coming soon!
+        </p>
+      </div>
+    </div>
+  `;
   
   currentScreen = 'progress';
   updateNav('progress');
 }
 
 /**
- * Show settings screen (placeholder)
+ * Show settings/profile screen
  */
 function showSettings() {
   const main = document.getElementById('main');
   if (!main) return;
   
+  const profile = store.get('profile') || {};
+  
   main.innerHTML = `
-    <div class="screen screen--active" id="settingsScreen">
+    <div class="screen screen--active settings" id="settingsScreen">
       <div class="today__header">
         <h1 class="today__title">Settings</h1>
       </div>
       
       <div class="today__coach">
         <div class="today__coach-header">
-          <span class="today__coach-avatar">⚙️</span>
-          <span class="today__coach-name">Coming Soon</span>
+          <span class="today__coach-avatar">👤</span>
+          <span class="today__coach-name">${profile.name || 'User'}</span>
         </div>
         <p class="today__coach-message">
-          Profile settings, condition management, and preferences will be here.
+          Manage your profile, preferences, and app settings.
         </p>
       </div>
       
-      <button class="checkin__submit" style="background: var(--color-primary); margin-bottom: var(--space-3);" 
+      <div class="today__section">
+        <h2 class="today__section-title">Quick Actions</h2>
+      </div>
+      
+      <button class="checkin__submit" style="background: var(--color-surface);" 
               onclick="window.alongside.showWeeklyCheckin()">
         Weekly Check-In
       </button>
       
-      <button class="checkin__submit" style="background: var(--color-danger);" 
+      <button class="checkin__submit" style="background: var(--color-danger); margin-top: 20px;" 
               onclick="window.alongside.resetApp()">
         Reset All Data
       </button>
@@ -692,7 +638,7 @@ function completeExercise(exerciseId) {
     // Search in all sections
     for (const section of ['warmup', 'main', 'cooldown']) {
       if (workout[section]) {
-        const ex = workout[section].find(e => e.exerciseId === exerciseId);
+        const ex = workout[section].find(e => (e.exerciseId || e.id) === exerciseId);
         if (ex) {
           exercise = ex;
           break;
@@ -703,14 +649,12 @@ function completeExercise(exerciseId) {
   
   if (!exercise) {
     console.warn('Exercise not found:', exerciseId);
-    cards.closeExerciseModal();
     return;
   }
   
   // Check if already completed today
   if (store.isExerciseCompletedToday(exerciseId)) {
     console.log('Already completed today');
-    cards.closeExerciseModal();
     return;
   }
   
@@ -719,9 +663,6 @@ function completeExercise(exerciseId) {
   
   // Mark as completed in store
   store.completeExercise(exerciseId, credits);
-  
-  // Close modal
-  cards.closeExerciseModal();
   
   // Show celebration
   celebrate(credits);
@@ -766,46 +707,9 @@ function showError(message) {
 
 // Global interface
 window.alongside = {
+  // Onboarding functions
   onGenderChange: onboarding.onGenderChange,
   onMenstrualTrackingChange: onboarding.onMenstrualTrackingChange,
-  showCheckin,
-  showWorkoutOptions, // NEW
-  showToday,
-  showBrowse,
-  showProgress,
-  showSettings,
-  showWeeklyCheckin,
-  showExerciseModal: cards.showExerciseModal,
-  closeExerciseModal: cards.closeExerciseModal,
-  completeExercise,
-  completeExerciseWithValue,
-  adjustExerciseValue: cards.adjustExerciseValue,
-  updateCreditsPreview: cards.updateCreditsPreview,
-  toggleTimeUnit: cards.toggleTimeUnit,
-  celebrate,
-  // Active Coach functions (NEW)
-  toggleRationale, // NEW
-  selectWorkoutOption, // NEW
-  // Today view
-  skipToday: todayView.skipToday,
-  selectWorkout: todayView.selectWorkout,
-  startWorkout: todayView.startWorkout,
-  startTimer: todayView.startTimer,
-  completeSet: todayView.completeSet,
-  completeCurrentExercise: todayView.completeCurrentExercise,
-  quitWorkout: todayView.quitWorkout,
-  showDifficultyFeedback: todayView.showDifficultyFeedback,
-  recordDifficulty: todayView.recordDifficulty,
-  saveFeedback: todayView.saveFeedback,
-  resetApp,
-  // Savings functions
-  logSaving: savingsTracker.logSaving,
-  logSpend: savingsTracker.logSpend,
-  showAddGoal: savingsTracker.showAddGoal,
-  closeAddGoal: savingsTracker.closeAddGoal,
-  saveGoal: savingsTracker.saveGoal,
-  removeGoal: savingsTracker.removeGoal,
-  // Onboarding functions
   onboardingNext: onboarding.next,
   onboardingBack: onboarding.back,
   toggleCondition: onboarding.toggleCondition,
@@ -816,7 +720,6 @@ window.alongside = {
   toggleDeclaration: onboarding.toggleDeclaration,
   toggleGoal: onboarding.toggleGoal,
   skipOnboarding: onboarding.skip,
-  // Equipment functions
   toggleEquipmentCategory: onboarding.toggleEquipmentCategory,
   toggleNoEquipment: onboarding.toggleNoEquipment,
   equipmentCategoriesNext: onboarding.equipmentCategoriesNext,
@@ -824,6 +727,48 @@ window.alongside = {
   equipmentCategoryBack: onboarding.equipmentCategoryBack,
   toggleEquipmentItem: onboarding.toggleEquipmentItem,
   equipmentOtherDone: onboarding.equipmentOtherDone,
+  selectFitnessLevel: onboarding.selectFitnessLevel,
+  selectCardioType: onboarding.selectCardioType,
+  toggleBlacklistExercise: onboarding.toggleBlacklistExercise,
+  
+  // Navigation
+  showCheckin,
+  showWorkoutOptions,
+  showToday,
+  showBrowse,
+  showProgress,
+  showSettings,
+  showWeeklyCheckin,
+  
+  // Active Coach functions
+  toggleRationale,
+  selectWorkoutOption,
+  
+  // Today view / Exercise functions
+  skipToday: todayView.skipToday,
+  showExerciseDetail: todayView.showExerciseDetail,
+  closeExerciseDetail: todayView.closeExerciseDetail,
+  completeExerciseFromDetail: todayView.completeExerciseFromDetail,
+  
+  // Timer functions
+  startTimerForExercise: todayView.startTimerForExercise,
+  toggleTimer: todayView.toggleTimer,
+  closeTimer: todayView.closeTimer,
+  
+  // Legacy exercise modal (kept for backwards compatibility)
+  showExerciseModal: todayView.showExerciseDetail,
+  closeExerciseModal: todayView.closeExerciseDetail,
+  completeExercise,
+  completeExerciseWithValue,
+  
+  // Cards module (kept for backwards compatibility)
+  adjustExerciseValue: cards.adjustExerciseValue,
+  updateCreditsPreview: cards.updateCreditsPreview,
+  toggleTimeUnit: cards.toggleTimeUnit,
+  
+  // Celebration
+  celebrate,
+  
   // Enhanced Check-in methods
   renderCheckin: checkinEnhanced.render,
   initCheckin: checkinEnhanced.init,
@@ -831,11 +776,19 @@ window.alongside = {
   selectHydration: checkinEnhanced.selectHydration,
   setConditionImpact: checkinEnhanced.setConditionImpact,
   skipCheckin: checkinEnhanced.skipCheckin,
-  // NEW: Fitness level and cardio preference functions
-  selectFitnessLevel: onboarding.selectFitnessLevel,
-  selectCardioType: onboarding.selectCardioType,
-  toggleBlacklistExercise: onboarding.toggleBlacklistExercise,
-  // Modules
+  
+  // Savings functions
+  logSaving: savingsTracker.logSaving,
+  logSpend: savingsTracker.logSpend,
+  showAddGoal: savingsTracker.showAddGoal,
+  closeAddGoal: savingsTracker.closeAddGoal,
+  saveGoal: savingsTracker.saveGoal,
+  removeGoal: savingsTracker.removeGoal,
+  
+  // System
+  resetApp,
+  
+  // Modules exposed for debugging
   store,
   library,
   economy
