@@ -1,0 +1,679 @@
+# 🌱 ALONGSIDE - COMPLETE PROJECT OVERVIEW
+**Updated:** January 20, 2026  
+**Project Status:** Phase 1 Complete (45%) | Phase 2 In Planning
+
+---
+
+## 🎯 EXECUTIVE VISION (2-Page Summary)
+
+### **What Is Alongside?**
+
+Alongside is a **compassionate fitness coaching app** designed specifically for neurodivergent adults and women managing complex life circumstances. Unlike traditional fitness apps that impose rigid programs, Alongside adapts daily recommendations based on energy, mood, injuries, and life context.
+
+**Core Philosophy:** *"Listen first, prescribe second"*
+
+---
+
+### **The Problem We're Solving**
+
+Traditional fitness apps fail people who:
+- Have fluctuating energy levels (burnout, chronic conditions, neurodivergence)
+- Manage injuries or chronic pain
+- Face unpredictable life circumstances
+- Need compassionate coaching, not punishment mechanics
+- Want transparency, not "black box" AI recommendations
+
+**Market Gap:** No existing app combines daily adaptation with progressive goal tracking while maintaining a shame-free, compassionate approach.
+
+---
+
+### **Target Market**
+
+**Primary:** Educational institutions (Colleges, Universities)
+- 200K-450K potential users in UK education sector
+- B2B licensing model
+- Addresses wellbeing initiatives and staff/student health
+
+**Secondary:** Individual subscriptions
+- Neurodivergent adults
+- People with chronic conditions
+- Women managing hormonal fluctuations
+- Anyone seeking adaptive, compassionate fitness coaching
+
+---
+
+### **Unique Value Proposition**
+
+1. **Daily Adaptation** - Workouts change based on how you feel TODAY
+2. **Transparent Logic** - No black-box AI; you see exactly why exercises were chosen
+3. **Condition-Safe** - Filters exercises by injuries and contraindications
+4. **Burnout Detection** - Automatically switches to recovery mode when patterns indicate exhaustion
+5. **Progressive Plans** - Structured programs that adapt if you miss workouts
+6. **Evidence-Based** - Grounded in Self-Determination Theory, SOLO Taxonomy, Mood Meter science
+
+---
+
+### **Business Model**
+
+**Tiered Subscription:**
+- **Free:** Basic daily workouts, limited exercises
+- **Plus:** £12.99/month or £119/year - Full exercise library, progressive plans, analytics
+- **Pro:** £499/year institutional license - Multi-user access, admin dashboard, analytics
+
+**Revenue Projections:**
+- Year 1: £20-25K (conservative, individual subscriptions)
+- Year 2: £50-75K (with institutional pilots)
+- Year 3: £100K+ (scale to multiple colleges)
+
+---
+
+### **Competitive Advantage**
+
+**vs. Peloton/Apple Fitness:** We adapt to YOUR life, not force you into theirs  
+**vs. MyFitnessPal:** We coach, not just track  
+**vs. Headspace:** We integrate physical AND mental wellbeing  
+**vs. Generic Fitness Apps:** We're built FOR neurodivergent users, not as an afterthought
+
+---
+
+### **Creator Background**
+
+**Graeme** - Digital Coach at Weston College
+- 18 years teaching experience (12 as Head of Music)
+- Professional Diploma in Instructional Design
+- Level 5 CMI Operational Management (in progress)
+- Personal experience with chronic conditions and fitness challenges
+- **Unique Position:** Educator who codes - understands pedagogy AND technical implementation
+
+---
+
+### **Development Approach**
+
+**"Fake AI" Philosophy:**
+- Heuristic logic that LOOKS intelligent but is fully transparent
+- No machine learning (no API costs, no training data needed)
+- Predictable, debuggable, controllable
+- Users see exactly why recommendations were made
+
+**Evidence-Based Design:**
+- Self-Determination Theory (autonomy, competence, relatedness)
+- SOLO Taxonomy (progressive complexity)
+- Mood Meter science (Marc Brackett)
+- Burnout research (Dr. Claire Plumbly, 2024)
+
+---
+
+## 🏗️ PROJECT PRINCIPLES & VALUES
+
+### **Core Design Principles**
+
+1. **Compassion Over Competition**
+   - No shame mechanics
+   - No streaks that punish missed days
+   - Fresh start every morning
+   - Credits accumulate, never decrease
+
+2. **Adaptation Over Prescription**
+   - Daily check-in drives recommendations
+   - Burnout detection with automatic recovery mode
+   - Condition-aware filtering
+   - Energy-matched exercise intensity
+
+3. **Transparency Over Mystery**
+   - Always explain "why this workout?"
+   - Show rationale: energy, mood, conditions, goals
+   - No unexplained "AI" decisions
+   - User maintains agency
+
+4. **Evidence Over Trends**
+   - Every feature grounded in research
+   - Cite sources (Self-Determination Theory, SOLO, Mood Meter)
+   - No pseudoscience or fitness industry myths
+
+5. **Safety Over Performance**
+   - Condition filtering prevents injury
+   - Conservative difficulty scaling
+   - Rest prioritized when needed
+   - Medical disclaimer clear
+
+6. **Accessibility First**
+   - Large tap targets
+   - Clear typography
+   - Minimal cognitive load
+   - Works for varying abilities
+
+---
+
+### **User Experience Philosophy**
+
+**The Relational Model:**
+Think of Alongside as a personal trainer who:
+- Knows your history
+- Remembers your injuries
+- Respects your bad days
+- Celebrates your progress
+- Adjusts the plan when life happens
+- Never shames you for struggling
+
+**NOT:**
+- A drill sergeant
+- A streak-obsessed gamification engine
+- A one-size-fits-all program
+- A calorie-counting punishment system
+
+---
+
+## 📈 CURRENT BUILD STATUS (January 20, 2026)
+
+### **Phase 1A: Foundation - 100% COMPLETE ✅**
+
+#### **1. User Onboarding (100%)**
+- ✅ 9-step onboarding flow
+- ✅ Name, age, gender, weight collection
+- ✅ Condition identification (13 body areas)
+- ✅ Equipment inventory (6 categories, 50+ items)
+- ✅ Goal selection (8 options)
+- ✅ **NEW:** Fitness level selection (beginner/intermediate/advanced)
+- ✅ **NEW:** Cardio preference (running/HIIT/mixed/low-impact)
+- ✅ **NEW:** Exercise blacklist (hate burpees? Never see them again!)
+
+#### **2. Daily Check-In (100%)**
+- ✅ Energy slider (1-10)
+- ✅ Mood slider (1-10)
+- ✅ Current conditions with pain levels
+- ✅ Menstrual cycle tracking (optional)
+- ✅ Check-in history storage (last 30 days)
+
+#### **3. Exercise Database (127%)**
+- ✅ **190 exercises loaded** (target was 150)
+- ✅ Categories: Strength, Cardio, Mobility, Recovery, Mindfulness
+- ✅ Movement patterns: Squat, Hinge, Push, Pull, Core, Locomotion
+- ✅ Full metadata: Duration, reps, sets, contraindications, modifications
+- ✅ Cardio subcategories: Running (6), HIIT (8), Low-Impact (8)
+
+#### **4. Active Coach Filtering System (100%)**
+- ✅ Equipment filtering (only show what user owns)
+- ✅ Condition safety filtering (3-tier: safe/caution/blocked)
+- ✅ Energy matching (exercises within ±2 of user's energy)
+- ✅ **NEW:** User preference filtering (cardio type, blacklist)
+- ✅ **NEW:** Fitness level matching
+
+#### **5. Burnout Detection (100%)**
+- ✅ 7-day check-in history analysis
+- ✅ 6 pattern types: low energy streak, mood crash, poor sleep, pain flare, combined crash
+- ✅ Severity scoring (low/moderate/high)
+- ✅ Automatic recovery mode activation
+- ✅ Gentle exercise-only recommendations when burned out
+
+#### **6. Workout Generation (100%)**
+- ✅ 3 daily options: Strength Focus, Wellbeing Focus, Cardio Focus
+- ✅ Movement pattern balance (avoid overworking same patterns)
+- ✅ Warmup + Main + Cooldown structure
+- ✅ Sets/reps/rest adapted to energy level
+- ✅ **NEW:** Cardio type prioritization (running users see running exercises!)
+- ✅ **NEW:** Blacklist filtering (hated exercises removed)
+
+#### **7. Transparent Rationale (100%)**
+- ✅ Energy-based explanation
+- ✅ Condition considerations
+- ✅ Mood adjustments
+- ✅ Sleep quality impact
+- ✅ Menstrual cycle phase notes
+
+#### **8. Workout Execution (90%)**
+- ✅ Exercise cards with instructions
+- ✅ Credit rewards
+- ✅ Exercise completion tracking
+- ✅ Difficulty feedback collection
+- ⚠️ **NEEDS FIX:** Card click handlers throwing errors
+- ⚠️ **NEEDS FIX:** Time display shows seconds instead of minutes
+- ⚠️ **NEEDS FIX:** Countdown timer needs restoration
+
+#### **9. Credits Economy (100%)**
+- ✅ Exercise completion rewards (30-120 credits)
+- ✅ Credit accumulation (never decrease)
+- ✅ Credit history tracking
+- ✅ Celebration animations (confetti!)
+
+---
+
+### **Phase 1B: Polish - 40% COMPLETE**
+
+#### **Completed:**
+- ✅ Enhanced check-in with energy/mood/conditions
+- ✅ Difficulty feedback with reasoning
+- ✅ Accessibility features (large tap targets, auto-scroll)
+
+#### **Needs Work:**
+- ⚠️ Post-workout reflection (not implemented)
+- ⚠️ Weekly check-in summary (not implemented)
+- ⚠️ Progress dashboard (basic only)
+
+---
+
+### **Phase 2: Strategic Layer - 0% COMPLETE**
+
+**This is the MISSING 50% that transforms the app from "daily random workouts" to "true progressive coaching toward goals."**
+
+#### **Not Yet Built:**
+- ❌ SMART goal setting (with targets, deadlines, milestones)
+- ❌ Progressive plans (12-week structured programs)
+- ❌ Strategic rationale (linking daily workouts to long-term goals)
+- ❌ Milestone tracking and celebrations
+- ❌ Progress dashboard (visual goal progress)
+- ❌ Adaptive periodization (build/push/peak/recovery phases)
+- ❌ Performance tracking (are you getting stronger/faster?)
+
+**Critical Gap:**
+Without Phase 2, users have no sense of:
+- What they're building toward
+- Whether they're on track
+- When they'll achieve their goals
+- How today's workout fits into the bigger picture
+
+---
+
+## 🗺️ ROADMAP: WHERE WE'RE GOING
+
+### **Immediate Priority: Fix Phase 1 Issues (Next Session)**
+
+**Time:** 2-3 hours  
+**Focus:** Exercise card functionality + time display
+
+**Tasks:**
+1. Fix exercise card click handlers (no more errors)
+2. Convert time display to minutes (not seconds)
+3. Add sets/reps/rest breakdown for strength exercises
+4. Verify total workout time calculation
+5. Restore countdown timer for timed exercises
+
+**Why This Matters:**
+Users can't use the app properly if cards don't open and times are confusing.
+
+---
+
+### **Phase 2: Strategic Layer (Next 4-6 Weeks)**
+
+#### **Week 1-2: Goal Setting System**
+**Deliverable:** Users can set SMART goals with targets and deadlines
+
+**Example:**
+```javascript
+{
+  goal: "Run 45 minutes pain-free",
+  current: 15 minutes,
+  target: 45 minutes,
+  deadline: "2026-03-15",
+  milestones: [
+    { target: 20, date: "2026-02-05" },
+    { target: 30, date: "2026-02-26" },
+    { target: 45, date: "2026-03-15" }
+  ]
+}
+```
+
+**Impact:** Users now have a clear target to work toward.
+
+---
+
+#### **Week 3-4: Progressive Plans**
+**Deliverable:** 5 pre-built 12-week programs
+
+**Plans:**
+1. Couch to 45-Minute Run
+2. Beginner Strength Builder
+3. Mobility & Pain Management
+4. HIIT Conditioning
+5. Wellbeing & Stress Management
+
+**How They Work:**
+- Each week has specific workout targets
+- Plans adapt if user misses workouts
+- Progressive difficulty over 12 weeks
+- Phases: Build (Weeks 1-4), Push (5-8), Peak (9-12)
+
+**Impact:** Users follow a structured program, not random daily workouts.
+
+---
+
+#### **Week 5-6: Strategic Rationale + Milestones**
+**Deliverable:** Every workout explains its role in the plan
+
+**Old Rationale:**
+> "Your energy is 7/10 - perfect for challenging work"
+
+**New Rationale:**
+> "Your energy is 7/10 - perfect for Week 3 of your running plan. This tempo run builds endurance for your 45-min goal in March. You're on track! 🎯"
+
+**Plus:** Automatic milestone celebrations when targets hit
+
+**Impact:** Users understand WHY they're doing today's workout and feel motivated by progress.
+
+---
+
+#### **Week 7-8: Progress Dashboard**
+**Deliverable:** Visual display of goals and progress
+
+**Features:**
+- Goal progress bars (% to target)
+- Weekly stats (workouts completed, credits earned)
+- Performance trends (getting faster/stronger?)
+- Milestone history
+- On-track warnings ("Need to increase 3 min/week to hit deadline")
+
+**Impact:** Users see their progress visually, get motivated by gains.
+
+---
+
+### **Phase 3: Commercial Readiness (Weeks 9-16)**
+
+#### **Payment Infrastructure**
+- User authentication (Firebase or Supabase)
+- Stripe subscription integration
+- Tiered pricing implementation
+- Free trial flow
+
+#### **Backend Database**
+- User data sync across devices
+- Workout history storage
+- Progress tracking database
+- Analytics dashboard (admin view)
+
+#### **Institutional Features**
+- Multi-user management
+- Admin dashboard for colleges
+- Aggregate analytics (privacy-preserving)
+- White-label options
+
+#### **Marketing & Launch**
+- Landing page
+- Demo video
+- Institutional pitch deck
+- Educational sector outreach
+
+---
+
+## 📊 TECHNICAL ARCHITECTURE
+
+### **Current Stack**
+
+**Frontend:**
+- Pure vanilla JavaScript (no frameworks)
+- Modular architecture (ES6 imports)
+- LocalStorage for data persistence
+- GitHub Pages hosting (static site)
+
+**File Structure:**
+```
+alongside/
+  index.html
+  js/
+    app.js (orchestrator)
+    store.js (state management)
+    modules/
+      onboarding.js
+      checkin.js
+      todayView.js
+      workoutGenerator.js
+      activeCoachFilters.js
+      libraryLoader.js
+      cards.js
+      economy.js
+  css/
+    app.css (single file, all styles)
+  data/
+    library/
+      index.json
+      exercises/
+        strength/ (bodyweight.json, dumbbell.json, etc)
+        cardio/ (running.json, hiit.json, low-impact.json)
+        mobility/ (stretching.json, yoga.json)
+        recovery/ (breathing.json, mindfulness.json)
+```
+
+**Why This Stack:**
+- ✅ No build process needed
+- ✅ Fast deployment (GitHub Pages)
+- ✅ Low cost (no server, no API calls)
+- ✅ Privacy-first (all data local)
+- ✅ Simple debugging
+- ✅ Easy for Graeme to understand
+
+---
+
+### **When We'll Need Backend**
+
+**Phase 3 requires:**
+- User authentication
+- Cross-device sync
+- Payment processing
+- Multi-user institutional accounts
+
+**Options:**
+1. **Firebase** (Google) - Easy auth, database, hosting
+2. **Supabase** (open-source Firebase alternative) - Better pricing
+3. **Custom Node.js backend** - More control, more work
+
+**Recommendation:** Supabase (good balance of features and cost)
+
+---
+
+## 🎓 SCIENTIFIC FOUNDATION
+
+### **Self-Determination Theory (Deci & Ryan)**
+
+**Three Psychological Needs:**
+1. **Autonomy** - Users choose workouts, not forced into programs
+2. **Competence** - Progressive difficulty, achievable challenges, clear feedback
+3. **Relatedness** - Compassionate coaching tone, understanding context
+
+**How Alongside Implements:**
+- Daily choice between 3 workout options (autonomy)
+- Difficulty matched to energy level (competence)
+- Transparent rationale shows we "understand" user (relatedness)
+
+---
+
+### **SOLO Taxonomy (Structure of Observed Learning Outcomes)**
+
+**Progressive Complexity:**
+1. **Prestructural** - Can't do exercise
+2. **Unistructural** - Can do exercise with help
+3. **Multistructural** - Can do exercise independently
+4. **Relational** - Can link exercises into workouts
+5. **Extended Abstract** - Can design own programs
+
+**How Alongside Implements:**
+- Difficulty feedback captures user's SOLO level
+- Exercises adapt based on demonstrated competence
+- Progressive plans move users up SOLO levels systematically
+
+---
+
+### **Mood Meter (Marc Brackett, Yale Center for Emotional Intelligence)**
+
+**4-Quadrant Model:**
+- High Energy + Pleasant = Excited, Energized
+- High Energy + Unpleasant = Stressed, Anxious
+- Low Energy + Pleasant = Calm, Peaceful
+- Low Energy + Unpleasant = Sad, Tired
+
+**How Alongside Implements:**
+- 2-slider check-in captures energy AND mood
+- Workout generation considers both dimensions
+- Low mood + high energy = Use exercise for mood regulation
+- Low mood + low energy = Gentle wellbeing focus
+
+---
+
+### **Burnout Research (Dr. Claire Plumbly, 2024)**
+
+**Nervous System Dysregulation Patterns:**
+- Consecutive low energy
+- Poor sleep + low mood
+- Pain flare + exhaustion
+- Combined crashes
+
+**How Alongside Implements:**
+- 7-day check-in history analysis
+- Pattern detection algorithms
+- Automatic recovery mode
+- Prevents overtraining when burned out
+
+---
+
+## 🎯 SUCCESS METRICS
+
+### **Phase 1 Success (Current)**
+- ✅ App functional for personal use
+- ✅ Daily workouts generated successfully
+- ✅ User preferences respected
+- ✅ No critical bugs (after next session fixes)
+
+### **Phase 2 Success (Goal)**
+- Users set and track goals
+- 80%+ of users follow progressive plans
+- Milestone achievements celebrated
+- Users feel "coached" not "randomly exercised"
+
+### **Phase 3 Success (Commercial)**
+- 100+ individual subscribers (Year 1)
+- 2-3 institutional pilots (Year 1)
+- £20K+ revenue (Year 1)
+- Positive user testimonials
+- Low churn rate (<20% monthly)
+
+---
+
+## 🚀 KEY DIFFERENTIATORS (Why Alongside Will Win)
+
+### **1. Built FOR Neurodivergent Users**
+Not an afterthought or "accessibility feature" - the core design is adaptive and compassionate.
+
+### **2. Evidence-Based, Not Trend-Based**
+Every feature grounded in research, not fitness industry myths or pseudoscience.
+
+### **3. Transparent Logic**
+Users see WHY recommendations were made - builds trust and agency.
+
+### **4. Condition-Safe**
+No other app filters exercises by contraindications this thoroughly.
+
+### **5. Burnout-Aware**
+Automatically backs off when patterns indicate exhaustion - prevents overtraining.
+
+### **6. Educational Market Focus**
+Targeting institutions gives B2B revenue stream, not just individual subscriptions.
+
+### **7. Creator's Unique Position**
+Graeme is an educator who codes - understands pedagogy AND can build it himself.
+
+---
+
+## 📋 WHAT THE NEXT CLAUDE NEEDS TO KNOW
+
+### **Essential Reading Before Starting:**
+
+1. **NEXT_SESSION_HANDOFF.md** - Immediate priorities and bug fixes
+2. **User Story #0: Creator Context** (in Project Knowledge) - Deep dive into Graeme's vision
+3. **Detailed Product Specification - 31/12/25** (in Project Knowledge) - Technical implementation details
+4. **Vision Update - Jan 2026** (in Project Knowledge) - Latest strategic thinking
+
+### **Current State Summary:**
+- Phase 1A: 100% complete ✅
+- User preferences system: WORKING ✅
+- Exercise cards: NEED FIXES ⚠️
+- Strategic layer: NOT STARTED ❌
+
+### **Next Priorities:**
+1. Fix exercise card bugs (next session)
+2. Build goal setting system (Phase 2, Week 1-2)
+3. Create progressive plans (Phase 2, Week 3-4)
+4. Add strategic rationale (Phase 2, Week 5-6)
+
+### **Working Style Graeme Prefers:**
+- Complete files (not snippets)
+- Clear explanations (he's not a coder)
+- Show what changed and why
+- Test before presenting
+- Document decisions
+
+---
+
+## 💡 ADDITIONAL RECOMMENDATIONS
+
+### **What Else We Might Need:**
+
+#### **1. User Testing Protocol**
+- Recruit 5-10 beta testers
+- Structured feedback forms
+- Weekly check-ins on usage
+- Iterate based on real user data
+
+#### **2. Analytics Implementation**
+- Track which workouts are popular
+- See where users drop off
+- Measure goal completion rates
+- Identify pain points
+
+#### **3. Content Creation Pipeline**
+- More exercise videos (currently text only)
+- Coach voice recordings
+- Tutorial content for new users
+- Marketing materials
+
+#### **4. Legal & Compliance**
+- Medical disclaimer review
+- Privacy policy (GDPR compliant)
+- Terms of service
+- Insurance for fitness coaching
+
+#### **5. Institutional Pilot Program**
+- Select 1-2 colleges for pilot
+- Discounted Year 1 pricing
+- Regular feedback sessions
+- Case study material
+
+#### **6. Technical Debt Reduction**
+- Refactor workoutGenerator (bit complex now)
+- Add automated tests
+- Document API contracts
+- Create developer guide
+
+---
+
+## 🎯 FINAL THOUGHTS
+
+### **What Makes Alongside Special:**
+
+This isn't just another fitness app. It's a **compassionate coaching system** built by someone who deeply understands:
+- The challenge of maintaining fitness with chronic conditions
+- The needs of neurodivergent learners
+- Evidence-based pedagogy
+- The gap in the market for adaptive, shame-free fitness coaching
+
+### **The Vision:**
+
+Alongside becomes the **default fitness solution for educational institutions** because:
+- It meets wellbeing objectives
+- It's inclusive and accessible
+- It prevents burnout (critical for students/staff)
+- It's evidence-based and transparent
+- It actually adapts to real human variation
+
+### **Why It Will Succeed:**
+
+1. **Real Pain Point:** People ARE struggling with rigid fitness programs
+2. **Unique Approach:** No competitor combines adaptation + progression + compassion
+3. **Institutional Market:** Underserved B2B opportunity
+4. **Creator's Expertise:** Rare combination of pedagogy + technical + lived experience
+5. **Scalable Model:** Software scales, institutional licensing works
+
+---
+
+**We're 45% of the way there. The foundation is solid. Now we build the strategic layer that makes it truly transformative.**
+
+---
+
+**Updated:** January 20, 2026  
+**Next Update:** After Phase 2 completion (estimated March 2026)
